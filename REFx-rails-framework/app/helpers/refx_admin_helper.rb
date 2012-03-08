@@ -1,0 +1,2 @@
+module RefxAdminHelper
+end

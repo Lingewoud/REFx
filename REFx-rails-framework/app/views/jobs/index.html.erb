@@ -1,0 +1,41 @@
+<h1>Listing jobs</h1>
+
+<!--<%= link_to 'New job', new_job_path %>-->
+<%= link_to 'Destroy All', destroyall_jobs_path,  :confirm => 'Are you sure?', :method => :delete %>
+
+<table class="jobIndex">
+  <tr>
+    <th>JobId</th>
+    <th>Priority</th>
+    <th>Engine</th>
+    <th>Created At</th>
+    <th>Attempts</th>
+    <th>Body</th>
+    <th>ReturnBody</th>
+    <th>Status</th>
+  </tr>
+
+<% for job in @jobs %>
+  <tr>
+    <td><%=h job.id %></td>
+	<td><%=h job.priority  %></td>
+    <td><%=h job.engine %></td>
+    <td><%=h job.created_at %></td>
+    <td><%=h job.attempt %></td>
+    <td><%=h job.body[0,20] %></td>
+    <td>
+	<%- if job.returnbody -%> 
+		<%= job.returnbody[0,20] %>
+	<%- end -%> 
+    </td>
+    <td><%=h job.status %></td>
+    <td><%= link_to 'Show', job %></td>
+    <td><%= link_to 'Edit', edit_job_path(job) %></td>
+    <td><%= link_to 'Destroy', job, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Run Again', runagain_job_path(job) %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

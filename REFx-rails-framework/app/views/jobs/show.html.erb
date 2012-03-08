@@ -1,0 +1,28 @@
+<p>
+  <b>Priority:</b>
+  <%=h @job.priority %>
+</p>
+
+<p>
+  <b>Engine:</b>
+  <%=h @job.engine %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%=h @job.body %>
+</p>
+
+<p>
+  <b>ReturnBody:</b>
+  <%=h @job.returnbody %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @job.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_job_path(@job) %> |
+<%= link_to 'Back', jobs_path %>

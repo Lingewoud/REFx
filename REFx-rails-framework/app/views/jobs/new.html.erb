@@ -1,0 +1,36 @@
+<h1>New job</h1>
+
+<%= error_messages_for :job %>
+
+<% form_for(@job) do |f| %>
+  <p>
+    <b>Priority</b><br />
+    <%= f.text_field :priority %>
+  </p>
+
+  <p>
+    <b>Engine</b><br />
+    <%= f.text_field :engine %>
+  </p>
+
+  <p>
+    <b>Body</b><br />
+    <%= f.text_area :body %>
+  </p>
+
+  <p>
+    <b>ReturnBody</b><br />
+    <%= f.text_area :returnbody %>
+  </p>
+
+  <p>
+    <b>Status</b><br />
+    <%= f.text_field :status %>
+  </p>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', jobs_path %>

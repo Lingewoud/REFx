@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  priority: 1
+  engine: MyString
+  body: MyText
+  status: 1
+
+two:
+  priority: 1
+  engine: MyString
+  body: MyText
+  status: 1

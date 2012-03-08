@@ -1,0 +1,139 @@
+document.use = "BE"
+
+/*-------------------*/ 
+/*-----spread[1]-----*/ 
+/*-------------------*/ 
+
+spread[1].minuse = 1
+spread[1].position = 1
+
+# page[1]
+# ---------------------
+
+page[1].position = 1
+page[1].minuse = 1
+page[1].maxuse = 1
+page[1].groups = ["p1_normgr",[image_p1_normimage, text_p1_normtext]]
+page[1].stacks = [["p1_norm", p1_normgr]]
+
+text_p1_title.value = page.this.title.value
+image_p1_normimage.value = page.this.field_p3p00normimage.value 
+text_p1_normtext.value = page.this.field_p3p00normname.value
+image_p1_fabric.value = page.this.field_p3p00fabricimage.value
+
+norm.marginy = -12.2
+norm.maxuse = 4
+
+/*-------------------*/ 
+/*-----spread[2]-----*/ 
+/*-------------------*/ 
+
+# page[2]
+# ---------------------
+
+page[2].minuse = 1
+page[2].side = "left"
+page[2].groups = ["p2_clgr",[color_p2_color, object_p2_grad, text_p2_colortext]]
+page[2].stacks = [["p2_cl", p2_clgr]]
+
+text_p2_title.value = page.this.title.value
+text_p2_body.value = page.this.field_p3p00tekst.value
+image_p2_fabric.value = page.this.field_p3p00fabricimage.value
+color_p2_color.value = page.this.field_p3p00kleurcmyk.value
+object_p2_grad.visible = page.this.field_p3p00kleur_hi_vis.value
+text_p2_colortext.value = page.this.field_p3p00kleurtitel.value
+
+# page[3]
+# ---------------------
+
+page[3].side = "right"
+page[3].groups = ["p3_prodgr",[text_p3_prodnr, text_p3_proddesc]]
+page[3].stacks = [["p3_prod", p3_prodgr]]
+
+
+text_p3_title.value = page.this.title.value
+text_p3_prodnr.value = page.userselect.field_p3p00typenaam.value
+text_p3_proddesc.value = page.userselect.title.value
+image_p3_img1.value = page.userselect.field_p3p00mainimage.value
+image_p3_img2.value = page.userselect.field_p3p00mainimage.value
+image_p3_img3.value = page.userselect.field_p3p00mainimage.value
+image_p3_img4.value = page.userselect.field_p3p00mainimage.value
+image_p3_img5.value = page.userselect.field_p3p00mainimage.value
+text_p3_manikinbody.value = content.700.bodytext.value
+image_p3_manikinimage.value = content.userselect.image.value
+
+
+/*-------------------*/ 
+/*-----spread[3]-----*/ 
+/*-------------------*/ 
+
+# page[4]
+# ---------------------
+
+page[4].ignore = true
+
+# page[5]
+# ---------------------
+
+page[5].side = "right"
+page[5].groups = ["p5_prodgr",[text_p5_prodnr, text_p5_proddesc]]
+page[5].stacks = [["p5_prod", p5_prodgr]]
+
+text_p5_title.value = page.this.title.value
+text_p5_prodnr.value = page.userselect.field_p3p00typenaam.value
+text_p5_proddesc.value = page.userselect.title.value
+image_p5_img1.value = page.userselect.field_p3p00mainimage.value
+image_p5_img2.value = page.userselect.field_p3p00mainimage.value
+image_p5_img3.value = page.userselect.field_p3p00mainimage.value
+image_p5_img4.value = page.userselect.field_p3p00mainimage.value
+image_p5_img5.value = page.userselect.field_p3p00mainimage.value
+image_p5_img6.value = page.userselect.field_p3p00mainimage.value
+image_p5_img7.value = page.userselect.field_p3p00mainimage.value
+image_p5_img8.value = page.userselect.field_p3p00mainimage.value
+text_p5_manikinbody.value = content.700.bodytext.value
+image_p5_manikinimage.value = content.userselect.image.value
+
+/*-------------------*/ 
+/*-----spread[4]-----*/ 
+/*-------------------*/ 
+
+# page[6]
+# ---------------------
+
+page[6].ignore = true
+
+# page[7]
+# ---------------------
+
+page[7].side = "right"
+page[7].groups = ["p7_prodgr",[text_p7_prodnr, text_p7_proddesc]]
+page[7].stacks = [["p7_prod", p7_prodgr]]
+
+text_p7_title.value = page.this.title.value
+text_p7_prodnr.value = page.userselect.field_p3p00typenaam.value
+text_p7_proddesc.value = page.userselect.title.value
+image_p7_img1.value = page.userselect.field_p3p00mainimage.value
+image_p7_img2.value = page.userselect.field_p3p00mainimage.value
+text_p7_manikinbody.value = content.700.bodytext.value
+image_p7_manikinimage.value = content.userselect.image.value
+
+/*-------------------*/ 
+/*-----spread[5]-----*/ 
+/*-------------------*/ 
+
+spread[5].minuse = 1
+spread[5].maxuse = 1
+spread[5].position = 0
+
+# page[8]
+# ---------------------
+
+page[8].minuse = 1
+page[8].maxuse = 1
+
+image_dealerlogo.value = content.userselect.image.value
+image_dealerlogo.visible = false
+text_dealername.value = content.userselect.bodytext.value
+text_dealername.visible = false
+text_dealeraddress.value = content.userselect.bodytext.value
+text_dealeraddress.visible = false

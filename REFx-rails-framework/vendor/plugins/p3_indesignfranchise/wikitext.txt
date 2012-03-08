@@ -1,0 +1,830 @@
+
+h1. P3S language
+
+
+> h2. Operators
+
+>* =
+
+> h2. Dom
+
+
+> h3. Object
+
+>> h4. attributes
+
+
+>> *Visible*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> booleant3path
+
+>>>> @default value@
+>>>>> true
+
+>>>> @info@
+>>>>> Makes it possible to make an object invisible
+
+>>>> @example@
+>>>>> <pre>object.visible = false</pre>
+
+> h3. Document
+
+>> h4. attributes
+
+
+>> *Use*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> FE
+
+>>>> @info@
+>>>>> Defines whether the fields in this document should be parsed at the frontend (FE) or the backend (BE)
+
+>>>> @example@
+>>>>> <pre>document.use = "FE"</pre>
+
+> h3. Page
+
+>> h4. attributes
+
+
+>> *Stacks*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> array
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Stacks are repetative page elements which consists of a field or group and can be asssigned to a collection of data.\rThe field or group it consists of will now be repeatedly placed in the document with the content replaced with content from each member of the data collection.
+
+>>>> @example@
+>>>>> <pre>page[2].groups = [["userstack",pp_mergeTextField_name], ["namestack", usergroup]</pre>
+
+>> *Groups*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> array
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Groups the specified fields. Grouped input fields will be presented to the user as one step.\rGrouped fields can also be used in stacks.
+
+>>>> @example@
+>>>>> <pre>page[2].groups = [["userinfo",[ga_textInput_name, ga_textInput_age, ga_textInput_gender]], ["address", [ga_txtInput_address, ga_textInput_city, ga_textInput_zip]]]</pre>
+
+>> *Ignore*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> boolean
+
+>>>> @default value@
+>>>>> false
+
+>>>> @info@
+>>>>> Hides a spreadd for users so the page cannot be chosen as template.
+
+>>>> @example@
+>>>>> <pre>page[4].ignore = true</pre>
+
+>> *Replaceable*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> boolean
+
+>>>> @default value@
+>>>>> true
+
+>>>> @info@
+>>>>> Indicates wheter a page can be replaced at it's position
+
+>>>> @example@
+>>>>> <pre>page[4].replaceable = false</pre>
+
+>> *Order*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> array
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Defines in what order user input fields are offered to users.\rThe first element of the array is the first to be presented to the user.
+
+>>>> @example@
+>>>>> <pre>page[3].order = [ga_textInput_name, ga_textInput_address, ga_textInput_phonenumber]</pre>
+
+>> *Minuse*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> number
+
+>>>> @default value@
+>>>>> 0
+
+>>>> @info@
+>>>>> Indicates how many times the page should be used at least within the document
+
+>>>> @example@
+>>>>> <pre>page[2].minuse = 1</pre>
+
+>> *Maxuse*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> number
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Indicates how many times the page can be used within the document.
+
+>>>> @example@
+>>>>> <pre>page[7].maxuse = 1</pre>
+
+>> *Use*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Defines whether the fields on this page should be parsed at the frontend (FE) or the backend (BE)
+
+>>>> @example@
+>>>>> <pre>page[3].use = "FE"</pre>
+
+>> *Side*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Restricts the placement of a page to either the right or the left-hand side of a spread
+
+>>>> @example@
+>>>>> <pre>page[2].side = "left"</pre>
+
+> h3. Spread
+
+>> h4. attributes
+
+
+>> *Ignore*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> boolean
+
+>>>> @default value@
+>>>>> false
+
+>>>> @info@
+>>>>> Hides a spread for users so the spread (and it's contents) cannot be chosen as template.
+
+>>>> @example@
+>>>>> <pre>spread[4].ignore = true</pre>
+
+>> *Position*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> number
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Number to determine the position of the spread within de document.\rThe first spread position is indicated by 1, the last spread by 0. \rNegative values indicate the position relative to the last spread of the document.
+
+>>>> @example@
+>>>>> <pre>spread[6].position = -1</pre>
+
+>> *Minuse*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> number
+
+>>>> @default value@
+>>>>> 0
+
+>>>> @info@
+>>>>> Indicates how many times the spread should be used at least within the document
+
+>>>> @example@
+>>>>> <pre>spread[2].minuse = 1</pre>
+
+>> *Maxuse*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> number
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Indicates how many times the spread can be used within the document.
+
+>>>> @example@
+>>>>> <pre>spread[7].maxuse = 1</pre>
+
+>> *Use*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Defines whether the fields on this spread should be parsed at the frontend (FE) or the backend (BE)
+
+>>>> @example@
+>>>>> <pre>spread[1].use = "FE"</pre>
+
+>> *Keeptogether*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> boolean
+
+>>>> @default value@
+>>>>> false
+
+>>>> @info@
+>>>>> Indicates whether the pages of the spread should be kept together or can be placed independently
+
+>>>> @example@
+>>>>> <pre>spread[2].keeptogether = true</pre>
+
+> h3. Stack
+
+>> h4. attributes
+
+
+>> *Marginx*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> float
+
+>>>> @default value@
+>>>>> 0
+
+>>>> @info@
+>>>>> Defines the margin on the x-axis between the registration points of repetative elements in a stack. \rNegative values will result in a placement on the left side of the original object
+
+>>>> @example@
+>>>>> <pre>productname_stack.marginx = -50</pre>
+
+>> *Marginy*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> float
+
+>>>> @default value@
+>>>>> 0
+
+>>>> @info@
+>>>>> Defines the margin on the y-axis between the registration points of repetative elements in a stack. \rNegative values will result in a placement above of the original object
+
+>>>> @example@
+>>>>> <pre>productname_stack.marginy = 30</pre>
+
+>> *Maxuse*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> number
+
+>>>> @default value@
+>>>>> 0
+
+>>>> @info@
+>>>>> Indicates how many times this element can be repeated.
+
+>>>> @example@
+>>>>> <pre>mystack.maxuse = 5</pre>
+
+> h3. Image
+
+>> h4. attributes
+
+
+>> *Resolution*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> number
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Defines what resolution an image should have at least
+
+>>>> @example@
+>>>>> <pre>image_largeimage.resolution = 300</pre>
+
+>> *Align*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> center
+
+>>>> @info@
+>>>>> Defines the alignment of an overflowing image with overflow set to 'crop'.
+
+>>>> @example@
+>>>>> <pre>image_largeimage.align = "topleft"</pre>
+
+>> *Label*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> The label the imageinput will be provided with when presented to the user
+
+>>>> @example@
+>>>>> <pre>image_bgrnd.label = "Background Image::"</pre>
+
+>> *Value*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> stringt3pathp3path
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Tells the system the right hand side of the assignment contains a value the contents of the image should be replaced with
+
+>>>> @example@
+>>>>> <pre>image.bgrnd.value = "page.56.field_p300Templavoila_bgrnd.value"</pre>
+
+>> *Visible*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> booleant3path
+
+>>>> @default value@
+>>>>> true
+
+>>>> @info@
+>>>>> Makes it possible to make an object invisible
+
+>>>> @example@
+>>>>> <pre>image_myimage.visible = false</pre>
+
+>> *Extended_info*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> An additional text that can be shown to the user, for instance as help text
+
+>>>> @example@
+>>>>> <pre>image_largeimage.extended_info = "The image should at least be 1000x1000 px CMYK"</pre>
+
+>> *Overflow*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> scale
+
+>>>> @info@
+>>>>> Defines what happpens when the image is larger than the image box.
+
+>>>> @example@
+>>>>> <pre>image_largeimage.overflow = "crop"</pre>
+
+>> *Use*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Defines whether the image field should be parsed at the frontend (FE) or the backend (BE)
+
+>>>> @example@
+>>>>> <pre>image_promotionimage.use = "FE"</pre>
+
+>> *Colorspace*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Restraints the image to a certain colorspace
+
+>>>> @example@
+>>>>> <pre>image_rgbimage.colorspace = "RGB"</pre>
+
+> h3. Color
+
+>> h4. attributes
+
+
+>> *Label*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> The label the colorinput will be provided with when presented to the user
+
+>>>> @example@
+>>>>> <pre>color_bgrnd.label = "Background Color:"</pre>
+
+>> *Value*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> stringt3pathp3path
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Tells the system the right hand side of the assignment contains a value the contents of the colorfield should be replaced with
+
+>>>> @example@
+>>>>> <pre>color.bgrnd.value = "page.56.field_p300Templavoila_bgrnd.value"</pre>
+
+>> *Visible*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> booleant3path
+
+>>>> @default value@
+>>>>> true
+
+>>>> @info@
+>>>>> Makes it possible to make an object invisible
+
+>>>> @example@
+>>>>> <pre>color_mycolor.visible = false</pre>
+
+>> *Extended_info*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> An additional text that can be shown to the user, for instance as help text
+
+>>>> @example@
+>>>>> <pre>color_bgrnd.extended_info = "Colors have to be entered as hexadecimal value"</pre>
+
+>> *Colorspace*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Restraints the colorinput to a certain colorspace
+
+>>>> @example@
+>>>>> <pre>color_bgrnd.colorspace = "RGB"</pre>
+
+> h3. Text
+
+>> h4. attributes
+
+
+>> *H1*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> p3path
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Attribute for mapping a HTML style to the style of the specified element in Indesign
+
+>>>> @example@
+>>>>> <pre>text_richtextfield.h1 = text_capitalboldstyle</pre>
+
+>> *H2*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> p3path
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Attribute for mapping a HTML style to the style of the specified element in Indesign
+
+>>>> @example@
+>>>>> <pre>text_richtextfield.h2 = text_capitalboldstyle</pre>
+
+>> *Label*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> The label the textinput will be provided with when presented to the user
+
+>>>> @example@
+>>>>> <pre>text_lastname.label = "Last Name:"</pre>
+
+>> *H3*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> p3path
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Attribute for mapping a HTML style to the style of the specified element in Indesign
+
+>>>> @example@
+>>>>> <pre>text_richtextfield.h3 = text_capitalboldstyle</pre>
+
+>> *Value*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> stringt3pathp3path
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Tells the system the right hand side of the assignment contains a value the contents of the text should be replaced with
+
+>>>> @example@
+>>>>> <pre>text_phonenumber.value = "Hello World!"</pre>
+
+>> *Visible*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> booleant3path
+
+>>>> @default value@
+>>>>> true
+
+>>>> @info@
+>>>>> Makes it possible to make an object invisible
+
+>>>> @example@
+>>>>> <pre>text_mytext.visible = false</pre>
+
+>> *Extended_info*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> An additional text that can be shown to the user, for instance as help text
+
+>>>> @example@
+>>>>> <pre>text_phonenumber.extended_info = "Enter your phonenumber including your country code"</pre>
+
+>> *Overflow*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> scale
+
+>>>> @info@
+>>>>> Defines what happpens when text overflows the textfield. 'Scale' scales back the pointsize, 'hide' hides the overflowing text. 
+
+>>>> @example@
+>>>>> <pre>text_longtext.overflow = "hide"</pre>
+
+>> *Rich*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> boolean
+
+>>>> @default value@
+>>>>> false
+
+>>>> @info@
+>>>>> Indicates whether the textfield when presented to the user should be rendered as rich textfield (HTML enabled) or not 
+
+>>>> @example@
+>>>>> <pre>text_richtextfield.rich = true</pre>
+
+>> *Use*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> string
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Defines whether the textfield should be parsed at the frontend (FE) or the backend (BE)
+
+>>>> @example@
+>>>>> <pre>text_userinput.use = "FE"</pre>
+
+>> *Style*
+>>>> @allowed operators@
+>>>>> =
+
+>>>> @allowed datatypes@
+>>>>> p3path
+
+>>>> @default value@
+>>>>> 
+
+>>>> @info@
+>>>>> Attribute for copying textfield styles
+
+>>>> @example@
+>>>>> <pre>text_body.h1 = text_h1.style</pre>
+
+> h2. T3s
+
+> h3. Classes
+>>* page
+>>* content
+>>* file
+> h3. Attributes
+>>* value
+> h3. Absolute
+>>* number
+> h3. Relative
+>>* parent
+>>* child
+>>* this
+>>* userselect
+
+> h2. Attributes
+
+>>* visible
+>>* use
+>>* stacks
+>>* groups
+>>* ignore
+>>* replaceable
+>>* order
+>>* minuse
+>>* maxuse
+>>* side
+>>* position
+>>* keeptogether
+>>* marginx
+>>* marginy
+>>* resolution
+>>* align
+>>* label
+>>* value
+>>* extended_info
+>>* overflow
+>>* colorspace
+>>* h1
+>>* h2
+>>* h3
+>>* rich
+>>* style
+
+> h2. Commentblocks
+
+>>h3. Single comments
+>>* @# comment text@
+>>* @// comment text@
+
+>>h3. Multiline comments
+>>* @/*@
+@ comment text@
+@*/@
+>>* @=begin@
+@ comment text@
+@=end@
+

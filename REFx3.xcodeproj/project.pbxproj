@@ -1,0 +1,432 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3E0A80A614EE847C00D9FBAA /* refx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E0A80A514EE847C00D9FBAA /* refx.icns */; };
+		3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E13D000144CA55B00523A5E /* RXREFxIntance.m */; };
+		3E615FFC14EE968A0054898D /* REFxAppBg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3E615FFB14EE968A0054898D /* REFxAppBg.jpg */; };
+		3E61600014EE986E0054898D /* REFxLogoApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E615FFF14EE986E0054898D /* REFxLogoApp.png */; };
+		3E6CBAF0144C72FE00D4105F /* railsTerminator.rb in Resources */ = {isa = PBXBuildFile; fileRef = 3E6CBAEF144C72FE00D4105F /* railsTerminator.rb */; };
+		3E6CBAF2144C733C00D4105F /* noserver.html in Resources */ = {isa = PBXBuildFile; fileRef = 3E6CBAF1144C733C00D4105F /* noserver.html */; };
+		3E9BC4A8144E1CBD00EEBA44 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9BC4A6144E1CA400EEBA44 /* Security.framework */; };
+		3E9BC4AB144E1CDB00EEBA44 /* SecurityFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9BC4A9144E1CC900EEBA44 /* SecurityFoundation.framework */; };
+		3EA987A3144F49F0001A296B /* REFx-rails-framework in Resources */ = {isa = PBXBuildFile; fileRef = 3EA987A2144F49F0001A296B /* REFx-rails-framework */; };
+		3EA987A6144F4A64001A296B /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EA987A4144F4A5A001A296B /* WebKit.framework */; };
+		3EA987A8144F4A71001A296B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EA987A7144F4A71001A296B /* libsqlite3.dylib */; };
+		3EB5D8381507C5660093B600 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5D8361507C5660093B600 /* PreferencesController.m */; };
+		3EB5D8391507C5660093B600 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EB5D8371507C5660093B600 /* Preferences.xib */; };
+		3EB5D8411507D7CA0093B600 /* PAS3TestJobs in Resources */ = {isa = PBXBuildFile; fileRef = 3EB5D8401507D7CA0093B600 /* PAS3TestJobs */; };
+		3EC97C9214488BDB00B81F47 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EC97C9114488BDB00B81F47 /* Cocoa.framework */; };
+		3EC97C9C14488BDB00B81F47 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97C9A14488BDB00B81F47 /* InfoPlist.strings */; };
+		3EC97C9E14488BDB00B81F47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97C9D14488BDB00B81F47 /* main.m */; };
+		3EC97CA214488BDB00B81F47 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CA014488BDB00B81F47 /* Credits.rtf */; };
+		3EC97CA514488BDC00B81F47 /* REFx3AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */; };
+		3EC97CA814488BDC00B81F47 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CA614488BDC00B81F47 /* MainMenu.xib */; };
+		3EC97CAB14488BDC00B81F47 /* REFx3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CA914488BDC00B81F47 /* REFx3.xcdatamodeld */; };
+		3EC97CD914488EF300B81F47 /* RXRailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CD814488EF300B81F47 /* RXRailsController.m */; };
+		3EC97CDC14488F5D00B81F47 /* RXJobPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CDB14488F5D00B81F47 /* RXJobPicker.m */; };
+		3EC97CF0144891DB00B81F47 /* RXMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CEF144891DB00B81F47 /* RXMainWindow.m */; };
+		3EC97CF21448920100B81F47 /* RXMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CF11448920100B81F47 /* RXMainWindow.xib */; };
+		3EC97CF61448929B00B81F47 /* RXJobMngrWebGui.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CF41448929A00B81F47 /* RXJobMngrWebGui.m */; };
+		3EC97CF71448929B00B81F47 /* RXJobMngrWebGui.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CF51448929B00B81F47 /* RXJobMngrWebGui.xib */; };
+		3EC97CFB144892BA00B81F47 /* RXLogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CF9144892BA00B81F47 /* RXLogView.m */; };
+		3EC97CFC144892BA00B81F47 /* RXLogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CFA144892BA00B81F47 /* RXLogView.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3E0A80A514EE847C00D9FBAA /* refx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = refx.icns; path = ../refx.icns; sourceTree = "<group>"; };
+		3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXREFxIntance.h; sourceTree = "<group>"; };
+		3E13D000144CA55B00523A5E /* RXREFxIntance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXREFxIntance.m; sourceTree = "<group>"; };
+		3E615FFB14EE968A0054898D /* REFxAppBg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = REFxAppBg.jpg; sourceTree = "<group>"; };
+		3E615FFF14EE986E0054898D /* REFxLogoApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = REFxLogoApp.png; sourceTree = "<group>"; };
+		3E6CBAEF144C72FE00D4105F /* railsTerminator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = railsTerminator.rb; sourceTree = "<group>"; };
+		3E6CBAF1144C733C00D4105F /* noserver.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = noserver.html; sourceTree = "<group>"; };
+		3E9BC4A6144E1CA400EEBA44 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		3E9BC4A9144E1CC900EEBA44 /* SecurityFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SecurityFoundation.framework; path = System/Library/Frameworks/SecurityFoundation.framework; sourceTree = SDKROOT; };
+		3EA987A2144F49F0001A296B /* REFx-rails-framework */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "REFx-rails-framework"; sourceTree = "<group>"; };
+		3EA987A4144F4A5A001A296B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		3EA987A7144F4A71001A296B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		3EB5D8351507C5660093B600 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
+		3EB5D8361507C5660093B600 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
+		3EB5D8371507C5660093B600 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		3EB5D8401507D7CA0093B600 /* PAS3TestJobs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PAS3TestJobs; path = REFx3/PAS3TestJobs; sourceTree = "<group>"; };
+		3EC97C8D14488BDB00B81F47 /* REFx3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = REFx3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EC97C9114488BDB00B81F47 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		3EC97C9414488BDB00B81F47 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		3EC97C9514488BDB00B81F47 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3EC97C9614488BDB00B81F47 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3EC97C9914488BDB00B81F47 /* REFx3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "REFx3-Info.plist"; sourceTree = "<group>"; };
+		3EC97C9B14488BDB00B81F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3EC97C9D14488BDB00B81F47 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3EC97C9F14488BDB00B81F47 /* REFx3-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "REFx3-Prefix.pch"; sourceTree = "<group>"; };
+		3EC97CA114488BDB00B81F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		3EC97CA314488BDB00B81F47 /* REFx3AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REFx3AppDelegate.h; sourceTree = "<group>"; };
+		3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REFx3AppDelegate.m; sourceTree = "<group>"; };
+		3EC97CA714488BDC00B81F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		3EC97CAA14488BDC00B81F47 /* REFx3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = REFx3.xcdatamodel; sourceTree = "<group>"; };
+		3EC97CD714488EF200B81F47 /* RXRailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXRailsController.h; sourceTree = "<group>"; };
+		3EC97CD814488EF300B81F47 /* RXRailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXRailsController.m; sourceTree = "<group>"; };
+		3EC97CDA14488F5D00B81F47 /* RXJobPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXJobPicker.h; sourceTree = "<group>"; };
+		3EC97CDB14488F5D00B81F47 /* RXJobPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXJobPicker.m; sourceTree = "<group>"; };
+		3EC97CEE144891DB00B81F47 /* RXMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXMainWindow.h; sourceTree = "<group>"; };
+		3EC97CEF144891DB00B81F47 /* RXMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXMainWindow.m; sourceTree = "<group>"; };
+		3EC97CF11448920100B81F47 /* RXMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXMainWindow.xib; sourceTree = "<group>"; };
+		3EC97CF31448929A00B81F47 /* RXJobMngrWebGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXJobMngrWebGui.h; sourceTree = "<group>"; };
+		3EC97CF41448929A00B81F47 /* RXJobMngrWebGui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXJobMngrWebGui.m; sourceTree = "<group>"; };
+		3EC97CF51448929B00B81F47 /* RXJobMngrWebGui.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXJobMngrWebGui.xib; sourceTree = "<group>"; };
+		3EC97CF8144892BA00B81F47 /* RXLogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXLogView.h; sourceTree = "<group>"; };
+		3EC97CF9144892BA00B81F47 /* RXLogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXLogView.m; sourceTree = "<group>"; };
+		3EC97CFA144892BA00B81F47 /* RXLogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXLogView.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3EC97C8A14488BDB00B81F47 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3E9BC4AB144E1CDB00EEBA44 /* SecurityFoundation.framework in Frameworks */,
+				3EC97C9214488BDB00B81F47 /* Cocoa.framework in Frameworks */,
+				3EA987A6144F4A64001A296B /* WebKit.framework in Frameworks */,
+				3E9BC4A8144E1CBD00EEBA44 /* Security.framework in Frameworks */,
+				3EA987A8144F4A71001A296B /* libsqlite3.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3E13D00F144CE11B00523A5E /* RailsController */ = {
+			isa = PBXGroup;
+			children = (
+				3E6CBAEF144C72FE00D4105F /* railsTerminator.rb */,
+				3EC97CD714488EF200B81F47 /* RXRailsController.h */,
+				3EC97CD814488EF300B81F47 /* RXRailsController.m */,
+			);
+			name = RailsController;
+			sourceTree = "<group>";
+		};
+		3EC97C8214488BDB00B81F47 = {
+			isa = PBXGroup;
+			children = (
+				3EB5D8401507D7CA0093B600 /* PAS3TestJobs */,
+				3EA987A2144F49F0001A296B /* REFx-rails-framework */,
+				3EC97C9714488BDB00B81F47 /* REFx3 */,
+				3EC97C9014488BDB00B81F47 /* Frameworks */,
+				3EC97C8E14488BDB00B81F47 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3EC97C8E14488BDB00B81F47 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3EC97C8D14488BDB00B81F47 /* REFx3.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3EC97C9014488BDB00B81F47 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3EA987A7144F4A71001A296B /* libsqlite3.dylib */,
+				3EA987A4144F4A5A001A296B /* WebKit.framework */,
+				3E9BC4A9144E1CC900EEBA44 /* SecurityFoundation.framework */,
+				3E9BC4A6144E1CA400EEBA44 /* Security.framework */,
+				3EC97C9114488BDB00B81F47 /* Cocoa.framework */,
+				3EC97C9314488BDB00B81F47 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3EC97C9314488BDB00B81F47 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3EC97C9414488BDB00B81F47 /* AppKit.framework */,
+				3EC97C9514488BDB00B81F47 /* CoreData.framework */,
+				3EC97C9614488BDB00B81F47 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		3EC97C9714488BDB00B81F47 /* REFx3 */ = {
+			isa = PBXGroup;
+			children = (
+				3EB5D8371507C5660093B600 /* Preferences.xib */,
+				3EB5D8351507C5660093B600 /* PreferencesController.h */,
+				3EB5D8361507C5660093B600 /* PreferencesController.m */,
+				3EC97CA314488BDB00B81F47 /* REFx3AppDelegate.h */,
+				3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */,
+				3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */,
+				3E13D000144CA55B00523A5E /* RXREFxIntance.m */,
+				3EC97CDA14488F5D00B81F47 /* RXJobPicker.h */,
+				3EC97CDB14488F5D00B81F47 /* RXJobPicker.m */,
+				3E13D00F144CE11B00523A5E /* RailsController */,
+				3EC97CF31448929A00B81F47 /* RXJobMngrWebGui.h */,
+				3EC97CF41448929A00B81F47 /* RXJobMngrWebGui.m */,
+				3EC97CF51448929B00B81F47 /* RXJobMngrWebGui.xib */,
+				3EC97CF8144892BA00B81F47 /* RXLogView.h */,
+				3EC97CF9144892BA00B81F47 /* RXLogView.m */,
+				3EC97CFA144892BA00B81F47 /* RXLogView.xib */,
+				3EC97CA614488BDC00B81F47 /* MainMenu.xib */,
+				3EC97CEE144891DB00B81F47 /* RXMainWindow.h */,
+				3EC97CF11448920100B81F47 /* RXMainWindow.xib */,
+				3EC97CEF144891DB00B81F47 /* RXMainWindow.m */,
+				3EC97CA914488BDC00B81F47 /* REFx3.xcdatamodeld */,
+				3EC97C9814488BDB00B81F47 /* Supporting Files */,
+			);
+			path = REFx3;
+			sourceTree = "<group>";
+		};
+		3EC97C9814488BDB00B81F47 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3E615FFF14EE986E0054898D /* REFxLogoApp.png */,
+				3E615FFB14EE968A0054898D /* REFxAppBg.jpg */,
+				3E0A80A514EE847C00D9FBAA /* refx.icns */,
+				3E6CBAF1144C733C00D4105F /* noserver.html */,
+				3EC97C9914488BDB00B81F47 /* REFx3-Info.plist */,
+				3EC97C9A14488BDB00B81F47 /* InfoPlist.strings */,
+				3EC97C9D14488BDB00B81F47 /* main.m */,
+				3EC97C9F14488BDB00B81F47 /* REFx3-Prefix.pch */,
+				3EC97CA014488BDB00B81F47 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3EC97C8C14488BDB00B81F47 /* REFx3 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx3" */;
+			buildPhases = (
+				3EC97C8914488BDB00B81F47 /* Sources */,
+				3EC97C8A14488BDB00B81F47 /* Frameworks */,
+				3EC97C8B14488BDB00B81F47 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = REFx3;
+			productName = REFx3;
+			productReference = 3EC97C8D14488BDB00B81F47 /* REFx3.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3EC97C8414488BDB00B81F47 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 3EC97C8714488BDB00B81F47 /* Build configuration list for PBXProject "REFx3" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3EC97C8214488BDB00B81F47;
+			productRefGroup = 3EC97C8E14488BDB00B81F47 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3EC97C8C14488BDB00B81F47 /* REFx3 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3EC97C8B14488BDB00B81F47 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EC97C9C14488BDB00B81F47 /* InfoPlist.strings in Resources */,
+				3EC97CA214488BDB00B81F47 /* Credits.rtf in Resources */,
+				3EC97CA814488BDC00B81F47 /* MainMenu.xib in Resources */,
+				3EC97CF21448920100B81F47 /* RXMainWindow.xib in Resources */,
+				3EC97CF71448929B00B81F47 /* RXJobMngrWebGui.xib in Resources */,
+				3EC97CFC144892BA00B81F47 /* RXLogView.xib in Resources */,
+				3E6CBAF0144C72FE00D4105F /* railsTerminator.rb in Resources */,
+				3E6CBAF2144C733C00D4105F /* noserver.html in Resources */,
+				3EA987A3144F49F0001A296B /* REFx-rails-framework in Resources */,
+				3E0A80A614EE847C00D9FBAA /* refx.icns in Resources */,
+				3E615FFC14EE968A0054898D /* REFxAppBg.jpg in Resources */,
+				3E61600014EE986E0054898D /* REFxLogoApp.png in Resources */,
+				3EB5D8391507C5660093B600 /* Preferences.xib in Resources */,
+				3EB5D8411507D7CA0093B600 /* PAS3TestJobs in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3EC97C8914488BDB00B81F47 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3EC97C9E14488BDB00B81F47 /* main.m in Sources */,
+				3EC97CA514488BDC00B81F47 /* REFx3AppDelegate.m in Sources */,
+				3EC97CAB14488BDC00B81F47 /* REFx3.xcdatamodeld in Sources */,
+				3EC97CD914488EF300B81F47 /* RXRailsController.m in Sources */,
+				3EC97CDC14488F5D00B81F47 /* RXJobPicker.m in Sources */,
+				3EC97CF0144891DB00B81F47 /* RXMainWindow.m in Sources */,
+				3EC97CF61448929B00B81F47 /* RXJobMngrWebGui.m in Sources */,
+				3EC97CFB144892BA00B81F47 /* RXLogView.m in Sources */,
+				3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */,
+				3EB5D8381507C5660093B600 /* PreferencesController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3EC97C9A14488BDB00B81F47 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3EC97C9B14488BDB00B81F47 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3EC97CA014488BDB00B81F47 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3EC97CA114488BDB00B81F47 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		3EC97CA614488BDC00B81F47 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3EC97CA714488BDC00B81F47 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3EC97CAC14488BDC00B81F47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		3EC97CAD14488BDC00B81F47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		3EC97CAF14488BDC00B81F47 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "REFx3/REFx3-Prefix.pch";
+				INFOPLIST_FILE = "REFx3/REFx3-Info.plist";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		3EC97CB014488BDC00B81F47 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "REFx3/REFx3-Prefix.pch";
+				INFOPLIST_FILE = "REFx3/REFx3-Info.plist";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3EC97C8714488BDB00B81F47 /* Build configuration list for PBXProject "REFx3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3EC97CAC14488BDC00B81F47 /* Debug */,
+				3EC97CAD14488BDC00B81F47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx3" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3EC97CAF14488BDC00B81F47 /* Debug */,
+				3EC97CB014488BDC00B81F47 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		3EC97CA914488BDC00B81F47 /* REFx3.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				3EC97CAA14488BDC00B81F47 /* REFx3.xcdatamodel */,
+			);
+			currentVersion = 3EC97CAA14488BDC00B81F47 /* REFx3.xcdatamodel */;
+			path = REFx3.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 3EC97C8414488BDB00B81F47 /* Project object */;
+}
