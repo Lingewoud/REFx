@@ -36,15 +36,28 @@ class P3Saywhat
         p @absOutputPath
         
     end
-    
+
     # function for testing connection
     def say(what64,voice64)
         what = Base64.decode64(what64)
         voice = Base64.decode64(voice64)
-        
+
+
         osax = OSAX.osax
-        osax.say(what,:using=>voice)
-        osax.say(what,:using=>voice, :saving_to =>'/Users/pim/Desktop/Audio.aiff')
+        osax.display_dialog(what, :buttons => ['OK'])
+
+        #osax.say(what,:using=>voice)
+        #osax.say(what,:using=>voice, :saving_to =>'/Users/pim/Desktop/Audio.aiff')
+        return what
+    end
+    
+    # function for testing connection
+    def hello(what64)
+        what = Base64.decode64(what64)
+
+        osax = OSAX.osax
+        osax.display_dialog(what, :buttons => ['OK'])
+
         return what
     end     
 end
