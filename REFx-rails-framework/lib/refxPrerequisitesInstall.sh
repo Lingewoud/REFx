@@ -71,4 +71,9 @@ mkdir -p /Library/Ruby/Site/1.8/sqlite3
 /usr/bin/install -c -m 644 lib/sqlite3/value.rb /Library/Ruby/Site/1.8/sqlite3/
 /usr/bin/install -c -m 644 lib/sqlite3/version.rb /Library/Ruby/Site/1.8/sqlite3/
 
+cd ../../
+mv  gems/src-sqlite3-1.3.4 gemsDisabled/
+mv  gems/sqlite3-ruby-1.2.5 gemsDisabled/
+
+
 
