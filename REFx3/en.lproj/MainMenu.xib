@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
 		<string key="IBDocument.SystemVersion">11D50</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2177</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2182</string>
 		<string key="IBDocument.AppKitVersion">1138.32</string>
 		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">2177</string>
+			<string key="NS.object.0">2182</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -223,9 +223,17 @@
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
 											</object>
+											<object class="NSMenuItem" id="115786540">
+												<reference key="NSMenu" ref="379515926"/>
+												<string key="NSTitle">Test IDX: open InDesign-CS4-doc</string>
+												<string key="NSKeyEquiv"/>
+												<int key="NSMnemonicLoc">2147483647</int>
+												<reference key="NSOnImage" ref="35465992"/>
+												<reference key="NSMixedImage" ref="502551668"/>
+											</object>
 											<object class="NSMenuItem" id="1011521614">
 												<reference key="NSMenu" ref="379515926"/>
-												<string key="NSTitle">Test: Index InDesign CS4 doc.</string>
+												<string key="NSTitle">Test IDX: sample InDesign-CS4-doc</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
@@ -233,7 +241,7 @@
 											</object>
 											<object class="NSMenuItem" id="118770953">
 												<reference key="NSMenu" ref="379515926"/>
-												<string key="NSTitle">Test: InDesign Generate PDF</string>
+												<string key="NSTitle">Test Generate: sample InDesign-CS4-doc</string>
 												<string key="NSKeyEquiv"/>
 												<int key="NSMnemonicLoc">2147483647</int>
 												<reference key="NSOnImage" ref="35465992"/>
@@ -321,7 +329,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="400752078">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -330,7 +338,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{159, 5}, {103, 32}}</string>
 							<reference key="NSSuperview" ref="400752078"/>
-							<reference key="NSWindow"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="657200798">
@@ -357,7 +364,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{10, 11}, {142, 22}}</string>
 							<reference key="NSSuperview" ref="400752078"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="557259773"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -394,7 +400,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{12, 52}, {252, 54}}</string>
 							<reference key="NSSuperview" ref="400752078"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="394523964"/>
 							<string key="NSReuseIdentifierKey">_NS:1505</string>
 							<bool key="NSEnabled">YES</bool>
@@ -424,8 +429,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{271, 113}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="558896024"/>
 					<string key="NSReuseIdentifierKey">_NS:21</string>
 				</object>
@@ -556,6 +559,14 @@
 						<reference key="destination" ref="392671452"/>
 					</object>
 					<int key="connectionID">595</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">insertTestJobIndexIndesignFranchiseOpenIndd:</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="115786540"/>
+					</object>
+					<int key="connectionID">597</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -852,8 +863,9 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="118770953"/>
 							<reference ref="820173719"/>
-							<reference ref="1011521614"/>
 							<reference ref="392671452"/>
+							<reference ref="1011521614"/>
+							<reference ref="115786540"/>
 						</object>
 						<reference key="parent" ref="278004174"/>
 					</object>
@@ -880,6 +892,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">593</int>
 						<reference key="object" ref="392671452"/>
+						<reference key="parent" ref="379515926"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">596</int>
+						<reference key="object" ref="115786540"/>
 						<reference key="parent" ref="379515926"/>
 					</object>
 				</object>
@@ -932,6 +949,7 @@
 					<string>588.IBPluginDependency</string>
 					<string>591.IBPluginDependency</string>
 					<string>593.IBPluginDependency</string>
+					<string>596.IBPluginDependency</string>
 				</object>
 				<object class="NSArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -979,6 +997,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -993,7 +1012,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">595</int>
+			<int key="maxID">597</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1007,6 +1026,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>insertTestJobGenerateIndesignFranchise:</string>
 							<string>insertTestJobIndexIndesignFranchise:</string>
+							<string>insertTestJobIndexIndesignFranchiseOpenIndd:</string>
 							<string>insertTestJobSayWhat:</string>
 							<string>openTestJobsFolder:</string>
 							<string>saveAction:</string>
@@ -1015,6 +1035,7 @@
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1030,6 +1051,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>insertTestJobGenerateIndesignFranchise:</string>
 							<string>insertTestJobIndexIndesignFranchise:</string>
+							<string>insertTestJobIndexIndesignFranchiseOpenIndd:</string>
 							<string>insertTestJobSayWhat:</string>
 							<string>openTestJobsFolder:</string>
 							<string>saveAction:</string>
@@ -1044,6 +1066,10 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">insertTestJobIndexIndesignFranchise:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">insertTestJobIndexIndesignFranchiseOpenIndd:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

@@ -73,6 +73,12 @@
     [refxInstance.jobPicker insertTestJobIndexIndesignFranchise];
 }
 
+- (void) insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender
+{
+    [refxInstance.jobPicker insertTestJobIndexIndesignFranchiseOpenIndd];
+
+}
+
 - (IBAction)openTestJobsFolder:(id)sender
 {
 

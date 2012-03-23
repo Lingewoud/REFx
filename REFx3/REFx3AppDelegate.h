@@ -40,6 +40,8 @@
 - (IBAction)insertTestJobSayWhat:(id)sender;
 - (IBAction)insertTestJobIndexIndesignFranchise:(id)sender;
 - (IBAction)insertTestJobGenerateIndesignFranchise:(id)sender;
+- (IBAction) insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender;
+
 - (NSString *)testFolderPath;
 
 

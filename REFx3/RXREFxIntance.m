@@ -35,10 +35,11 @@
     self = [super init];
     if (self) {
        
-        BOOL useWorkingCopyRailsDir = NO;        
+        BOOL useWorkingCopyRailsDir = YES;        
 
         if(useWorkingCopyRailsDir) {
-            railsRootDir = @"/Users/pim/Sites/CornerstoneWorkingCopies/REFx3/REFx-rails-framework/";          
+            //railsRootDir = @"/Users/pim/Sites/CornerstoneWorkingCopies/REFx3/REFx-rails-framework/";          
+            railsRootDir = @"/Users/pim/Sites/Github/REFx3/REFx-rails-framework/";
         }
         else {
             railsRootDir = [[[NSBundle mainBundle] 

@@ -323,6 +323,100 @@
 }
 
 
+- (void) insertTestJobIndexIndesignFranchiseOpenIndd
+{
+    
+    int i; // Loop counter.
+    
+    // Create the File Open Dialog class.
+    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+    
+    // Enable the selection of files in the dialog.
+    [openDlg setCanChooseFiles:YES];
+    
+    // Enable the selection of directories in the dialog.
+    [openDlg setCanChooseDirectories:NO];
+    [openDlg setAllowsMultipleSelection:NO];
+    
+    NSString* fileName;
+    // Display the dialog.  If the OK button was pressed,
+    // process the files.
+    if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
+    {
+        // Get an array containing the full filenames of all
+        // files and directories selected.
+        NSArray* files = [openDlg filenames];
+        
+        // Loop through all the files and process them.
+        for( i = 0; i < [files count]; i++ )
+        {
+            fileName = [files objectAtIndex:i];
+            
+            // Do something with the filename.
+        }
+    }
+    
+    NSLog(@"filename %@",fileName);
+    
+                
+
+    if(dbOpened)
+    {      
+        sqlite3_stmt *statement;
+        
+
+        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        NSString * testJobPath = [fileName stringByDeletingLastPathComponent];
+
+        if(![fileManager fileExistsAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"]]){
+
+            [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];      
+         //  [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];      
+
+        }
+        [fileManager release];
+
+        //NSString * testJobPath = [[NSApp delegate] testFolderPath];
+        
+        NSString *jobBody = [NSString stringWithFormat: @"---\n"
+                             "init_args: \n"
+                             "  - \n"
+                             "    value: %@\n"
+                             "    type: string\n"
+                             "  - \n"
+                             "    value: >\n"
+                             "      %@\n"
+                             "    type: string\n"
+                             "  - \n"
+                             "    value: REFx3Jobs\n"
+                             "    type: string\n"
+                             "  - \n"
+                             "    value: Adobe InDesign CS4\n"
+                             "    type: string\n"
+                             "  - \n"
+                             "    value: false\n"
+                             "    type: bool\n"
+                             "method: getXML\n"
+                             "method_args: \n",testJobPath,[fileName lastPathComponent]];
+        
+        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'P3Indesignfranchise','%@',1,1,0,'');",jobBody];  
+        
+        const char *query_stmt = [sql UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            int result = sqlite3_step(statement);
+            NSLog(@"insert result %i",result);
+        }
+        else
+        {
+            NSLog(@"sqlite problem: %@", sql);
+        }
+        
+        sqlite3_finalize(statement);
+    }    
+}
+
 
 - (void) insertTestJobIndexIndesignFranchise
 {

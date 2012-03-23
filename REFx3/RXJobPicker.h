@@ -33,6 +33,7 @@
 - (BOOL) openDatabase;
 - (void) closeDatabase;
 - (void) insertTestJobSayWhat;
+- (void) insertTestJobIndexIndesignFranchiseOpenIndd;
 - (void) insertTestJobGenerateIndesignFranchise;
 - (void) insertTestJobIndexIndesignFranchise;
 
