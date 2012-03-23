@@ -17,6 +17,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         NSLog(@"Init Log View");
+        
 
     }
     
@@ -46,10 +47,11 @@
                                                 repeats: YES];
 }
 
+
 - (void)readLastLinesOfLog
 {
-
     NSString *logFile = [railsRootDir stringByAppendingString:@"/log/pas3.log"];
+    NSString *logCommand = [NSString stringWithFormat:@"/usr/bin/tail"];
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     if(![fileManager fileExistsAtPath:logFile])
@@ -57,7 +59,6 @@
         [fileManager createFileAtPath:logFile contents:nil attributes:nil];
     }
     
-    NSString *logCommand = [NSString stringWithFormat:@"/usr/bin/tail"];
     
     NSTask *logProcess = [[NSTask alloc] init];    
     
@@ -76,6 +77,14 @@
     
     [[[pas3LogTextView textStorage] mutableString] setString: string];
     
+
+    //These are autoreleased
+    //    [logFile release];    
+    //    [logCommand release];
+    //    [data release];    
+    
+    [string release];
+    [fileManager release];    
     [logProcess release];    
 }
 

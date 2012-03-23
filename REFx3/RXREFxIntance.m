@@ -85,6 +85,8 @@
     
     NSString *myString = [NSString stringWithUTF8String: kernelVersion];    
     NSArray *stringArray = [myString componentsSeparatedByString:@"."];
+    
+    free(kernelVersion);
 
     return [[stringArray objectAtIndex: 0] intValue];
 }
