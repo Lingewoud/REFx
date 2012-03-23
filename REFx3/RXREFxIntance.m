@@ -35,10 +35,10 @@
     self = [super init];
     if (self) {
        
-        BOOL useWorkingCopyRailsDir = YES;        
-
-        if(useWorkingCopyRailsDir) {
-            //railsRootDir = @"/Users/pim/Sites/CornerstoneWorkingCopies/REFx3/REFx-rails-framework/";          
+        BOOL useWorkingCopyRailsDir = NO;        
+        
+        NSFileManager *fileManager = [[NSFileManager alloc] init];
+        if(useWorkingCopyRailsDir && ![fileManager fileExistsAtPath:@"/Users/pim/Sites/Github/REFx3/REFx-rails-framework/"]){            
             railsRootDir = @"/Users/pim/Sites/Github/REFx3/REFx-rails-framework/";
         }
         else {
@@ -46,6 +46,7 @@
                              bundlePath] 
                             stringByAppendingString:@"/Contents/Resources/REFx-rails-framework"];        
         }
+        [fileManager release];
 
         dbPath = [railsRootDir stringByAppendingString:@"/db/development.sqlite3"];
 

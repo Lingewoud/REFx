@@ -223,7 +223,7 @@
 												<reference key="NSOnImage" ref="35465992"/>
 												<reference key="NSMixedImage" ref="502551668"/>
 											</object>
-											<object class="NSMenuItem" id="115786540">
+											<object class="NSMenuItem" id="909745458">
 												<reference key="NSMenu" ref="379515926"/>
 												<string key="NSTitle">Test IDX: open InDesign-CS4-doc</string>
 												<string key="NSKeyEquiv"/>
@@ -564,7 +564,7 @@
 					<object class="IBActionConnection" key="connection">
 						<string key="label">insertTestJobIndexIndesignFranchiseOpenIndd:</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="115786540"/>
+						<reference key="destination" ref="909745458"/>
 					</object>
 					<int key="connectionID">597</int>
 				</object>
@@ -865,7 +865,7 @@
 							<reference ref="820173719"/>
 							<reference ref="392671452"/>
 							<reference ref="1011521614"/>
-							<reference ref="115786540"/>
+							<reference ref="909745458"/>
 						</object>
 						<reference key="parent" ref="278004174"/>
 					</object>
@@ -896,7 +896,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">596</int>
-						<reference key="object" ref="115786540"/>
+						<reference key="object" ref="909745458"/>
 						<reference key="parent" ref="379515926"/>
 					</object>
 				</object>
@@ -1014,125 +1014,7 @@
 			<nil key="sourceID"/>
 			<int key="maxID">597</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes">
-			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-				<object class="IBPartialClassDescription">
-					<string key="className">REFx3AppDelegate</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>insertTestJobGenerateIndesignFranchise:</string>
-							<string>insertTestJobIndexIndesignFranchise:</string>
-							<string>insertTestJobIndexIndesignFranchiseOpenIndd:</string>
-							<string>insertTestJobSayWhat:</string>
-							<string>openTestJobsFolder:</string>
-							<string>saveAction:</string>
-							<string>setLastJobId:</string>
-							<string>showPreferences:</string>
-						</object>
-						<object class="NSArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>insertTestJobGenerateIndesignFranchise:</string>
-							<string>insertTestJobIndexIndesignFranchise:</string>
-							<string>insertTestJobIndexIndesignFranchiseOpenIndd:</string>
-							<string>insertTestJobSayWhat:</string>
-							<string>openTestJobsFolder:</string>
-							<string>saveAction:</string>
-							<string>setLastJobId:</string>
-							<string>showPreferences:</string>
-						</object>
-						<object class="NSArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">insertTestJobGenerateIndesignFranchise:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">insertTestJobIndexIndesignFranchise:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">insertTestJobIndexIndesignFranchiseOpenIndd:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">insertTestJobSayWhat:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">openTestJobsFolder:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">saveAction:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">setLastJobId:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showPreferences:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>lastJobid</string>
-							<string>mainWindow</string>
-						</object>
-						<object class="NSArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSTextField</string>
-							<string>NSWindow</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>lastJobid</string>
-							<string>mainWindow</string>
-						</object>
-						<object class="NSArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">lastJobid</string>
-								<string key="candidateClassName">NSTextField</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">mainWindow</string>
-								<string key="candidateClassName">NSWindow</string>
-							</object>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/REFx3AppDelegate.h</string>
-					</object>
-				</object>
-			</object>
-		</object>
+		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">

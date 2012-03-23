@@ -291,7 +291,6 @@ class P3Indesignfranchise_library
 
 		return items_arr
 	end
-
 	
 	def getDimensionInPixels(dimension)
 		return (dimension/25.4 *100).round
@@ -344,6 +343,7 @@ class P3Indesignfranchise_library
 		end
 	end
 
+	#use PDF export
 	def exec_exportPNG(doc,destPngPath)
 
 		log('exporting PNG using path',destPngPath)
@@ -364,6 +364,7 @@ class P3Indesignfranchise_library
 		`rm #{tmpEpsFile}`
 	end
 
+   	#depreciated replace everywhere with exec_exportPNG use new functions
 	def exec_exportEPS(doc, dest, pixWidth, pixHeight)
 		if(@idApp.to_s.downcase.match(/server/))
 			@idApp.export(doc, :format => :EPS_type, :to => MacTypes::FileURL.path(dest).hfs_path)
@@ -373,9 +374,13 @@ class P3Indesignfranchise_library
 	end
 	
 	#depreciated replace everywhere with exec_exportPNG
-	#### WORKAROUND FOR THE FLASH PREVIEW
-	#### !!!!!!!!!!!!!!!!!!!!!!!!!!!
 	def exportEPS(doc, orig, dest, pixWidth, pixHeight)
+        #exportToPNGUsingGSIMPDF(doc, orig, dest, pixWidth, pixHeight)
+        exportToPNGUsingCGPDF(doc, orig, dest, pixWidth, pixHeight)
+    end
+        
+	#depreciated replace everywhere with exec_exportPNG
+	def exportToPNGUsingGSIMPDF(doc, orig, dest, pixWidth, pixHeight)
 		if(!@dryrun)
 			if(@idApp.to_s.downcase.match(/server/))
 				@idApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path)
@@ -387,6 +392,43 @@ class P3Indesignfranchise_library
 			`#{cmd}`
 			cmd = "/opt/local/bin/convert -units PixelsPerInch -density 72x72 -crop #{pixWidth}x#{pixHeight}+0+0 #{dest} #{dest}"
 			`#{cmd}`
+            FileUtils.rm(orig)
 		end
 	end
+    
+
+    
+    #### Latest export method using CoreGraphics cli app
+    def exportToPNGUsingCGPDF(doc, orig, dest, pixWidth, pixHeight)
+        #log('set pdf type acrobat 5','')
+        @idApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)
+        #        @idApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false,:using => '[Smallest File Size]')
+        @idApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)
+    
+        cmd1 = "#{RAILS_ROOT}/vendor/MacApplications/pdfrasterize -t -o #{@outputPath} -f png #{orig}"
+        system(cmd1)
+    
+        resizeBitmap(dest,pixWidth,pixHeight)
+    
+        FileUtils.rm(orig)
+    end   
+  
+    def resizeBitmap(img,pixWidth,pixHeight)
+        resizeBitmapUsingIMck(img,pixWidth,pixHeight)  
+        #cropBitmapUsingCG(img,pixWidth,pixHeight)
+    end
+    
+    #not used, do we need cropping?
+    def cropBitmapUsingCG(img,pixWidth,pixHeight)		        
+		ci = P3Indesignfranchise_coreimg.new()
+        ci.cropBitmap(tmpPngFile, img, pixWidth, pixHeight)
+    end
+    
+    def resizeBitmapUsingIMck(img,pixWidth,pixHeight)
+        cmd3 = "/opt/local/bin/convert -units PixelsPerInch -density 72x72 -crop #{pixWidth}x#{pixHeight}+0+0 #{img} #{img}"
+        `#{cmd3}`
+    end
+
+    
+    
 end 

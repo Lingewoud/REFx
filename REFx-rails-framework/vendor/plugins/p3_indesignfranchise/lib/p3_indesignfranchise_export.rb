@@ -579,7 +579,6 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		@idApp.set(@idDoc.layers[its.id_.eq(layer[:layerID])].visible, :to => false)
 	end
 
-
 	def exportObject(object, name, type, width, height, x, y, lyr)
 		log('exporting object of type: ' , type)
 
@@ -590,25 +589,11 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		dest	= @outputPath+type.to_s+object.to_s + '.png'
 
 		if(!@dryrun)
-=begin
-			unlock(@idDoc)
-			nwLyr = @idDoc.make(:new => :layer)
-			name.item_layer.set(:to => nwLyr)
-			name.move(:to => [0,0])
-
-			pixWidth	= getDimensionInPixels(width)
-			pixHeight	= getDimensionInPixels(height)
-
-			exportEPS(@idDoc, orig, dest, pixWidth, pixHeight)
-
-			name.item_layer.set(:to => lyr)
-			name.move(:to => [x,y])
-			nwLyr.delete()
-=end
 
 			tmpDoc = @idApp.make(:new => :document)
 			tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_width, :to => nwidth)
 			tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_height, :to => nheight)
+			imageTypeWithAlpha = [ ".psd", ".png", ".tif", ".tiff", ".ai", ".pdf" ];
 
 			@idApp.active_document.set(@idDoc)
 			@idDoc.set(@idDoc.selection, :to => name)
@@ -621,61 +606,20 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			pixWidth	= getDimensionInPixels(width)
 			pixHeight	= getDimensionInPixels(height)
 
-			imageTypeWithAlpha = [ ".psd", ".png", ".tif", ".tiff" ];
-			if (type == 'image' && imageTypeWithAlpha.include?(File.extname(tmpDoc.all_graphics.item_link.name.get).downcase))
-				tmpdestbase	= '/tmp/'+helper_newtempname(9)
-				tmpdestpdf	= tmpdestbase+'.pdf'
-				tmpdestpng	= tmpdestbase+'.png'
-
-				log('set pdf type acrobat 5','')
-				@idApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)
-				log('exporting tmp PDF to tmp path',tmpdestpdf)
-
-				@idApp.export(tmpDoc, :format => :PDF_type, :to => MacTypes::FileURL.path(tmpdestpdf).hfs_path, :timeout => 0, :showing_options => false,:using => '[Smallest File Size]')
-
-				cmd1 = "#{RAILS_ROOT}/vendor/MacApplications/PDF-Images.app/Contents/MacOS/PDF-Images -i #{tmpdestpdf}"
-
-				log('extracting images from pdf', cmd1)
-				system(cmd1)
-
-				if(File.exists?(tmpdestbase+'-002.ppm'))
-					cmd2 = "/opt/local/bin/convert #{tmpdestbase}-001.ppm  #{tmpdestbase}-002.ppm -alpha Off -compose CopyOpacity -composite #{tmpdestbase}-000.psd;/opt/local/bin/convert #{tmpdestbase}-000.psd[0] #{dest}"
-					log('converting transparent image, skip one layer', cmd2)
-					system(cmd2)
-				elsif(File.exists?(tmpdestbase+'-001.ppm'))
-					cmd2 = "/opt/local/bin/convert #{tmpdestbase}-000.ppm  #{tmpdestbase}-001.ppm -alpha Off -compose CopyOpacity -composite #{tmpdestbase}-000.psd;/opt/local/bin/convert #{tmpdestbase}-000.psd[0] #{dest}"
-					log('converting transparent image', cmd2)
-					system(cmd2)
-				elsif(File.exists?(tmpdestbase+'-000.ppm'))
-					cmd2 = "/opt/local/bin/convert #{tmpdestbase}-000.ppm #{dest}"
-					log('converting nontransparent image', cmd2)
-					system(cmd2)
-				else
-					cmd2 = "/opt/local/bin/gs -dAlignToPixels=0  -dBATCH -dNOPAUSE -dQUIET -dUseCIEColor -sDEVICE=pngalpha -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r100x100 -sOutputFile=#{dest} #{tmpdestpdf};"
-					log('converting pdf image', cmd2)
-					system(cmd2)
-				end
-
-				cmd3 = "/opt/local/bin/convert -units PixelsPerInch -density 72x72 -crop #{pixWidth}x#{pixHeight}+0+0 #{dest} #{dest}"
-				log('resizing png', cmd3)
-				`#{cmd3}`
-				
-#				FileUtils.rm(tmpdestpdf)
-				log('removing temp files','')
-				#system("rm #{tmpdestbase}*")
-
+            if (type == 'image' || type == 'PDF')
+                
+                exportToPNGUsingCGPDF(tmpDoc, orig, dest, pixWidth, pixHeight)
 
 			else
-				exportEPS(tmpDoc, orig, dest, pixWidth, pixHeight)
+                exportToPNGUsingGSIMPDF(tmpDoc, orig, dest, pixWidth, pixHeight)
 			end
-
-
 
 			tmpDoc.close(:saving => :no)
 		end
 		return @relPath+type.to_s+object.to_s+'.png'
 	end
-		
+
+			
 	def stripLeadingZero(string)
 		if (string[0,1] == '0' && string.length > 1) 
 			return stripLeadingZero(string[1..-1])
