@@ -16,7 +16,7 @@ namespace :pas3  do
 			end
 
 			Rake::Task['db:migrate'].invoke
-			Rake::Task['backgroundrb:create_queue'].invoke
+			#Rake::Task['backgroundrb:create_queue'].invoke
 		end
 	end
 

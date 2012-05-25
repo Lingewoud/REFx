@@ -145,7 +145,7 @@ optparse = OptionParser.new do|opts|
     opts.banner = "Usage: refxJobWrapper.rb -j <JOBID>"
         
     options[:environment] = 'development'
-    opts.on( '-l', '--environment environmen', 'rails environment' ) do|environment|
+    opts.on( '-l', '--environment environment', 'rails environment' ) do|environment|
         options[:environment] = environment
     end
     

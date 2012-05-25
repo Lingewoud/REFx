@@ -34,12 +34,14 @@
 
 
 // startComServer starts a RAILS instance at a specific port
-- (void)startComServer:(NSString*)railsPort
+- (void)startComServer:(NSString*)railsPort :(NSString*)environment
 {
     NSLog(@"start communication server ...");
    
     if(comServerRunning == NO)
     {        
+        
+        
         NSLog(@"start communication server %@",railsRootDirectory);
 
         NSString *railsCommand = [NSString stringWithFormat:@"%@/script/server", railsRootDirectory];
@@ -48,12 +50,14 @@
             railsPort = @"3030";
         }
         [self setRunningRailsPort:railsPort];
+        
+        NSString *railsEnvironment = [NSString stringWithFormat:@"--environment=%@", environment];
 
         comServerProcess = [[NSTask alloc] init];    
         
         [comServerProcess setCurrentDirectoryPath:railsRootDirectory];
         [comServerProcess setLaunchPath: railsCommand];
-        [comServerProcess setArguments: [NSArray arrayWithObjects: @"--port", railsPort,nil]];    
+        [comServerProcess setArguments: [NSArray arrayWithObjects: @"--port", railsPort,railsEnvironment,nil]];    
 //        [comServerProcess setArguments: [NSArray arrayWithObjects:@"webrick", @"--port", railsPort,nil]];    
         
         comServerRunning = YES;
@@ -63,7 +67,7 @@
 }
 
 
-// startComServer stops a RAILS instance at a specific port by calling the terminator script
+// stopComServer stops a RAILS instance at a specific port by calling the terminator script
 - (void)stopComServer
 {
     NSLog(@"Stopping Rails at port: %@ ...", [self runningRailsPort]);

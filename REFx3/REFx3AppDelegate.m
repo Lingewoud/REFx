@@ -93,7 +93,9 @@
 }
 
 -(void)startAllServices {
-    [refxInstance.railsController startComServer:@"3030"];
+//    [refxInstance.railsController startComServer:@"3030"];
+    [refxInstance startComServer:@"3030"];
+
     [[mainWindowController startStopButtonCommunicationServer] setState:1];
     
     [refxInstance.jobPicker startREFxLoop];

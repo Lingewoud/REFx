@@ -16,8 +16,11 @@
     RXJobPicker* jobPicker;
     RXRailsController* railsController;
     NSString* railsRootDir;
+    NSString* AppSupportDir;
     NSString* railsMasterDir;
     NSString* dbPath;
+    NSString* railsEnvironment;
+
     RXREFxIntance* refxInstance;
     
 }

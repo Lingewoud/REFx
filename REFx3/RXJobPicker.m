@@ -13,7 +13,7 @@
 
 @implementation RXJobPicker
 
-- (id)initWithDbPath: dbPath railsRootDir: dir
+- (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env
 {
     self = [super init];
     if (self) {
@@ -22,7 +22,7 @@
         railsDbPath = dbPath;
         [self openDatabase];
         railsRootDir = dir;
-        
+        railsEnvironment = env;
     }
     
     return self;
@@ -70,7 +70,10 @@
         
         [rubyJobProcess setCurrentDirectoryPath:railsRootDir];
         [rubyJobProcess setLaunchPath: railsCommand];
-        [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",@"-j",jobidString,nil]];    
+        [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",
+                                       @"-j",jobidString,
+                                       @"--environment",railsEnvironment,
+                                       nil]];    
         [rubyJobProcess launch];        
         
         //[rubyJobProcess waitUntilExit];
@@ -123,6 +126,7 @@
     if(!dbOpened)
     {
         NSLog(@"Database connection is lost. Trying to re-open");
+
         [self openDatabase];
         return NO;   
     }

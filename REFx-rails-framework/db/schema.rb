@@ -11,26 +11,6 @@
 
 ActiveRecord::Schema.define(:version => 5) do
 
-  create_table "bdrb_job_queues", :force => true do |t|
-    t.binary   "args"
-    t.string   "worker_name"
-    t.string   "worker_method"
-    t.string   "job_key"
-    t.integer  "taken"
-    t.integer  "finished"
-    t.integer  "timeout"
-    t.integer  "priority"
-    t.datetime "submitted_at"
-    t.datetime "started_at"
-    t.datetime "finished_at"
-    t.datetime "archived_at"
-    t.datetime "scheduled_at"
-    t.string   "tag"
-    t.string   "submitter_info"
-    t.string   "runner_info"
-    t.string   "worker_key"
-  end
-
   create_table "jobs", :force => true do |t|
     t.integer  "priority"
     t.string   "engine"
@@ -40,7 +20,7 @@ ActiveRecord::Schema.define(:version => 5) do
     t.datetime "updated_at"
     t.integer  "max_attempt"
     t.integer  "attempt"
-    t.text     "returnbody"
+    t.text     "returnbody",  :limit => 16777216
   end
 
 end

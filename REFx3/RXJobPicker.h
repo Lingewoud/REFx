@@ -15,6 +15,7 @@
     BOOL jobRunning;
     NSString* railsRootDir;
     NSString* railsDbPath;
+    NSString* railsEnvironment;
     BOOL dbOpened;
     sqlite3 *db;
     NSTask *rubyJobProcess;
@@ -23,7 +24,7 @@
 }
 
 
-- (id)initWithDbPath: dbPath railsRootDir: dir;
+- (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env;
 
 - (void) loopSingleAction;
 - (void) setJobId:(NSInteger)rowId status:(NSInteger)status;

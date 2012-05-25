@@ -3,7 +3,7 @@ require 'yaml'
 
 # Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
-# ENV['RAILS_ENV'] ||= 'production'
+#ENV['RAILS_ENV'] ||= 'production'
 
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.0.2' unless defined? RAILS_GEM_VERSION
@@ -75,4 +75,4 @@ end
 # PAS3 configuration
 PAS3_CONFIG = YAML::load(File.open("#{RAILS_ROOT}/config/pas3.yml"))
 
-ActionController::AbstractRequest.relative_url_root = '/refxravas'
+#ActionController::AbstractRequest.relative_url_root = '/refxravas'

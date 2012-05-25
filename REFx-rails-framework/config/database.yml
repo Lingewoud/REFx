@@ -1,5 +1,11 @@
 development:
    adapter: sqlite3
-   database: db/development.sqlite3
+   database: /Library/Application Support/REFx3/Database/refx3development.sqlite3
+   pool: 5
+   timeout: 5000
+
+production:
+   adapter: sqlite3
+   database: /Library/Application Support/REFx3/Database/refx3production.sqlite3
    pool: 5
    timeout: 5000

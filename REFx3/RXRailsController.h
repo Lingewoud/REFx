@@ -16,7 +16,7 @@
 }
 
 - (id)initWithRailsRootDir: (NSString *)dir;
-- (void)startComServer:(NSString*)railsPort;
+- (void)startComServer:(NSString*)railsPort :(NSString*)environment;
 - (void)stopComServer;
 
 @property (assign) NSString *railsRootDirectory;
