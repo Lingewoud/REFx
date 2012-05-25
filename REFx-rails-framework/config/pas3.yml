@@ -1,6 +1,2 @@
 # THIS IS THE PAS3 REFX CONFIGURATION FILE
 development:
-  #file_repository_root: /Volumes/pasdav.roots.trunk/web/dummy-4.2.2/fileadmin/davfree
-  #working_dir_root: /Volumes/pasdav.roots.trunk/web/dummy-4.2.2
-  #file_repository_root: /Library/WebServer/Documents/PAS3/source/typo3/dummy/fileadmin/davfree
-  #working_dir_root: /Library/WebServer/Documents/PAS3/source/typo3/dummy

@@ -21,7 +21,6 @@ require 'base64'
 RAILS_ROOT 	= '/Users/server/Desktop'
 outputDir 	= File.join(ENV['HOME'],'Desktop/test')
 #testFile	= File.expand_path(File.dirname(__FILE__)) + '/indd-testfiles/brochure_def.indd'
-testFile	= '/fileadmin/davfree/brProd/brochure_def.indd'
 indd 		= P3Indesign.new('', '/Volumes/storage2/rootsforsafety.testing/web/dummy-4.2.2', testFile, outputDir, 'Adobe InDesign CS4',  true)
 
 #indd.getXML

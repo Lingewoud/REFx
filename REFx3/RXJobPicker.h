@@ -17,6 +17,7 @@
     NSString* railsDbPath;
     BOOL dbOpened;
     sqlite3 *db;
+    NSTask *rubyJobProcess;
     
 
 }

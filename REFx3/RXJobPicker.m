@@ -49,6 +49,12 @@
 
 - (void)loopSingleAction;
 {
+//    NSLog(@"loop single action");
+    
+    if([rubyJobProcess isRunning])
+    {
+        return;
+    }
     
     int jobid = [self selectJob];
     
@@ -60,28 +66,28 @@
         
         NSString *jobidString = [NSString stringWithFormat:@"%i",jobid];
         NSString *railsCommand = [NSString stringWithFormat:@"%@/script/runner", railsRootDir];
-        NSTask *rubyJobProcess = [[NSTask alloc] init];    
+        rubyJobProcess = [[NSTask alloc] init];    
         
         [rubyJobProcess setCurrentDirectoryPath:railsRootDir];
         [rubyJobProcess setLaunchPath: railsCommand];
         [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",@"-j",jobidString,nil]];    
         [rubyJobProcess launch];        
         
-        [rubyJobProcess waitUntilExit];
-        int status = [rubyJobProcess terminationStatus];
+        //[rubyJobProcess waitUntilExit];
+        /*int status = [rubyJobProcess terminationStatus];
         
         if (status == 0)
             NSLog(@"Task succeeded.");
         else
             NSLog(@"Task failed.");
-        
-        [rubyJobProcess release];
+        */
+        //[rubyJobProcess release];
         NSLog(@"Return from JOBID %i",jobid);
         
         jobRunning = NO;    
     }
     
-     //NSLog(@"loop single action");
+    
 }
 
 -(BOOL)openDatabase
