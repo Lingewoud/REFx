@@ -1,2 +1,10 @@
 .svn
 build
+pas3.log
+REFx-rails-framework/log/pas3.log
+
+REFx-rails-framework/log/development.log
+
+REFx-rails-framework/log/production.log
+
+REFx3.xcodeproj/project.xcworkspace/xcuserdata/pim.xcuserdatad/UserInterfaceState.xcuserstate
