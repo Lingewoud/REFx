@@ -189,6 +189,24 @@
 }
 
 
+-(void)flushLogs{
+    //return;
+    
+    NSTask *ps = [[NSTask alloc] init];
+    [ps setLaunchPath:@"/bin/sh"];
+    
+    NSString *cmd = [NSString stringWithFormat:@"cd %@ && rake log:clear RAILS_ENV=\"production\"", railsRootDir];
+    
+    NSMutableArray *args = [[NSMutableArray alloc] init];
+    [args addObject:@"-c"];
+    [args addObject:cmd];
+    
+    [ps setArguments:args];
+    //[ps waitUntilExit];
+    [ps launch];
+    
+    [ps release];
+}
 
 // checkAppScript checks if the appscript binary are installed. If not it tries to install
 - (void) checkAppScript

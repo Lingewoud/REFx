@@ -29,6 +29,7 @@
 - (void) loopSingleAction;
 - (void) setJobId:(NSInteger)rowId status:(NSInteger)status;
 - (int)  selectJob;
+- (void) flushAllJobs;
 - (void) startREFxLoop;
 - (void) stopREFxLoop;
 - (void) setJobsLastId:(NSInteger)rowId;

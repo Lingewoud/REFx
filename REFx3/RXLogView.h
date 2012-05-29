@@ -16,10 +16,9 @@
 
 - (void)pas3LogTimer;
 - (void)readLastLinesOfLog;
-- (void) setRailsRootDir: dir;
+- (void)setRailsRootDir: dir;
 
 @property (assign) IBOutlet NSTextView *pas3LogTextView;
-
-
+- (IBAction)flushLogs:(id)sender;
 
 @end

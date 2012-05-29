@@ -86,7 +86,7 @@
         */
         //[rubyJobProcess release];
         NSLog(@"Return from JOBID %i",jobid);
-        
+         
         jobRunning = NO;    
     }
     
@@ -163,7 +163,7 @@
     return ret;
 }
 
-- (void)setJobId:(NSInteger)rowId status:(NSInteger)status;
+- (void)setJobId:(NSInteger)rowId status:(NSInteger)status
 {
     return;
     
@@ -192,7 +192,34 @@
 }
 
 
-- (void) setJobsLastId:(NSInteger)rowId;
+- (void)flushAllJobs {
+    if(dbOpened)
+    {
+        NSLog(@"Flush jobs");
+        
+        sqlite3_stmt *statement;
+        
+        NSString *sql = [NSString stringWithFormat: @"DELETE FROM jobs"];
+        
+        const char *query_stmt = [sql UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            int result = sqlite3_step(statement);
+            NSLog(@"Flushed Jobs table %i",result);
+        }
+        else
+        {
+            NSLog(@"sqlite problem: %@", sql);
+        }
+        
+        sqlite3_finalize(statement);
+    }    
+}
+
+
+
+- (void) setJobsLastId:(NSInteger)rowId
 {
     if(dbOpened)
     {      

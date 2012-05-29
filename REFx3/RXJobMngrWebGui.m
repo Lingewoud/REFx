@@ -7,11 +7,11 @@
 //
 
 #import "RXJobMngrWebGui.h"
+#import "RXJobPicker.h"
 
 @implementation RXJobMngrWebGui
 
 @synthesize webView;
-//@synthesize runningRailsPort;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,10 +42,16 @@
 
 - (IBAction)initQueueWebView:(id)sender{
     NSLog(@"init Job Manager Interface");
-
     [self setWebViewUrlWithPort:@"3030"];
 
 }
+
+- (IBAction)flushJobs:(id)sender{
+
+    [[[[NSApp delegate] refxInstance] jobPicker] flushAllJobs];
+    [self setWebViewUrlWithPort:@"3030"];
+}
+
 
 - (void)setWebViewUrlWithPort:(NSString*)port
 {
@@ -61,6 +67,8 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [mainFrame loadRequest:request];  
 }
+
+
 
 
 #pragma mark -

@@ -24,5 +24,5 @@
 
 - (IBAction)startStopActionScheduler:(id)sender;
 - (IBAction)startStopActionCommunicationServer:(id)sender;
-
+- (void)refreshJobmanagerView;
 @end

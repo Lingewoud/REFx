@@ -27,9 +27,9 @@
 
 - (NSString *) railRootDir;
 
-- (void) checkAppScript;
-- (void) startComServer:(NSString*)port;
-
+-(void) checkAppScript;
+-(void) startComServer:(NSString*)port;
+-(void)flushLogs;
 
 @property (retain) RXJobPicker* jobPicker;
 @property (retain) RXRailsController* railsController;

@@ -20,6 +20,8 @@
 
 - (void) stopJobManagerInterface;
 - (IBAction)initQueueWebView:(id)sender;
+- (IBAction)flushJobs:(id)sender;
+
 - (void)setWebViewUrlWithPort:(NSString*)port;
 
 

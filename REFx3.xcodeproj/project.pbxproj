@@ -113,6 +113,7 @@
 		3E786DE1157042C100BB0FA9 /* Main Window */ = {
 			isa = PBXGroup;
 			children = (
+				3EC97CEF144891DB00B81F47 /* RXMainWindow.m */,
 				3EC97CEE144891DB00B81F47 /* RXMainWindow.h */,
 				3EC97CF11448920100B81F47 /* RXMainWindow.xib */,
 			);
@@ -209,7 +210,6 @@
 				3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */,
 				3E13D000144CA55B00523A5E /* RXREFxIntance.m */,
 				3E786DE1157042C100BB0FA9 /* Main Window */,
-				3EC97CEF144891DB00B81F47 /* RXMainWindow.m */,
 				3E846F83156F8AEB00F0BF08 /* Preferences */,
 				3E846F7F156F8A1A00F0BF08 /* JobSchedularController */,
 				3E13D00F144CE11B00523A5E /* RailsController */,

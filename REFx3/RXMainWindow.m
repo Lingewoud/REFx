@@ -83,21 +83,24 @@
 - (void)startStopActionCommunicationServer:(id)sender
 {   
     if([startStopButtonCommunicationServer state]==1) {
-
+        
         [[[NSApp delegate] refxInstance ] startComServer:@"3030"];        
-     
+        
         [NSThread sleepForTimeInterval:3];
-
+        
         [jobMngrController setWebViewUrlWithPort:@"3030"];
     }
     else
     {
         [[[[NSApp delegate] refxInstance ] railsController] stopComServer];
         [jobMngrController stopJobManagerInterface];
-    
+        
     }
 }
 
+- (void)refreshJobmanagerView {   
+    [jobMngrController setWebViewUrlWithPort:@"3030"];
+}
 
 
 @end

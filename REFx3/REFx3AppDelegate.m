@@ -51,32 +51,50 @@
     [self.preferencesController showWindow:self];
 }
 
+-(void)flushLogs
+{
+    [refxInstance flushLogs];
+}
+
+- (void)refreshJobMgr{
+    [mainWindowController refreshJobmanagerView];    
+}
+
+
 - (IBAction)setLastJobId:(id)sender
 {   
-       [refxInstance.jobPicker setJobsLastId:[[lastJobid stringValue] integerValue]];
+    [refxInstance.jobPicker setJobsLastId:[[lastJobid stringValue] integerValue]];
+    [mainWindowController refreshJobmanagerView];
+
 }
+
+
 
 - (IBAction)insertTestJobSayWhat:(id)sender
 {
     [refxInstance.jobPicker insertTestJobSayWhat];
+    [mainWindowController refreshJobmanagerView];
+
 }
 
 
 - (IBAction)insertTestJobGenerateIndesignFranchise:(id)sender
 {   
     [refxInstance.jobPicker insertTestJobGenerateIndesignFranchise];
+    [mainWindowController refreshJobmanagerView];
 
 }
 
 - (IBAction)insertTestJobIndexIndesignFranchise:(id)sender
 {   
     [refxInstance.jobPicker insertTestJobIndexIndesignFranchise];
+    [mainWindowController refreshJobmanagerView];
 }
 
 - (void) insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender
 {
     [refxInstance.jobPicker insertTestJobIndexIndesignFranchiseOpenIndd];
-
+    [mainWindowController refreshJobmanagerView];
 }
 
 - (IBAction)openTestJobsFolder:(id)sender
@@ -95,9 +113,7 @@
 -(void)startAllServices {
 //    [refxInstance.railsController startComServer:@"3030"];
     [refxInstance startComServer:@"3030"];
-
     [[mainWindowController startStopButtonCommunicationServer] setState:1];
-    
     [refxInstance.jobPicker startREFxLoop];
     [[mainWindowController startStopButtonScheduler] setState:1];   
 }

@@ -16,9 +16,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        NSLog(@"Init Log View");
-        
-
+        NSLog(@"Init Log View");        
     }
     
     return self;
@@ -28,6 +26,13 @@
     [railsRootDir release];
     railsRootDir = [dir copy];
 }
+
+- (IBAction)flushLogs:(id)sender{
+    NSLog(@"Flushhhhhsss");
+
+    [[NSApp delegate] flushLogs];
+}
+
 
 - (void)loadView {
     [super loadView];
@@ -46,6 +51,8 @@
                                                userInfo: nil
                                                 repeats: YES];
 }
+
+
 
 
 - (void)readLastLinesOfLog
