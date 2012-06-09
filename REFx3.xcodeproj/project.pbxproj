@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		3EF2B0171583FD2100CD035F /* REFx3.dmg */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 3EF2B0181583FD2100CD035F /* Build configuration list for PBXAggregateTarget "REFx3.dmg" */;
+			buildPhases = (
+				3EF2B01B1583FD9C00CD035F /* CopyFiles */,
+				3EF2B0201583FE5100CD035F /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = REFx3.dmg;
+			productName = REFx3.dmg;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		3E0A80A614EE847C00D9FBAA /* refx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E0A80A514EE847C00D9FBAA /* refx.icns */; };
 		3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E13D000144CA55B00523A5E /* RXREFxIntance.m */; };
@@ -36,7 +51,21 @@
 		3EC97CF71448929B00B81F47 /* RXJobMngrWebGui.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CF51448929B00B81F47 /* RXJobMngrWebGui.xib */; };
 		3EC97CFB144892BA00B81F47 /* RXLogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CF9144892BA00B81F47 /* RXLogView.m */; };
 		3EC97CFC144892BA00B81F47 /* RXLogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CFA144892BA00B81F47 /* RXLogView.xib */; };
+		3EF2B01E1583FE4100CD035F /* refx3-dmg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3EF2B01C1583FDF000CD035F /* refx3-dmg */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3EF2B01B1583FD9C00CD035F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				3EF2B01E1583FE4100CD035F /* refx3-dmg in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3E0A80A514EE847C00D9FBAA /* refx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = refx.icns; path = ../refx.icns; sourceTree = "<group>"; };
@@ -82,6 +111,8 @@
 		3EC97CF8144892BA00B81F47 /* RXLogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXLogView.h; sourceTree = "<group>"; };
 		3EC97CF9144892BA00B81F47 /* RXLogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXLogView.m; sourceTree = "<group>"; };
 		3EC97CFA144892BA00B81F47 /* RXLogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXLogView.xib; sourceTree = "<group>"; };
+		3EF2AFFC1583F9C300CD035F /* InstallerPlugins.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstallerPlugins.framework; path = System/Library/Frameworks/InstallerPlugins.framework; sourceTree = SDKROOT; };
+		3EF2B01C1583FDF000CD035F /* refx3-dmg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "refx3-dmg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +198,7 @@
 				3EC97C9714488BDB00B81F47 /* REFx3 */,
 				3EC97C9014488BDB00B81F47 /* Frameworks */,
 				3EC97C8E14488BDB00B81F47 /* Products */,
+				3EF2B01C1583FDF000CD035F /* refx3-dmg */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,6 +218,7 @@
 				3E9BC4A9144E1CC900EEBA44 /* SecurityFoundation.framework */,
 				3E9BC4A6144E1CA400EEBA44 /* Security.framework */,
 				3EC97C9114488BDB00B81F47 /* Cocoa.framework */,
+				3EF2AFFC1583F9C300CD035F /* InstallerPlugins.framework */,
 				3EC97C9314488BDB00B81F47 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -278,6 +311,7 @@
 			projectRoot = "";
 			targets = (
 				3EC97C8C14488BDB00B81F47 /* REFx3 */,
+				3EF2B0171583FD2100CD035F /* REFx3.dmg */,
 			);
 		};
 /* End PBXProject section */
@@ -305,6 +339,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3EF2B0201583FE5100CD035F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx3-dmg/src\nif [ -d REFx3.app ]\nthen\n    rm -r REFx3.app\nfi\ntouch hallo\ncp -r ../../REFx3.app ./\ncd ..\nmake\n\n\n\n\n\n\n\n\n\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3EC97C8914488BDB00B81F47 /* Sources */ = {
@@ -432,6 +482,20 @@
 			};
 			name = Release;
 		};
+		3EF2B0191583FD2100CD035F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		3EF2B01A1583FD2100CD035F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -452,6 +516,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		3EF2B0181583FD2100CD035F /* Build configuration list for PBXAggregateTarget "REFx3.dmg" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3EF2B0191583FD2100CD035F /* Debug */,
+				3EF2B01A1583FD2100CD035F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 

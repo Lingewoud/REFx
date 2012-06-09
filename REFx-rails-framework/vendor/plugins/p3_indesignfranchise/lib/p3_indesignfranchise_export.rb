@@ -566,6 +566,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		exportEPS(@idDoc, orig, dest, pixWidth, pixHeight)
 
 		#P3ga needs trimmed layer previews
+        #TODO REPLACE WITH CORE IMAGE
 		cmd = "/opt/local/bin/convert -alpha Set -background transparent  -trim #{dest} #{File.dirname(dest)+'/trimmed_'+File.basename(dest)}"
 		system(cmd)
 

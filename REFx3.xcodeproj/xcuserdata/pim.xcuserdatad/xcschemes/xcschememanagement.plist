@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>REFx3.dmg.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>REFx3.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +23,41 @@
 			<true/>
 		</dict>
 		<key>3EC97C8C14488BDB00B81F47</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EF2AF971583F62600CD035F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EF2AF9E1583F6E800CD035F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EF2AFBD1583F76200CD035F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EF2AFCA1583F77100CD035F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EF2AFF91583F9C300CD035F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EF2B0131583FBDA00CD035F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EF2B0171583FD2100CD035F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
