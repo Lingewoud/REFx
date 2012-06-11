@@ -8,10 +8,10 @@ class P3Indesignfranchise_library
 		@outputPath		= outputPath
 		@idApp			= idApp
 
-		log('Using file', @filePath)
-		log('Using outputPath', @outputPath)
-		log('Using relPath', @relPath)
-		log('Using Indesign Version', @idApp.to_s)
+		P3libLogger::log('Using file', @filePath)
+		P3libLogger::log('Using outputPath', @outputPath)
+		P3libLogger::log('Using relPath', @relPath)
+		P3libLogger::log('Using Indesign Version', @idApp.to_s)
 	end
 
 	public
@@ -23,7 +23,7 @@ class P3Indesignfranchise_library
 
 		@idApp.documents.get.each do |doc|
 			doc.close(:saving => :no)
-			log("Closing all Indesign open documents:", '') 
+			P3libLogger::log("Closing all Indesign open documents:", '') 
 		end
 	end
 
@@ -36,18 +36,13 @@ class P3Indesignfranchise_library
 		return newpass
 	end
 
-
-	def log(key,val, type = 'info')
-		(class << P3Indesignfranchise_logger; P3Indesignfranchise_logger; end).log(key, val, type)
-	end
-
 	def l(key)
-		log(key,'')
+		P3libLogger::log(key,'')
 	end
 
 	def openDoc(doc)
 		ret_doc	= @idApp.open(MacTypes::FileURL.path(doc).hfs_path)
-		log("Opening Indesign document:", doc) 
+		P3libLogger::log("Opening Indesign document:", doc) 
 		
 		unlock(ret_doc)
 		breakGroups(ret_doc)
@@ -57,7 +52,7 @@ class P3Indesignfranchise_library
 
 	def closeDoc(doc)
 		doc.close(:saving => :no)
-		log("Closing Indesign document:", @filePath) 
+		P3libLogger::log("Closing Indesign document:", @filePath) 
 	end
 
 	def alterDisplaySettings
@@ -140,7 +135,6 @@ class P3Indesignfranchise_library
 			page_hash[page_name]				= @p3s.parseP3S("page[#{page.document_offset.get}]", "page")
 			page_hash[page_name][:id]			= page_id
 			page_hash[page_name][:sourceId]		= page_id
-			#page_hash[page_name][:index]		= page.index.get
 			page_hash[page_name][:side]			= page.side.get.to_s[0,page.side.get.to_s.index('_')]
 			page_hash[page_name][:layerGroups]	= Hash.new
 			page_hash[page_name][:preview]		= @relPath+'page_'+page.parent.index.get.to_s+'_'+page.index.get.to_s+'.png'
@@ -168,15 +162,8 @@ class P3Indesignfranchise_library
 		layers.each do |layer|
 			layerId = layer[:name].to_s[0, 2]
 
-#			if(lastLayer == layerId)
-				exportLayer(layer, spread_nr, page_nr)
-#			end
+			exportLayer(layer, spread_nr, page_nr)
 
-#			if(lastLayer == layerId || layerId.downcase == 'xx') 
-#				@idApp.set(@idDoc.layers[its.id_.eq(layer[:layerID])].visible, :to => false)
-#			else
-#				@idApp.set(@idDoc.layers[its.id_.eq(layer[:layerID])].visible, :to => true)
-#			end
 
 			lastLayer = layerId
 
@@ -188,20 +175,13 @@ class P3Indesignfranchise_library
 		layers.each do |layer|
 			layerId = layer[:name].to_s[0, 2]
 
-#			if(lastLayer == layerId)
-#				exportLayer(layer, spread_nr, page_nr)
-#			end
-
 			if(lastLayer == layerId || layerId.downcase == 'xx') 
 				@idApp.set(@idDoc.layers[its.id_.eq(layer[:layerID])].visible, :to => false)
 			else
 				@idApp.set(@idDoc.layers[its.id_.eq(layer[:layerID])].visible, :to => true)
 			end
 
-			lastLayer = layerId
-
-#			if(layerGroups.keys.to_s.index('group' + layerId) == nil) then layerGroups[eval(':group' + layerId)] = Hash.new end
-#			layerGroups[eval(':group' + layerId)][eval(':layer'+layer[:layerID].to_s)] = layer			
+			lastLayer = layerId	
 		end
 
 		# add a new layer so there's always something to export
@@ -219,9 +199,8 @@ class P3Indesignfranchise_library
 		pixWidth	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_width.get))
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_height.get))
 
-		#TODO replace with exec_exportPNG
-		exportEPS(@idDoc, page_base_name+'.eps', page_base_name+'.png', pixWidth, pixHeight)
-		#exec_exportPNG(@idDoc, page_base_name+'.png')
+		
+        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, page_base_name+'.eps', page_base_name+'.png', pixWidth, pixHeight)
 
 		# and delete it because there's no further use
 		nwObj.delete()
@@ -270,7 +249,7 @@ class P3Indesignfranchise_library
 				layer_hash[:preview]		= @relPath+'page_'+spread_nr+'_'+page_nr+'_layer'+layer.id_.get.to_s+'.png'
 				layer_hash[:layerChilds] 	= Hash.new
 
-				log('getLayers > ID', layer.id_.get.to_s)
+				P3libLogger::log('getLayers > ID', layer.id_.get.to_s)
 				layer_arr << layer_hash
 				i += 1
 			end
@@ -297,21 +276,21 @@ class P3Indesignfranchise_library
 	end	
 
 	def exec_exportPackedINDD(doc,packPath)
-		log('Copying INDD in bundle using path',packPath)
+		P3libLogger::log('Copying INDD in bundle using path',packPath)
 		@idApp.package(doc, :to => MacTypes::FileURL.path(packPath).hfs_path, :ignore_preflight_errors => :yes, :including_hidden_layers => :yes, :copying_profiles => :no, :creating_report => :yes, :copying_fonts => :yes, :updating_graphics => :no, :copying_linked_graphics => :yes)
 	end
 
 	def exec_exportPDF(doc,destpdf,preset)
 		tmpdestpdf	= '/tmp/'+helper_newtempname(9)+'.pdf'
 
-		log("exporting using output file",destpdf)
-		log('exporting PDF to tmp path',tmpdestpdf)
+		P3libLogger::log("exporting using output file",destpdf)
+		P3libLogger::log('exporting PDF to tmp path',tmpdestpdf)
 		@idApp.transparency_preference.blending_space.set(:to => :CMYK)
 		#TODO CHECK IF PRESET EXISTS
         @idApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(tmpdestpdf).hfs_path, :timeout => 0, :showing_options => false, :using => preset)
 
-		log('moving pdf from tmp dir',tmpdestpdf)
-		log('to output dir',destpdf)
+		P3libLogger::log('moving pdf from tmp dir',tmpdestpdf)
+		P3libLogger::log('to output dir',destpdf)
 		FileUtils.mv(tmpdestpdf,destpdf)
 	end
 
@@ -336,17 +315,17 @@ class P3Indesignfranchise_library
 
 			FileUtils.mkdir(destSwfDir)
 
-			log('exporting SWF using path',destSwfFilePath)
+			P3libLogger::log('exporting SWF using path',destSwfFilePath)
 			@idApp.export(doc, :format => :SWF, :to => MacTypes::FileURL.path(destSwfFilePath).hfs_path, :showing_options => false, :timeout => 0)
 		else
-			log("Can't export SWF. SWF export is only available in Indesign versions > CS3","") 
+			P3libLogger::log("Can't export SWF. SWF export is only available in Indesign versions > CS3","") 
 		end
 	end
 
 	#use PDF export
 	def exec_exportPNG(doc,destPngPath)
 
-		log('exporting PNG using path',destPngPath)
+		P3libLogger::log('exporting PNG using path',destPngPath)
 
 		pixWidth	= getDimensionInPixels(getDimensionInPixels(doc.document_preferences.page_width.get))
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(doc.document_preferences.page_height.get))
@@ -364,7 +343,6 @@ class P3Indesignfranchise_library
 		`rm #{tmpEpsFile}`
 	end
 
-   	#depreciated replace everywhere with exec_exportPNG use new functions
 	def exec_exportEPS(doc, dest, pixWidth, pixHeight)
 		if(@idApp.to_s.downcase.match(/server/))
 			@idApp.export(doc, :format => :EPS_type, :to => MacTypes::FileURL.path(dest).hfs_path)
@@ -372,63 +350,5 @@ class P3Indesignfranchise_library
 			@idApp.export(doc, :format => :EPS_type, :to => MacTypes::FileURL.path(dest).hfs_path, :showing_options => false)
 		end
 	end
-	
-	#depreciated replace everywhere with exec_exportPNG
-	def exportEPS(doc, orig, dest, pixWidth, pixHeight)
-        #exportToPNGUsingGSIMPDF(doc, orig, dest, pixWidth, pixHeight)
-        exportToPNGUsingCGPDF(doc, orig, dest, pixWidth, pixHeight)
-    end
-        
-	#depreciated replace everywhere with exec_exportPNG
-	def exportToPNGUsingGSIMPDF(doc, orig, dest, pixWidth, pixHeight)
-		if(!@dryrun)
-			if(@idApp.to_s.downcase.match(/server/))
-				@idApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path)
-			else
-				@idApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :showing_options => false)
-			end
-
-			cmd = "/opt/local/bin/gs -dAlignToPixels=0  -dBATCH -dNOPAUSE -dQUIET -dUseCIEColor -sDEVICE=pngalpha -dTextAlphaBits=4 -dGraphicsAlphaBits=4 -r100x100 -sOutputFile=#{dest} #{orig};"
-			`#{cmd}`
-			cmd = "/opt/local/bin/convert -units PixelsPerInch -density 72x72 -crop #{pixWidth}x#{pixHeight}+0+0 #{dest} #{dest}"
-			`#{cmd}`
-            FileUtils.rm(orig)
-		end
-	end
-    
-
-    
-    #### Latest export method using CoreGraphics cli app
-    def exportToPNGUsingCGPDF(doc, orig, dest, pixWidth, pixHeight)
-        #log('set pdf type acrobat 5','')
-        @idApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)
-        #        @idApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false,:using => '[Smallest File Size]')
-        @idApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)
-    
-        cmd1 = "#{RAILS_ROOT}/vendor/MacApplications/pdfrasterize -t -o #{@outputPath} -f png #{orig}"
-        system(cmd1)
-    
-        resizeBitmap(dest,pixWidth,pixHeight)
-    
-        FileUtils.rm(orig)
-    end   
-  
-    def resizeBitmap(img,pixWidth,pixHeight)
-        resizeBitmapUsingIMck(img,pixWidth,pixHeight)  
-        #cropBitmapUsingCG(img,pixWidth,pixHeight)
-    end
-    
-    #not used, do we need cropping?
-    def cropBitmapUsingCG(img,pixWidth,pixHeight)		        
-		ci = P3Indesignfranchise_coreimg.new()
-        ci.cropBitmap(tmpPngFile, img, pixWidth, pixHeight)
-    end
-    
-    def resizeBitmapUsingIMck(img,pixWidth,pixHeight)
-        cmd3 = "/opt/local/bin/convert -units PixelsPerInch -density 72x72 -crop #{pixWidth}x#{pixHeight}+0+0 #{img} #{img}"
-        `#{cmd3}`
-    end
-
-    
     
 end 

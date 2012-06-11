@@ -52,6 +52,7 @@
 		3EC97CFB144892BA00B81F47 /* RXLogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CF9144892BA00B81F47 /* RXLogView.m */; };
 		3EC97CFC144892BA00B81F47 /* RXLogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CFA144892BA00B81F47 /* RXLogView.xib */; };
 		3EF2B01E1583FE4100CD035F /* refx3-dmg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3EF2B01C1583FDF000CD035F /* refx3-dmg */; };
+		3EF2B04B15867CB700CD035F /* p3imgutils in Resources */ = {isa = PBXBuildFile; fileRef = 3EF2B04A15867CB600CD035F /* p3imgutils */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -113,6 +114,7 @@
 		3EC97CFA144892BA00B81F47 /* RXLogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXLogView.xib; sourceTree = "<group>"; };
 		3EF2AFFC1583F9C300CD035F /* InstallerPlugins.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstallerPlugins.framework; path = System/Library/Frameworks/InstallerPlugins.framework; sourceTree = SDKROOT; };
 		3EF2B01C1583FDF000CD035F /* refx3-dmg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "refx3-dmg"; sourceTree = "<group>"; };
+		3EF2B04A15867CB600CD035F /* p3imgutils */ = {isa = PBXFileReference; lastKnownFileType = folder; path = p3imgutils; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,12 +195,13 @@
 		3EC97C8214488BDB00B81F47 = {
 			isa = PBXGroup;
 			children = (
+				3EF2B04A15867CB600CD035F /* p3imgutils */,
+				3EF2B01C1583FDF000CD035F /* refx3-dmg */,
 				3EB5D8401507D7CA0093B600 /* PAS3TestJobs */,
 				3EA987A2144F49F0001A296B /* REFx-rails-framework */,
 				3EC97C9714488BDB00B81F47 /* REFx3 */,
 				3EC97C9014488BDB00B81F47 /* Frameworks */,
 				3EC97C8E14488BDB00B81F47 /* Products */,
-				3EF2B01C1583FDF000CD035F /* refx3-dmg */,
 			);
 			sourceTree = "<group>";
 		};
@@ -335,6 +338,7 @@
 				3E61600014EE986E0054898D /* REFxLogoApp.png in Resources */,
 				3EB5D8391507C5660093B600 /* Preferences.xib in Resources */,
 				3EB5D8411507D7CA0093B600 /* PAS3TestJobs in Resources */,
+				3EF2B04B15867CB700CD035F /* p3imgutils in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +528,7 @@
 				3EF2B01A1583FD2100CD035F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

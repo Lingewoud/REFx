@@ -1,8 +1,6 @@
 class P3Indesignfranchise_p3s_v1
 
 	def initialize(p3s_string)
-		@log	= ''
-		@logger = P3Indesignfranchise_logger.new()
 		@p3l	= initLang	
 		@p3s    = initScriptArray(p3s_string)
 	end
@@ -28,11 +26,6 @@ class P3Indesignfranchise_p3s_v1
 	end
 
 	private
-
-	def log(key,val, type = 'info')
-		(class << P3Indesignfranchise_logger; P3Indesignfranchise_logger; end).log(key, val, type)
-		@log += type + ": " + key + " " + val + "\n"
-	end
 
 	def initLang
 		p3s_lang = P3Indesignfranchise_p3s_v1_lang.new
@@ -111,7 +104,7 @@ class P3Indesignfranchise_p3s_v1
 				return op
 			else
 				if(!line.empty? && line.length > 1) then
-					log('Syntax error: No valid operator found: ', line, 'error')
+					P3libLogger::log('Syntax error: No valid operator found: ', line, 'error')
 				end
 				return false
 			end
@@ -124,9 +117,9 @@ class P3Indesignfranchise_p3s_v1
 		if(num == 1)
 			return true
 		elsif(num == 0)
-			log('Syntax error: The left hand side of the assignment requires an object and an attribute: ', line, 'error')
+			P3libLogger::log('Syntax error: The left hand side of the assignment requires an object and an attribute: ', line, 'error')
 		elsif(num > 1)
-			log('Syntax error: The left hand side of the assignment can only exist of one object and one attribute: ', line, 'error')
+			P3libLogger::log('Syntax error: The left hand side of the assignment can only exist of one object and one attribute: ', line, 'error')
 		end
 	end
 
@@ -143,7 +136,7 @@ class P3Indesignfranchise_p3s_v1
 		if(@p3l[:DOM].has_key?(eval(":"+type)))
 			return type
 		else
-			log('Syntax error: No valid attributes found for object \''+type+'\':', line, 'error')
+			P3libLogger::log('Syntax error: No valid attributes found for object \''+type+'\':', line, 'error')
 			return false
 		end
 	end
@@ -152,7 +145,7 @@ class P3Indesignfranchise_p3s_v1
 		if(@p3l[:DOM][eval(":"+type)][:attributes].has_key?(eval(":"+att.downcase)))
 			return true
 		else
-			log('Syntax error: \''+att+'\' is not a valid attribute for object \''+type+'\':', line, 'error')
+			P3libLogger::log('Syntax error: \''+att+'\' is not a valid attribute for object \''+type+'\':', line, 'error')
 			return false
 		end
 	end
@@ -161,7 +154,7 @@ class P3Indesignfranchise_p3s_v1
 		if(@p3l[:DOM][eval(":"+type)][:attributes][eval(":"+att)][:operators].rindex(op) != nil)
 			return true
 		else
-			log('Syntax error: \''+op+'\' is not a valid operator for attribute \''+att+'\' of object \''+type+'\':', line, 'error')
+			P3libLogger::log('Syntax error: \''+op+'\' is not a valid operator for attribute \''+att+'\' of object \''+type+'\':', line, 'error')
 			return false
 		end
 	end
@@ -184,16 +177,16 @@ class P3Indesignfranchise_p3s_v1
 					if(m)
 						return data
 					else
-						log('Syntax error: Value \''+val+'\' does not match any of the allowed values ('+p3_att[:allowed].to_s+') for attribute \''+att+'\' of object \''+type+'\':', line, 'error')
+						P3libLogger::log('Syntax error: Value \''+val+'\' does not match any of the allowed values ('+p3_att[:allowed].to_s+') for attribute \''+att+'\' of object \''+type+'\':', line, 'error')
 						return false
 					end
 				else
-					log('Warning:  Check for allowed values failed:', line, 'info')
+					P3libLogger::log('Warning:  Check for allowed values failed:', line, 'info')
 					return data
 				end
 			end
 		end	
-		log('Syntax error: Datatype of \''+val+'\' does not match any valid datatype ('+types.to_s[0..-3]+') for attribute \''+att+'\' of object \''+type+'\':', line, 'error')
+		P3libLogger::log('Syntax error: Datatype of \''+val+'\' does not match any valid datatype ('+types.to_s[0..-3]+') for attribute \''+att+'\' of object \''+type+'\':', line, 'error')
 		return false
 	end
 

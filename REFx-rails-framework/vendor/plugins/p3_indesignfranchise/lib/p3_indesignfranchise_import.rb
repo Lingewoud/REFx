@@ -175,21 +175,18 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 		xml 		= Base64.decode64(xmlencoded)
 		xml 		= Base64.decode64(xml)
 
-		log("Starting final preview","") 
-		#log('decoded',xml)
+		P3libLogger::log("Starting final preview","") 
+		#P3libLogger::log('decoded',xml)
 
 
 		@finalHash 	= Hash.from_xml(xml,true)
-#		@finalHash 	= Hash.from_xml(xml)
-		#p @finalHash
-
 
 		@idDoc = openDoc(@filePath)
 
-		log("creating dest doc",'')
+		P3libLogger::log("creating dest doc",'')
 		createDoc
 
-		log("creating spreads",'')
+		P3libLogger::log("creating spreads",'')
 		createSpreads()
 
 		closeDoc(@idDoc)
@@ -535,14 +532,7 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 		end
 		nwlayer = @finalDoc.make(:new => :layer, :with_properties => {:name => 'page' + destPage.to_s})
 		pageCopy = @idDoc.pages[its.id_.eq(srcPageId)].duplicate(:to => @finalDoc.pages[destPage])
-		#		pageCopy.page_items.move(:to => nwlayer, :binding => :left_align)
 		pageCopy.page_items.move(:to => nwlayer, :by => [0,0])
-
-		#fix verkeerde plaatsing wat heel soms voorkomt
-		#TODO make optional
-		#		log("Align to left for possible placing problems","") 
-		#		@idApp.align(@finalDoc, :align_distribute_items => @finalDoc.groups.get, :align_option => :left_edges, :align_distribute_bounds => :page_bounds)
-		#@idApp.align_distribute_preferences.align_distribute_bounds.set(:to => :page_bounds)
 
 		@idDoc.revert()
 	end

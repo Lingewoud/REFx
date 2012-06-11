@@ -62,7 +62,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 				end
 
 				#get layers and group them
-				log('get/exporting layerFroup', '')
+				P3libLogger::log('get/exporting layerFroup', '')
 				page[1][:layerGroups] = getLayerGroups(page[1][:id])
 
 				page[1][:layerGroups].each do |layerGroup|
@@ -81,9 +81,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		closeDoc(@idDoc)
 
-		log('Removing eps and pdf files','')
-#		system("rm #{@outputPath}*.pdf")
-#		system("rm #{@outputPath}*.eps")
+		P3libLogger::log('Removing eps and pdf files','')
 
 		return @xml.convertXML(document, true)
 	end
@@ -329,7 +327,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		#@idDoc.layers[its.id_.eq(layerId)].page_items.get.each do |child|
 
-		log('walk through page items', pageId.to_s)
+		P3libLogger::log('walk through page items', pageId.to_s)
 		pageItemIdx = 0
 		page_item_arr.each do |child|
 			#if(page_item_arr.include?(child)) then
@@ -561,27 +559,24 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		pixWidth	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_width.get))
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_height.get))
 
-		log('exporting layer', layer_base_name)
-		
-		exportEPS(@idDoc, orig, dest, pixWidth, pixHeight)
-
-		#P3ga needs trimmed layer previews
-        #TODO REPLACE WITH CORE IMAGE
-		cmd = "/opt/local/bin/convert -alpha Set -background transparent  -trim #{dest} #{File.dirname(dest)+'/trimmed_'+File.basename(dest)}"
-		system(cmd)
+		P3libLogger::log('exporting layer', layer_base_name)
+        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, orig, dest, pixWidth, pixHeight)        
+		P3libImage::trimAlphaFromImage(dest,File.dirname(dest)+'/trimmed_'+File.basename(dest))
 
 		if not File.exists?( File.dirname(dest)+'/trimmed_'+File.basename(dest))
-			log('convert cannot remove alpha, just copying', '')
+			P3libLogger::log('convert cannot remove alpha, just copying', '')
 			cmd = "cp #{dest} #{File.dirname(dest)+'/trimmed_'+File.basename(dest)}"
 			system(cmd)
 		end
-
-
+        #remove org
+        cmd2 = "rm #{dest}"
+		system(cmd2)
+        
 		@idApp.set(@idDoc.layers[its.id_.eq(layer[:layerID])].visible, :to => false)
 	end
 
 	def exportObject(object, name, type, width, height, x, y, lyr)
-		log('exporting object of type: ' , type)
+		P3libLogger::log('exporting object of type: ' , type)
 
 		nwidth	= (width < 30) ? 30 : width
 		nheight = (height < 30) ? 30 : height
@@ -607,13 +602,15 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			pixWidth	= getDimensionInPixels(width)
 			pixHeight	= getDimensionInPixels(height)
 
-            if (type == 'image' || type == 'PDF')
-                
-                exportToPNGUsingCGPDF(tmpDoc, orig, dest, pixWidth, pixHeight)
+            P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
 
-			else
-                exportToPNGUsingGSIMPDF(tmpDoc, orig, dest, pixWidth, pixHeight)
-			end
+            #if (type == 'image' || type == 'PDF')
+                
+            #    P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
+                #else
+                #P3libLogger::log("GS? type=",type)
+                #P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
+			#end
 
 			tmpDoc.close(:saving => :no)
 		end
@@ -628,12 +625,6 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			return string
 		end	
 	end
-
-	#def toHex(color)
-	#	if(color < 0) then color = 0 end
-	#	return color.round.to_s(16)
-	#end
-
 
 	def min(a,b)
 		return a <= b ? a : b

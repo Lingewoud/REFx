@@ -1,8 +1,6 @@
 class P3s_v1_lang_writeout
 
 	def initialize()
-		@log	= ''
-		@logger = P3Indesignfranchise_logger.new()
 		@p3l	= initLang	
 		@wiki   = ''
 	end
@@ -37,11 +35,6 @@ class P3s_v1_lang_writeout
 	end
 
 	private
-
-	def log(key,val, type = 'info')
-		(class << P3Indesignfranchise_logger; P3Indesignfranchise_logger; end).log(key, val, type)
-		@log += type + ": " + key + " " + val + "\n"
-	end
 
 	def wiki(string)
 		@wiki += string+"\n"
