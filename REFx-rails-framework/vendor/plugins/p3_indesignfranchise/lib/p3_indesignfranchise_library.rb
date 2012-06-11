@@ -200,7 +200,7 @@ class P3Indesignfranchise_library
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_height.get))
 
 		
-        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, page_base_name+'.eps', page_base_name+'.png', pixWidth, pixHeight)
+        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, page_base_name+'.pdf', page_base_name+'.png', pixWidth, pixHeight)
 
 		# and delete it because there's no further use
 		nwObj.delete()
@@ -330,25 +330,11 @@ class P3Indesignfranchise_library
 		pixWidth	= getDimensionInPixels(getDimensionInPixels(doc.document_preferences.page_width.get))
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(doc.document_preferences.page_height.get))
 
-		tmpEpsFile	= '/tmp/'+helper_newtempname(9)+'.eps'
+
+        tmpEpsFile	= '/tmp/'+helper_newtempname(9)+'.eps'
+        tmpPDFFile	= '/tmp/'+helper_newtempname(9)+'.eps'
 		tmpPngFile	= '/tmp/'+helper_newtempname(9)+'.png'
 
-		exec_exportEPS(doc, tmpEpsFile, pixWidth, pixHeight)
-
-		ci = P3Indesignfranchise_coreimg.new()
-		ci.epsToPng(tmpEpsFile, tmpPngFile);
-		ci.cropBitmap(tmpPngFile, destPngPath, pixWidth, pixHeight)
-
-		`rm #{tmpPngFile}`
-		`rm #{tmpEpsFile}`
-	end
-
-	def exec_exportEPS(doc, dest, pixWidth, pixHeight)
-		if(@idApp.to_s.downcase.match(/server/))
-			@idApp.export(doc, :format => :EPS_type, :to => MacTypes::FileURL.path(dest).hfs_path)
-		else
-			@idApp.export(doc, :format => :EPS_type, :to => MacTypes::FileURL.path(dest).hfs_path, :showing_options => false)
-		end
-	end
-    
+        P3libIndesign::exportToPNG(@idApp, doc, @outputPath, @outputPath+"/PAS3-Screen.pdf", destPngPath, pixWidth, pixHeight)
+	end    
 end 

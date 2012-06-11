@@ -569,8 +569,8 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			system(cmd)
 		end
         #remove org
-        cmd2 = "rm #{dest}"
-		system(cmd2)
+        #cmd2 = "rm #{dest}"
+		#system(cmd2)
         
 		@idApp.set(@idDoc.layers[its.id_.eq(layer[:layerID])].visible, :to => false)
 	end
