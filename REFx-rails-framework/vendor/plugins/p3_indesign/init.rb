@@ -1,8 +1,3 @@
-# Include hook code here
-#require File.dirname(__FILE__) + '/lib/p3_indesign'
-#require File.dirname(__FILE__) + '/lib/p3_xmlparser'
-#require File.dirname(__FILE__) + '/lib/p3_hrparser'
-
 require 'osx/cocoa'
 require 'rubygems'
 require 'appscript' 

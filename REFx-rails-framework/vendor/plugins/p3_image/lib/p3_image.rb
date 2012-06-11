@@ -1,5 +1,4 @@
 require 'fileutils'
-#require 'p3lib_image'
 # P3Image
 #
 class P3Image
@@ -8,7 +7,6 @@ class P3Image
 		remoteDummyRootDir = Base64.decode64(remoteDummyRootDir)
 		relSrcFilePath = Base64.decode64(relSrcFilePath)
 		relOutputBasePath = Base64.decode64(relOutputBasePath)
-
 
 		p remoteDummyRootDir
 		p relSrcFilePath 
