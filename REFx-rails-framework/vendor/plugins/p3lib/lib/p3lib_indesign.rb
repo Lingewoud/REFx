@@ -12,11 +12,12 @@ class P3libIndesign
         inDesignApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)
         inDesignApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)        
 
+        
         cmd1 = "#{RAILS_ROOT}/vendor/MacApplications/pdfrasterize -s 2.0 -t -o #{outputPath} -f png #{orig}"
         
         #P3libLogger::log('rasterize:dest'+dest,cmd1)
         system(cmd1)
-    
+        
         P3libLogger::log('exportToPNG:'+File.basename(orig)+' w:'+pixWidth.to_s+' h:'+pixHeight.to_s,'')
 
         P3libImage::resizeBitmapByWidth(dest,pixWidth)

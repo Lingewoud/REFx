@@ -10,7 +10,7 @@
 
 @implementation RXLogView
 
-@synthesize pas3LogTextView;
+@synthesize pas3LogTextView,autoUpdate;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,7 +44,8 @@
 }
 
 - (void)pas3LogTimer
-{    
+{   
+    
     logTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
                                                  target: self
                                                selector: @selector(readLastLinesOfLog)
@@ -57,42 +58,41 @@
 
 - (void)readLastLinesOfLog
 {
-    NSString *logFile = [railsRootDir stringByAppendingString:@"/log/pas3.log"];
-    NSString *logCommand = [NSString stringWithFormat:@"/usr/bin/tail"];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if(![fileManager fileExistsAtPath:logFile])
-    {
-        [fileManager createFileAtPath:logFile contents:nil attributes:nil];
-    }
-    
-    
-    NSTask *logProcess = [[NSTask alloc] init];    
-    
-    [logProcess setCurrentDirectoryPath:railsRootDir];
-    [logProcess setLaunchPath: logCommand];
-    [logProcess setArguments: [NSArray arrayWithObjects:@"-n",@"300", logFile,nil]];    
-    
-    NSPipe *pipe = [NSPipe pipe];
-    [logProcess setStandardOutput:pipe];
-    NSFileHandle *file = [pipe fileHandleForReading];
-    
-    [logProcess launch];
-    
-    NSData *data = [file readDataToEndOfFile];
-    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    
-    [[[pas3LogTextView textStorage] mutableString] setString: string];
-    
+    if ([autoUpdate state] == 1) {
+        NSString *logFile = [railsRootDir stringByAppendingString:@"/log/pas3.log"];
+        NSString *logCommand = [NSString stringWithFormat:@"/usr/bin/tail"];
+        
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if(![fileManager fileExistsAtPath:logFile])
+        {
+            [fileManager createFileAtPath:logFile contents:nil attributes:nil];
+        }
+        
+        NSTask *logProcess = [[NSTask alloc] init];    
+        
+        [logProcess setCurrentDirectoryPath:railsRootDir];
+        [logProcess setLaunchPath: logCommand];
+        [logProcess setArguments: [NSArray arrayWithObjects:@"-n",@"300", logFile,nil]];    
+        
+        NSPipe *pipe = [NSPipe pipe];
+        [logProcess setStandardOutput:pipe];
+        NSFileHandle *file = [pipe fileHandleForReading];
+        
+        [logProcess launch];
+        
+        NSData *data = [file readDataToEndOfFile];
+        NSMutableString *string = [[NSMutableString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        //[string appendString:@"\n\n"];
+        
+        [[[pas3LogTextView textStorage] mutableString] setString: string];        
+        
+        NSRange range = NSMakeRange([string length], 1);
+        [pas3LogTextView scrollRangeToVisible:range];      
 
-    //These are autoreleased
-    //    [logFile release];    
-    //    [logCommand release];
-    //    [data release];    
-    
-    [string release];
-    [fileManager release];    
-    [logProcess release];    
+        [string release];
+        [fileManager release];    
+        [logProcess release];            
+    }
 }
 
 

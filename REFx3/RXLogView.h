@@ -18,7 +18,9 @@
 - (void)readLastLinesOfLog;
 - (void)setRailsRootDir: dir;
 
+@property (assign) IBOutlet NSButton *autoUpdate;
 @property (assign) IBOutlet NSTextView *pas3LogTextView;
+
 - (IBAction)flushLogs:(id)sender;
 
 @end
