@@ -184,7 +184,8 @@ class P3Indesignfranchise_library
 			lastLayer = layerId	
 		end
 
-		# add a new layer so there's always something to export
+		# add a new layer with a white pixel so there's always something to export
+        # FIXME make semitranparant
 		nwLyr = @idDoc.make(:new => :layer)
 		nwObj = @idDoc.pages[its.id_.eq(page)].make(:new => :text_frame)
 		nwObj.geometric_bounds.set(['6p', '6p', '18p', '18p'])
@@ -193,12 +194,11 @@ class P3Indesignfranchise_library
 		nwObj.characters.fill_color.set(:to => "Paper")
 		nwObj.characters.applied_font.set(:to => "Verdana")
 		nwObj.characters.font_style.set(:to => "Bold")
-		nwObj.characters.point_size.set(:to => 18)
+		nwObj.characters.point_size.set(:to => 4)
 
 		page_base_name = @outputPath+'page_'+spread_nr+'_'+page_nr
 		pixWidth	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_width.get))
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_height.get))
-
 		
         P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, page_base_name+'.pdf', page_base_name+'.png', pixWidth, pixHeight)
 
@@ -308,18 +308,13 @@ class P3Indesignfranchise_library
 	end
 
 	def exec_exportSWF(doc,destSwfFilePath)
-		if(@idApp.to_s == "app(\"/Applications/Adobe InDesign CS4 Debug/Adobe InDesign CS4.app\")")
 
-			#destSwfDir		= @outputPath+'PAS3-Flash'
 			destSwfDir		= File.dirname(destSwfFilePath)
 
 			FileUtils.mkdir(destSwfDir)
 
 			P3libLogger::log('exporting SWF using path',destSwfFilePath)
 			@idApp.export(doc, :format => :SWF, :to => MacTypes::FileURL.path(destSwfFilePath).hfs_path, :showing_options => false, :timeout => 0)
-		else
-			P3libLogger::log("Can't export SWF. SWF export is only available in Indesign versions > CS3","") 
-		end
 	end
 
 	#use PDF export
@@ -329,11 +324,6 @@ class P3Indesignfranchise_library
 
 		pixWidth	= getDimensionInPixels(getDimensionInPixels(doc.document_preferences.page_width.get))
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(doc.document_preferences.page_height.get))
-
-
-        tmpEpsFile	= '/tmp/'+helper_newtempname(9)+'.eps'
-        tmpPDFFile	= '/tmp/'+helper_newtempname(9)+'.eps'
-		tmpPngFile	= '/tmp/'+helper_newtempname(9)+'.png'
 
         P3libIndesign::exportToPNG(@idApp, doc, @outputPath, @outputPath+"/PAS3-Screen.pdf", destPngPath, pixWidth, pixHeight)
 	end    
