@@ -379,7 +379,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		return childs
 	end
-	def getChildsOLD(page, layer)
+	def xxxgetChildsOLD(page, layer)
 		childs = Hash.new{|hash, key| hash[key] = Array.new}
 		page_item_arr = Array.new
 		page_item_arr = @idDoc.pages[its.id_.eq(page)].page_items.get
