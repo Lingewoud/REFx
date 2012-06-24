@@ -10,7 +10,7 @@ class P3libIndesign
     def self.exportToPNG(inDesignApp, doc, outputPath, orig, dest, pixWidth, pixHeight)
         
         inDesignApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)
-        inDesignApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)        
+        inDesignApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)       
 
         
         cmd1 = "#{RAILS_ROOT}/vendor/MacApplications/pdfrasterize -s 2.0 -t -o #{outputPath} -f png #{orig}"

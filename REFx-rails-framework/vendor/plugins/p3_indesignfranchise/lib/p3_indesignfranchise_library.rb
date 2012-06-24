@@ -51,7 +51,10 @@ class P3Indesignfranchise_library
 	end
 
 	def closeDoc(doc)
-		doc.close(:saving => :no)
+        doc.close(:saving => :no)
+        #doc.close({:saving => :no})
+        #closeAllDocsNoSave
+        #p doc.methods.sort
 		P3libLogger::log("Closing Indesign document:", @filePath) 
 	end
 

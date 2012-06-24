@@ -17,6 +17,8 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 	public
 
 	def getXML #test functions spreads
+        closeAllDocsNoSave
+
 		@idDoc = openDoc(@filePath)
 
 		meta 					= getMetaData()

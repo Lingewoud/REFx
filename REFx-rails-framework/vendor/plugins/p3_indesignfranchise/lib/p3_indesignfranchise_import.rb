@@ -167,7 +167,7 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 
 	def finalPreview(xmlencoded,preset,relFolderPath='', genSWF=false, copyINDD=false)
 
-
+        closeAllDocsNoSave
 		relFolderPath = Base64.decode64(relFolderPath)
 		preset = Base64.decode64(preset)
 
@@ -181,15 +181,15 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 
 		@finalHash 	= Hash.from_xml(xml,true)
 
+		P3libLogger::log("open template doc",'')
 		@idDoc = openDoc(@filePath)
-
 		P3libLogger::log("creating dest doc",'')
 		createDoc
 
 		P3libLogger::log("creating spreads",'')
 		createSpreads()
 
-		closeDoc(@idDoc)
+		#closeDoc(@idDoc)
 
 		allVisible(@finalDoc)
 
@@ -219,7 +219,7 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 			exec_exportPackedINDD(doc,packPath)
 		end
 
-		closeDoc(@finalDoc)
+		#closeDoc(@finalDoc)
 	end
 
 	def createDoc
@@ -370,7 +370,9 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 			l("replacing " + obj[1]['objectID'].to_s + " - " + obj[1]['label'].to_s)
 			case obj[1]['label'].to_s[0,obj[1]['label'].index('_')]
 				#workaround for pas3-2.1.1-p3ga port
-			when 'mergeText'
+            when 'mergeTextField'
+				replaceText(obj, stack)
+            when 'mergeText'
 				replaceText(obj, stack)
 			when 'text'
 				replaceText(obj, stack)
@@ -398,13 +400,25 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 		if(obj[1]['label'] == "mergeText_dealername")
 			scaleBackText(item)
 		end
-
+        
+		##FIXME
+		#quick workaround for P3ga Suk SE
+		if(obj[1]['label'] == "mergeTextField_000_dealername")
+			scaleBackText(item)
+		end
+        
 		##FIXME
 		#quick workaround for P3ga Suk NL
 		if(obj[1]['label'] == "mergeText_dealerAdress")
 			breakTextAtComma(item)
 		end
-
+        
+		##FIXME
+		#quick workaround for P3ga Suk SE        
+		if(obj[1]['label'] == "mergeTextField_000_dealeraddress")
+			breakTextAtComma(item)
+		end
+        
 		if(obj[1]['p3s_overflow'] == "scale")
 			scaleBackText(item)
 		end
