@@ -13,8 +13,6 @@ class P3libImage
     end
 
     def self.resizeBitmap(img,pixWidth,pixHeight)
-    #return
-        #cmd = "/opt/local/bin/convert -units PixelsPerInch -density 72x72 -crop #{pixWidth}x#{pixHeight}+0+0 #{img} #{img}"
         cmd = "#{RAILS_ROOT}/../p3imgutils/p3scale -w#{pixWidth} -h#{pixHeight} -i #{img} -o #{img}"
         #P3libLogger::log("resizing cmd:",cmd)
         system(cmd)
