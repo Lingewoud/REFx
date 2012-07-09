@@ -31,5 +31,12 @@ class P3libImage
         system(cmd)
     end
 
+    #TODO TEST
+    def self.convertImgToFiletype(inImage,outImage,type)
+        cmd = "#{RAILS_ROOT}/../p3imgutils/p3convfiletype -i #{inImage} -o #{outImage} -t #{type}"
+        #P3libLogger::log("trimming alpha to :",outImage)
+        system(cmd)
+end
+
 end
 

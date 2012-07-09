@@ -42,7 +42,17 @@ class P3Image
 	# public functions
 	public
 
-	def convertToPng()
+    def convertToPng()
+        P3libLogger::log('converting to png', @AbsSrcFilePath)
+        #        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, orig, dest, pixWidth, pixHeight)        
+        #		P3libImage::trimAlphaFromImage(dest,File.dirname(dest)+'/trimmed_'+File.basename(dest))
+        outfile = File.join(@absOutputPath,File.basename(@AbsSrcFilePath)+'.png')
+        P3libImage::convertImgToFiletype(@AbsSrcFilePath,outfile,'png');
+		#data.writeToFile_atomically(File.join(@absOutputPath,File.basename(@AbsSrcFilePath)+'.png'), false)
+
+    end
+    
+	def REMOVEconvertToPng()
 
 		require 'osx/cocoa'
 
