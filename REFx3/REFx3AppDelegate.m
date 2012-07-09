@@ -51,6 +51,20 @@
     [self.preferencesController showWindow:self];
 }
 
+//- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
+//    [self openMainWindow];
+//}
+
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
+{	
+    if (flag) {
+        return NO;
+    } else {
+        [self openMainWindow];
+        return YES;
+    }	
+}
+
 -(void)flushLogs
 {
     [refxInstance flushLogs];

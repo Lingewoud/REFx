@@ -5,6 +5,9 @@
 #
 #++
 
+require 'base64'
+
+
 class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 	def initialize(filePath,  relPath,  outputPath, idApp)
@@ -16,6 +19,12 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 	public
 
+    def getXMLB64 #test functions spreads
+        return Base64.encode64(getXML)
+
+    end
+
+    
 	def getXML #test functions spreads
         closeAllDocsNoSave
 

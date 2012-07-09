@@ -57,9 +57,18 @@ class P3Indesignfranchise
 	def getXML
 		export = P3Indesignfranchise_export.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
 		export.setDryRun() if @dryRun
-		return export.getXML
+		#return export.getXMLB64
+
+        return export.getXML
 	end
 
+	def getXMLB64
+		export = P3Indesignfranchise_export.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
+		export.setDryRun() if @dryRun
+		return export.getXMLB64
+	end
+    
+    
 	def getHumanReadable
 		export = P3Indesignfranchise_export.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
 		export.setDryRun() if @dryRun

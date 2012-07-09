@@ -19,7 +19,7 @@
 ################################################################################
 
 NAME ?= REFx3
-VERSION ?= 0.85
+VERSION ?= 0.86
 
 SOURCE_DIR ?= src
 SOURCE_FILES ?= REFx3.app 
