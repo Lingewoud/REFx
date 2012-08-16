@@ -19,10 +19,12 @@
 ################################################################################
 
 NAME ?= REFx3
-VERSION ?= 0.86
+
+BUILD ?= $(shell /usr/libexec/PlistBuddy -c "Print CFBundleVersion" ../REFx3.app/Contents/Info.plist)
+VERSION ?= $(shell /usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" ../REFx3.app/Contents/Info.plist)
 
 SOURCE_DIR ?= src
-SOURCE_FILES ?= REFx3.app 
+SOURCE_FILES ?= REFx3.app
 
 TEMPLATE_DMG ?= template.dmg
 
@@ -31,7 +33,7 @@ TEMPLATE_DMG ?= template.dmg
 # DMG building. No editing should be needed beyond this point.
 ################################################################################
 
-MASTER_DMG=$(NAME)-$(VERSION).dmg
+MASTER_DMG=$(NAME)-$(VERSION)-$(BUILD).dmg
 WC_DMG=wc.dmg
 WC_DIR=wc
 
@@ -63,7 +65,7 @@ $(MASTER_DMG): $(WC_DMG) $(addprefix $(SOURCE_DIR)/,$(SOURCE_FILES))
 		ditto -rsrc "$(SOURCE_DIR)/$$i" "$(WC_DIR)/$$i"; \
 	done
 	#rm -f "$@"
-	#hdiutil create -srcfolder "$(WC_DIR)" -format UDZO -imagekey zlib-level=9 "$@" -volname "$(NAME) $(VERSION)" -scrub -quiet
+	#hdiutil create -srcfolder "$(WC_DIR)" -format UDZO -imagekey zlib-level=9 "$@" -volname "$(NAME) $(VERSION) $(BUILD)" -scrub -quiet
 	#WC_DEV=`hdiutil info | grep "$(WC_DIR)" | grep "Apple_HFS" | awk '{print $$1}'` && \
 	#WC_DEV=`hdiutil info | grep image-path | cut -d : -f 2` && \
 

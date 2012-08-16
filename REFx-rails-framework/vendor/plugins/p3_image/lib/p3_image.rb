@@ -52,7 +52,8 @@ class P3Image
 
     end
     
-	def REMOVEconvertToPng()
+=begin
+    	def REMOVEconvertToPng()
 
 		require 'osx/cocoa'
 
@@ -65,8 +66,25 @@ class P3Image
 
 		return nil
 	end
+=end
 
 	def convertToBitMap(targetFileType,maxW,maxH)
+
+        targetFileType = Base64.decode64(targetFileType)
+        P3libLogger::log('converting to targetFileType', targetFileType)
+        outfile = File.join(@absOutputPath,File.basename(@AbsSrcFilePath)+'.png')
+        P3libImage::convertImgToFiletype(@AbsSrcFilePath,outfile,'png');
+        
+        P3libLogger::log('using max width', maxW.to_s)
+        P3libLogger::log('using max height', maxH.to_s)
+        P3libImage::resizeBitmap(outfile,maxW,maxH)
+        P3libLogger::log('output file:', outfile)
+        
+        return outfile
+        
+        #trimAlphaFromImage(dest,File.dirname(dest)+'/trimmed_'+File.basename(dest))
+
+        
 		require 'osx/cocoa'
 		targetFileType = Base64.decode64(targetFileType)
 

@@ -236,13 +236,13 @@
 
     } else {
         
-        NSLog(@"Authorization Start SnowLeopard/Lion");
+        NSLog(@"Authorization Start SnowLeopard/Lion/MountainLion");
         NSFileManager *fileManager = [[NSFileManager alloc] init];
-//        NSString *mypath = [NSString stringWithFormat:@"/Library/Ruby/Site/1.8/universal-darwin%i.0/sqlite3",darwinVer];
+        NSString *mypath = [NSString stringWithFormat:@"/Library/Ruby/Site/1.8/universal-darwin%i.0/sqlite3",darwinVer];
 
-        //NSLog(@"success%@",mypath);
+        NSLog(@"success%@",mypath);
         
-        if(![fileManager fileExistsAtPath: [NSString stringWithFormat:@"/Library/Ruby/Site/1.8/universal-darwin%i.0/ae.bundle",darwinVer]] ||
+        if(![fileManager fileExistsAtPath: [NSString stringWithFormat:@"/Library/Ruby/Site/1.8/universal-darwi0dopn%i.0/ae.bundle",darwinVer]] ||
            ![fileManager fileExistsAtPath: [NSString stringWithFormat:@"/Library/Ruby/Site/1.8/universal-darwin%i.0/sqlite3",darwinVer]]){
             
             NSDictionary *error = [NSDictionary new]; 

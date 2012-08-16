@@ -9,9 +9,10 @@ if [[ "$unamestr" == '10' ]]; then
     platform='universal-darwin10.0'
 elif [[ "$unamestr" == '9' ]]; then
     exit 0
-    #platform='universal-darwin9.0'
 elif [[ "$unamestr" == '11' ]]; then
     platform='universal-darwin11.0'
+elif [[ "$unamestr" == '12' ]]; then
+    platform='universal-darwin12.0'
 fi
 
 echo $platform

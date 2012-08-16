@@ -280,6 +280,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx3" */;
 			buildPhases = (
+				3EE2CA8615D4053300E371BD /* ShellScript */,
 				3EC97C8914488BDB00B81F47 /* Sources */,
 				3EC97C8A14488BDB00B81F47 /* Frameworks */,
 				3EC97C8B14488BDB00B81F47 /* Resources */,
@@ -345,6 +346,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3EE2CA8615D4053300E371BD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nbN=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\n#bN=$((0x$bN))\nbN=$(($bN + 1))\nbN=$(printf \"%u\" $bN)\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $bN\" \"$INFOPLIST_FILE\"\n";
+		};
 		3EF2B0201583FE5100CD035F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
