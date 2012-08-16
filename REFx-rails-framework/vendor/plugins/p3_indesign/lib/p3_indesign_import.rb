@@ -359,12 +359,18 @@ class P3Indesign_import < P3Indesign_library
 		obj[1]['ret_p3s_elements'].sort.each do |elementObj|
 			elIdx+=1
 			templateName = nil
-			elementObj[1]['childs'].each do |elementObjChild|
-				if(!elementObjChild[1]['memberoftemplate'].nil?)
-					templateName = elementObjChild[1]['memberoftemplate'].to_s
-					log("Identify Template ",templateName)
-				end	
-				break
+
+			if(elementObj[1].key?('p3s_template'))
+					templateName = elementObj[1]['p3s_template'].to_s
+					log("Identify dynamic template ",templateName)
+			else
+				elementObj[1]['childs'].each do |elementObjChild|
+					if(!elementObjChild[1]['memberoftemplate'].nil? )
+						templateName = elementObjChild[1]['memberoftemplate'].to_s
+						log("Identify Template ",templateName)
+					end	
+					break
+				end
 			end
 
 			if(!templateName.nil?)
@@ -549,7 +555,18 @@ class P3Indesign_import < P3Indesign_library
 					item.frame_fitting_option.fitting_alignment.set(:to => :top_left_anchor)
 				end
 
-				item.place(MacTypes::FileURL.path(p3s_absolute_img_src).hfs_path)
+				#inDesign CS6 seems to work with regular paths instead of hfs
+                begin
+                    log("placing item normal", MacTypes::FileURL.path(p3s_absolute_img_src).to_s)
+                    item.place(MacTypes::FileURL.path(p3s_absolute_img_src))
+                rescue  
+                    begin
+                        log("placing item hfs", MacTypes::FileURL.path(p3s_absolute_img_src).hfs_path.to_s)
+                        item.place(MacTypes::FileURL.path(p3s_absolute_img_src).hfs_path)
+                    rescue
+                        log("unable to place item", "")
+                    end
+                end
 
 				if(obj[1].key?("p3s_overflow"))
 					if(obj[1]['p3s_overflow'] == "crop")

@@ -179,7 +179,6 @@ class P3Indesign_export < P3Indesign_library
 	#
 	# * return hash to be used in xml
 	def getTemplates
-
 		template_hash 	= Hash.new
 		index		 	= 0
 
