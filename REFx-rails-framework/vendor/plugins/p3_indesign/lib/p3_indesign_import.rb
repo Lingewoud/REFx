@@ -224,7 +224,6 @@ class P3Indesign_import < P3Indesign_library
 
 		if(!obj[1]['stck_content'].nil?)	
 
-
 			subdivloopcounter = 0
 			if(obj[1].key?('p3s_subdivnumber'))
 				subdivnumber = obj[1]['p3s_subdivnumber'].to_i
@@ -597,6 +596,14 @@ class P3Indesign_import < P3Indesign_library
 
 				if(obj[1].key?("ret_p3s_fill"))
 					objSetCMYKFill(obj,obj[1]['ret_p3s_fill'])
+				elsif(obj[1].key?("p3s_fill"))
+					if(obj[1]['p3s_fill'].to_s[0,5] == 'RUBY:')
+						P3libLogger::log('Calling script',obj[1]['p3s_fill'].to_s)
+						str2call = obj[1]['p3s_fill'].to_s.delete('\\')
+						P3libLogger::log('Calling script',str2call)
+						#P3libLogger::log('Calling scr2ipt',@filePath)
+						#	eval(str2call)
+					end
 				end
 
 			else

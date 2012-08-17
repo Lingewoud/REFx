@@ -211,6 +211,8 @@ class P3Indesign_p3s_v1
 			return checkT3Path(data)
 		when "p3path"
 			return checkP3Path(data)
+		when "ruby"
+			return checkRuby(data)
 		when "array"
 			return checkArray(data)
 		end
@@ -297,6 +299,15 @@ class P3Indesign_p3s_v1
 			else
 				return false
 			end
+		else
+			return false
+		end
+	end
+
+	def checkRuby(data)
+		data = data.strip
+		if(data.to_s[0,5] == 'RUBY:')
+			return data
 		else
 			return false
 		end

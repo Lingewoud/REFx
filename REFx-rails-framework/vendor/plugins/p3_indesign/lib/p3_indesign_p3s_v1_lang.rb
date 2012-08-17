@@ -8,6 +8,14 @@ class P3Indesign_p3s_v1_lang
 		lang_arr[:DOM][:document] = Hash.new
 		lang_arr[:DOM][:document][:attributes] = Hash.new
 
+		lang_arr[:DOM][:document][:attributes][:rubyinclude] = Hash.new
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:operators] 				= ["="]
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:datatypes] 				= ["string"]
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:allowed]		 			= ""
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:default]		 			= ""
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:infotext]		 			= "path relative to indd-doc-dir of ruby file with custom methods"
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:example]		 			= "document.rubyinclude = \"mycompanyleafletmeths.rb\""
+
 		lang_arr[:DOM][:document][:attributes][:use] = Hash.new
 		lang_arr[:DOM][:document][:attributes][:use][:operators] 				= ["="]
 		lang_arr[:DOM][:document][:attributes][:use][:datatypes] 				= ["string"]
@@ -262,7 +270,7 @@ class P3Indesign_p3s_v1_lang
 
 		lang_arr[:DOM][:text][:attributes][:fill] = Hash.new
 		lang_arr[:DOM][:text][:attributes][:fill][:operators] 					= ["="]
-		lang_arr[:DOM][:text][:attributes][:fill][:datatypes] 					= ["string","t3path", "p3path"]
+		lang_arr[:DOM][:text][:attributes][:fill][:datatypes] 					= ["string","t3path", "p3path","ruby"]
 		lang_arr[:DOM][:text][:attributes][:fill][:allowed]			 			= ""
 		lang_arr[:DOM][:text][:attributes][:fill][:default]			 			= ""
 		lang_arr[:DOM][:text][:attributes][:fill][:infotext]			 		= "Defines fill color of image rectangle"
@@ -426,7 +434,7 @@ class P3Indesign_p3s_v1_lang
 
 		lang_arr[:DOM][:image][:attributes][:fill] = Hash.new
 		lang_arr[:DOM][:image][:attributes][:fill][:operators] 					= ["="]
-		lang_arr[:DOM][:image][:attributes][:fill][:datatypes] 					= ["string","t3path", "p3path"]
+		lang_arr[:DOM][:image][:attributes][:fill][:datatypes] 					= ["string","t3path", "p3path","ruby"]
 		lang_arr[:DOM][:image][:attributes][:fill][:allowed]			 		= ""
 		lang_arr[:DOM][:image][:attributes][:fill][:default]			 		= ""
 		lang_arr[:DOM][:image][:attributes][:fill][:infotext]			 		= "Defines fill color of image rectangle"
