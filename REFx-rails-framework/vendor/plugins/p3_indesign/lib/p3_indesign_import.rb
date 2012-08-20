@@ -621,7 +621,15 @@ class P3Indesign_import < P3Indesign_library
 			end
 		elsif(obj[1].key?("ret_p3s_fill"))
 			objSetCMYKFill(obj,obj[1]['ret_p3s_fill'])
-		else
+        elsif(obj[1].key?("p3s_fill"))
+            if(obj[1]['p3s_fill'].to_s[0,5] == 'RUBY:')
+                P3libLogger::log('Calling script',obj[1]['p3s_fill'].to_s)
+                str2call = obj[1]['p3s_fill'].to_s.delete('\\')
+                P3libLogger::log('Calling script',str2call)
+                #P3libLogger::log('Calling scr2ipt',@filePath)
+                #	eval(str2call)
+            end
+        else
 			obj[1]['ret_p3s_visible'] = "false"
 		end
 
