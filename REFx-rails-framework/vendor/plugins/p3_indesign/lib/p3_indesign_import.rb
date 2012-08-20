@@ -254,12 +254,21 @@ class P3Indesign_import < P3Indesign_library
 						if(stck_obj[0].to_s[0,4] == 'grp_')
 							items_arr = Array.new
 
+							growElementArray = Array.new
+							growElement	     = false
 
 							stck_obj[1]['grp_content'].each do |grp_obj|
+
+								if(elementObjChild[1].key?('p3s_growsimilar') && elementObjChild[1]['p3s_growsimilar'].strip == 'true' )
+									growElement = true
+									growElementArray  << elementObjChild
+								end
+							
 								if(obj[1]['ret_p3s_visible'] != "false" && grp_obj[1]['ret_p3s_visible'] != 'false')
 									new_item = @indesignSourceDoc.page_items[its.id_.eq(getCorrectObjId(grp_obj[1]['objectID']))].duplicate()
 									items_arr.push(new_item)
 								end
+
 							end
 
 							newGroup = groupItems(items_arr)
@@ -329,6 +338,7 @@ class P3Indesign_import < P3Indesign_library
 
 				end
 			end
+			log("growElementArray", growElementArray.to_s);
 		end
 		deleteFirstGroupOrChild(obj[1]['stck_content'])
 	end

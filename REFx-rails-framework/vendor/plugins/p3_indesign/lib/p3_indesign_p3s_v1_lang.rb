@@ -499,6 +499,15 @@ class P3Indesign_p3s_v1_lang
 		lang_arr[:DOM][:image][:attributes][:autosize][:infotext]	 			= "Enables automatic scaling of the frame to it's contents"
 		lang_arr[:DOM][:image][:attributes][:autosize][:example] 				= "image_myimage.autosize = true"
 
+		lang_arr[:DOM][:image][:attributes][:growsimilar] = Hash.new
+		lang_arr[:DOM][:image][:attributes][:growsimilar][:operators]			= ["="]
+		lang_arr[:DOM][:image][:attributes][:growsimilar][:datatypes]			= ["boolean", "t3path"] 
+		lang_arr[:DOM][:image][:attributes][:growsimilar][:allowed]				= ""
+		lang_arr[:DOM][:image][:attributes][:growsimilar][:default]				= false
+		lang_arr[:DOM][:image][:attributes][:growsimilar][:infotext]			= "Expands the dimensions of the object similar to the dimension expansion of the stack row"
+		lang_arr[:DOM][:image][:attributes][:growsimilar][:infotext]			+= "Deprecated: Initial implementation supports just one 'growsimilar' object, better solution required"
+		lang_arr[:DOM][:image][:attributes][:growsimilar][:example]	 			= "object.growsimilar = true"
+
 		lang_arr[:DOM][:color] = Hash.new
 		lang_arr[:DOM][:color][:attributes] = Hash.new
 
