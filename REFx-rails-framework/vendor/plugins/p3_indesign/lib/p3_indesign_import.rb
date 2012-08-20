@@ -18,12 +18,12 @@ class P3Indesign_import < P3Indesign_library
 		@pdfPreset = Base64.decode64(pdfPreset)
 
 		if(not File.exists?(@filePath))
-		   log("file path is not reacheable. Is the mount working?",@filePath)
+		   P3libLogger::log("file path is not reacheable. Is the mount working?",@filePath)
 		   return false
 		end
 
 		if(not isPresetAvailable(@pdfPreset))
-			log("preset is not availeble",@pdfPreset)
+			P3libLogger::log("preset is not availeble",@pdfPreset)
 			return false
 		end
 
@@ -37,19 +37,18 @@ class P3Indesign_import < P3Indesign_library
 
 	def render(xmlencoded, genPDF=false, genSWF=false, copyINDD=false, genJPEG=false)
 
-		
-
 		$KCODE = 'UTF-8'
 
 		#xml is now double encoded
 		xml	= Base64.decode64(xmlencoded)
 		xml	= Base64.decode64(xml)
 
-		log("Start rendering output","") 
+		P3libLogger::log("Start rendering output","") 
 
 		@ic		= Iconv.new('UTF-8//TRANSLIT//IGNORE', 'UTF-8')
 		@objID_arr 	= Array.new
 		@finalHash 	= Hash.from_xml(xml)
+        #p @finalHash
 
 		FileUtils.mkdir_p @outputPath
 		destbasename = @outputPath+@outputBaseName
@@ -63,7 +62,21 @@ class P3Indesign_import < P3Indesign_library
 
 		createindesignTempDestDoc()
 
-		createSpreads()
+        if (@finalHash['document']['p3s_rubyinclude'])
+            P3libLogger::log("ruby include",@finalHash['document']['p3s_rubyinclude'].to_s)
+            P3libLogger::log('Calling script',File.join(File.dirname(@filePath),@finalHash['document']['p3s_rubyinclude'].to_s))
+            rubyscript=File.join(File.dirname(@filePath),@finalHash['document']['p3s_rubyinclude'].to_s)
+            require(rubyscript)
+            
+            #            ci.epsToPng(orig, File.dirname(dest)+'/_'+File.basename(dest)+);
+
+
+            #als bestand bestaat
+            #include en log
+        end
+
+		
+        createSpreads()
 		allVisible(@indesignTempDestDoc)
 
 		if genPDF
@@ -95,23 +108,23 @@ class P3Indesign_import < P3Indesign_library
 
 			destindd	= destbasename+'.tmp.indd'
 
-			log('exporting tmp INDD using path',packPath)
+			P3libLogger::log('exporting tmp INDD using path',packPath)
 			@nwDoc = @idApp.save(@indesignTempDestDoc, :to => MacTypes::FileURL.path(destindd).hfs_path, :timeout => 0)
 			#@nwDoc = @idApp.save(@indesignTempDestDoc, :to => MacTypes::FileURL.path(destpdf).hfs_path.to_s[0..-5]+'tmp.indd', :timeout => 0)
 
-			#log('exporting INDD package using path',packPath)
+			#P3libLogger::log('exporting INDD package using path',packPath)
 
 			#FIXME why can't we export to a package?
 			#@idApp.package(@indesignTempDestDoc, :to => packPath, :ignore_preflight_errors => :yes, :including_hidden_layers => :yes, :copying_profiles => :no, :creating_report => :no, :copying_fonts => :no, :updating_graphics => :yes, :copying_linked_graphics => :yes, :force_save => :yes, :version_comments => 'Packed by PAS3' ,:timeout => 0)
 
 			#FIXME probably fails @newdoc & @indesignTempDestDoc can't both be closed because it's one and the same document
-			log('closing tmp INND file')
+			P3libLogger::log('closing tmp INND file')
 			closeDoc(@nwDoc)
 		end
 
-		log('closing temperary destination INND file','')
+		P3libLogger::log('closing temperary destination INND file','')
 		closeDoc(@indesignTempDestDoc)
-		log('closing source INND file','')
+		P3libLogger::log('closing source INND file','')
 		closeDoc(@indesignSourceDoc)
 	end
 
@@ -132,16 +145,16 @@ class P3Indesign_import < P3Indesign_library
 
 	def exportSwf(doc,destSwfFilePath)
 		if(@idApp.to_s == "app(\"/Applications/Adobe InDesign CS4/Adobe InDesign CS4.app\")")
-			log('exporting SWF using path',destSwfFilePath)
+			P3libLogger::log('exporting SWF using path',destSwfFilePath)
 			@idApp.export(doc, :format => :SWF, :to => MacTypes::FileURL.path(destSwfFilePath).hfs_path, :showing_options => false, :timeout => 0)
 		else
-			log("Can't export SWF. SWF export is only available in Indesign versions > CS3","") 
+			P3libLogger::log("Can't export SWF. SWF export is only available in Indesign versions > CS3","") 
 		end
 	end
 
 	# Create the temperary destination document
 	def createindesignTempDestDoc
-		log("creating temperaty destination doc",'')
+		P3libLogger::log("creating temperaty destination doc",'')
 		@indesignTempDestDoc = @idApp.make(:new => :document)
 
 		setEpsExportOptions(:all)
@@ -157,8 +170,8 @@ class P3Indesign_import < P3Indesign_library
 	end
 
 	# Setup the spreads in the destination document
-	def createSpreads()	
-		log("creating spreads",'')
+	def createSpreads()
+		P3libLogger::log("creating spreads",'')
 
 		if(getFirstSpreadPageCount() == '2')
 			sections = @indesignTempDestDoc.sections.get
@@ -166,11 +179,11 @@ class P3Indesign_import < P3Indesign_library
 		end
 
 		getSpreadKeys.each do |spreadKey|
-			log("creating spreads2",'')
+			P3libLogger::log("creating spreads2",'')
 			destPage = @indesignTempDestDoc.pages.get.length
-			log("creating spreads3",'')
+			P3libLogger::log("creating spreads3",'')
 			pageArr = getPageByIndexAndSide(spreadKey.to_i,'left')
-			log("creating spreads4",'')
+			P3libLogger::log("creating spreads4",'')
 
 			if pageArr
 				copySrcPageItems(pageArr[1]['sourceId'].to_i, destPage, spreadKey)
@@ -192,7 +205,7 @@ class P3Indesign_import < P3Indesign_library
 
 		end
 
-		log("delete temporary page",'')
+		P3libLogger::log("delete temporary page",'')
 		@indesignTempDestDoc.delete(@indesignTempDestDoc.pages[1])
 	end
 
@@ -228,7 +241,7 @@ class P3Indesign_import < P3Indesign_library
 			if(obj[1].key?('p3s_subdivnumber'))
 				subdivnumber = obj[1]['p3s_subdivnumber'].to_i
 				if(subdivnumber == 1)
-					log("Disabling subdivision for this stack. subdivnumber = 1 is non sense.",'')
+					P3libLogger::log("Disabling subdivision for this stack. subdivnumber = 1 is non sense.",'')
 					subdivnumber = 0
 				end
 			else
@@ -254,15 +267,17 @@ class P3Indesign_import < P3Indesign_library
 						if(stck_obj[0].to_s[0,4] == 'grp_')
 							items_arr = Array.new
 
-							growElementArray = Array.new
-							growElement	     = false
+							#GAAB FIX
+                            #growElementArray = Array.new
+							#growElement	     = false
 
 							stck_obj[1]['grp_content'].each do |grp_obj|
 
-								if(elementObjChild[1].key?('p3s_growsimilar') && elementObjChild[1]['p3s_growsimilar'].strip == 'true' )
-									growElement = true
-									growElementArray  << elementObjChild
-								end
+								#GAAB FIX
+                                #if(elementObjChild[1].key?('p3s_growsimilar') && elementObjChild[1]['p3s_growsimilar'].strip == 'true' )
+								#	growElement = true
+								#	growElementArray  << elementObjChild
+								#end
 							
 								if(obj[1]['ret_p3s_visible'] != "false" && grp_obj[1]['ret_p3s_visible'] != 'false')
 									new_item = @indesignSourceDoc.page_items[its.id_.eq(getCorrectObjId(grp_obj[1]['objectID']))].duplicate()
@@ -338,7 +353,8 @@ class P3Indesign_import < P3Indesign_library
 
 				end
 			end
-			log("growElementArray", growElementArray.to_s);
+			#GAAB FIX
+            #P3libLogger::log("growElementArray", growElementArray.to_s);
 		end
 		deleteFirstGroupOrChild(obj[1]['stck_content'])
 	end
@@ -360,7 +376,7 @@ class P3Indesign_import < P3Indesign_library
 		lastElementGeoInfo['rightPos'] = slotElementCoords['leftPos']
 		lastElementGeoInfo['bottomPos'] = slotElementCoords['topPos']
 
-		log("placing Template Objects In Slot Fields ",'')
+		P3libLogger::log("placing Template Objects In Slot Fields ",'')
         
 		elIdx=0
 		
@@ -371,12 +387,12 @@ class P3Indesign_import < P3Indesign_library
 
 			if(elementObj[1].key?('p3s_template'))
 					templateName = elementObj[1]['p3s_template'].to_s
-					log("Identify dynamic template ",templateName)
+					P3libLogger::log("Identify dynamic template ",templateName)
 			else
 				elementObj[1]['childs'].each do |elementObjChild|
 					if(!elementObjChild[1]['memberoftemplate'].nil? )
 						templateName = elementObjChild[1]['memberoftemplate'].to_s
-						log("Identify Template ",templateName)
+						P3libLogger::log("Identify Template ",templateName)
 					end	
 					break
 				end
@@ -384,7 +400,7 @@ class P3Indesign_import < P3Indesign_library
 
 			if(!templateName.nil?)
 
-				log("Access Template ",templateName)
+				P3libLogger::log("Access Template ",templateName)
 				tplLayer 	= findLayer(templateName)
 				newLayer 	= tplLayer.duplicate()
 				layerID		= newLayer.id_.get.to_s
@@ -393,7 +409,7 @@ class P3Indesign_import < P3Indesign_library
 				newLayer.name.set(:to=> tmpName)	
 				trackObjectIds(tplLayer, newLayer)
 
-				log("Merge Template With Element ",'')
+				P3libLogger::log("Merge Template With Element ",'')
 				growElement 		= false
 				growElementArray	= Array.new
 
@@ -533,7 +549,7 @@ class P3Indesign_import < P3Indesign_library
 			end
 
 			if(obj[1]['p3s_createoutlines'] == "true")
-				log('Creating outlines. This could not work inside a stack.','')
+				P3libLogger::log('Creating outlines. This could not work inside a stack.','')
 				item.create_outlines
 			end
 
@@ -566,14 +582,14 @@ class P3Indesign_import < P3Indesign_library
 
 				#inDesign CS6 seems to work with regular paths instead of hfs
                 begin
-                    log("placing item normal", MacTypes::FileURL.path(p3s_absolute_img_src).to_s)
+                    P3libLogger::log("placing item normal", MacTypes::FileURL.path(p3s_absolute_img_src).to_s)
                     item.place(MacTypes::FileURL.path(p3s_absolute_img_src))
                 rescue  
                     begin
-                        log("placing item hfs", MacTypes::FileURL.path(p3s_absolute_img_src).hfs_path.to_s)
+                        P3libLogger::log("placing item hfs", MacTypes::FileURL.path(p3s_absolute_img_src).hfs_path.to_s)
                         item.place(MacTypes::FileURL.path(p3s_absolute_img_src).hfs_path)
                     rescue
-                        log("unable to place item", "")
+                        P3libLogger::log("unable to place item", "")
                     end
                 end
 
@@ -608,11 +624,9 @@ class P3Indesign_import < P3Indesign_library
 					objSetCMYKFill(obj,obj[1]['ret_p3s_fill'])
 				elsif(obj[1].key?("p3s_fill"))
 					if(obj[1]['p3s_fill'].to_s[0,5] == 'RUBY:')
-						P3libLogger::log('Calling script',obj[1]['p3s_fill'].to_s)
-						str2call = obj[1]['p3s_fill'].to_s.delete('\\')
-						P3libLogger::log('Calling script',str2call)
-						#P3libLogger::log('Calling scr2ipt',@filePath)
-						#	eval(str2call)
+                        #eval_custom_ruby(obj[1]['p3s_fill'].to_s)
+                        newcolor=eval_custom_ruby(obj[1]['p3s_fill'].to_s)
+                        objSetCMYKFill(obj,newcolor)
 					end
 				end
 
@@ -623,11 +637,8 @@ class P3Indesign_import < P3Indesign_library
 			objSetCMYKFill(obj,obj[1]['ret_p3s_fill'])
         elsif(obj[1].key?("p3s_fill"))
             if(obj[1]['p3s_fill'].to_s[0,5] == 'RUBY:')
-                P3libLogger::log('Calling script',obj[1]['p3s_fill'].to_s)
-                str2call = obj[1]['p3s_fill'].to_s.delete('\\')
-                P3libLogger::log('Calling script',str2call)
-                #P3libLogger::log('Calling scr2ipt',@filePath)
-                #	eval(str2call)
+                newcolor=eval_custom_ruby(obj[1]['p3s_fill'].to_s)
+                objSetCMYKFill(obj,newcolor)
             end
         else
 			obj[1]['ret_p3s_visible'] = "false"
@@ -638,6 +649,29 @@ class P3Indesign_import < P3Indesign_library
 		end
 	end
 
+    def eval_custom_ruby(str2call)
+        #P3libLogger::log('Calling script',obj[1]['p3s_fill'].to_s)
+        str2call = str2call.delete('\\')
+
+        #       P3libLogger::log('Calling script',str2call)
+        P3libLogger::log('Calling script',str2call[5..-1])
+        
+        str2call = str2call[5..-1]
+        
+        #str2call = obj[1]['p3s_fill'].to_s.delete('\\')
+        str2call = "Ravasprijslijst::rijkleur('50,100,50,100','100,50,100,50')"
+        #str2call = "Time.now"
+        
+        return eval(str2call)
+        
+        
+        #P3libLogger::log('Calling script',str2call)
+        #	eval(str2call)
+        #P3libLogger::log('Calling scr2ipt',@filePath)
+        #	eval(str2call)
+    end
+
+    
 	def replaceColor(obj, stack)
 		colors = obj[1]['p3s_value'].split(',')
 		if(colors.length == 4)
@@ -770,26 +804,26 @@ class P3Indesign_import < P3Indesign_library
 
 	def copySrcPageItems(srcPageId, destPage, spreadKey)
 
-		log("copy page items",'')
+		P3libLogger::log("copy page items",'')
 		findFields(srcPageId, spreadKey)
 
-		log("remove unwanted layers",'')
+		P3libLogger::log("remove unwanted layers",'')
 		removeUnwantedLayers()	
 
-		log("group all page items before copy to new document",'')
+		P3libLogger::log("group all page items before copy to new document",'')
 		if(@indesignSourceDoc.pages[its.id_.eq(srcPageId)].page_items.get.length > 1)
 			@indesignSourceDoc.pages[its.id_.eq(srcPageId)].make(:new => :group, :with_properties =>{:group_items => @indesignSourceDoc.pages[its.id_.eq(srcPageId)].page_items.get})
 		end
 
-		log("create destination layer",'')
+		P3libLogger::log("create destination layer",'')
 		nwlayer = @indesignTempDestDoc.make(:new => :layer, :with_properties => {:name => 'page' + destPage.to_s})
 
-		log("copy source page with all items to destination document",'')
+		P3libLogger::log("copy source page with all items to destination document",'')
 
 		pageCopy = @indesignSourceDoc.pages[its.id_.eq(srcPageId)].duplicate(:to => @indesignTempDestDoc.pages[destPage])
 		pageCopy.page_items.move(:to => nwlayer)
 
-		log("revert all source document changes",'')
+		P3libLogger::log("revert all source document changes",'')
 		@indesignSourceDoc.revert()
 	end
 
