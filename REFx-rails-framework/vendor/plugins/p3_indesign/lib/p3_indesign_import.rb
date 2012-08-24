@@ -23,7 +23,7 @@ class P3Indesign_import < P3Indesign_library
 		end
 
 		if(not isPresetAvailable(@pdfPreset))
-			P3libLogger::log("preset is not availeble",@pdfPreset)
+			P3libLogger::log("preset is not available",@pdfPreset)
 			return false
 		end
 
@@ -265,34 +265,56 @@ class P3Indesign_import < P3Indesign_library
 						replaceFields(stck_obj, true)
 
 						if(stck_obj[0].to_s[0,4] == 'grp_')
-							items_arr = Array.new
-
-							#GAAB FIX
-                            #growElementArray = Array.new
-							#growElement	     = false
+							items_arr 			= Array.new
+                            growElementArray 	= Array.new
+                            stackRowArray 		= Array.new
+							growElement	     	= false
+							growMarginX			= ''
 
 							stck_obj[1]['grp_content'].each do |grp_obj|
-
-								#GAAB FIX
-                                #if(elementObjChild[1].key?('p3s_growsimilar') && elementObjChild[1]['p3s_growsimilar'].strip == 'true' )
-								#	growElement = true
-								#	growElementArray  << elementObjChild
-								#end
-							
+						
 								if(obj[1]['ret_p3s_visible'] != "false" && grp_obj[1]['ret_p3s_visible'] != 'false')
 									new_item = @indesignSourceDoc.page_items[its.id_.eq(getCorrectObjId(grp_obj[1]['objectID']))].duplicate()
 									items_arr.push(new_item)
+									if(grp_obj[1].key?('p3s_growsimilar') && grp_obj[1]['p3s_growsimilar'].strip == 'true' )
+										growElement = true
+										growElementArray.push(new_item)
+										if(grp_obj[1].key?('p3s_growmarginx'))
+											growMarginX = grp_obj[1]['p3s_growmarginx']
+										end
+									else
+										stackRowArray.push(new_item)
+									end
+								end
+							end
+p 'test grow'					
+							# just implemented for height now
+							if(growElement) 
+								stackGroup = groupItems(stackRowArray)
+								groupGeom 	= elementGeoInfo(stackGroup)
+								
+								growElementArray.each do |item|
+									itemGeom = elementGeoInfo(item)
+									#TODO fix with growmarginx
+									if(growMarginX != nil)
+										item.geometric_bounds.set([itemGeom['topPos'], itemGeom['leftPos'], groupGeom['bottomPos']+growMarginX.to_f, itemGeom['rightPos']])
+									else
+										item.geometric_bounds.set([itemGeom['topPos'], itemGeom['leftPos'], groupGeom['bottomPos'], itemGeom['rightPos']])
+									end
 								end
 
+								unGroup(stackGroup);
 							end
 
 							newGroup = groupItems(items_arr)
+
 						else
 							if(stck_obj[1]['ret_p3s_visible'] != "false" || stck_obj[1]['p3s_visible'] != "false")
 								newGroup = @indesignSourceDoc.page_items[its.id_.eq(getCorrectObjId(stck_obj[1]['objectID']))].duplicate()
 							end
 						end
-
+					
+							
 						if(newGroup != nil)
 
 							if (used == 0)
@@ -345,16 +367,13 @@ class P3Indesign_import < P3Indesign_library
 								end
 
 								lastElementGeoInfo = moveToNewGeoPosition(obj[1]['p3s_margintypex'], obj[1]['p3s_margintypey'], obj[1]['p3s_marginx'], obj[1]['p3s_marginy'], lastElementGeoInfo, newGroup,true) 
-							end
+							end						
 
 							used += 1
 						end
 					end
-
 				end
 			end
-			#GAAB FIX
-            #P3libLogger::log("growElementArray", growElementArray.to_s);
 		end
 		deleteFirstGroupOrChild(obj[1]['stck_content'])
 	end
@@ -507,7 +526,7 @@ class P3Indesign_import < P3Indesign_library
 			when 'object'
 				replaceObject(obj, stack)
 			end
-			l("finished replacing field " + obj[1]['objectID'].to_s + " - " + obj[1]['label'].to_s)
+			l("finished processing field " + obj[1]['objectID'].to_s + " - " + obj[1]['label'].to_s)
 		end
 	end
 
@@ -659,7 +678,7 @@ class P3Indesign_import < P3Indesign_library
         str2call = str2call[5..-1]
         
         #str2call = obj[1]['p3s_fill'].to_s.delete('\\')
-        str2call = "Ravasprijslijst::rijkleur('50,100,50,100','100,50,100,50')"
+        #str2call = "Ravasprijslijst::rijkleur('50,100,50,100','100,50,100,50')"
         #str2call = "Time.now"
         
         return eval(str2call)

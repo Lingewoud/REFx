@@ -506,7 +506,15 @@ class P3Indesign_p3s_v1_lang
 		lang_arr[:DOM][:image][:attributes][:growsimilar][:default]				= false
 		lang_arr[:DOM][:image][:attributes][:growsimilar][:infotext]			= "Expands the dimensions of the object similar to the dimension expansion of the stack row"
 		lang_arr[:DOM][:image][:attributes][:growsimilar][:infotext]			+= "Deprecated: Initial implementation supports just one 'growsimilar' object, better solution required"
-		lang_arr[:DOM][:image][:attributes][:growsimilar][:example]	 			= "object.growsimilar = true"
+		lang_arr[:DOM][:image][:attributes][:growsimilar][:example]	 			= "image.growsimilar = true"
+
+		lang_arr[:DOM][:image][:attributes][:growmarginx] = Hash.new
+		lang_arr[:DOM][:image][:attributes][:growmarginx][:operators]			= ["="]
+		lang_arr[:DOM][:image][:attributes][:growmarginx][:datatypes]			= ["float"] 
+		lang_arr[:DOM][:image][:attributes][:growmarginx][:allowed]				= ""
+		lang_arr[:DOM][:image][:attributes][:growmarginx][:default]				= 0
+		lang_arr[:DOM][:image][:attributes][:growmarginx][:infotext]			= "margin added to height of expanding element"
+		lang_arr[:DOM][:image][:attributes][:growmarginx][:example]	 			= "image.growsmarginx = 9"
 
 		lang_arr[:DOM][:color] = Hash.new
 		lang_arr[:DOM][:color][:attributes] = Hash.new
@@ -661,7 +669,7 @@ class P3Indesign_p3s_v1_lang
 		lang_arr[:DOM][:object][:attributes][:growsimilar][:datatypes]			= ["boolean", "t3path"] 
 		lang_arr[:DOM][:object][:attributes][:growsimilar][:allowed]			= ""
 		lang_arr[:DOM][:object][:attributes][:growsimilar][:default]			= false
-		lang_arr[:DOM][:object][:attributes][:growsimilar][:infotext]			= "Expands the dimensions of the object similar to the dimension expansion of the template object it is contained by"
+		lang_arr[:DOM][:object][:attributes][:growsimilar][:infotext]			= "Expands the dimensions of the object similar to the dimension expansion of the template object or stack row it is contained by"
 		lang_arr[:DOM][:object][:attributes][:growsimilar][:infotext]			+= "Deprecated: Initial implementation supports just one 'growsimilar' object, better solution required"
 		lang_arr[:DOM][:object][:attributes][:growsimilar][:example]	 		= "object.growsimilar = true"
 
@@ -680,6 +688,22 @@ class P3Indesign_p3s_v1_lang
 		lang_arr[:DOM][:object][:attributes][:growmarginy][:default]			= 0
 		lang_arr[:DOM][:object][:attributes][:growmarginy][:infotext]			= "margin added to height of expanding element"
 		lang_arr[:DOM][:object][:attributes][:growmarginy][:example]	 		= "object.growsmarginy = 9"
+
+		lang_arr[:DOM][:object][:attributes][:value] = Hash.new
+		lang_arr[:DOM][:object][:attributes][:value][:operators]			 	= ["="]
+		lang_arr[:DOM][:object][:attributes][:value][:datatypes] 				= ["string","t3path", "p3path"]
+		lang_arr[:DOM][:object][:attributes][:value][:allowed]					= ""
+		lang_arr[:DOM][:object][:attributes][:value][:default]					= ""
+		lang_arr[:DOM][:object][:attributes][:value][:infotext]					= "Added to bypass a bug in php code, objects need a value to be parsed in a stack in a template"
+		lang_arr[:DOM][:object][:attributes][:value][:example]						= "object_square.value = \"T3DOM:page.this.field_transimg.value\""
+
+		lang_arr[:DOM][:object][:attributes][:growmarginx] = Hash.new
+		lang_arr[:DOM][:object][:attributes][:growmarginx][:operators]			= ["="]
+		lang_arr[:DOM][:object][:attributes][:growmarginx][:datatypes]			= ["float"] 
+		lang_arr[:DOM][:object][:attributes][:growmarginx][:allowed]			= ""
+		lang_arr[:DOM][:object][:attributes][:growmarginx][:default]			= 0
+		lang_arr[:DOM][:object][:attributes][:growmarginx][:infotext]			= "margin added to height of expanding element"
+		lang_arr[:DOM][:object][:attributes][:growmarginx][:example]	 		= "object.growsmarginx = 9"
 
 		lang_arr[:commentblocks] = Hash.new
 
