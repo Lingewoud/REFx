@@ -9,12 +9,12 @@ class P3Indesign_p3s_v1_lang
 		lang_arr[:DOM][:document][:attributes] = Hash.new
 
 		lang_arr[:DOM][:document][:attributes][:rubyinclude] = Hash.new
-		lang_arr[:DOM][:document][:attributes][:rubyinclude][:operators] 				= ["="]
-		lang_arr[:DOM][:document][:attributes][:rubyinclude][:datatypes] 				= ["string"]
-		lang_arr[:DOM][:document][:attributes][:rubyinclude][:allowed]		 			= ""
-		lang_arr[:DOM][:document][:attributes][:rubyinclude][:default]		 			= ""
-		lang_arr[:DOM][:document][:attributes][:rubyinclude][:infotext]		 			= "path relative to indd-doc-dir of ruby file with custom methods"
-		lang_arr[:DOM][:document][:attributes][:rubyinclude][:example]		 			= "document.rubyinclude = \"mycompanyleafletmeths.rb\""
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:operators] 		= ["="]
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:datatypes] 		= ["string"]
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:allowed]		 	= ""
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:default]		 	= ""
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:infotext]		 	= "path relative to indd-doc-dir of ruby file with custom methods"
+		lang_arr[:DOM][:document][:attributes][:rubyinclude][:example]		 	= "document.rubyinclude = \"mycompanyleafletmeths.rb\""
 
 		lang_arr[:DOM][:document][:attributes][:use] = Hash.new
 		lang_arr[:DOM][:document][:attributes][:use][:operators] 				= ["="]
@@ -23,6 +23,15 @@ class P3Indesign_p3s_v1_lang
 		lang_arr[:DOM][:document][:attributes][:use][:default]		 			= "FE"
 		lang_arr[:DOM][:document][:attributes][:use][:infotext]		 			= "Defines whether the fields in this document should be parsed at the frontend (FE) or the backend (BE)"
 		lang_arr[:DOM][:document][:attributes][:use][:example]		 			= "document.use = \"FE\""
+
+		lang_arr[:DOM][:document][:attributes][:class] = Hash.new
+		lang_arr[:DOM][:document][:attributes][:class][:operators] 				= ["="]
+		lang_arr[:DOM][:document][:attributes][:class][:datatypes] 				= ["string"]
+		lang_arr[:DOM][:document][:attributes][:class][:allowed]		 		= ""
+		lang_arr[:DOM][:document][:attributes][:class][:default]		 		= ""
+		lang_arr[:DOM][:document][:attributes][:class][:infotext]		 		= "Defines the standard Ruby document class for custom extension scripts"
+		lang_arr[:DOM][:document][:attributes][:class][:example]		 		= "document.class = \"Myextensionclass\""
+
 
 		lang_arr[:DOM][:template] = Hash.new
 		lang_arr[:DOM][:template][:attributes] = Hash.new

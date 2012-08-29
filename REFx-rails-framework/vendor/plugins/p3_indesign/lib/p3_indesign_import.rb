@@ -73,6 +73,9 @@ class P3Indesign_import < P3Indesign_library
 
             #als bestand bestaat
             #include en log
+			if (@finalHash['document']['p3s_class'] && @finalHash['document']['p3s_class'] != "")
+				@docClass = @finalHash['document']['p3s_class']
+			end
         end
 
 		
@@ -228,7 +231,7 @@ class P3Indesign_import < P3Indesign_library
 
 	def replaceStackFields(obj)
 
-		used = 0
+		used = 
 		lastElementGeoInfo = Hash.new
 		startingGeo = Hash.new
 		subdivloopcounter = 0
@@ -287,21 +290,22 @@ class P3Indesign_import < P3Indesign_library
 									end
 								end
 							end
-p 'test grow'					
+							
 							# just implemented for height now
 							if(growElement) 
 								stackGroup = groupItems(stackRowArray)
 								groupGeom 	= elementGeoInfo(stackGroup)
-								
-								growElementArray.each do |item|
-									itemGeom = elementGeoInfo(item)
-									#TODO fix with growmarginx
-									if(growMarginX != nil)
-										item.geometric_bounds.set([itemGeom['topPos'], itemGeom['leftPos'], groupGeom['bottomPos']+growMarginX.to_f, itemGeom['rightPos']])
-									else
-										item.geometric_bounds.set([itemGeom['topPos'], itemGeom['leftPos'], groupGeom['bottomPos'], itemGeom['rightPos']])
+
+								if(growElementArray.length > 0)	
+									growElementArray.each do |item|
+										itemGeom = elementGeoInfo(item)
+										if(growMarginX != nil)
+											item.geometric_bounds.set([itemGeom['topPos'], itemGeom['leftPos'], groupGeom['bottomPos']+growMarginX.to_f, itemGeom['rightPos']])
+										else
+											item.geometric_bounds.set([itemGeom['topPos'], itemGeom['leftPos'], groupGeom['bottomPos'], itemGeom['rightPos']])
+										end
 									end
-								end
+							end
 
 								unGroup(stackGroup);
 							end
@@ -431,6 +435,14 @@ p 'test grow'
 				P3libLogger::log("Merge Template With Element ",'')
 				growElement 		= false
 				growElementArray	= Array.new
+
+			#	p 'testDocClass'
+			#	begin
+			#		p @docClass
+			#		eval_custom_ruby('RUBY:'+@docClass+'::reInit()')
+			#	rescue
+			#		P3libLogger::log('Unable to re-initialize custom Ruby script')
+			#	end
 
 				elementObj[1]['childs'].each do |elementObjChild|
 					if(elementObjChild[1].key?('p3s_growsimilar') && elementObjChild[1]['p3s_growsimilar'].strip == 'true' )
