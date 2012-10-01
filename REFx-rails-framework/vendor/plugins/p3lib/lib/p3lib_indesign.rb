@@ -7,6 +7,7 @@ class P3libIndesign
     public
 
     #### Latest export method using CoreGraphics cli app
+    #orig is the inbetween pdf file which us used to generate a PNG with alpha channel
     def self.exportToPNG(inDesignApp, doc, outputPath, orig, dest, pixWidth, pixHeight)
         
         inDesignApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)

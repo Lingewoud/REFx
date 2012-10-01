@@ -280,7 +280,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx3" */;
 			buildPhases = (
-				3EE2CA8615D4053300E371BD /* ShellScript */,
+				3EE2CA8615D4053300E371BD /* Run Script */,
 				3EC97C8914488BDB00B81F47 /* Sources */,
 				3EC97C8A14488BDB00B81F47 /* Frameworks */,
 				3EC97C8B14488BDB00B81F47 /* Resources */,
@@ -346,13 +346,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3EE2CA8615D4053300E371BD /* ShellScript */ = {
+		3EE2CA8615D4053300E371BD /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

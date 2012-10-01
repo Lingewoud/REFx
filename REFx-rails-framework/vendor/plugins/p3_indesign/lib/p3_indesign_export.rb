@@ -12,7 +12,7 @@ class P3Indesign_export < P3Indesign_library
 	# when @noObjectExport is set, only the pages are exported to bitmaps. 
 	# Else all single objects are exported to separate butmaps
 	def setNoObjectExport
-		l('Set noObjectExport')
+        P3libLogger::log('Set noObjectExport')
 		@noObjectExport = true
 	end
 	
@@ -292,10 +292,13 @@ class P3Indesign_export < P3Indesign_library
 		nwObj.characters.point_size.set(:to => 18)
 
 		page_base_name = @outputPath+'page_'+spread_nr+'_'+page_nr
-		pixWidth	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_width.get))
+		
+        pixWidth	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_width.get))
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_height.get))
 
-		exportPNGviaEPS(@idDoc, page_base_name+'.eps', page_base_name+'.png', pixWidth, pixHeight)
+		#exportPNGviaEPS(@idDoc, page_base_name+'.eps', page_base_name+'.png', pixWidth, pixHeight)
+        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, page_base_name+'.pdf', page_base_name+'.png', pixWidth, pixHeight)
+
 
 		# and delete it because there's no further use
 		nwObj.delete()
@@ -393,7 +396,8 @@ class P3Indesign_export < P3Indesign_library
 						label = _chchild[1][:label]
 						_tmp = @p3s.parseP3S(label, label.to_s[0, label.index('_')])
 						if(_tmp.empty?)
-							l('WARNING: child in group: +  _chgroup[0] + with label: '+ label +' is has no mapping')
+                            
+                            P3libLogger::log('WARNING:', 'child in group: +  _chgroup[0] + with label: '+ label +' is has no mapping')
 						end
 
 					end
@@ -543,7 +547,8 @@ class P3Indesign_export < P3Indesign_library
 					childProps[:p3s_use]	= (!childProps[:p3s_use])? @use : childProps[:p3s_use]
 				end
 
-				l('exporting ' + type.to_s + ' - ' + id.to_s + ' - ' + label.to_s)
+                P3libLogger::log('exporting ' + type.to_s + ' - ' + id.to_s + ' - ' + label.to_s)
+
 				childProps[:objectID]		= id
 				childProps[:label]			= label
 				childProps[:type]			= type
@@ -561,7 +566,7 @@ class P3Indesign_export < P3Indesign_library
 			   childProps[:background] 		= 'unknown'  #getBackGroundColor(child)  
 			   childs['child'+id.to_s] 		= childProps 
 			   
-				l('exported')
+                P3libLogger::log('exported')
 			end
 		end
 
@@ -692,7 +697,8 @@ class P3Indesign_export < P3Indesign_library
 		pixWidth	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_width.get))
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_height.get))
 
-		exportPNGviaEPS(@idDoc, layer_base_name+'.eps', layer_base_name+'.png', pixWidth, pixHeight)
+		#exportPNGviaEPS(@idDoc, layer_base_name+'.eps', layer_base_name+'.png', pixWidth, pixHeight)
+        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, layer_base_name+'.pdf', layer_base_name+'.png', pixWidth, pixHeight)
 
 		@idApp.set(@idDoc.layers[its.id_.eq(layer[:layerID])].visible, :to => false)
 	end
@@ -701,8 +707,8 @@ class P3Indesign_export < P3Indesign_library
 		nwidth	= (width < 30) ? 30 : width
 		nheight = (height < 30) ? 30 : height
 
-		orig	= @outputPath+type.to_s+object.to_s+'.eps'
-		dest	= @outputPath+type.to_s+object.to_s+'.png'
+		orig	= @outputPath+type.to_s+object.to_s
+		#dest	= @outputPath+type.to_s+object.to_s+'.png'
 
 		if (@noObjectExport == true)
 			return
@@ -725,7 +731,9 @@ class P3Indesign_export < P3Indesign_library
 			pixWidth	= getDimensionInPixels(width)
 			pixHeight	= getDimensionInPixels(height)
 
-			exportPNGviaEPS(tmpDoc, orig, dest, pixWidth, pixHeight)
+			#exportPNGviaEPS(tmpDoc, orig, dest, pixWidth, pixHeight)
+            P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig+'.pdf', orig+'.png', pixWidth, pixHeight)
+
 			tmpDoc.close(:saving => :no)
 		end
 		return @relPath+type.to_s+object.to_s+'.png'
