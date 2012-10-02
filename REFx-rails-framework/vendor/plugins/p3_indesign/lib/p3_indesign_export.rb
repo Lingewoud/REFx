@@ -259,8 +259,6 @@ class P3Indesign_export < P3Indesign_library
 		page_nr		= @idDoc.pages[its.id_.eq(page)].index.get.to_s
 
 		unlock(@idDoc)  
-		setEpsExportOptions(@idDoc.pages[its.id_.eq(page)].document_offset.get.to_s)
-
 		layers.each do |layer|
 			layerId = layer[:name].to_s[0, 2]
 
@@ -297,6 +295,7 @@ class P3Indesign_export < P3Indesign_library
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_height.get))
 
 		#exportPNGviaEPS(@idDoc, page_base_name+'.eps', page_base_name+'.png', pixWidth, pixHeight)
+        @idApp.PDF_export_preferences.page_range.set(:to => @idDoc.pages[its.id_.eq(page)].document_offset.get.to_s)
         P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, page_base_name+'.pdf', page_base_name+'.png', pixWidth, pixHeight)
 
 

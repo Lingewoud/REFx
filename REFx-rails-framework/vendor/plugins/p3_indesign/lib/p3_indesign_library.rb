@@ -153,7 +153,7 @@ class P3Indesign_library
 	def exec_exportPDF(doc,destpdf,preset)
         
 		tmpdestpdf      = '/tmp/'+helper_newtempname(9)+'.pdf'
-        
+        @idApp.PDF_export_preferences.page_range.set(:to => 'all pages')
 		@idApp.transparency_preference.blending_space.set(:to => :CMYK)
 		P3libLogger::log("exporting using preset",preset.to_s)
         P3libLogger::log("exporting using output file",destpdf)

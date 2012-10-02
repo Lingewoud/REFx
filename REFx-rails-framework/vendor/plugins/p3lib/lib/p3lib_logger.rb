@@ -1,7 +1,7 @@
 require 'logger'
 class  P3libLogger
 	class << self
-		def log(key, val, type='info')
+		def log(key, val='', type='info')
 			if(@logger.nil?) then
 				@logger 		= Logger.new("#{RAILS_ROOT}/log/pas3.log")
 				@logger.level 	= Logger::DEBUG
