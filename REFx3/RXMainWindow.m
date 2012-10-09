@@ -8,7 +8,6 @@
 #import "REFx3AppDelegate.h"
 #import "RXMainWindow.h"
 #import "RXREFxIntance.h"
-#import "RXJobMngrWebGui.h"
 #import "RXLogView.h"
 #import "RXJobPicker.h"
 #import "RXRailsController.h"
@@ -46,14 +45,14 @@
     [startStopButtonScheduler setState:0];   
     [startStopButtonCommunicationServer setState:0];
     
-    [self instanciateJobController];
+    //[self instanciateJobController];
     [self instanciateLogController];
 }
 
 - (void)instanciateJobController {
     
-    jobMngrController = [[RXJobMngrWebGui alloc] initWithNibName:@"RXJobMngrWebGui" bundle:nil];
-    [jobMgrView setView:jobMngrController.view];
+    //jobMngrController = [[RXJobMngrWebGui alloc] initWithNibName:@"RXJobMngrWebGui" bundle:nil];
+    //[jobMgrView setView:jobMngrController.view];
 }
 
 - (void)instanciateLogController {
@@ -66,6 +65,22 @@
     [logController pas3LogTimer];
 }
 
+
+- (IBAction)insertJob:(id)sender
+{
+    NSString * engine = [_insJobEngine stringValue];
+    NSString * body = [_insJobBody stringValue];
+    [_insJobPanel orderOut:sender];
+    NSLog(@"%@ %@",engine,body);
+
+    [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engine body:body];
+    
+    [self refreshJobmanagerView];
+    
+        
+//    [_insJobBody stringValue];
+    
+}
 
 - (void)startStopActionScheduler:(id)sender
 {
@@ -88,18 +103,18 @@
         
         [NSThread sleepForTimeInterval:3];
         
-        [jobMngrController setWebViewUrlWithPort:@"3030"];
+        //[jobMngrController setWebViewUrlWithPort:@"3030"];
     }
     else
     {
         [[[[NSApp delegate] refxInstance ] railsController] stopComServer];
-        [jobMngrController stopJobManagerInterface];
+        //[jobMngrController stopJobManagerInterface];
         
     }
 }
 
 - (void)refreshJobmanagerView {   
-    [jobMngrController setWebViewUrlWithPort:@"3030"];
+    //[jobMngrController setWebViewUrlWithPort:@"3030"];
 }
 
 

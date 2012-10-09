@@ -52,6 +52,35 @@ class P3Indesign
 	def testMe()
 		return 'hello'
 	end
+    
+    def installPdfProfiles()
+        
+        P3libLogger::log('Profile Source Path',@AbsSrcFilePath)
+        if(File.exists?(@AbsSrcFilePath))
+            
+            Dir.open(@AbsSrcFilePath).each { |file|
+                ext =File.extname(file).downcase
+                if(ext == '.joboptions')
+
+                    names = @idApp.PDF_export_presets.name.get
+                    profileName= File.basename(file, ".joboptions")
+                    if(names.include? profileName)
+                        P3libLogger::log('removing old profile',profileName)
+                        @idApp.PDF_export_presets[profileName].delete
+                    end
+
+                    P3libLogger::log('installing profile',file)
+                    @idApp.import(nil, :format => :PDF_export_presets_format, :from => MacTypes::Alias.path(@AbsSrcFilePath+"/"+file))
+                    
+                    #var myPreset=app.pdfExportPresets.add(File(Macintoch:SO_Cache:58999_01:Test.joboptions))
+                    #@idApp.import(nil, :format => :PDF_export_presets_format, :from => MacTypes::Alias.path("/test.joboptions"))
+                end
+            }
+            else
+        P3libLogger::log('Cannot open dir',@AbsSrcFilePath)            
+        end
+        return 'installPdfProfiles'
+    end
 
 	def testCreatePdfFolder(relFolderPath)
 		absOutputPath 	= File.join(@remoteDummyRootDir,relFolderPath,@jobId)
@@ -144,5 +173,5 @@ class P3Indesign
 	def renderPreviewJpg(xmlencoded, outputBaseName)
 		import = P3Indesign_import.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
 		return import.renderJpg(xmlencoded,outputBaseName)
-	end
+	end    
 end

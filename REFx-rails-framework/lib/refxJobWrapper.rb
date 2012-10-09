@@ -70,6 +70,8 @@ class RefxJobWrapper
         end
         ## SAVE JOB: in loop
         pJob.save
+        p "finished job"
+
     end
     
     def selectJobById(jobId)
@@ -106,7 +108,7 @@ class RefxJobWrapper
 
 
     def createArgString(argArr)
-        if  not argArr.nil? and not argArr.empty?
+        if not argArr.nil? and not argArr.empty?
             @initArgArr = Array.new
             argArr.each do |iArg|
                 if iArg['type'] == "string"

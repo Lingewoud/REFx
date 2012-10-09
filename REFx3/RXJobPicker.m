@@ -85,6 +85,7 @@
             NSLog(@"Task failed.");
         */
         //[rubyJobProcess release];
+        
         NSLog(@"Return from JOBID %i",jobid);
          
         jobRunning = NO;    
@@ -252,7 +253,31 @@
 }
 
 
-
+- (void) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body
+{
+    if(dbOpened)
+    {
+        sqlite3_stmt *statement;
+                
+//        NSString *jobBody = [NSString stringWithFormat: @"%@",body];
+        
+        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'%@','%@',1,1,0,'');",engine,body];
+        
+        const char *query_stmt = [sql UTF8String];
+        
+        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+        {
+            int result = sqlite3_step(statement);
+            NSLog(@"insert result %i",result);
+        }
+        else
+        {
+            NSLog(@"sqlite problem: %@", sql);
+        }
+        
+        sqlite3_finalize(statement);
+    }
+}
 
 - (void) insertTestJobSayWhat
 {
@@ -393,7 +418,7 @@
         }
     }
     
-    NSLog(@"filename %@",fileName);
+    //NSLog(@"filename %@",fileName);
     
                 
 

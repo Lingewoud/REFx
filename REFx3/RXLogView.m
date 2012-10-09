@@ -30,7 +30,7 @@
 - (IBAction)flushLogs:(id)sender{
     NSLog(@"Flushhhhhsss");
 
-    [[NSApp delegate] flushLogs];
+    //[[NSApp delegate] flushLogs];
 }
 
 

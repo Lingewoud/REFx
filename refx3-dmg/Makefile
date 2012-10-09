@@ -77,8 +77,7 @@ $(MASTER_DMG): $(WC_DMG) $(addprefix $(SOURCE_DIR)/,$(SOURCE_FILES))
     
 	rm -rf ../$(MASTER_DMG)
 	mv $(MASTER_DMG) ../
-	cp ../$(MASTER_DMG) ~/Dropbox/REFx3-nighly
-    rsync -av ~/Dropbox/REFx3-nighly/ lingewoud@refxnightly:/var/customers/webs/lingewoud/refx-nightly/
+	cp ../$(MASTER_DMG) ~/Sourcecode/NighlyBuilds/REFx3
 
 
 	@echo

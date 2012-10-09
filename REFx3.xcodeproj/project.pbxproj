@@ -24,6 +24,24 @@
 /* Begin PBXBuildFile section */
 		3E0A80A614EE847C00D9FBAA /* refx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E0A80A514EE847C00D9FBAA /* refx.icns */; };
 		3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E13D000144CA55B00523A5E /* RXREFxIntance.m */; };
+		3E473BF9161CA7A900942E37 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E473BF0161CA7A900942E37 /* FMDatabase.m */; };
+		3E473BFA161CA7A900942E37 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E473BF2161CA7A900942E37 /* FMDatabaseAdditions.m */; };
+		3E473BFB161CA7A900942E37 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E473BF4161CA7A900942E37 /* FMDatabasePool.m */; };
+		3E473BFC161CA7A900942E37 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E473BF6161CA7A900942E37 /* FMDatabaseQueue.m */; };
+		3E473BFD161CA7A900942E37 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E473BF8161CA7A900942E37 /* FMResultSet.m */; };
+		3E473C04161CA7C700942E37 /* JobsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E473C02161CA7C700942E37 /* JobsView.m */; };
+		3E473C06161CA82600942E37 /* JobsView.h in Resources */ = {isa = PBXBuildFile; fileRef = 3E473C00161CA7C700942E37 /* JobsView.h */; };
+		3E473C07161CA82600942E37 /* JobsView.m in Resources */ = {isa = PBXBuildFile; fileRef = 3E473C02161CA7C700942E37 /* JobsView.m */; };
+		3E473C08161CA83100942E37 /* FMDatabase.h in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BEF161CA7A900942E37 /* FMDatabase.h */; };
+		3E473C09161CA83100942E37 /* FMDatabase.m in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF0161CA7A900942E37 /* FMDatabase.m */; };
+		3E473C0A161CA83100942E37 /* FMDatabaseAdditions.h in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF1161CA7A900942E37 /* FMDatabaseAdditions.h */; };
+		3E473C0B161CA83100942E37 /* FMDatabaseAdditions.m in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF2161CA7A900942E37 /* FMDatabaseAdditions.m */; };
+		3E473C0C161CA83100942E37 /* FMDatabasePool.h in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF3161CA7A900942E37 /* FMDatabasePool.h */; };
+		3E473C0D161CA83100942E37 /* FMDatabasePool.m in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF4161CA7A900942E37 /* FMDatabasePool.m */; };
+		3E473C0E161CA83100942E37 /* FMDatabaseQueue.h in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF5161CA7A900942E37 /* FMDatabaseQueue.h */; };
+		3E473C0F161CA83100942E37 /* FMDatabaseQueue.m in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF6161CA7A900942E37 /* FMDatabaseQueue.m */; };
+		3E473C10161CA83100942E37 /* FMResultSet.h in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF7161CA7A900942E37 /* FMResultSet.h */; };
+		3E473C11161CA83100942E37 /* FMResultSet.m in Resources */ = {isa = PBXBuildFile; fileRef = 3E473BF8161CA7A900942E37 /* FMResultSet.m */; };
 		3E615FFC14EE968A0054898D /* REFxAppBg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3E615FFB14EE968A0054898D /* REFxAppBg.jpg */; };
 		3E61600014EE986E0054898D /* REFxLogoApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E615FFF14EE986E0054898D /* REFxLogoApp.png */; };
 		3E6CBAF0144C72FE00D4105F /* railsTerminator.rb in Resources */ = {isa = PBXBuildFile; fileRef = 3E6CBAEF144C72FE00D4105F /* railsTerminator.rb */; };
@@ -47,8 +65,6 @@
 		3EC97CDC14488F5D00B81F47 /* RXJobPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CDB14488F5D00B81F47 /* RXJobPicker.m */; };
 		3EC97CF0144891DB00B81F47 /* RXMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CEF144891DB00B81F47 /* RXMainWindow.m */; };
 		3EC97CF21448920100B81F47 /* RXMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CF11448920100B81F47 /* RXMainWindow.xib */; };
-		3EC97CF61448929B00B81F47 /* RXJobMngrWebGui.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CF41448929A00B81F47 /* RXJobMngrWebGui.m */; };
-		3EC97CF71448929B00B81F47 /* RXJobMngrWebGui.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CF51448929B00B81F47 /* RXJobMngrWebGui.xib */; };
 		3EC97CFB144892BA00B81F47 /* RXLogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CF9144892BA00B81F47 /* RXLogView.m */; };
 		3EC97CFC144892BA00B81F47 /* RXLogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CFA144892BA00B81F47 /* RXLogView.xib */; };
 		3EF2B01E1583FE4100CD035F /* refx3-dmg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3EF2B01C1583FDF000CD035F /* refx3-dmg */; };
@@ -72,6 +88,18 @@
 		3E0A80A514EE847C00D9FBAA /* refx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = refx.icns; path = ../refx.icns; sourceTree = "<group>"; };
 		3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXREFxIntance.h; sourceTree = "<group>"; };
 		3E13D000144CA55B00523A5E /* RXREFxIntance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXREFxIntance.m; sourceTree = "<group>"; };
+		3E473BEF161CA7A900942E37 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		3E473BF0161CA7A900942E37 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		3E473BF1161CA7A900942E37 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		3E473BF2161CA7A900942E37 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		3E473BF3161CA7A900942E37 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		3E473BF4161CA7A900942E37 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
+		3E473BF5161CA7A900942E37 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		3E473BF6161CA7A900942E37 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
+		3E473BF7161CA7A900942E37 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		3E473BF8161CA7A900942E37 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		3E473C00161CA7C700942E37 /* JobsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobsView.h; sourceTree = "<group>"; };
+		3E473C02161CA7C700942E37 /* JobsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobsView.m; sourceTree = "<group>"; };
 		3E615FFB14EE968A0054898D /* REFxAppBg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = REFxAppBg.jpg; sourceTree = "<group>"; };
 		3E615FFF14EE986E0054898D /* REFxLogoApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = REFxLogoApp.png; sourceTree = "<group>"; };
 		3E6CBAEF144C72FE00D4105F /* railsTerminator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = railsTerminator.rb; sourceTree = "<group>"; };
@@ -106,9 +134,6 @@
 		3EC97CEE144891DB00B81F47 /* RXMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXMainWindow.h; sourceTree = "<group>"; };
 		3EC97CEF144891DB00B81F47 /* RXMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXMainWindow.m; sourceTree = "<group>"; };
 		3EC97CF11448920100B81F47 /* RXMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXMainWindow.xib; sourceTree = "<group>"; };
-		3EC97CF31448929A00B81F47 /* RXJobMngrWebGui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXJobMngrWebGui.h; sourceTree = "<group>"; };
-		3EC97CF41448929A00B81F47 /* RXJobMngrWebGui.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXJobMngrWebGui.m; sourceTree = "<group>"; };
-		3EC97CF51448929B00B81F47 /* RXJobMngrWebGui.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXJobMngrWebGui.xib; sourceTree = "<group>"; };
 		3EC97CF8144892BA00B81F47 /* RXLogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXLogView.h; sourceTree = "<group>"; };
 		3EC97CF9144892BA00B81F47 /* RXLogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXLogView.m; sourceTree = "<group>"; };
 		3EC97CFA144892BA00B81F47 /* RXLogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXLogView.xib; sourceTree = "<group>"; };
@@ -143,9 +168,36 @@
 			name = RailsController;
 			sourceTree = "<group>";
 		};
+		3E473BFF161CA7B300942E37 /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				3E473BEF161CA7A900942E37 /* FMDatabase.h */,
+				3E473BF0161CA7A900942E37 /* FMDatabase.m */,
+				3E473BF1161CA7A900942E37 /* FMDatabaseAdditions.h */,
+				3E473BF2161CA7A900942E37 /* FMDatabaseAdditions.m */,
+				3E473BF3161CA7A900942E37 /* FMDatabasePool.h */,
+				3E473BF4161CA7A900942E37 /* FMDatabasePool.m */,
+				3E473BF5161CA7A900942E37 /* FMDatabaseQueue.h */,
+				3E473BF6161CA7A900942E37 /* FMDatabaseQueue.m */,
+				3E473BF7161CA7A900942E37 /* FMResultSet.h */,
+				3E473BF8161CA7A900942E37 /* FMResultSet.m */,
+			);
+			name = FMDB;
+			sourceTree = "<group>";
+		};
+		3E473C05161CA7CD00942E37 /* JobsView */ = {
+			isa = PBXGroup;
+			children = (
+				3E473C00161CA7C700942E37 /* JobsView.h */,
+				3E473C02161CA7C700942E37 /* JobsView.m */,
+			);
+			name = JobsView;
+			sourceTree = "<group>";
+		};
 		3E786DE1157042C100BB0FA9 /* Main Window */ = {
 			isa = PBXGroup;
 			children = (
+				3E473C05161CA7CD00942E37 /* JobsView */,
 				3EC97CEF144891DB00B81F47 /* RXMainWindow.m */,
 				3EC97CEE144891DB00B81F47 /* RXMainWindow.h */,
 				3EC97CF11448920100B81F47 /* RXMainWindow.xib */,
@@ -160,16 +212,6 @@
 				3EC97CDB14488F5D00B81F47 /* RXJobPicker.m */,
 			);
 			name = JobSchedularController;
-			sourceTree = "<group>";
-		};
-		3E846F81156F8A6400F0BF08 /* RailsJobManagerWebGui */ = {
-			isa = PBXGroup;
-			children = (
-				3EC97CF31448929A00B81F47 /* RXJobMngrWebGui.h */,
-				3EC97CF41448929A00B81F47 /* RXJobMngrWebGui.m */,
-				3EC97CF51448929B00B81F47 /* RXJobMngrWebGui.xib */,
-			);
-			name = RailsJobManagerWebGui;
 			sourceTree = "<group>";
 		};
 		3E846F82156F8AB900F0BF08 /* LogGui */ = {
@@ -249,7 +291,7 @@
 				3E846F83156F8AEB00F0BF08 /* Preferences */,
 				3E846F7F156F8A1A00F0BF08 /* JobSchedularController */,
 				3E13D00F144CE11B00523A5E /* RailsController */,
-				3E846F81156F8A6400F0BF08 /* RailsJobManagerWebGui */,
+				3E473BFF161CA7B300942E37 /* FMDB */,
 				3E846F82156F8AB900F0BF08 /* LogGui */,
 				3EC97C9814488BDB00B81F47 /* Supporting Files */,
 			);
@@ -325,11 +367,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E473C08161CA83100942E37 /* FMDatabase.h in Resources */,
+				3E473C09161CA83100942E37 /* FMDatabase.m in Resources */,
+				3E473C0A161CA83100942E37 /* FMDatabaseAdditions.h in Resources */,
+				3E473C0B161CA83100942E37 /* FMDatabaseAdditions.m in Resources */,
+				3E473C0C161CA83100942E37 /* FMDatabasePool.h in Resources */,
+				3E473C0D161CA83100942E37 /* FMDatabasePool.m in Resources */,
+				3E473C0E161CA83100942E37 /* FMDatabaseQueue.h in Resources */,
+				3E473C0F161CA83100942E37 /* FMDatabaseQueue.m in Resources */,
+				3E473C10161CA83100942E37 /* FMResultSet.h in Resources */,
+				3E473C11161CA83100942E37 /* FMResultSet.m in Resources */,
+				3E473C06161CA82600942E37 /* JobsView.h in Resources */,
+				3E473C07161CA82600942E37 /* JobsView.m in Resources */,
 				3EC97C9C14488BDB00B81F47 /* InfoPlist.strings in Resources */,
 				3EC97CA214488BDB00B81F47 /* Credits.rtf in Resources */,
 				3EC97CA814488BDC00B81F47 /* MainMenu.xib in Resources */,
 				3EC97CF21448920100B81F47 /* RXMainWindow.xib in Resources */,
-				3EC97CF71448929B00B81F47 /* RXJobMngrWebGui.xib in Resources */,
 				3EC97CFC144892BA00B81F47 /* RXLogView.xib in Resources */,
 				3E6CBAF0144C72FE00D4105F /* railsTerminator.rb in Resources */,
 				3E6CBAF2144C733C00D4105F /* noserver.html in Resources */,
@@ -371,7 +424,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx3-dmg/src\nif [ -d REFx3.app ]\nthen\n    rm -r REFx3.app\nfi\ntouch hallo\ncp -r ../../REFx3.app ./\ncd ..\nmake\n\n\n\n\n\n\n\n\n\n\n";
+			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx3-dmg/src\nif [ -d REFx3.app ]\nthen\n    rm -r REFx3.app\nfi\ntouch hallo\ncp -r ../../REFx3.app ./\ncd ..\nmake\n\nrsync -av ~/Sourcecode/NighlyBuilds/REFx3/ lingewoud@refxnightly:/var/customers/webs/lingewoud/refx-nightly/\n\n\n\n\n\n\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -386,10 +439,15 @@
 				3EC97CD914488EF300B81F47 /* RXRailsController.m in Sources */,
 				3EC97CDC14488F5D00B81F47 /* RXJobPicker.m in Sources */,
 				3EC97CF0144891DB00B81F47 /* RXMainWindow.m in Sources */,
-				3EC97CF61448929B00B81F47 /* RXJobMngrWebGui.m in Sources */,
 				3EC97CFB144892BA00B81F47 /* RXLogView.m in Sources */,
 				3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */,
 				3EB5D8381507C5660093B600 /* PreferencesController.m in Sources */,
+				3E473BF9161CA7A900942E37 /* FMDatabase.m in Sources */,
+				3E473BFA161CA7A900942E37 /* FMDatabaseAdditions.m in Sources */,
+				3E473BFB161CA7A900942E37 /* FMDatabasePool.m in Sources */,
+				3E473BFC161CA7A900942E37 /* FMDatabaseQueue.m in Sources */,
+				3E473BFD161CA7A900942E37 /* FMResultSet.m in Sources */,
+				3E473C04161CA7C700942E37 /* JobsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -22,7 +22,17 @@
 @property (assign) IBOutlet NSTabViewItem* logTabView;
 @property (assign) IBOutlet NSWindow* theWindow;
 
+@property (assign) IBOutlet NSTextField *insJobEngine;
+@property (assign) IBOutlet NSTextField *insJobBody;
+@property (assign) IBOutlet NSPanel *insJobPanel;
+
+
+
+
+
 - (IBAction)startStopActionScheduler:(id)sender;
 - (IBAction)startStopActionCommunicationServer:(id)sender;
+- (IBAction)insertJob:(id)sender;
+
 - (void)refreshJobmanagerView;
 @end

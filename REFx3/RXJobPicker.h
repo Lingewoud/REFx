@@ -39,6 +39,7 @@
 - (void) insertTestJobIndexIndesignFranchiseOpenIndd;
 - (void) insertTestJobGenerateIndesignFranchise;
 - (void) insertTestJobIndexIndesignFranchise;
+- (void) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
 
 
 

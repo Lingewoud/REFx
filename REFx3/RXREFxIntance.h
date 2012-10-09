@@ -30,6 +30,7 @@
 -(void) checkAppScript;
 -(void) startComServer:(NSString*)port;
 -(void)flushLogs;
+-(NSString*) getDbPath;
 
 @property (retain) RXJobPicker* jobPicker;
 @property (retain) RXRailsController* railsController;

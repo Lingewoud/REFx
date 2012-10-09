@@ -52,21 +52,7 @@ class P3Image
 
     end
     
-=begin
-    	def REMOVEconvertToPng()
 
-		require 'osx/cocoa'
-
-		psimage = OSX::NSImage.alloc
-		psimage.initWithContentsOfFile(@tmpFile)
-
-		bits = OSX::NSBitmapImageRep.alloc.initWithData(psimage.TIFFRepresentation)
-		data = bits.representationUsingType_properties(OSX::NSPNGFileType, nil)
-		data.writeToFile_atomically(File.join(@absOutputPath,File.basename(@AbsSrcFilePath)+'.png'), false)
-
-		return nil
-	end
-=end
 
 	def convertToBitMap(targetFileType,maxW,maxH)
 
@@ -84,8 +70,9 @@ class P3Image
         
         #trimAlphaFromImage(dest,File.dirname(dest)+'/trimmed_'+File.basename(dest))
 
+=begin
         
-		require 'osx/cocoa'
+		require 'osx / c ocoa'
 		targetFileType = Base64.decode64(targetFileType)
 
 		targetBaseName = File.basename(@AbsSrcFilePath)+'.'+targetFileType.downcase
@@ -142,14 +129,17 @@ class P3Image
 		blob.writeToFile_atomically(targetAbsFilePath, false)
 
 		return targetRelFilePath
-	end
+ =end
+    end
 
-		def helper_newtempname(len)
+
+    def helper_newtempname(len)
 		chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 		newpass = ""
 		1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
 		return newpass
 	end
+ 
 
 
 end
