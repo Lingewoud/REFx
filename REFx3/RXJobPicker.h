@@ -37,6 +37,7 @@
 - (void) closeDatabase;
 - (void) insertTestJobSayWhat;
 - (void) insertTestJobIndexIndesignFranchiseOpenIndd;
+- (void) insertTestJobIndexIndesignFranchiseOpenInddCS6;
 - (void) insertTestJobGenerateIndesignFranchise;
 - (void) insertTestJobIndexIndesignFranchise;
 - (void) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;

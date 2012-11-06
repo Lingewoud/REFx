@@ -39,6 +39,8 @@
 - (IBAction)insertTestJobIndexIndesignFranchise:(id)sender;
 - (IBAction)insertTestJobGenerateIndesignFranchise:(id)sender;
 - (IBAction)insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender;
+- (IBAction)insertTestJobIndexIndesignFranchiseOpenInddCS6:(id)sender;
+
 - (void)flushLogs;
 - (void)refreshJobMgr;
 

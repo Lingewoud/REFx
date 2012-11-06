@@ -111,6 +111,14 @@
     [mainWindowController refreshJobmanagerView];
 }
 
+- (void) insertTestJobIndexIndesignFranchiseOpenInddCS6:(id)sender
+{
+    [refxInstance.jobPicker insertTestJobIndexIndesignFranchiseOpenInddCS6];
+    [mainWindowController refreshJobmanagerView];
+}
+
+
+
 - (IBAction)openTestJobsFolder:(id)sender
 {
 
