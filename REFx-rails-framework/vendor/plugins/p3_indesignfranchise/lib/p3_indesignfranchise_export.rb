@@ -322,9 +322,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 	end
 
 	def getChilds(pageId, layerId)
-
-		#@idDoc.pages[its.id_.eq(pageId)].all_page_items.get.each do |item|
-		
+	
 		layerObj 	= @idDoc.layers[its.id_.eq(layerId)]
 		layer_name 	= layerObj.name.get
 		layerGroup	= layer_name.to_s[0, 2]
@@ -334,11 +332,9 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		page_item_arr = Array.new
 		page_item_arr = @idDoc.pages[its.id_.eq(pageId)].page_items.get
-		#p page_item_arr
 
-		#@idDoc.layers[its.id_.eq(layerId)].page_items.get.each do |child|
-
-		P3libLogger::log('walk through page items', pageId.to_s)
+        #P3libLogger::log('walk through page items on page with ID', pageId.to_s)
+		P3libLogger::log('walk through page items on layer', layer_name.to_s)
 		pageItemIdx = 0
 		page_item_arr.each do |child|
 			#if(page_item_arr.include?(child)) then
@@ -356,8 +352,6 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 				width						= geom[3].to_f-geom[1].to_f
 				height						= geom[2].to_f-geom[0].to_f
 				static						= getStatic(child.label.get.to_s.downcase)
-#				layerObj							= @idDoc.layers[its.id_.eq(layerId)]
-		#		layer_name					= layerObj.name.get
 
 				if(label.index('_') == nil)
 					childProps 				= Hash.new{|hash, key| hash[key] = Array.new}
@@ -379,7 +373,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 				childProps[:inGroup]		= inGroup
 				childProps[:content] 	   	= getContent(name, type, static)
 				childProps[:group]			= layerGroup
-				childProps[:preview]		= exportObject(id, name, type, width, height, geom[1], geom[2], layerObj) 
+				childProps[:preview]		= exportObject(id, name, type, width, height, geom[1], geom[2], layerObj)
 
 				#FIXME indesign/appscript gives very 'special' output in case of Pantone colors - ignore for now
 			   childProps[:background] 		= 'unknown'  #getBackGroundColor(child)  
@@ -390,59 +384,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		return childs
 	end
-	def xxxgetChildsOLD(page, layer)
-		childs = Hash.new{|hash, key| hash[key] = Array.new}
-		page_item_arr = Array.new
-		page_item_arr = @idDoc.pages[its.id_.eq(page)].page_items.get
 
-		@idDoc.layers[its.id_.eq(layer)].page_items.get.each do |child|
-			if(page_item_arr.include?(child)) then
-
-				#FIXME add support for tables
-				#FIXME add support for ovals, polygons, and graphic lines
-
-				geom 						=  child.geometric_bounds.get
-
-				id							= child.id_.get
-				name						= child.get
-				index						= child.index.get
-				label						= child.label.get.to_s
-				type						= getType(child)
-				width						= geom[3].to_f-geom[1].to_f
-				height						= geom[2].to_f-geom[0].to_f
-				static						= getStatic(child.label.get.to_s.downcase)
-				lyr							= @idDoc.layers[its.id_.eq(layer)]
-				layer_name					= lyr.name.get
-
-				if(label.index('_') == nil)
-					childProps 				= Hash.new{|hash, key| hash[key] = Array.new}
-				else
-					childProps				= @p3s.parseP3S(label, label.to_s[0, label.index('_')])
-					childProps[:p3s_use]	= (!childProps[:p3s_use])? @use : childProps[:p3s_use]
-				end
-
-				childProps[:objectID]		= id
-				childProps[:label]			= label
-				childProps[:index]			= index 
-				childProps[:type]			= type
-				childProps[:x]				= getDimensionInPixels(geom[1])
-				childProps[:y]				= getDimensionInPixels(geom[0])
-				childProps[:w]				= getDimensionInPixels(width)
-				childProps[:h]				= getDimensionInPixels(height)
-				childProps[:isStatic]		= static
-				childProps[:inGroup]		= (countLayersInLayerGroup(layer_name.to_s[2, 2]) > 1) ? true : false
-				childProps[:content] 	   	= getContent(name, type, static)
-				childProps[:group]			= layer_name.to_s[0, 2]
-				childProps[:preview]		= exportObject(id, name, type, width, height, geom[1], geom[2], lyr) 
-
-				#FIXME indesign/appscript gives very 'special' output in case of Pantone colors - ignore for now
-			   childProps[:background] 		= 'unknown'  #getBackGroundColor(child)  
-			   childs['child'+id.to_s] 		= childProps 
-			end
-		end
-
-		return childs
-	end
 
 	def getStatic(label)
 		#NOTE rTextInput & MergertextField = rich text
@@ -587,8 +529,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 	end
 
 	def exportObject(object, name, type, width, height, x, y, lyr)
-		P3libLogger::log('exporting object of type: ' , type)
-
+		P3libLogger::log('h exporting object of type: ' , type)
 		nwidth	= (width < 30) ? 30 : width
 		nheight = (height < 30) ? 30 : height
 
@@ -598,30 +539,24 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		if(!@dryrun)
 
 			tmpDoc = @idApp.make(:new => :document)
+
 			tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_width, :to => nwidth)
 			tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_height, :to => nheight)
-			imageTypeWithAlpha = [ ".psd", ".png", ".tif", ".tiff", ".ai", ".pdf" ];
 
 			@idApp.active_document.set(@idDoc)
 			@idDoc.set(@idDoc.selection, :to => name)
+
 			@idApp.copy()
 
 			@idApp.active_document.set(tmpDoc)
 			@idApp.paste()
-			@idApp.selection.move(:to => [0, 0])
-			
+
+            tmpDoc.align(tmpDoc, :align_option => :horizontal_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
+            tmpDoc.align(tmpDoc, :align_option => :vertical_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
 			pixWidth	= getDimensionInPixels(width)
 			pixHeight	= getDimensionInPixels(height)
 
             P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
-
-            #if (type == 'image' || type == 'PDF')
-                
-            #    P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
-                #else
-                #P3libLogger::log("GS? type=",type)
-                #P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
-			#end
 
 			tmpDoc.close(:saving => :no)
 		end

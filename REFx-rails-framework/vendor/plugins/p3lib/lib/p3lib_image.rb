@@ -28,6 +28,7 @@ class P3libImage
         cmd = "#{RAILS_ROOT}/../p3imgutils/p3trimalpha -i #{inImage} -o #{outImage}"
 
         #P3libLogger::log("trimming alpha to :",outImage)
+        #P3libLogger::log("trimming alpha using :",cmd)
         system(cmd)
     end
 
