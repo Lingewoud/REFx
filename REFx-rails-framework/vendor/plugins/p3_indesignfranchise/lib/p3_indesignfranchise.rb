@@ -18,7 +18,8 @@ class P3Indesignfranchise
 		
 		@idApp          = (inApplication == 'Adobe InDesign CS4') ?  app(inApplication) : app(Base64.decode64(inApplication))
 		@dryRun			= dryRun
-
+		
+        
 		if remoteDummyRootDir.nil? 
 			@AbsSrcFilePath	=  relSrcFilePath
 		else 

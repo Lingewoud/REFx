@@ -70,11 +70,22 @@
         
         [rubyJobProcess setCurrentDirectoryPath:railsRootDir];
         [rubyJobProcess setLaunchPath: railsCommand];
-        [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",
-                                       @"-j",jobidString,
-                                       @"--environment",railsEnvironment,
-                                       nil]];    
-        [rubyJobProcess launch];        
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
+        {
+            NSLog(@"REFx3: debugmode on");
+            [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",
+                                           @"-j",jobidString,
+                                           @"-d",
+                                           @"--environment",railsEnvironment,
+                                           nil]];
+        }
+        else{
+            [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",
+                                           @"-j",jobidString,
+                                           @"--environment",railsEnvironment,
+                                           nil]];
+        }
+        [rubyJobProcess launch];
         
         //[rubyJobProcess waitUntilExit];
         /*int status = [rubyJobProcess terminationStatus];

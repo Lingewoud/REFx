@@ -92,6 +92,9 @@ class RefxJobWrapper
         open('log/pas3.log', 'a') { |f|
             f.puts "\n"
             f.puts "------------ STARTING A NEW REFx JOB -------------\n"
+            if($debug)
+                f.puts "DEBUG IS SET ON\n"
+            end
             f.puts "\n"
         }
     end
@@ -141,6 +144,7 @@ end
 # This hash will hold all of the options
 # parsed from the command-line by
 # OptionParser.
+$debug = false
 options = {}
 
 optparse = OptionParser.new do|opts|
@@ -155,6 +159,15 @@ optparse = OptionParser.new do|opts|
     opts.on( '-j', '--jobid jobid', 'jobid' ) do|jobid|
         options[:jobid] = jobid
     end
+
+    # This displays the help screen, all programs are
+    # assumed to have this option.
+
+    opts.on( '-d', '--debug', 'debug mode')  do
+        $debug = true
+        p "refxJobWrapper: debug on"
+    end
+
     
     # This displays the help screen, all programs are
     # assumed to have this option.

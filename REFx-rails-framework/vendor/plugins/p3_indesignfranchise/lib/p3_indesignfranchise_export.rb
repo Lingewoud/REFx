@@ -21,11 +21,14 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
     def getXMLB64 #test functions spreads
         return Base64.encode64(getXML)
-
     end
 
     
 	def getXML #test functions spreads
+        if($debug)
+            P3libLogger::log('Debug mode for P3Indesignfranchise_export', 'on')
+        end
+            
         closeAllDocsNoSave
 
 		@idDoc = openDoc(@filePath)
@@ -540,7 +543,6 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		if(!@dryrun)
 
-			#tmpDoc = @idApp.make(:new => :document)
             tmpDoc = @idApp.make(:new => :document, :with_properties => {
                                :document_preferences => {
                                :column_gutter => 0,
@@ -550,17 +552,6 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
                                :page_height => nheight
                                }
             })
-            #tmpDoc = @idApp.make(:new => :document, :with_properties => {:document_preferences => {:column_gutter => 0,:column_count => 1}})
-            #tmpDoc.document_preferences.facing_pages.set( :to  =>  false  )
-
-			#tmpDoc.pages[0].margin_preferences..set("0")
-			#tmpDoc.pages[0].margin_preferences.left.set("0")
-			#tmpDoc.pages[0].margin_preferences.right.set("0")
-			#tmpDoc.pages[0].margin_preferences.top.set("0")
-			#tmpDoc.pages[0].margin_preferences.bottom.set("0")
-            
-			#tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_width, :to => nwidth)
-			#tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_height, :to => nheight)
 
 			@idApp.active_document.set(@idDoc)
 			@idDoc.set(@idDoc.selection, :to => name)
@@ -569,7 +560,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 			@idApp.active_document.set(tmpDoc)
 			@idApp.paste()
-            #@idApp.selection.move(:to => [0, 0])
+            
             tmpDoc.align(tmpDoc, :align_option => :horizontal_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
             tmpDoc.align(tmpDoc, :align_option => :vertical_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
 			pixWidth	= getDimensionInPixels(width)
@@ -577,7 +568,10 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
             P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
 
-			tmpDoc.close(:saving => :no)
+            if $debug.nil? || $debug == false
+                tmpDoc.close(:saving => :no)
+            end
+            
 		end
 		return @relPath+type.to_s+object.to_s+'.png'
 	end
