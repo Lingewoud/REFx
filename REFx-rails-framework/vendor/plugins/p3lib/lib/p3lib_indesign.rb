@@ -18,12 +18,14 @@ class P3libIndesign
         
         P3libLogger::log('rasterize:dest'+dest,cmd1)
         system(cmd1)
-        
-        #P3libLogger::log('exportToPNG:'+orig+' w:'+pixWidth.to_s+' h:'+pixHeight.to_s,'')
-        #P3libLogger::log('exportToPNG:'+File.basename(orig)+' w:'+pixWidth.to_s+' h:'+pixHeight.to_s,'')
-
         P3libImage::resizeBitmapByWidth(dest,pixWidth)
-        FileUtils.rm(orig)
+    
+        if($debug)
+            P3libLogger::log('exportToPNG:'+orig+' w:'+pixWidth.to_s+' h:'+pixHeight.to_s,'')
+            P3libLogger::log('exportToPNG:'+File.basename(orig)+' w:'+pixWidth.to_s+' h:'+pixHeight.to_s,'')
+        else
+            FileUtils.rm(orig)
+        end
     end
 
     #todo new document with props
