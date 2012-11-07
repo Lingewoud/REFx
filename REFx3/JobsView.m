@@ -255,7 +255,7 @@
             if([rs dateForColumn:@"created_at"]) [loc_created_at addObject:[rs dateForColumn:@"created_at"]];
             else [loc_created_at addObject:@""];
             
-            if([rs dateForColumn:@"updated_at"]) [loc_updated_at addObject:[rs dateForColumn:@"updated_at"]];
+            if([rs dateForColumn:@"updated_at"]) [loc_updated_at addObject:[rs stringForColumn:@"updated_at"]];
             else [loc_updated_at addObject:@""];
             
         }

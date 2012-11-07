@@ -529,19 +529,38 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 	end
 
 	def exportObject(object, name, type, width, height, x, y, lyr)
-		P3libLogger::log('h exporting object of type: ' , type)
-		nwidth	= (width < 30) ? 30 : width
-		nheight = (height < 30) ? 30 : height
+		nwidth	= (width < 1) ? 1 : width
+		nheight = (height < 1) ? 1 : height
 
 		orig	= @outputPath+type.to_s+object.to_s + '.pdf'
 		dest	= @outputPath+type.to_s+object.to_s + '.png'
+		P3libLogger::log('exporting object of type: ' , type)
+		P3libLogger::log('  object width: ' , nwidth.to_s)
+		P3libLogger::log('  object height: ' , nheight.to_s)
 
 		if(!@dryrun)
 
-			tmpDoc = @idApp.make(:new => :document)
+			#tmpDoc = @idApp.make(:new => :document)
+            tmpDoc = @idApp.make(:new => :document, :with_properties => {
+                               :document_preferences => {
+                               :column_gutter => 0,
+                               :document_bleed_top_offset => 0,
+                               :facing_pages => false,
+                               :page_width => nwidth,
+                               :page_height => nheight
+                               }
+            })
+            #tmpDoc = @idApp.make(:new => :document, :with_properties => {:document_preferences => {:column_gutter => 0,:column_count => 1}})
+            #tmpDoc.document_preferences.facing_pages.set( :to  =>  false  )
 
-			tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_width, :to => nwidth)
-			tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_height, :to => nheight)
+			#tmpDoc.pages[0].margin_preferences..set("0")
+			#tmpDoc.pages[0].margin_preferences.left.set("0")
+			#tmpDoc.pages[0].margin_preferences.right.set("0")
+			#tmpDoc.pages[0].margin_preferences.top.set("0")
+			#tmpDoc.pages[0].margin_preferences.bottom.set("0")
+            
+			#tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_width, :to => nwidth)
+			#tmpDoc.document_preferences.set(tmpDoc.document_preferences.page_height, :to => nheight)
 
 			@idApp.active_document.set(@idDoc)
 			@idDoc.set(@idDoc.selection, :to => name)
@@ -550,7 +569,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 			@idApp.active_document.set(tmpDoc)
 			@idApp.paste()
-
+            #@idApp.selection.move(:to => [0, 0])
             tmpDoc.align(tmpDoc, :align_option => :horizontal_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
             tmpDoc.align(tmpDoc, :align_option => :vertical_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
 			pixWidth	= getDimensionInPixels(width)

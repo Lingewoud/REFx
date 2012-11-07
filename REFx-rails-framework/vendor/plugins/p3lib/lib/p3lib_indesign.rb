@@ -10,12 +10,13 @@ class P3libIndesign
     #orig is the inbetween pdf file which us used to generate a PNG with alpha channel
     def self.exportToPNG(inDesignApp, doc, outputPath, orig, dest, pixWidth, pixHeight)
         
+        inDesignApp.transparency_preference.blending_space.set(:to => :CMYK)
         inDesignApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)
         inDesignApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)
         
         cmd1 = "#{RAILS_ROOT}/vendor/MacApplications/pdfrasterize -s 2.0 -t -o #{outputPath} -f png #{orig}"
         
-        #P3libLogger::log('rasterize:dest'+dest,cmd1)
+        P3libLogger::log('rasterize:dest'+dest,cmd1)
         system(cmd1)
         
         #P3libLogger::log('exportToPNG:'+orig+' w:'+pixWidth.to_s+' h:'+pixHeight.to_s,'')
@@ -24,6 +25,8 @@ class P3libIndesign
         P3libImage::resizeBitmapByWidth(dest,pixWidth)
         FileUtils.rm(orig)
     end
+
+    #todo new document with props
 
 
 end
