@@ -176,7 +176,9 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 		xml 		= Base64.decode64(xml)
 
 		P3libLogger::log("Starting final preview","") 
-		#P3libLogger::log('decoded',xml)
+        if($debug)
+            P3libLogger::log('decoded',xml)
+        end
 
 
 		@finalHash 	= Hash.from_xml(xml,true)
