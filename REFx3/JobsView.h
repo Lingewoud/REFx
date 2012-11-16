@@ -23,6 +23,7 @@
 	// private properties
 	@private
     NSString * dbPath;
+    NSTimer * tableUpdateTimer;
     
 }
 

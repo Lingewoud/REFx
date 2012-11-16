@@ -32,10 +32,29 @@
          [dbPath retain];
          //NSLog(@"dbpath:%@",dbPath);
          
-         [self populateTableAndBuffer];
+         
+         //[self populateTableAndBuffer];
+         [self startAutoUpdateTable];
 
     }
      return (self);
+}
+
+- (void)startAutoUpdateTable
+{
+    NSLog(@"start autoupdate table view");
+    tableUpdateTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
+                                                 target: self
+                                               selector: @selector(populateTableAndBuffer)
+                                               userInfo: nil
+                                                repeats: YES];
+}
+
+- (void)stopAutoUpdateTable
+{
+    NSLog(@"stop autoupdate table view");
+
+    [tableUpdateTimer invalidate];
 }
 
 // -- Handle the awakeFromNib signal

@@ -33,7 +33,7 @@
 - (void)startREFxLoop
 {
     NSLog(@"start scheduler...");
-    refxTimer = [NSTimer scheduledTimerWithTimeInterval:3.0
+    refxTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
                                                  target: self
                                                selector: @selector(loopSingleAction)
                                                userInfo: nil
