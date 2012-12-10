@@ -185,13 +185,19 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 
 		P3libLogger::log("open template doc",'')
 		@idDoc = openDoc(@filePath)
+        
+        #unlock all items
+        unlockAllPageItems(@idDoc,1)
+        
+        
+        
 		P3libLogger::log("creating dest doc",'')
 		createDoc
 
 		P3libLogger::log("creating spreads",'')
 		createSpreads()
 
-		#closeDoc(@idDoc)
+		closeDoc(@idDoc)
 
 		allVisible(@finalDoc)
 
@@ -544,7 +550,13 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 		deleteHiddenPageItems(srcPageId)
 
 		if(@idDoc.pages[its.id_.eq(srcPageId)].page_items.get.length > 1)
-			@idDoc.pages[its.id_.eq(srcPageId)].make(:new => :group, :with_properties =>{:group_items => @idDoc.pages[its.id_.eq(srcPageId)].page_items.get})
+            begin
+                @idDoc.pages[its.id_.eq(srcPageId)].make(:new => :group, :with_properties =>{:group_items => @idDoc.pages[its.id_.eq(srcPageId)].page_items.get})
+                
+            rescue Exception=>e
+
+                P3libLogger::log('error make group' , e.to_s)
+            end
 		end
 		nwlayer = @finalDoc.make(:new => :layer, :with_properties => {:name => 'page' + destPage.to_s})
 		pageCopy = @idDoc.pages[its.id_.eq(srcPageId)].duplicate(:to => @finalDoc.pages[destPage])
@@ -593,6 +605,18 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 			return true
 		end
 	end
+
+    def unlockAllPageItems(doc,page)
+       begin
+        doc.pages[page].all_page_items.get.each do |item|
+                @idApp.set(item.locked, :to => false)
+        end
+        
+        
+        rescue Exception=>e
+        P3libLogger::log('error unlocking' , e.to_s)
+    end
+    end
 
 
 	def deleteFirstGroupOrChild(obj)

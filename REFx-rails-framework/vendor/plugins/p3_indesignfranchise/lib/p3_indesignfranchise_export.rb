@@ -93,7 +93,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			end
 		end
 
-		#closeDoc(@idDoc)
+		closeDoc(@idDoc)
 
 		P3libLogger::log('Removing eps and pdf files','')
 
