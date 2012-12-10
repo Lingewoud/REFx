@@ -389,8 +389,8 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 	end
 
 	def replaceText(obj, stack)
-		item = @idDoc.text_frames[its.id_.eq(obj[1]['objectID'].to_i)]
-		if(!obj[1]['content'].nil?)
+        item = @idDoc.text_frames[its.id_.eq(obj[1]['objectID'].to_i)]
+        if(!obj[1]['content'].nil?)
 			item.contents.set(:to => obj[1]['content'].strip)
 			item.paragraphs.fill_color.set(:to => item.characters[1].fill_color.get)
 		else

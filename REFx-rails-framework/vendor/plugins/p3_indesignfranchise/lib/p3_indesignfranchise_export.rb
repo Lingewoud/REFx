@@ -93,7 +93,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			end
 		end
 
-		closeDoc(@idDoc)
+		#closeDoc(@idDoc)
 
 		P3libLogger::log('Removing eps and pdf files','')
 
@@ -543,33 +543,41 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		if(!@dryrun)
 
-            tmpDoc = @idApp.make(:new => :document, :with_properties => {
-                               :document_preferences => {
-                               :column_gutter => 0,
-                               :document_bleed_top_offset => 0,
-                               :facing_pages => false,
-                               :page_width => nwidth,
-                               :page_height => nheight
-                               }
-            })
-
 			@idApp.active_document.set(@idDoc)
-			@idDoc.set(@idDoc.selection, :to => name)
+			
+            begin
+                @idApp.set(name.locked, :to => false)
 
-			@idApp.copy()
+                @idDoc.set(@idDoc.selection, :to => name)
+                @idApp.copy()
 
-			@idApp.active_document.set(tmpDoc)
-			@idApp.paste()
-            
-            tmpDoc.align(tmpDoc, :align_option => :horizontal_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
-            tmpDoc.align(tmpDoc, :align_option => :vertical_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
-			pixWidth	= getDimensionInPixels(width)
-			pixHeight	= getDimensionInPixels(height)
-
-            P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
-
-            if $debug.nil? || $debug == false
-                tmpDoc.close(:saving => :no)
+                tmpDoc = @idApp.make(:new => :document, :with_properties => {
+                                     :document_preferences => {
+                                     :column_gutter => 0,
+                                     :document_bleed_top_offset => 0,
+                                     :facing_pages => false,
+                                     :page_width => nwidth,
+                                     :page_height => nheight
+                                     }
+                                     })
+                
+                #@idApp.active_document.set(tmpDoc)
+                @idApp.paste()
+                
+                tmpDoc.align(tmpDoc, :align_option => :horizontal_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
+                tmpDoc.align(tmpDoc, :align_option => :vertical_centers, :align_distribute_bounds => :page_bounds, :align_distribute_items => [@idApp.selection])
+                pixWidth	= getDimensionInPixels(width)
+                pixHeight	= getDimensionInPixels(height)
+                
+                P3libIndesign::exportToPNG(@idApp, tmpDoc, @outputPath, orig, dest, pixWidth, pixHeight)
+                
+                if $debug.nil? || $debug == false
+                    tmpDoc.close(:saving => :no)
+                end
+                
+            rescue Exception=>e
+                P3libLogger::log('error copying for export' , type.to_s+object.to_s+'.png')
+                P3libLogger::log('error copying' , e.to_s)
             end
             
 		end
