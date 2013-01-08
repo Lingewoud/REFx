@@ -77,7 +77,6 @@
         NSPipe *pipe = [NSPipe pipe];
         [logProcess setStandardOutput:pipe];
         NSFileHandle *file = [pipe fileHandleForReading];
-        
         [logProcess launch];
         
         NSData *data = [file readDataToEndOfFile];
