@@ -122,7 +122,7 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 
 		l('certitifying'+ pdfIn + " to " + pdfOut)
 
-		tmpName	= helper_newtempname(9)+'.pdf'
+		tmpName	= P3libUtil::helper_newtempname(9)+'.pdf'
 
 		FileUtils.cp(pdfIn,  File.join(pitstopInputFolder,tmpName)) #fixme use tmp name
 

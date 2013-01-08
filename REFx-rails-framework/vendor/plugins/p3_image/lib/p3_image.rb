@@ -27,7 +27,7 @@ class P3Image
 		end
         
 		#tmp normalized path
-		@tmpFile = '/tmp/'+helper_newtempname(5)+File.extname(@AbsSrcFilePath)
+		@tmpFile = '/tmp/'+ P3libUtil::helper_newtempname(5) +File.extname(@AbsSrcFilePath)
 		p @tmpFile
 		FileUtils.cp(@AbsSrcFilePath, @tmpFile)
         
@@ -66,12 +66,4 @@ class P3Image
         
         return outfile
     end
-    
-    
-    def helper_newtempname(len)
-		chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-		newpass = ""
-		1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
-		return newpass
-	end
 end

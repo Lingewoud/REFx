@@ -24,13 +24,6 @@ class P3Indesign_library
     
 	private
     
-	def helper_newtempname(len)
-		chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
-		newpass = ""
-		1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
-		return newpass
-	end
-    
 	# log function
 	def log(key,val, type = 'info')
         P3libLogger::log("DEPRECIATED LOG."+key,val, type)
@@ -152,7 +145,7 @@ class P3Indesign_library
     
 	def exec_exportPDF(doc,destpdf,preset)
         
-		tmpdestpdf      = '/tmp/'+helper_newtempname(9)+'.pdf'
+		tmpdestpdf      = '/tmp/'+P3libUtil::helper_newtempname(9)+'.pdf'
         @idApp.PDF_export_preferences.page_range.set(:to => 'all pages')
 		@idApp.transparency_preference.blending_space.set(:to => :CMYK)
 		P3libLogger::log("exporting using preset",preset.to_s)

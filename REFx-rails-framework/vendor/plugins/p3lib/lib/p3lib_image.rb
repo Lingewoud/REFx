@@ -1,6 +1,4 @@
 # P3libImage
-#TODO REMOVE
-#require 'osxfix'
 
 ## library for all helper image classes
 
