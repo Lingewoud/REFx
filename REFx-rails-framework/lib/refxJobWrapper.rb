@@ -55,9 +55,13 @@ class RefxJobWrapper
                 
                 evalcommand='@returnVal = @engineObject.'+cmdbody['method']+'('+methodArgString+')'
                 
-                @startTime = 'REFx JOB STARTED :  '+Time.now.to_s
+                @startTime = 'JOB STARTED :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
+                _startTime = Time.now
                 eval(evalcommand)
-                @endTime = 'REFx JOB FINISHED : '+Time.now.to_s
+                @endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
+                _endTime = Time.now
+                @duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
+                #@duration = 'JOB DURATION : '+ time_period_to_s((_endTime-_startTime).to_i)
                 logJobSummery
                 
                 pJob.status = 10
@@ -104,6 +108,7 @@ class RefxJobWrapper
             f.puts "--------------------------------------------------\n"
             f.puts @startTime +"\n"
             f.puts @endTime +"\n"
+            f.puts @duration +"\n"
             f.puts "--------------------------------------------------\n"
             f.puts "\n"
         }
