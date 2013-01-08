@@ -1,4 +1,5 @@
 require 'logger'
+
 class  P3libLogger
 	class << self
 		def log(key, val='', type='info')
@@ -9,20 +10,30 @@ class  P3libLogger
 
 			case type
 			when 'info'
-				@logger.info Time.now.to_s+' - '+ key+ ': '+ val
+				@logger.info Time.now.strftime("%b-%d-%Y %H:%M") +' INFO - '+ key+ ': '+ val
 			when 'error'
-				@logger.error Time.now.to_s+' - '+ key+ ': '+ val
+
+				@logger.error Time.now.strftime("%b-%d-%Y %H:%M") +' ERROR - '+ key+ ': '+ val
+                #self.mail('Error:'+key,Time.now.to_s+' - '+ key+ ': '+ val)
+
 			when 'warn'
-				@logger.warn Time.now.to_s+' - '+ key+ ': '+ val
+				@logger.warn Time.now.strftime("%b-%d-%Y %H:%M") +' WARNING - '+ key+ ': '+ val
 			when 'fatal'
-				@logger.fatal Time.now.to_s+' - '+ key+ ': '+ val
+				@logger.fatal Time.now.strftime("%b-%d-%Y %H:%M") +' FATAL - '+ key+ ': '+ val
 			when 'unknown'
-				@logger.unknown Time.now.to_s+' - '+ key+ ': '+ val
+				@logger.unknown Time.now.strftime("%b-%d-%Y %H:%M") +' UNKNOWN - '+ key+ ': '+ val
 			when 'debug'
-				@logger.debug Time.now.to_s+' - '+ key+ ': '+ val
+				@logger.debug Time.now.strftime("%b-%d-%Y %H:%M") +' DEBUG - '+ key+ ': '+ val
 			end
 		end
     
-        
+    def self.mail(subject,message)
+    
+    #       from = 'refx3logger@pas3.net'
+    #        to = 'pim@lingewoud.nl'
+    
+    #Pony.mail(:to => to, :from => from ,:subject => subject,:body => message)
+    
+        end
 	end
 end
