@@ -277,7 +277,7 @@ class P3Indesignfranchise_library
 	end
 
 	def exec_exportPDF(doc,destpdf,preset)
-		tmpdestpdf	= '/tmp/'+helper_newtempname(9)+'.pdf'
+		tmpdestpdf	= '/tmp/'+P3libUtil::helper_newtempname(9)+'.pdf'
 
 		P3libLogger::log("exporting using output file",destpdf)
 		P3libLogger::log('exporting PDF to tmp path',tmpdestpdf)

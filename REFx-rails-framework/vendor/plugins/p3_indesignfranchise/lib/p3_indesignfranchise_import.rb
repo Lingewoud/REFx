@@ -610,7 +610,9 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 	end
 
     def unlockAllPageItems(doc,page)
-       begin
+
+        #set properties of general preferences to {prevent selecting locked items:false}
+        begin
         doc.pages[page].all_page_items.get.each do |item|
                 @idApp.set(item.locked, :to => false)
         end
