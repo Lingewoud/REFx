@@ -3,4 +3,4 @@
 require 'p3lib_image'
 require 'p3lib_indesign'
 require 'p3lib_logger'
-
+require 'p3lib_util.rb'
