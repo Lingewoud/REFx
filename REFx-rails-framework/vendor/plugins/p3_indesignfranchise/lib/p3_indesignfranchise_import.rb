@@ -197,7 +197,10 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 		P3libLogger::log("creating spreads",'')
 		createSpreads()
 
-		closeDoc(@idDoc)
+		
+        # Don't uncomment before fix TASK crashes on close with unknow reference.
+        # start with adding a try
+        #closeDoc(@idDoc)
 
 		allVisible(@finalDoc)
 
