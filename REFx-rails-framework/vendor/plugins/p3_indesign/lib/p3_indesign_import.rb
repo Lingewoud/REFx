@@ -497,6 +497,11 @@ class P3Indesign_import < P3Indesign_library
                         end
                     end
                     
+
+                    if newLayer.page_items.get.count < 1
+                        P3libLogger::log("Slotelement, number of items on layer",newLayer.page_items.get.count.to_s, 'error')
+                        return
+                    end
                     
                     newGroup = groupItems(newLayer.page_items.get)
                     newGroup.item_layer.set(slotElement.item_layer)
@@ -505,7 +510,7 @@ class P3Indesign_import < P3Indesign_library
                     if(elIdx == 1)
                         lastElementGeoInfo = moveToNewGeoPosition("absolute", "absolute", 0, 0, lastElementGeoInfo, newGroup)
                         else
-                        lastElementGeoInfo = moveToNewGeoPosition(obj[1]['p3s_margintypex'], obj[1]['p3s_margintypey'], obj[1]['p3s_marginx'], obj[1]['p3s_marginy'], lastElementGeoInfo, newGroup)
+                        lastElementGeoInfo = moveToNewGeoPosition(obj[1]['p3s_margintypex'], obj[1]['p3s_margintypey'], obj[1]['p3s_marginx'], obj[1]['p3s_marginy'],lastElementGeoInfo, newGroup)
                     end
                     
                     newLayer.delete()

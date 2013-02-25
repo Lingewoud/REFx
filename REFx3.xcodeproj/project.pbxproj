@@ -322,6 +322,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx3" */;
 			buildPhases = (
+				3E1AA14816DC1BC000B3DE3B /* ShellScript */,
 				3EE2CA8615D4053300E371BD /* Run Script */,
 				3EC97C8914488BDB00B81F47 /* Sources */,
 				3EC97C8A14488BDB00B81F47 /* Frameworks */,
@@ -399,6 +400,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3E1AA14816DC1BC000B3DE3B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"\" > ${PROJECT_DIR}/REFx-rails-framework/log/development.log\necho \"\" > ${PROJECT_DIR}/REFx-rails-framework/log/pas3.log";
+		};
 		3EE2CA8615D4053300E371BD /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
