@@ -411,7 +411,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"\" > ${PROJECT_DIR}/REFx-rails-framework/log/development.log\necho \"\" > ${PROJECT_DIR}/REFx-rails-framework/log/pas3.log";
+			shellScript = "mkdir -p ${PROJECT_DIR}/REFx-rails-framework/log\n\necho \"\" > ${PROJECT_DIR}/REFx-rails-framework/log/development.log\necho \"\" > ${PROJECT_DIR}/REFx-rails-framework/log/pas3.log";
 		};
 		3EE2CA8615D4053300E371BD /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
