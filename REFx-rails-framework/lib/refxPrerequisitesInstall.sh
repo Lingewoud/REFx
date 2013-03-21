@@ -27,7 +27,7 @@ echo $currentPath
 
 ############################### APPSCRIPT
 cd $currentPath
-cd ../vendor/gems/rb-appscript-0.6.1
+cd ../vendor/gemsSource/rb-appscript-0.6.1
 echo 
 echo "INSTALLING APPSCRIPT GEM"
 
@@ -54,7 +54,7 @@ mkdir -p /Library/Ruby/Site/1.8/_appscript
 
 ############################### SQLITE
 cd $currentPath
-cd ../vendor/gems/src-sqlite3-1.3.4/
+cd ../vendor/gemsSource/src-sqlite3-1.3.4/
 echo "INSTALLING SQLITE GEM"
 
 mkdir -p /Library/Ruby/Site/1.8/$platform/sqlite3
@@ -73,8 +73,8 @@ mkdir -p /Library/Ruby/Site/1.8/sqlite3
 /usr/bin/install -c -m 644 lib/sqlite3/version.rb /Library/Ruby/Site/1.8/sqlite3/
 
 cd ../../
-mv  gems/src-sqlite3-1.3.4 gemsDisabled/
-mv  gems/sqlite3-ruby-1.2.5 gemsDisabled/
+mv -f gems/src-sqlite3-1.3.4 gemsDisabled/
+mv -f gems/sqlite3-ruby-1.2.5 gemsDisabled/
 
 
 
