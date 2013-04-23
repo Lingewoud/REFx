@@ -35,3 +35,5 @@ REFx3.xcodeproj/xcuserdata/maartenvanhees.xcuserdatad/xcschemes/xcschememanageme
 =======
 REFx-rails-framework/vendor/gems/src-sqlite3-1.3.4
 >>>>>>> Gitignore gems/src-sqlite3-1.3.4 Deleted gemsDisabled/src-sqlite3-1.3.4
+
+*.xcbkptlist
