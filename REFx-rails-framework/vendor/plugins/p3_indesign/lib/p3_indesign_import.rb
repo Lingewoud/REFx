@@ -305,7 +305,14 @@ class P3Indesign_import < P3Indesign_library
                                     end
                                 end
                                 
-                                unGroup(stackGroup);
+                                
+                                begin
+                                unGroup(stackGroup)
+                                rescue
+                                    P3libLogger::log("Nothing to ungroup",'','error')
+                                end
+                                
+                                
                             end
                             
                             newGroup = groupItems(items_arr)
@@ -1019,10 +1026,20 @@ class P3Indesign_import < P3Indesign_library
             elementCoordinates['height']	= elementBounds[2] - elementBounds[0]
             elementCoordinates['width']		= elementBounds[3] - elementBounds[1]
             
-            return elementCoordinates
-            else
+            
+        else
+            elementCoordinates 				= Hash.new
+            elementCoordinates['topPos']	= 0
+            elementCoordinates['leftPos']	= 0
+            elementCoordinates['bottomPos']	= 0
+            elementCoordinates['rightPos']	= 0
+            elementCoordinates['height']	= 0
+            elementCoordinates['width']		= 0
+            
             P3libLogger::log("ERROR: ","no object to get geoinfo from")
         end
+        
+        return elementCoordinates
         
     end
     
