@@ -369,6 +369,10 @@
 		loc_data = [[self testBuffer] objectForKey:loc_uid];
 		loc_data = [loc_data objectAtIndex:aRow];
 	}
+    else
+    {
+        loc_data = nil;
+    }
     
 	// return the row/column data
 	return (loc_data);
