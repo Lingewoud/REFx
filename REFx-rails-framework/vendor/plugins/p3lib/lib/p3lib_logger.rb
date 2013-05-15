@@ -26,14 +26,5 @@ class  P3libLogger
 				@logger.debug Time.now.strftime("%b-%d-%Y %H:%M") +' DEBUG - '+ key+ ': '+ val
 			end
 		end
-    
-    def self.mail(subject,message)
-    
-    #       from = 'refx3logger@pas3.net'
-    #        to = 'pim@lingewoud.nl'
-    
-    #Pony.mail(:to => to, :from => from ,:subject => subject,:body => message)
-    
-        end
 	end
 end
