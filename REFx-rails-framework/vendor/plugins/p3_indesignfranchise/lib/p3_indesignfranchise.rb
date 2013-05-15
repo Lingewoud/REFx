@@ -6,7 +6,7 @@ class P3Indesignfranchise
 
 	include Appscript
 
-	def initialize(jobId,remoteDummyRootDir, relSrcFilePath, relOutputBasePath, inApplication='Adobe InDesign CS4',dryRun=true)
+	def initialize(jobId,remoteDummyRootDir, relSrcFilePath, relOutputBasePath, inApplication='Adobe InDesign CS4',dryRun=true, typo3BaseUrl=nil,voucherKey=nil)
 
 		# 'Adobe InDesign CS3'
 		# 'Adobe InDesign CS4'
@@ -16,11 +16,14 @@ class P3Indesignfranchise
 		relSrcFilePath = Base64.decode64(relSrcFilePath)
 		relOutputBasePath = Base64.decode64(relOutputBasePath)
 		
+        @voucherKey = Base64.decode64(voucherKey) if voucherKey
+        @typo3BaseUrl = Base64.decode64(typo3BaseUrl) if typo3BaseUrl
+		
 		@idApp          = (inApplication == 'Adobe InDesign CS4') ?  app(inApplication) : app(Base64.decode64(inApplication))
 		@dryRun			= dryRun
 		
         
-		if remoteDummyRootDir.nil? 
+		if remoteDummyRootDir.nil?
 			@AbsSrcFilePath	=  relSrcFilePath
 		else 
 			@AbsSrcFilePath	=  File.join(remoteDummyRootDir,relSrcFilePath)
@@ -35,8 +38,17 @@ class P3Indesignfranchise
 		end
 
 		@absOutputPath 	= File.join(remoteDummyRootDir,relOutputBasePath,jobId)
+        
+        begin
+           
+            FileUtils.mkdir(@absOutputPath) if not File.directory? @absOutputPath if not dryRun
+            
+            rescue Exception=>e
+            
+            P3libLogger::log('Cannot mkdir. Is the dest dir mounted?' , e.to_s)
+        end
 
-		FileUtils.mkdir(@absOutputPath) if not File.directory? @absOutputPath if not dryRun
+
 
 		@absOutputPath 	+= '/'
 	end
@@ -72,19 +84,21 @@ class P3Indesignfranchise
     
 	def getHumanReadable
 		export = P3Indesignfranchise_export.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
-		export.setDryRun() if @dryRun
+		#export.setDryRun() if @dryRun
 		return export.getHumanReadable
 	end
 	
 	def getFinalPreview(xmlencoded, preset, relFolderPath2='', genSwf=false, copyIndd=false)
-		import = P3Indesignfranchise_import.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
-		import.setDryRun() if @dryRun
+		import = P3Indesignfranchise_import.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp, @typo3BaseUrl, @voucherKey)
+		
+        #import.setDryRun() if @dryRun
+        
 		return import.getFinalPreview(xmlencoded, preset, relFolderPath2, genSwf, copyIndd )
 	end
 
 	def certifyDocument(pdfIn,pdfOut,pitstopInputFolder, pitstopSuccesFolder,pitstopErrorFolder)
 		import = P3Indesignfranchise_import.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
-		import.setDryRun() if @dryRun
+		#import.setDryRun() if @dryRun
 		return import.certifyDocument(pdfIn,pdfOut,pitstopInputFolder,pitstopSuccesFolder,pitstopErrorFolder)
 	end
 end

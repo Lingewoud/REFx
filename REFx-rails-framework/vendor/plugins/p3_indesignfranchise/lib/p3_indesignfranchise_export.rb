@@ -341,6 +341,9 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		pageItemIdx = 0
 		page_item_arr.each do |child|
 			#if(page_item_arr.include?(child)) then
+            
+
+            
 			if(child.item_layer.id_.get==layerId) then
 
 				#FIXME add support for tables
@@ -356,9 +359,11 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 				height						= geom[2].to_f-geom[0].to_f
 				static						= getStatic(child.label.get.to_s.downcase)
 
-				if(label.index('_') == nil)
+                if(label.index('_') == nil)
+                    p "contains _"+label
 					childProps 				= Hash.new{|hash, key| hash[key] = Array.new}
 				else
+                    p "no _"+label
 					childProps				= @p3s.parseP3S(label, label.to_s[0, label.index('_')])
 					childProps[:p3s_use]	= (!childProps[:p3s_use])? @use : childProps[:p3s_use]
 				end
@@ -387,6 +392,24 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		return childs
 	end
+
+    def magicLabel(label)
+        types		= ['mergeText', 'onImportGetImageSource', 'onAskUserGetSimpleText', 'onAskUserGetRichText', 'onAskUserGetImageFromDamCat']
+		isMagic	= false
+        
+		types.each do |type|
+            
+			if label.index(type) != nil
+				isMagic = true
+				break
+            else
+				isMagic = false
+			end
+		end
+        
+		return isStatic
+    end
+
 
 
 	def getStatic(label)

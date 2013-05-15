@@ -1,5 +1,7 @@
 require 'base64'
 require 'fileutils'
+require 'json'
+#require 'net/http'
 
 class Hash
 
@@ -83,9 +85,16 @@ end
 
 class P3Indesignfranchise_import < P3Indesignfranchise_library
 
-	def initialize(filePath,  relPath,  outputPath, idApp)
-		super(filePath,  relPath,  outputPath, idApp)
-		@outputPath=outputPath
+	def initialize(filePath,  relPath,  outputPath, idApp, typo3BaseUrl=nil, voucherKey=nil)
+		
+        
+        super(filePath,  relPath,  outputPath, idApp)
+		
+        @outputPath=outputPath
+        @voucherKey = voucherKey if not voucherKey.nil?
+        @typo3BaseUrl = typo3BaseUrl if not typo3BaseUrl.nil?
+
+        P3libLogger::log("voucher key given",@voucherKey)
 	end
 
 	public 
@@ -388,7 +397,11 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 			when 'text'
 				replaceText(obj, stack)
 			when 'image'
+                
 				replaceImage(obj, stack)
+                
+                
+                
 			when 'color'
 				replaceColor(obj, stack)
 			when 'object'
@@ -399,13 +412,35 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 
 	def replaceText(obj, stack)
         item = @idDoc.text_frames[its.id_.eq(obj[1]['objectID'].to_i)]
-        if(!obj[1]['content'].nil?)
+        
+        if(obj[1]['label'].index("text_MergeOnImportIs"))
+            label = obj[1]['label']
+            #try to use new restserver
+            #[[tx_p3ga_organizations.post_address]], [[tx_p3ga_organizations.post_zipcode]] [[tx_p3ga_organizations.post_city]], Tel. [[tx_p3ga_organizations.phone]], [[tx_p3ga_organizations.internet_address]]
+            #[[tx_p3ga_organizations.organization_alt_name]]
+            #text_MergeOnImportIs
+            source_uri = label['text_MergeOnImportIs'.length,label.length].strip
+            
+            if(onImportType(source_uri) == 'pas3')
+                result = makeRestCall(source_uri)
+                if(result['data']['value'])
+                    item.contents.set(:to => result['data']['value'].strip)
+                    item.paragraphs.fill_color.set(:to => item.characters[1].fill_color.get)
+                end
+            end
+        elsif(!obj[1]['content'].nil?)
 			item.contents.set(:to => obj[1]['content'].strip)
 			item.paragraphs.fill_color.set(:to => item.characters[1].fill_color.get)
 		else
 			obj[1]['p3s_visible'] = "false"
 		end
-
+        
+        ##FIXME
+		#quick workaround for P3ga Suk NL
+		if(obj[1]['label'].index("text_MergeOnImportIs"))
+			scaleBackText(item)
+		end
+        
 		##FIXME
 		#quick workaround for P3ga Suk NL
 		if(obj[1]['label'] == "mergeText_dealername")
@@ -444,32 +479,45 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 	end
 
 	def replaceImage(obj, stack)
-		item 		= @idDoc.rectangles[its.id_.eq(obj[1]['objectID'].to_i)]
+        
+        label = obj[1]['label'].strip
+        
+        if(label.index('image_SourceOnImportIs'))
 
-		page_width 	= @idDoc.document_preference.page_width.get
-		geo 		= item.geometric_bounds.get
-		obj_width 	= geo[3].to_f - geo[1].to_f
+            source_uri = label['image_SourceOnImportIs'.length,label.length].strip
+            
+            if(onImportType(source_uri) == 'pas3')
+                
+                result = makeRestCall(source_uri)
+                
+                img_uri_type=result['data']['value'].split('://')[0] if result['data']['value'].index('://')
+                img_uri_path=result['data']['value'].split('://')[1] if result['data']['value'].index('://')
+                
+                if (img_uri_type == 'typo3file')
+                    absolute_img_src = File.join($remoteDummyRootDir,img_uri_path)
+                    if(File.exists?(absolute_img_src) && File.readable?(absolute_img_src) && File.file?(absolute_img_src))
+                        
+                        item 		= @idDoc.rectangles[its.id_.eq(obj[1]['objectID'].to_i)]
+                        
+                        #inDesign CS6 seems to work with regular paths instead of hfs
+                        begin
+                            P3libLogger::log("placing item normal", MacTypes::FileURL.path(absolute_img_src).to_s)
+                            item.place(MacTypes::FileURL.path(absolute_img_src))
+                            rescue
+                            begin
+                                P3libLogger::log("placing item hfs", MacTypes::FileURL.path(absolute_img_src).hfs_path.to_s)
+                                item.place(MacTypes::FileURL.path(absolute_img_src).hfs_path)
+                                rescue
+                                P3libLogger::log("unable to place item", "")
+                            end
+                        end
+                        item.frame_fitting_option.fitting_on_empty_frame.set(:to => :proportionally)
+                        item.fit(:given => :center_content)
+                    end
 
-		if(obj[1].key?("p3s_img_src"))
-			item.all_page_items.delete()
-			p3s_absolute_img_src = File.join($remoteDummyRootDir,obj[1]['p3s_img_src'])
-
-			if(File.exists?(p3s_absolute_img_src) && File.readable?(p3s_absolute_img_src) && File.file?(p3s_absolute_img_src)) 
-				item.frame_fitting_option.fitting_on_empty_frame.set(:to => :proportionally)
-				item.place(MacTypes::FileURL.path(p3s_absolute_img_src).hfs_path)
-				item.frame_fitting_option.fitting_alignment.set(:to => :bottom_center_anchor)
-				if(obj[1]['p3s_overflow'] == "crop")
-					item.fit(:given => :fill_proportionally)
-				else
-					item.fit(:given => :proportionally)
-				end
-			else
-				obj[1]['p3s_visible'] = "false"
-			end
-		end
-		if(obj[1]['p3s_visible'] == "false" && stack == false)
-			item.delete()
-		end
+                end
+            end
+        end        
 	end
 
 	def replaceColor(obj, stack)
@@ -504,6 +552,32 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 			end
 		end
 	end
+    
+    def onImportType(source_uri)
+        P3libLogger::log('source uri', source_uri)
+        type = source_uri.split('://')[0]
+        return type
+    end
+    
+    def makeRestCall(source_uri)
+    
+        # replace
+        # pas3://organization/logo_img
+        # with
+        # http://pim.test/suzuki-zweden-logo/web/dummy/typo3conf/ext/p3core_refx/rr.php/pas3/session/o32786432v7/organization/logo_img
+        
+        restqry = source_uri.split('://')[1]
+        
+        resturl = "#{@typo3BaseUrl}typo3conf/ext/p3core_refx/rr.php/pas3/#{@voucherKey}/#{restqry}"
+        P3libLogger::log('resturl' , resturl)
+        
+        resp = Net::HTTP.get_response(URI.parse(resturl))
+        data = resp.body
+        result = JSON.parse(data)
+        
+        return result
+    
+    end
 
 	#afbreken op komma
 	def breakTextAtComma(obj)
