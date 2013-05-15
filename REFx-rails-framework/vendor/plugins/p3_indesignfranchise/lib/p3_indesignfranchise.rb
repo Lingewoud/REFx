@@ -10,46 +10,33 @@ class P3Indesignfranchise
 
 		# 'Adobe InDesign CS3'
 		# 'Adobe InDesign CS4'
+		# 'Adobe InDesign CS6'
 		# 'InDesignServer'
-		#
-		remoteDummyRootDir = Base64.decode64(remoteDummyRootDir)
-		relSrcFilePath = Base64.decode64(relSrcFilePath)
-		relOutputBasePath = Base64.decode64(relOutputBasePath)
-		
+        # These are needed for the Typo3RestServer
+        
+		@idApp          = (inApplication == 'Adobe InDesign CS4') ?  app(inApplication) : app(Base64.decode64(inApplication))
+		@dryRun			= dryRun
+
         @voucherKey = Base64.decode64(voucherKey) if voucherKey
         @typo3BaseUrl = Base64.decode64(typo3BaseUrl) if typo3BaseUrl
 		
-		@idApp          = (inApplication == 'Adobe InDesign CS4') ?  app(inApplication) : app(Base64.decode64(inApplication))
-		@dryRun			= dryRun
-		
+		#remote dummy root is the TYPO3 root dir
+        remoteDummyRootDir = Base64.decode64(remoteDummyRootDir)
+		relSrcFilePath = Base64.decode64(relSrcFilePath)
+        relOutputBasePath = Base64.decode64(relOutputBasePath)
         
 		if remoteDummyRootDir.nil?
 			@AbsSrcFilePath	=  relSrcFilePath
 		else 
-			@AbsSrcFilePath	=  File.join(remoteDummyRootDir,relSrcFilePath)
+            @AbsSrcFilePath	=  File.join(remoteDummyRootDir,relSrcFilePath)
 			$remoteDummyRootDir= remoteDummyRootDir
 		end
 
-		if jobId.nil?
-			@relOutputPath 		= relOutputBasePath + '/'
-		else
-			$jobId = jobId
-			@relOutputPath 		= File.join(relOutputBasePath,jobId) + '/'
-		end
+		@relOutputPath 		= relOutputBasePath + '/'
+		@jobId = jobId
 
-		@absOutputPath 	= File.join(remoteDummyRootDir,relOutputBasePath,jobId)
-        
-        begin
-           
-            FileUtils.mkdir(@absOutputPath) if not File.directory? @absOutputPath if not dryRun
-            
-            rescue Exception=>e
-            
-            P3libLogger::log('Cannot mkdir. Is the dest dir mounted?' , e.to_s)
-        end
-
-
-
+		#this should only be done in the import and cert
+		@absOutputPath 	= File.join(remoteDummyRootDir,relOutputBasePath)
 		@absOutputPath 	+= '/'
 	end
 
@@ -61,8 +48,8 @@ class P3Indesignfranchise
 	end
 
 	def testCreatePdfFolder(relFolderPath)
-		absOutputPath 	= File.join($remoteDummyRootDir,relFolderPath,$jobId)
-		relOutputPath 	= File.join(relFolderPath,$jobId)
+		absOutputPath 	= File.join($remoteDummyRootDir,relFolderPath,@jobId)
+		relOutputPath 	= File.join(relFolderPath,@jobId)
 		FileUtils.mkdir(absOutputPath) if not File.directory? absOutputPath 
 		return relOutputPath
 	end
@@ -70,8 +57,6 @@ class P3Indesignfranchise
 	def getXML
 		export = P3Indesignfranchise_export.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
 		export.setDryRun() if @dryRun
-		#return export.getXMLB64
-
         return export.getXML
 	end
 
@@ -81,24 +66,31 @@ class P3Indesignfranchise
 		return export.getXMLB64
 	end
     
-    
 	def getHumanReadable
 		export = P3Indesignfranchise_export.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
-		#export.setDryRun() if @dryRun
 		return export.getHumanReadable
 	end
 	
 	def getFinalPreview(xmlencoded, preset, relFolderPath2='', genSwf=false, copyIndd=false)
+
+
+		#final preview needs an extra job folder
+		@relOutputPath 		= File.join(@relOutputPath,@jobId) + '/'
+		@absOutputPath 	= File.join(@absOutputPath,@jobId)
+        begin
+            FileUtils.mkdir(@absOutputPath) if not File.directory? @absOutputPath if not dryRun
+            rescue Exception=>e
+            P3libLogger::log('Cannot mkdir. Is the dest dir mounted?' , e.to_s)
+        end
+
+		@absOutputPath 	+= '/'
+
 		import = P3Indesignfranchise_import.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp, @typo3BaseUrl, @voucherKey)
-		
-        #import.setDryRun() if @dryRun
-        
 		return import.getFinalPreview(xmlencoded, preset, relFolderPath2, genSwf, copyIndd )
 	end
 
 	def certifyDocument(pdfIn,pdfOut,pitstopInputFolder, pitstopSuccesFolder,pitstopErrorFolder)
 		import = P3Indesignfranchise_import.new(@AbsSrcFilePath,  @relOutputPath,  @absOutputPath, @idApp)
-		#import.setDryRun() if @dryRun
 		return import.certifyDocument(pdfIn,pdfOut,pitstopInputFolder,pitstopSuccesFolder,pitstopErrorFolder)
 	end
 end

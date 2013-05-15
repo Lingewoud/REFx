@@ -11,7 +11,23 @@ require 'base64'
 class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 	def initialize(filePath,  relPath,  outputPath, idApp)
-		super(filePath,  relPath,  outputPath, idApp)
+#		super(filePath,  relPath,  outputPath, idApp)
+		@filePath		= filePath
+		@relPath		= relPath
+		@outputPath		= outputPath
+		@idApp			= idApp
+
+		P3libLogger::log('Using file', @filePath)
+		P3libLogger::log('Using outputPath', @outputPath)
+		P3libLogger::log('Using relPath', @relPath)
+		P3libLogger::log('Using Indesign Version', @idApp.to_s)
+
+		if not File.directory? @outputPath
+			P3libLogger::log('Creating outputPath', @outputPath)
+			Dir.mkdir(@outputPath)
+		end
+
+
 
 		@xml		= P3XMLParser.new()
 		@hr			= P3HrParser.new()
@@ -97,7 +113,18 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		P3libLogger::log('Removing eps and pdf files','')
 
-		return @xml.convertXML(document, true)
+		
+        resultContent = @xml.convertXML(document, true)
+                
+        #if xml file exit remove it
+        xmlfile = File.join(@outputPath,'pas3meta.xml')
+        
+        if File.exist?(xmlfile)
+            File.delete(xmlfile)
+        end
+        
+        File.open(xmlfile, 'w') {|f| f.write(resultContent) }
+        return resultContent
 	end
 
 	def getHumanReadable
@@ -140,7 +167,10 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 		closeDoc(@idDoc)
 
-		return @hr.convertHr(document)
+        
+
+        resultContent = @hr.convertHr(document)
+        return resultContent
 	end
 
 	private
@@ -336,13 +366,9 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		page_item_arr = Array.new
 		page_item_arr = @idDoc.pages[its.id_.eq(pageId)].page_items.get
 
-        #P3libLogger::log('walk through page items on page with ID', pageId.to_s)
 		P3libLogger::log('walk through page items on layer', layer_name.to_s)
 		pageItemIdx = 0
 		page_item_arr.each do |child|
-			#if(page_item_arr.include?(child)) then
-            
-
             
 			if(child.item_layer.id_.get==layerId) then
 
@@ -360,10 +386,10 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 				static						= getStatic(child.label.get.to_s.downcase)
 
                 if(label.index('_') == nil)
-                    p "contains _"+label
+                    #p "contains _"+label
 					childProps 				= Hash.new{|hash, key| hash[key] = Array.new}
 				else
-                    p "no _"+label
+                    #p "no _"+label
 					childProps				= @p3s.parseP3S(label, label.to_s[0, label.index('_')])
 					childProps[:p3s_use]	= (!childProps[:p3s_use])? @use : childProps[:p3s_use]
 				end
@@ -539,12 +565,12 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		pixHeight	= getDimensionInPixels(getDimensionInPixels(@idDoc.document_preferences.page_height.get))
 
 		P3libLogger::log('exporting layer', layer_base_name)
-        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, orig, dest, pixWidth, pixHeight)        
+        P3libIndesign::exportToPNG(@idApp, @idDoc, @outputPath, orig, dest, pixWidth, pixHeight)
 		P3libImage::trimAlphaFromImage(dest,File.dirname(dest)+'/trimmed_'+File.basename(dest))
 
 		if not File.exists?( File.dirname(dest)+'/trimmed_'+File.basename(dest))
 			P3libLogger::log('convert cannot remove alpha, just copying', '')
-			cmd = "cp #{dest} #{File.dirname(dest)+'/trimmed_'+File.basename(dest)}"
+			cmd = "cp '#{dest}' '#{File.dirname(dest)+'/trimmed_'+File.basename(dest)}'"
 			system(cmd)
 		end
         #remove org
