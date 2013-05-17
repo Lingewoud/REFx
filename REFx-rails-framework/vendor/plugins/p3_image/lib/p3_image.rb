@@ -55,13 +55,20 @@ class P3Image
 	def convertToBitMap(targetFileType,maxW,maxH)
         
         targetFileType = Base64.decode64(targetFileType)
+        targetFileType = targetFileType.downcase
+        if(targetFileType == 'jpeg')
+            targetFileType = 'jpg'
+            end
+            
         P3libLogger::log('converting to targetFileType', targetFileType)
-        outfile = File.join(@absOutputPath,File.basename(@AbsSrcFilePath)+'.png')
-        P3libImage::convertImgToFiletype(@AbsSrcFilePath,outfile,'png');
+        newfilename = File.basename(@AbsSrcFilePath, ".*") + '.' + targetFileType
+        outfile = File.join(@absOutputPath,newfilename)
+
+        #P3libImage::convertImgToFiletype(@AbsSrcFilePath,outfile,targetFileType);
         
         P3libLogger::log('using max width', maxW.to_s)
         P3libLogger::log('using max height', maxH.to_s)
-        P3libImage::resizeBitmap(outfile,maxW,maxH)
+        P3libImage::resizeBitmapWithOutputType(@AbsSrcFilePath,outfile,maxW,maxH,targetFileType)
         P3libLogger::log('output file:', outfile)
         
         return outfile

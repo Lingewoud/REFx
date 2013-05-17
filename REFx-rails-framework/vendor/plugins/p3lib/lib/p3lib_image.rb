@@ -16,9 +16,15 @@ class P3libImage
         system(cmd)
     end
 
+    def self.resizeBitmapWithOutputType(imgIN,imgOUT,pixWidth,pixHeight,type)
+        cmd = "#{RAILS_ROOT}/../p3imgutils/p3scale -w#{pixWidth} -h#{pixHeight} -i '#{imgIN}' -o '#{imgOUT}' -t #{type}"
+        P3libLogger::log("resizing  with type  cmd:",cmd)
+        system(cmd)
+    end
+
     def self.resizeBitmapByWidth(img,pixWidth)
         cmd = "#{RAILS_ROOT}/../p3imgutils/p3scale -w#{pixWidth} -h0 -i '#{img}' -o '#{img}'"
-        #P3libLogger::log("resizing cmd:",cmd)
+        P3libLogger::log("resizing cmd:",cmd)
         system(cmd)
     end
 
