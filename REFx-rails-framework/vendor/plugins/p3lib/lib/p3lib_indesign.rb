@@ -83,5 +83,27 @@ class P3libIndesign
         end
     end
 
+
+    def self.placeImageOnItem(item, absolute_img_src)
+        if(File.exists?(absolute_img_src) && File.readable?(absolute_img_src) && File.file?(absolute_img_src))
+            
+
+        begin
+            P3libLogger::log("placing item normal", MacTypes::FileURL.path(absolute_img_src).to_s)
+            item.place(MacTypes::FileURL.path(absolute_img_src))
+        rescue
+            begin
+                P3libLogger::log("placing item hfs", MacTypes::FileURL.path(absolute_img_src).hfs_path.to_s)
+                item.place(MacTypes::FileURL.path(absolute_img_src).hfs_path)
+            rescue
+                P3libLogger::log("unable to place item", "")
+            end
+        end
+        else
+                P3libLogger::log("image file not usable", absolute_img_src)
+        end
+    end
+
+
 end
 
