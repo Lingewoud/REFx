@@ -19,14 +19,6 @@ class P3Indesignfranchise_library
 		@dryrun	= true
 	end
 
-	def closeAllDocsNoSave
-
-		@idApp.documents.get.each do |doc|
-			doc.close(:saving => :no)
-			P3libLogger::log("Closing all Indesign open documents:", '') 
-		end
-	end
-
 	private
 
 	def l(key)
@@ -45,9 +37,6 @@ class P3Indesignfranchise_library
 
 	def closeDoc(doc)
         doc.close(:saving => :no)
-        #doc.close({:saving => :no})
-        #closeAllDocsNoSave
-        #p doc.methods.sort
 		P3libLogger::log("Closing Indesign document:", @filePath) 
 	end
 

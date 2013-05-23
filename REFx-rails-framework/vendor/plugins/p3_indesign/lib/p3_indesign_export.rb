@@ -24,8 +24,7 @@ class P3Indesign_export < P3Indesign_library
 	#TODO test functions spreads
 	def getXML 
 
-		#TODO REMOVE
-		closeAllDocsNoSave
+        P3libIndesign::closeAllDocsNoSave
 
 		@idDoc = openDoc(@filePath)
 

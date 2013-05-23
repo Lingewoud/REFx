@@ -14,14 +14,7 @@ class P3Indesign_library
 		P3libLogger::log('Using Indesign Version', @idApp.to_s)
 	end
     
-	def closeAllDocsNoSave
-        
-		@idApp.documents.get.each do |doc|
-			doc.close(:saving => :no)
-            P3libLogger::log("Closing all Indesign open documents:", '')
-		end
-	end
-    
+  
 	private
     
 	# log function

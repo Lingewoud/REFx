@@ -104,6 +104,18 @@ class P3libIndesign
         end
     end
 
+    def self.closeAllDocsNoSave
+        begin
+            @idApp.documents.get.each do |doc|
+                doc.close(:saving => :no)
+                P3libLogger::log("Closing all Indesign open documents:", '')
+            end
+        rescue
+            P3libLogger::log("unable to close all open documents", "",'error')
+        end
+        
+    end
+
 
 end
 

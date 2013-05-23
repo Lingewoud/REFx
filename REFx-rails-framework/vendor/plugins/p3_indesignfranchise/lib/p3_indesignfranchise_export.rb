@@ -45,7 +45,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
             P3libLogger::log('Debug mode for P3Indesignfranchise_export', 'on')
         end
             
-        closeAllDocsNoSave
+        P3libIndesign::closeAllDocsNoSave
 
 		@idDoc = openDoc(@filePath)
 
@@ -109,7 +109,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			end
 		end
 
-		closeDoc(@idDoc)
+        P3libIndesign::closeAllDocsNoSave
 
 		P3libLogger::log('Removing eps and pdf files','')
 

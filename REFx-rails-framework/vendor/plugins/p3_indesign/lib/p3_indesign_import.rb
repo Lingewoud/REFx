@@ -53,7 +53,8 @@ class P3Indesign_import < P3Indesign_library
 		destbasename = @outputPath+@outputBaseName
         
 		#close all docs for a fresh start
-		closeAllDocsNoSave
+        P3libIndesign::closeAllDocsNoSave
+
 		@indesignSourceDoc = openDoc(@filePath)
 		
 		#make sure we use the correct reference point

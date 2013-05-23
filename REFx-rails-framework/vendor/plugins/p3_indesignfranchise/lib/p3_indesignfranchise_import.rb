@@ -176,7 +176,8 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
     
 	def finalPreview(xmlencoded,preset,relFolderPath='', genSWF=false, copyINDD=false)
         
-        closeAllDocsNoSave
+        P3libIndesign::closeAllDocsNoSave
+
 		relFolderPath = Base64.decode64(relFolderPath)
 		preset = Base64.decode64(preset)
         
