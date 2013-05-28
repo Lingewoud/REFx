@@ -22,8 +22,13 @@ class P3libIndesign
         else
             inDesignApp.transparency_preference.blending_space.set(:to => :CMYK)
             inDesignApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)
-            inDesignApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)
-        
+    
+            begin
+                inDesignApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)
+            rescue Exception => e
+                P3libLogger::log('PNG export failed: '+ e.message, 'error')
+            end
+    
             cmd1 = "#{RAILS_ROOT}/vendor/MacApplications/pdfrasterize -s 2.0 -t -o '#{outputPath}' -f png '#{orig}'"
     
             P3libLogger::log('rasterize:dest'+dest,cmd1)
@@ -45,7 +50,7 @@ class P3libIndesign
             begin
                 inDesignApp.export(doc, :format => :PNG_format, :to => MacTypes::FileURL.path(dest).hfs_path, :timeout => 0, :showing_options => false)
             rescue Exception => e
-                P3libLogger::log('PNG export failed: '+ e.message)
+                P3libLogger::log('PNG export failed: '+ e.message, 'error')
             end
         else
             
@@ -104,9 +109,9 @@ class P3libIndesign
         end
     end
 
-    def self.closeAllDocsNoSave
+    def self.closeAllDocsNoSave(inDesignApp)
         begin
-            @idApp.documents.get.each do |doc|
+            inDesignApp.documents.get.each do |doc|
                 doc.close(:saving => :no)
                 P3libLogger::log("Closing all Indesign open documents:", '')
             end

@@ -45,7 +45,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
             P3libLogger::log('Debug mode for P3Indesignfranchise_export', 'on')
         end
             
-        P3libIndesign::closeAllDocsNoSave
+        P3libIndesign::closeAllDocsNoSave(@idApp)
 
 		@idDoc = openDoc(@filePath)
 
@@ -109,7 +109,7 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			end
 		end
 
-        P3libIndesign::closeAllDocsNoSave
+        P3libIndesign::closeAllDocsNoSave(@idApp)
 
 		P3libLogger::log('Removing eps and pdf files','')
 
@@ -483,9 +483,16 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 			lines = @idDoc.get(object.lines.object_reference, :result_type => :list)
 
 			lines.each do |line|
-				#FIXME add font color
+
 				lineID			= 'line_'+@idDoc.get(object.id_, :result_type => :string).to_s + '_' + lineI.to_s
 				font			= @idDoc.get(line.applied_font, :result_type => :string).to_s
+
+				#color			= @idDoc.get(line.fill_color).color_value.get
+				fillcolor		= @idDoc.get(line.fill_color)
+                color = fillColorToHeX(fillcolor)
+
+
+
 				spacing			= @idDoc.get(line.desired_letter_spacing).to_s
 				fontScale		= @idDoc.get(line.desired_glyph_scaling).to_i
 				fontStyle		= (@idDoc.get(line.font_style, :result_type => :string).to_s == 'Italic') ? 'italic' : 'normal'
@@ -495,10 +502,11 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 
 				justification	= (justify != 'center') ? justify.to_s[0,justify.index('_')] : 'center'
 				cnt				= (@idDoc.get(line, :result_type => :string).to_s[-1	,1].chomp.empty? || @idDoc.get(line, :result_type => :string).to_s[-1	,1] == ' ') ? @idDoc.get(line, :result_type => :string).chomp : @idDoc.get(line, :result_type => :string)
-
+               
 				if lineI < 1
-					content	+= "<p id=\"#{lineID}\" style=\"font-family:#{font};font-size:#{fontSize};text-align:#{justification};font-style:#{fontStyle};font-weight:#{fontWeight};letter-spacing:#{spacing};font-size:#{fontScale}%\">#{cnt}<br/>"
-				else
+					content	+= "<p id=\"#{lineID}\" style=\"color:#{color};font-family:#{font};font-size:#{fontSize};text-align:#{justification};font-style:#{fontStyle};font-weight:#{fontWeight};letter-spacing:#{spacing};font-size:#{fontScale}%\">#{cnt}<br/>"
+                    p content
+                else
 					content	+= "#{cnt}<br/>"
 				end
 
@@ -526,7 +534,51 @@ class P3Indesignfranchise_export < P3Indesignfranchise_library
 		end
 	end
 
+   	def fillColorToHeX(fillcolor_id)
+		#FIXME somehow this seems not as accurate as the ActionScript equivalent
+        #p fillcolor_id.space.get
+        colorArr = fillcolor_id.color_value.get
+        #p colorArr
+        
+        
+        #colorArr = cmyk.split('.')
+		
+        #		c = stripLeadingZero(colorArr[0]).to_f/100
+		#m = stripLeadingZero(colorArr[1]).to_f/100
+		#y = stripLeadingZero(colorArr[2]).to_f/100
+		#k = stripLeadingZero(colorArr[3]).to_f/100
+		c = colorArr[0]/100
+		m = colorArr[1]/100
+		y = colorArr[2]/100
+		k = colorArr[3]/100
+        
+		#the adobe approach
+		ra = (1.0 - min(1.0, c + k))*255
+		ga = (1.0 - min(1.0, m + k))*255
+		ba = (1.0 - min(1.0, y + k))*255
+        
+        
+        
+		#a custom interpretation
+		rc = (1.0 - (c * (1.0 - k) + k))*255
+		gc = (1.0 - (m * (1.0 - k) + k))*255
+		bc = (1.0 - (y * (1.0 - k) + k))*255
+        
+		#another approach
+		ro = ((1.0 - k + c)*(k - 1.0))*255
+		go = ((1.0 - k + m)*(k - 1.0))*255
+		bo = ((1.0 - k + y)*(k - 1.0))*255
+
+        #return "#{ra.to_i.to_s}#{ga.to_i.to_s}#{ba.to_i.to_s} ##{rc}#{gc}#{bc} ##{ro}#{go}#{bo}"
+        flat = "##{ra.to_i.to_s}#{ga.to_i.to_s}#{ba.to_i.to_s}"
+        if( flat == '#255255255')
+            flat="#fff"
+        end
+        return flat
+    end
+    
 	def getCMYKtoHeX(cmyk)
+
 		#FIXME somehow this seems not as accurate as the ActionScript equivalent
 		
 		colorArr = cmyk.split('.')

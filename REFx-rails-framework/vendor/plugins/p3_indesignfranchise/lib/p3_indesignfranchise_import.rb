@@ -176,7 +176,7 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
     
 	def finalPreview(xmlencoded,preset,relFolderPath='', genSWF=false, copyINDD=false)
         
-        P3libIndesign::closeAllDocsNoSave
+        P3libIndesign::closeAllDocsNoSave(@idApp)
 
 		relFolderPath = Base64.decode64(relFolderPath)
 		preset = Base64.decode64(preset)
@@ -240,7 +240,7 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 			exec_exportPackedINDD(doc,packPath)
 		end
         
-		#closeDoc(@finalDoc)
+        #        P3libIndesign::closeAllDocsNoSave(@idApp)
 	end
     
 	def createDoc
@@ -429,10 +429,12 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
                     item.paragraphs.fill_color.set(:to => item.characters[1].fill_color.get)
                 end
             end
-            elsif(!obj[1]['content'].nil?)
+
+        elsif(!obj[1]['content'].nil? && obj[1]['content'].gsub("\n\n",'') !='')
+            p obj[1]
 			item.contents.set(:to => obj[1]['content'].strip)
 			item.paragraphs.fill_color.set(:to => item.characters[1].fill_color.get)
-            else
+        else
 			obj[1]['p3s_visible'] = "false"
 		end
         
