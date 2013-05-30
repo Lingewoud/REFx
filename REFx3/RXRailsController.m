@@ -47,8 +47,9 @@
         NSString *railsCommand = [NSString stringWithFormat:@"%@/script/server", railsRootDirectory];
         
         if(![railsPort intValue]) {
-            railsPort = @"3030";
+            NSLog(@"ERROR: No port set");
         }
+        
         [self setRunningRailsPort:railsPort];
         
         NSString *railsEnvironment = [NSString stringWithFormat:@"--environment=%@", environment];

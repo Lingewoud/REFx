@@ -93,9 +93,8 @@
 
 - (void) startComServer:(NSString*)port {
     if(![port intValue]) {
-        port = @"3030";
+        NSLog(@"ERROR: No port set");
     }
-    
     
     [railsController startComServer:port :railsEnvironment];
     

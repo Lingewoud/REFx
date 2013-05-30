@@ -45,14 +45,11 @@
     [startStopButtonScheduler setState:0];   
     [startStopButtonCommunicationServer setState:0];
     
-    //[self instanciateJobController];
     [self instanciateLogController];
 }
 
 - (void)instanciateJobController {
     
-    //jobMngrController = [[RXJobMngrWebGui alloc] initWithNibName:@"RXJobMngrWebGui" bundle:nil];
-    //[jobMgrView setView:jobMngrController.view];
 }
 
 - (void)instanciateLogController {
@@ -76,10 +73,6 @@
     [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engine body:body];
     
     [self refreshJobmanagerView];
-    
-        
-//    [_insJobBody stringValue];
-    
 }
 
 - (void)startStopActionScheduler:(id)sender
@@ -99,22 +92,17 @@
 {   
     if([startStopButtonCommunicationServer state]==1) {
         
-        [[[NSApp delegate] refxInstance ] startComServer:@"3030"];        
+        [[[NSApp delegate] refxInstance ] startComServer:@"3031"];        
         
-        [NSThread sleepForTimeInterval:3];
-        
-        //[jobMngrController setWebViewUrlWithPort:@"3030"];
+        [NSThread sleepForTimeInterval:3];        
     }
     else
     {
-        [[[[NSApp delegate] refxInstance ] railsController] stopComServer];
-        //[jobMngrController stopJobManagerInterface];
-        
+        [[[[NSApp delegate] refxInstance ] railsController] stopComServer];        
     }
 }
 
 - (void)refreshJobmanagerView {   
-    //[jobMngrController setWebViewUrlWithPort:@"3030"];
 }
 
 
