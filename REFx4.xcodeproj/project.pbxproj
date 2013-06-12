@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		3EF2B0171583FD2100CD035F /* REFx3.dmg */ = {
+		3EF2B0171583FD2100CD035F /* REFx4.dmg */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 3EF2B0181583FD2100CD035F /* Build configuration list for PBXAggregateTarget "REFx3.dmg" */;
+			buildConfigurationList = 3EF2B0181583FD2100CD035F /* Build configuration list for PBXAggregateTarget "REFx4.dmg" */;
 			buildPhases = (
 				3EF2B01B1583FD9C00CD035F /* CopyFiles */,
 				3EF2B0201583FE5100CD035F /* ShellScript */,
 			);
 			dependencies = (
 			);
-			name = REFx3.dmg;
+			name = REFx4.dmg;
 			productName = REFx3.dmg;
 		};
 /* End PBXAggregateTarget section */
@@ -67,7 +67,7 @@
 		3EC97CF21448920100B81F47 /* RXMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CF11448920100B81F47 /* RXMainWindow.xib */; };
 		3EC97CFB144892BA00B81F47 /* RXLogView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CF9144892BA00B81F47 /* RXLogView.m */; };
 		3EC97CFC144892BA00B81F47 /* RXLogView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CFA144892BA00B81F47 /* RXLogView.xib */; };
-		3EF2B01E1583FE4100CD035F /* refx3-dmg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3EF2B01C1583FDF000CD035F /* refx3-dmg */; };
+		3EF2B01E1583FE4100CD035F /* refx4-dmg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3EF2B01C1583FDF000CD035F /* refx4-dmg */; };
 		3EF2B04B15867CB700CD035F /* p3imgutils in Resources */ = {isa = PBXBuildFile; fileRef = 3EF2B04A15867CB600CD035F /* p3imgutils */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +78,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				3EF2B01E1583FE4100CD035F /* refx3-dmg in CopyFiles */,
+				3EF2B01E1583FE4100CD035F /* refx4-dmg in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,8 +86,8 @@
 
 /* Begin PBXFileReference section */
 		3E0A80A514EE847C00D9FBAA /* refx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = refx.icns; path = ../refx.icns; sourceTree = "<group>"; };
-		3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXREFxIntance.h; sourceTree = "<group>"; };
-		3E13D000144CA55B00523A5E /* RXREFxIntance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXREFxIntance.m; sourceTree = "<group>"; };
+		3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXREFxIntance.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3E13D000144CA55B00523A5E /* RXREFxIntance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXREFxIntance.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3E473BEF161CA7A900942E37 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		3E473BF0161CA7A900942E37 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
 		3E473BF1161CA7A900942E37 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		3E473BF7161CA7A900942E37 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		3E473BF8161CA7A900942E37 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		3E473C00161CA7C700942E37 /* JobsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobsView.h; sourceTree = "<group>"; };
-		3E473C02161CA7C700942E37 /* JobsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobsView.m; sourceTree = "<group>"; };
+		3E473C02161CA7C700942E37 /* JobsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = JobsView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3E615FFB14EE968A0054898D /* REFxAppBg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = REFxAppBg.jpg; sourceTree = "<group>"; };
 		3E615FFF14EE986E0054898D /* REFxLogoApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = REFxLogoApp.png; sourceTree = "<group>"; };
 		3E6CBAEF144C72FE00D4105F /* railsTerminator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = railsTerminator.rb; sourceTree = "<group>"; };
@@ -109,36 +109,36 @@
 		3EA987A2144F49F0001A296B /* REFx-rails-framework */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "REFx-rails-framework"; sourceTree = "<group>"; };
 		3EA987A4144F4A5A001A296B /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		3EA987A7144F4A71001A296B /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		3EB5D8351507C5660093B600 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
-		3EB5D8361507C5660093B600 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
+		3EB5D8351507C5660093B600 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreferencesController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3EB5D8361507C5660093B600 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PreferencesController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3EB5D8371507C5660093B600 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		3EB5D8401507D7CA0093B600 /* PAS3TestJobs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PAS3TestJobs; path = REFx3/PAS3TestJobs; sourceTree = "<group>"; };
-		3EC97C8D14488BDB00B81F47 /* REFx3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = REFx3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3EC97C8D14488BDB00B81F47 /* REFx4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = REFx4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC97C9114488BDB00B81F47 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		3EC97C9414488BDB00B81F47 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		3EC97C9514488BDB00B81F47 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3EC97C9614488BDB00B81F47 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		3EC97C9914488BDB00B81F47 /* REFx3-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "REFx3-Info.plist"; sourceTree = "<group>"; };
+		3EC97C9914488BDB00B81F47 /* REFx4-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "REFx4-Info.plist"; sourceTree = "<group>"; };
 		3EC97C9B14488BDB00B81F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		3EC97C9D14488BDB00B81F47 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3EC97C9F14488BDB00B81F47 /* REFx3-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "REFx3-Prefix.pch"; sourceTree = "<group>"; };
+		3EC97C9D14488BDB00B81F47 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = main.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		3EC97C9F14488BDB00B81F47 /* REFx4-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "REFx4-Prefix.pch"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3EC97CA114488BDB00B81F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		3EC97CA314488BDB00B81F47 /* REFx3AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = REFx3AppDelegate.h; sourceTree = "<group>"; };
-		3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = REFx3AppDelegate.m; sourceTree = "<group>"; };
+		3EC97CA314488BDB00B81F47 /* REFx3AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = REFx3AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = REFx3AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3EC97CA714488BDC00B81F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		3EC97CAA14488BDC00B81F47 /* REFx3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = REFx3.xcdatamodel; sourceTree = "<group>"; };
-		3EC97CD714488EF200B81F47 /* RXRailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXRailsController.h; sourceTree = "<group>"; };
-		3EC97CD814488EF300B81F47 /* RXRailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXRailsController.m; sourceTree = "<group>"; };
-		3EC97CDA14488F5D00B81F47 /* RXJobPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXJobPicker.h; sourceTree = "<group>"; };
-		3EC97CDB14488F5D00B81F47 /* RXJobPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXJobPicker.m; sourceTree = "<group>"; };
-		3EC97CEE144891DB00B81F47 /* RXMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXMainWindow.h; sourceTree = "<group>"; };
-		3EC97CEF144891DB00B81F47 /* RXMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXMainWindow.m; sourceTree = "<group>"; };
+		3EC97CD714488EF200B81F47 /* RXRailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXRailsController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3EC97CD814488EF300B81F47 /* RXRailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXRailsController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		3EC97CDA14488F5D00B81F47 /* RXJobPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXJobPicker.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3EC97CDB14488F5D00B81F47 /* RXJobPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXJobPicker.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		3EC97CEE144891DB00B81F47 /* RXMainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXMainWindow.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3EC97CEF144891DB00B81F47 /* RXMainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXMainWindow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3EC97CF11448920100B81F47 /* RXMainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXMainWindow.xib; sourceTree = "<group>"; };
-		3EC97CF8144892BA00B81F47 /* RXLogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXLogView.h; sourceTree = "<group>"; };
-		3EC97CF9144892BA00B81F47 /* RXLogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXLogView.m; sourceTree = "<group>"; };
+		3EC97CF8144892BA00B81F47 /* RXLogView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXLogView.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		3EC97CF9144892BA00B81F47 /* RXLogView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXLogView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3EC97CFA144892BA00B81F47 /* RXLogView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RXLogView.xib; sourceTree = "<group>"; };
 		3EF2AFFC1583F9C300CD035F /* InstallerPlugins.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstallerPlugins.framework; path = System/Library/Frameworks/InstallerPlugins.framework; sourceTree = SDKROOT; };
-		3EF2B01C1583FDF000CD035F /* refx3-dmg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "refx3-dmg"; sourceTree = "<group>"; };
+		3EF2B01C1583FDF000CD035F /* refx4-dmg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "refx4-dmg"; sourceTree = "<group>"; };
 		3EF2B04A15867CB600CD035F /* p3imgutils */ = {isa = PBXFileReference; lastKnownFileType = folder; path = p3imgutils; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -238,10 +238,10 @@
 			isa = PBXGroup;
 			children = (
 				3EF2B04A15867CB600CD035F /* p3imgutils */,
-				3EF2B01C1583FDF000CD035F /* refx3-dmg */,
+				3EF2B01C1583FDF000CD035F /* refx4-dmg */,
 				3EB5D8401507D7CA0093B600 /* PAS3TestJobs */,
 				3EA987A2144F49F0001A296B /* REFx-rails-framework */,
-				3EC97C9714488BDB00B81F47 /* REFx3 */,
+				3EC97C9714488BDB00B81F47 /* REFx4 */,
 				3EC97C9014488BDB00B81F47 /* Frameworks */,
 				3EC97C8E14488BDB00B81F47 /* Products */,
 			);
@@ -250,7 +250,7 @@
 		3EC97C8E14488BDB00B81F47 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3EC97C8D14488BDB00B81F47 /* REFx3.app */,
+				3EC97C8D14488BDB00B81F47 /* REFx4.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -279,7 +279,7 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		3EC97C9714488BDB00B81F47 /* REFx3 */ = {
+		3EC97C9714488BDB00B81F47 /* REFx4 */ = {
 			isa = PBXGroup;
 			children = (
 				3EC97CA614488BDC00B81F47 /* MainMenu.xib */,
@@ -295,6 +295,7 @@
 				3E846F82156F8AB900F0BF08 /* LogGui */,
 				3EC97C9814488BDB00B81F47 /* Supporting Files */,
 			);
+			name = REFx4;
 			path = REFx3;
 			sourceTree = "<group>";
 		};
@@ -306,10 +307,10 @@
 				3E615FFB14EE968A0054898D /* REFxAppBg.jpg */,
 				3E0A80A514EE847C00D9FBAA /* refx.icns */,
 				3E6CBAF1144C733C00D4105F /* noserver.html */,
-				3EC97C9914488BDB00B81F47 /* REFx3-Info.plist */,
+				3EC97C9914488BDB00B81F47 /* REFx4-Info.plist */,
 				3EC97C9A14488BDB00B81F47 /* InfoPlist.strings */,
 				3EC97C9D14488BDB00B81F47 /* main.m */,
-				3EC97C9F14488BDB00B81F47 /* REFx3-Prefix.pch */,
+				3EC97C9F14488BDB00B81F47 /* REFx4-Prefix.pch */,
 				3EC97CA014488BDB00B81F47 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
@@ -318,9 +319,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3EC97C8C14488BDB00B81F47 /* REFx3 */ = {
+		3EC97C8C14488BDB00B81F47 /* REFx4 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx3" */;
+			buildConfigurationList = 3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx4" */;
 			buildPhases = (
 				3E1AA14816DC1BC000B3DE3B /* ShellScript */,
 				3EE2CA8615D4053300E371BD /* Run Script */,
@@ -332,9 +333,9 @@
 			);
 			dependencies = (
 			);
-			name = REFx3;
+			name = REFx4;
 			productName = REFx3;
-			productReference = 3EC97C8D14488BDB00B81F47 /* REFx3.app */;
+			productReference = 3EC97C8D14488BDB00B81F47 /* REFx4.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -345,7 +346,7 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 			};
-			buildConfigurationList = 3EC97C8714488BDB00B81F47 /* Build configuration list for PBXProject "REFx3" */;
+			buildConfigurationList = 3EC97C8714488BDB00B81F47 /* Build configuration list for PBXProject "REFx4" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -357,8 +358,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3EC97C8C14488BDB00B81F47 /* REFx3 */,
-				3EF2B0171583FD2100CD035F /* REFx3.dmg */,
+				3EC97C8C14488BDB00B81F47 /* REFx4 */,
+				3EF2B0171583FD2100CD035F /* REFx4.dmg */,
 			);
 		};
 /* End PBXProject section */
@@ -438,7 +439,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx3-dmg/src\nif [ -d REFx3.app ]\nthen\n    rm -r REFx3.app\nfi\ntouch hallo\ncp -r ../../REFx3.app ./\ncd ..\nmake\n\nrsync -av ~/Sourcecode/NighlyBuilds/REFx3/ lingewoud@refxnightly:/var/customers/webs/lingewoud/refx-nightly/\n\n\n\n\n\n\n\n\n";
+			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx4-dmg/src\nif [ -d REFx4.app ]\nthen\n    rm -r REFx4.app\nfi\ntouch hallo\nls ../../\ncp -r ../../REFx4.app ./\ncd ..\nmake\n\nrsync -av ~/Sourcecode/NighlyBuilds/REFx4/ lingewoud@refxnightly:/var/customers/webs/lingewoud/refx-nightly/\n\n\n\n\n\n\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -560,10 +561,10 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "REFx3/REFx3-Prefix.pch";
-				INFOPLIST_FILE = "REFx3/REFx3-Info.plist";
+				GCC_PREFIX_HEADER = "REFx3/REFx4-Prefix.pch";
+				INFOPLIST_FILE = "REFx3/REFx4-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = REFx4;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -577,10 +578,10 @@
 					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "REFx3/REFx3-Prefix.pch";
-				INFOPLIST_FILE = "REFx3/REFx3-Info.plist";
+				GCC_PREFIX_HEADER = "REFx3/REFx4-Prefix.pch";
+				INFOPLIST_FILE = "REFx3/REFx4-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = REFx4;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -589,7 +590,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = REFx4.dmg;
 			};
 			name = Debug;
 		};
@@ -597,14 +598,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = REFx4.dmg;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3EC97C8714488BDB00B81F47 /* Build configuration list for PBXProject "REFx3" */ = {
+		3EC97C8714488BDB00B81F47 /* Build configuration list for PBXProject "REFx4" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3EC97CAC14488BDC00B81F47 /* Debug */,
@@ -613,7 +614,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx3" */ = {
+		3EC97CAE14488BDC00B81F47 /* Build configuration list for PBXNativeTarget "REFx4" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3EC97CAF14488BDC00B81F47 /* Debug */,
@@ -622,7 +623,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3EF2B0181583FD2100CD035F /* Build configuration list for PBXAggregateTarget "REFx3.dmg" */ = {
+		3EF2B0181583FD2100CD035F /* Build configuration list for PBXAggregateTarget "REFx4.dmg" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3EF2B0191583FD2100CD035F /* Debug */,

@@ -18,13 +18,13 @@
 # Customizable variables
 ################################################################################
 
-NAME ?= REFx3
+NAME ?= REFx4
 
-BUILD ?= $(shell /usr/libexec/PlistBuddy -c "Print CFBundleVersion" ../REFx3.app/Contents/Info.plist)
-VERSION ?= $(shell /usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" ../REFx3.app/Contents/Info.plist)
+BUILD ?= $(shell /usr/libexec/PlistBuddy -c "Print CFBundleVersion" ../REFx4.app/Contents/Info.plist)
+VERSION ?= $(shell /usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" ../REFx4.app/Contents/Info.plist)
 
 SOURCE_DIR ?= src
-SOURCE_FILES ?= REFx3.app
+SOURCE_FILES ?= REFx4.app
 
 TEMPLATE_DMG ?= template.dmg
 
@@ -77,7 +77,7 @@ $(MASTER_DMG): $(WC_DMG) $(addprefix $(SOURCE_DIR)/,$(SOURCE_FILES))
     
 	rm -rf ../$(MASTER_DMG)
 	mv $(MASTER_DMG) ../
-	cp ../$(MASTER_DMG) ~/Sourcecode/NighlyBuilds/REFx3
+	cp ../$(MASTER_DMG) ~/Sourcecode/NighlyBuilds/REFx4
 
 
 	@echo

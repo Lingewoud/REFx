@@ -1,8 +1,8 @@
 Create DMG
 ==========
-1. Build (Run) REFx3
+1. Build (Run) REFx4
 2. Enter marketing version number in Makefile
-3. Run REFx3.dmg
+3. Run REFx4.dmg
 
 Change DMG Design
 =================

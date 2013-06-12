@@ -1,6 +1,6 @@
 //
 //  RXREFxIntance.h
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 17-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.

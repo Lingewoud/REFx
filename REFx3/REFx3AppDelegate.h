@@ -1,6 +1,6 @@
 //
-//  REFx3AppDelegate.h
-//  REFx3
+//  REFx4AppDelegate.h
+//  REFx4
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.

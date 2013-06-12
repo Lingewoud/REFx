@@ -399,9 +399,11 @@ class P3Indesignfranchise_import < P3Indesignfranchise_library
 				replaceText(obj, stack)
                 when 'image'
                 
-				replaceImage(obj, stack)
-                
-                
+				begin
+                    replaceImage(obj, stack)
+                rescue Exception => e
+                    P3libLogger::log('Img replace failed: '+ e.message, 'error')
+                end
                 
                 when 'color'
 				replaceColor(obj, stack)

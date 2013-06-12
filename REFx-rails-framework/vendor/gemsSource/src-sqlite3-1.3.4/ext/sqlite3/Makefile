@@ -3,7 +3,7 @@ SHELL = /bin/sh
 
 #### Start of system configuration section. ####
 
-srcdir = /Users/pim/Desktop/REFxWorkSpace/REFx3/REFx-merging-may/vendor/gems/sqlite3-1.3.4/ext/sqlite3
+srcdir = /Users/pim/Desktop/REFxWorkSpace/REFx4/REFx-merging-may/vendor/gems/sqlite3-1.3.4/ext/sqlite3
 topdir = /System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin11.0
 hdrdir = $(topdir)
 VPATH = $(srcdir):$(topdir):$(hdrdir)
@@ -45,7 +45,7 @@ LIBRUBYARG_STATIC = -l$(RUBY_SO_NAME)
 
 RUBY_EXTCONF_H = 
 CFLAGS   =  -fno-common  -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common $(cflags) 
-INCFLAGS = -I. -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin11.0 -I/Users/pim/Desktop/REFxWorkSpace/REFx3/REFx-merging-may/vendor/gems/sqlite3-1.3.4/ext/sqlite3
+INCFLAGS = -I. -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin11.0 -I/Users/pim/Desktop/REFxWorkSpace/REFx4/REFx-merging-may/vendor/gems/sqlite3-1.3.4/ext/sqlite3
 DEFS     = 
 CPPFLAGS = -DHAVE_SQLITE3_INITIALIZE -DHAVE_SQLITE3_BACKUP_INIT  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE  
 CXXFLAGS = $(CFLAGS) 

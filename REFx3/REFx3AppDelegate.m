@@ -1,6 +1,6 @@
 //
-//  REFx3AppDelegate.m
-//  REFx3
+//  REFx4AppDelegate.m
+//  REFx4
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -141,13 +141,13 @@
 
 
 /**
-    Returns the directory the application uses to store the Core Data store file. This code uses a directory named "REFx3" in the user's Library directory.
+    Returns the directory the application uses to store the Core Data store file. This code uses a directory named "REFx4" in the user's Library directory.
  */
 - (NSURL *)applicationFilesDirectory {
 
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *libraryURL = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-    return [libraryURL URLByAppendingPathComponent:@"REFx3"];
+    return [libraryURL URLByAppendingPathComponent:@"REFx4"];
 }
 
 /**
@@ -158,7 +158,7 @@
         return __managedObjectModel;
     }
 	
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"REFx3" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"REFx4" withExtension:@"momd"];
     __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
     return __managedObjectModel;
 }
@@ -207,7 +207,7 @@
         }
     }
     
-    NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"REFx3.storedata"];
+    NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"REFx4.storedata"];
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
     if (![__persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
         [[NSApplication sharedApplication] presentError:error];

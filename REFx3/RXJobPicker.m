@@ -1,6 +1,6 @@
 //
 //  RXJobPicker.m
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -72,7 +72,7 @@
         [rubyJobProcess setLaunchPath: railsCommand];
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
-            NSLog(@"REFx3: debugmode on");
+            NSLog(@"REFx4: debugmode on");
             [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",
                                            @"-j",jobidString,
                                            @"-d",
@@ -440,16 +440,12 @@
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         NSString * testJobPath = [fileName stringByDeletingLastPathComponent];
         
-        if(![fileManager fileExistsAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"]]){
+        if(![fileManager fileExistsAtPath:[testJobPath stringByAppendingString:@"/REFx4Jobs"]]){
             
-            [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];
-            //  [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];
-            
+            [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx4Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];
         }
         [fileManager release];
-        
-        //NSString * testJobPath = [[NSApp delegate] testFolderPath];
-        
+                
         NSString *jobBody = [NSString stringWithFormat: @"---\n"
                              "init_args: \n"
                              "  - \n"
@@ -460,7 +456,7 @@
                              "      %@\n"
                              "    type: string\n"
                              "  - \n"
-                             "    value: REFx3Jobs\n"
+                             "    value: REFx4Jobs\n"
                              "    type: string\n"
                              "  - \n"
                              "    value: Adobe InDesign CS4\n"
@@ -521,9 +517,6 @@
             // Do something with the filename.
         }
     }
-    
-    //NSLog(@"filename %@",fileName);
-    
                 
 
     if(dbOpened)
@@ -534,15 +527,11 @@
         NSFileManager *fileManager = [[NSFileManager alloc] init];
         NSString * testJobPath = [fileName stringByDeletingLastPathComponent];
 
-        if(![fileManager fileExistsAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"]]){
+        if(![fileManager fileExistsAtPath:[testJobPath stringByAppendingString:@"/REFx4Jobs"]]){
 
-            [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];      
-         //  [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];      
-
+            [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx4Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];
         }
         [fileManager release];
-
-        //NSString * testJobPath = [[NSApp delegate] testFolderPath];
         
         NSString *jobBody = [NSString stringWithFormat: @"---\n"
                              "init_args: \n"
@@ -554,7 +543,7 @@
                              "      %@\n"
                              "    type: string\n"
                              "  - \n"
-                             "    value: REFx3Jobs\n"
+                             "    value: REFx4Jobs\n"
                              "    type: string\n"
                              "  - \n"
                              "    value: Adobe InDesign CS6\n"

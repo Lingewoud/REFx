@@ -1,6 +1,6 @@
 //
 //  RXREFxIntance.m
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 17-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -59,15 +59,15 @@
                             stringByAppendingString:@"/Contents/Resources/REFx-rails-framework"];      
         }
 
-        AppSupportDir = @"/Library/Application Support/REFx3";
+        AppSupportDir = @"/Library/Application Support/REFx4";
        
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"useDevelopmentEnvironment"]) {
             railsEnvironment=@"development";
-            dbPath = [AppSupportDir stringByAppendingString:@"/Database/refx3development.sqlite3"];
+            dbPath = [AppSupportDir stringByAppendingString:@"/Database/refx4development.sqlite3"];
         } 
         else {
             railsEnvironment=@"production";
-            dbPath = [AppSupportDir stringByAppendingString:@"/Database/refx3production.sqlite3"];
+            dbPath = [AppSupportDir stringByAppendingString:@"/Database/refx4production.sqlite3"];
         }
     
         [self checkAppScript];
@@ -150,7 +150,7 @@
 {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
         
-    if(![fileManager fileExistsAtPath:[AppSupportDir stringByAppendingString:@"/Database/refx3production.sqlite3"]]){
+    if(![fileManager fileExistsAtPath:[AppSupportDir stringByAppendingString:@"/Database/refx4production.sqlite3"]]){
 
         NSTask *ps = [[NSTask alloc] init];
         [ps setLaunchPath:@"/bin/sh"];
@@ -169,7 +169,7 @@
         
     }
     
-    if(![fileManager fileExistsAtPath:[AppSupportDir stringByAppendingString:@"/Database/refx3development.sqlite3"]]){
+    if(![fileManager fileExistsAtPath:[AppSupportDir stringByAppendingString:@"/Database/refx4development.sqlite3"]]){
         
         NSTask *ps = [[NSTask alloc] init];
         [ps setLaunchPath:@"/bin/sh"];
