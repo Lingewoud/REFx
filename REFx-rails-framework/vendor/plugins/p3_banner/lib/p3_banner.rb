@@ -16,77 +16,126 @@ class P3Banner
         remoteDummyRootDir = Base64.decode64(remoteDummyRootDir)
 		relSrcFilePath = Base64.decode64(relSrcFilePath)
 		relOutputBasePath = Base64.decode64(relOutputBasePath)
-        
-        P3libLogger::log('init:')
-        P3libLogger::log(remoteDummyRootDir)
-        P3libLogger::log(relOutputBasePath)
-        P3libLogger::log(relSrcFilePath)
-        
+                        
 		# 'Adobe Flash CS3'
 		# 'Adobe Flash CS4'
 		# 'InDesignServer'
 		#
         
-		@idApp			= (inApplication == 'Adobe Flash CS6') ?  app(inApplication) : app(Base64.decode64(inApplication)) #dit gaat zeer wss mis, want ik heb geen flash.
+        P3libLogger::log(remoteDummyRootDir)
+        P3libLogger::log(relSrcFilePath)
+        P3libLogger::log(relOutputBasePath)
+        
+		@idApp = (inApplication == 'Adobe Flash CS6') ? app(inApplication) : app(Base64.decode64(inApplication))
+        
 		@dryRun			= dryRun
 		@noObjectExport = noObjectExport
+
+        @relSrcFilePath = relSrcFilePath
+		@remoteDummyRootDir = remoteDummyRootDir
         
-		if remoteDummyRootDir.nil?
+        if remoteDummyRootDir.nil?
 			@AbsSrcFilePath	=  relSrcFilePath
-            else
+        else
 			@AbsSrcFilePath	=  File.join(remoteDummyRootDir,relSrcFilePath)
-			@remoteDummyRootDir = remoteDummyRootDir
 			$remoteDummyRootDir = remoteDummyRootDir # Not, nice but needed for getting images in de banner_import class
 		end
         
 		if jobId.nil?
 			@relOutputPath 	= relOutputBasePath + '/'
-            else
+        else
 			@jobId = jobId
 			@relOutputPath 	= File.join(relOutputBasePath,@jobId) + '/'
 		end
-        
-        modConfigJSFL()
-        
+
 		@absOutputPath 		= File.join(@remoteDummyRootDir,relOutputBasePath,@jobId)
         
 		FileUtils.mkdir(@absOutputPath) if not File.directory? @absOutputPath if not dryRun
         
-		@absOutputPath 	+= '/'
-        
-        P3libLogger::log('Hello, init seemingly succeeded')
+		@absOutputPath += '/'
     end
 
-    def modConfigJSFL()
-        
-        path = '/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/JSFL_export/export/export.jsfl'
+    public
+    
+    def modConfigJSFL(input=false, id=0)
 
-        lines = IO.readlines(path).map do |line|
+        if(input)
+            path = '/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/JSFL/import.jsfl'
+        else
+            path = '/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/JSFL/export.jsfl'
+        end
+    
+        data = '';
+        
+        f = File.open(path, "r")
+        #relOutPath moet zonder jobId in dit geval
+        P3libLogger::log(@relOutputPath)
 
-        end        
+        relarray = @relOutputPath.split('/')
+        relarray.delete(@jobId)
+        newRelPath = relarray.join('/')
         
-        #File.open(path, 'w') do |file|
-        #    P3libLogger::log(file)
-        #end
+        f.each_line do |line|
+            
+            line2 = line.gsub(/\s/,'')
+            
+            documentNameData = line2.gsub(/documentName\:/,'')
+            jobIdData = line2.gsub(/jobID\:/,'')
+            outputBasePathData = line2.gsub(/outputBasePath\:/,'')
+            outputFileData = line2.gsub(/outputFileName\:/,'')
+            outputFolderData = line2.gsub(/outputFolder\:/,'')
+            
+            if documentNameData != line2
+                data += "documentName:'file://" + @AbsSrcFilePath + "',\n"
+            elsif jobIdData != line2
+                if(input)
+                    data += "jobID:'" + id.to_s() + "',\n"
+                else
+                    data += "jobID:'" + @jobId + "',\n"
+                end
+            elsif outputFileData != line2
+                data += "outputFileName:'output',\n"
+            elsif outputFolderData != line2
+                data += "outputFolder:'" + newRelPath + "/',\n"
+            elsif outputBasePathData != line2
+                data += "outputBasePath:'file://" + @remoteDummyRootDir + "',\n"
+            else
+                data += line
+            end                      
+        end
+
+        if input
+            file = 'import_' + @jobId + '.jsfl'
+        else
+            file = 'export_' + @jobId + '.jsfl'
+        end
+            
+        path = '/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/JSFL/' + file
         
+        File.open(path, 'w') {|f| f.write(data) }
     end
     
     def indexFile()
-        path = "#{RAILS_ROOT}/JSFL_export/export/export.jsfl"
-        cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/JSFL_export/export/export.jsfl\"'"
-                P3libLogger::log(path)
-        #system(cmd)
         
-        P3libLogger::log(cmd)
+        modConfigJSFL();
         
+        file = "export_" + @jobId + ".jsfl"
+        
+        cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/JSFL/export_"+@jobId+".jsfl\"'"
+        
+        system(cmd)
     end
     
-    def getXML()
+    def getSWF(answerxml, id)
         
-        file = File.open("/Users/maartenvanhees/XMLDUMMY.xml", "rb")
-        contents = file.read
+        P3libLogger::log("Me, FLASH BANNER, am getting a swf now")
+
+        #we moeten de huidige id geven aan de config, want we moeten de swf in de geindexeerde map knallen, naast de dingen die er nog naast moeten
         
-        return contents
+        modConfigJSFL(true, id)
         
+        cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/JSFL/import_"+@jobId+".jsfl\"'"
+        
+        system(cmd)
     end
-end
+ end
