@@ -5,16 +5,6 @@
 class P3libImage
     
     public
-    
-    def getXYRatio(original_size,newWidth, newHeight)
-        return newWidth.to_f / original_size.width.to_f, newHeight.to_f / original_size.height.to_f
-    end
-    
-    def self.resizeBitmap(img,pixWidth,pixHeight)
-        cmd = "#{RAILS_ROOT}/../p3imgutils/p3scale -w#{pixWidth} -h#{pixHeight} -i '#{img}' -o '#{img}'"
-        #P3libLogger::log("resizing cmd:",cmd)
-        system(cmd)
-    end
 
     def self.resizeBitmapWithOutputType(imgIN,imgOUT,pixWidth,pixHeight,type)
         cmd = "#{RAILS_ROOT}/../p3imgutils/p3scale -w#{pixWidth} -h#{pixHeight} -i '#{imgIN}' -o '#{imgOUT}' -t #{type}"
@@ -22,9 +12,19 @@ class P3libImage
         system(cmd)
     end
 
+    def getXYRatio(original_size,newWidth, newHeight)
+        return newWidth.to_f / original_size.width.to_f, newHeight.to_f / original_size.height.to_f
+    end
+
+    def self.resizeBitmap(img,pixWidth,pixHeight)
+        cmd = "#{RAILS_ROOT}/../p3imgutils/p3scale -w#{pixWidth} -h#{pixHeight} -i '#{img}' -o '#{img}'"
+        #P3libLogger::log("resizing cmd:",cmd)
+        system(cmd)
+    end
+
     def self.resizeBitmapByWidth(img,pixWidth)
         cmd = "#{RAILS_ROOT}/../p3imgutils/p3scale -w#{pixWidth} -h0 -i '#{img}' -o '#{img}'"
-        P3libLogger::log("resizing cmd:",cmd)
+        #P3libLogger::log("resizing cmd:",cmd)
         system(cmd)
     end
 
