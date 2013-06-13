@@ -110,7 +110,8 @@ class P3Banner
             file = 'export_' + @jobId + '.jsfl'
         end
             
-        path = '/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/JSFL/' + file
+        #path = '/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/JSFL/' + file
+        path = File.dirname(__FILE__) + '/JSFL/' . file        
         
         File.open(path, 'w') {|f| f.write(data) }
     end
@@ -121,7 +122,7 @@ class P3Banner
         
         file = "export_" + @jobId + ".jsfl"
         
-        cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/JSFL/export_"+@jobId+".jsfl\"'"
+        cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/vendor/plugins/p3_banner/lib/JSFL/export_"+@jobId+".jsfl\"'"
         
         system(cmd)
     end
@@ -134,7 +135,7 @@ class P3Banner
         
         modConfigJSFL(true, id)
         
-        cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/JSFL/import_"+@jobId+".jsfl\"'"
+        cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/vendor/plugins/p3_banner/lib/JSFL/import_"+@jobId+".jsfl\"'"
         
         system(cmd)
     end
