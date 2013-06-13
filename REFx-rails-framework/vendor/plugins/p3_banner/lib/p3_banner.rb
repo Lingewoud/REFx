@@ -98,7 +98,7 @@ class P3Banner
             elsif outputFolderData != line2
                 data += "outputFolder:'" + newRelPath + "/',\n"
             elsif outputBasePathData != line2
-                data += "outputBasePath:'file://" + @remoteDummyRootDir + "',\n"
+                data += "outputBasePath:'file://" + @remoteDummyRootDir + "/',\n"
             else
                 data += line
             end                      
