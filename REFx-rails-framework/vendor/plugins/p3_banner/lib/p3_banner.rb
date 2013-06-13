@@ -16,7 +16,7 @@ class P3Banner
         remoteDummyRootDir = Base64.decode64(remoteDummyRootDir)
 		relSrcFilePath = Base64.decode64(relSrcFilePath)
 		relOutputBasePath = Base64.decode64(relOutputBasePath)
-                        
+        
 		# 'Adobe Flash CS3'
 		# 'Adobe Flash CS4'
 		# 'InDesignServer'
@@ -102,7 +102,7 @@ class P3Banner
             elsif outputFolderData != line2
                 data += "outputFolder:'" + newRelPath + "/',\n"
             elsif outputBasePathData != line2
-                data += "outputBasePath:'file://" + @remoteDummyRootDir + "',\n"
+                data += "outputBasePath:'file://" + @remoteDummyRootDir + "/',\n"
             else
                 data += line
             end
