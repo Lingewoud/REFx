@@ -1,0 +1,84 @@
+[SYST] 2147 import_2162.jsfl [13/06/2013:17:38:36] > Script starting ...
+[SYST] 2147 import_2162.jsfl [13/06/2013:17:38:36] > Using config:
+  documentName : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/fileadmin/REFxBannerTest/Alto300x250_5.fla
+  outputBasePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/
+  jobID : 2147
+  outputFolder : uploads/tx_p3ga/
+  outputFileName : output
+  logFilePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/log.txt
+  logFileName : log.txt
+  gifDuration : 10
+  logToFile : true
+  logToIDE : false
+  libDir : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/lib/
+  basePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/
+  outputFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/
+  profileFilePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/uploads/tx_p3ga/png.xml
+  outputFLAFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/output.fla
+  outputSWFFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/output.swf
+  outputStatusPath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/status.tx
+[CRIT] 2147 import_2162.jsfl [13/06/2013:17:38:36] > Error, target FLA not found
+[CRIT] 2147 import_2162.jsfl [13/06/2013:17:38:36] > Error loading the XML
+[SYST] 2147 import_2162.jsfl [13/06/2013:18:39:11] > Script starting ...
+[SYST] 2147 import_2162.jsfl [13/06/2013:18:39:11] > Using config:
+  documentName : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/fileadmin/REFxBannerTest/Alto300x250_5.fla
+  outputBasePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/
+  jobID : 2147
+  outputFolder : uploads/tx_p3ga/
+  outputFileName : output
+  logFilePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/log.txt
+  logFileName : log.txt
+  gifDuration : 10
+  logToFile : true
+  logToIDE : false
+  libDir : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/lib/
+  basePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/
+  outputFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/
+  profileFilePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/uploads/tx_p3ga/png.xml
+  outputFLAFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/output.fla
+  outputSWFFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/output.swf
+  outputStatusPath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/status.tx
+[CRIT] 2147 import_2162.jsfl [13/06/2013:18:39:11] > Error, target FLA not found
+[CRIT] 2147 import_2162.jsfl [13/06/2013:18:39:11] > Error loading the XML
+[SYST] 2147 import_2162.jsfl [13/06/2013:18:39:21] > Script starting ...
+[SYST] 2147 import_2162.jsfl [13/06/2013:18:39:21] > Using config:
+  documentName : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/fileadmin/REFxBannerTest/Alto300x250_5.fla
+  outputBasePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/
+  jobID : 2147
+  outputFolder : uploads/tx_p3ga/
+  outputFileName : output
+  logFilePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/log.txt
+  logFileName : log.txt
+  gifDuration : 10
+  logToFile : true
+  logToIDE : false
+  libDir : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/lib/
+  basePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/
+  outputFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/
+  profileFilePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/uploads/tx_p3ga/png.xml
+  outputFLAFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/output.fla
+  outputSWFFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/output.swf
+  outputStatusPath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/uploads/tx_p3ga/2147/status.tx
+[CRIT] 2147 import_2162.jsfl [13/06/2013:18:39:21] > Error, target FLA not found
+[CRIT] 2147 import_2162.jsfl [13/06/2013:18:39:21] > Error loading the XML
+[SYST] 7249 import_7249.jsfl [13/06/2013:18:57:24] > Script starting ...
+[SYST] 7249 import_7249.jsfl [13/06/2013:18:57:24] > Using config:
+  documentName : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy/fileadmin/REFxBannerTest/Alto300x250_5.fla
+  outputBasePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy//
+  jobID : 7249
+  outputFolder : uploads/tx_p3ga/2173/
+  outputFileName : output
+  logFilePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/log.txt
+  logFileName : log.txt
+  gifDuration : 10
+  logToFile : true
+  logToIDE : false
+  libDir : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/lib/
+  basePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/
+  outputFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy//uploads/tx_p3ga/2173/7249/
+  profileFilePath : file:///Macintosh%20HD/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/vendor/plugins/p3_banner/lib/JSFL/uploads/tx_p3ga/2173/png.xml
+  outputFLAFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy//uploads/tx_p3ga/2173/7249/output.fla
+  outputSWFFilePath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy//uploads/tx_p3ga/2173/7249/output.swf
+  outputStatusPath : file:///Volumes/mvhees/2012sukpas2/nl-suzuki.nl.pas3-mei2013/web/dummy//uploads/tx_p3ga/2173/7249/status.tx
+[CRIT] 7249 import_7249.jsfl [13/06/2013:18:57:24] > Error, target FLA not found
+[CRIT] 7249 import_7249.jsfl [13/06/2013:18:57:24] > Error loading the XML

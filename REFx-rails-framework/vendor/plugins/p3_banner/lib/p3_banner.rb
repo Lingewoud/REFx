@@ -66,7 +66,7 @@ class P3Banner
         end
     
         if(id != 0)
-            @jobId = id
+            @jobId = id.to_s()
         end
         
         data = ''
