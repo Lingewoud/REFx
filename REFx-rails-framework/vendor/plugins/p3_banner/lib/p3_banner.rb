@@ -65,10 +65,11 @@ class P3Banner
             path = File.dirname(__FILE__) + '/JSFL/export.jsfl'
         end
     
-        if(id!=0)
+        if(id != 0)
             @jobId = id
+        end
         
-        data = '';
+        data = ''
         
         f = File.open(path, "r")
         #relOutPath moet zonder jobId in dit geval
@@ -104,7 +105,7 @@ class P3Banner
                 data += "outputBasePath:'file://" + @remoteDummyRootDir + "',\n"
             else
                 data += line
-            end                      
+            end
         end
 
         if input
@@ -121,7 +122,7 @@ class P3Banner
     
     def indexFile()
         
-        modConfigJSFL();
+        modConfigJSFL()
         
         file = "export_" + @jobId + ".jsfl"
         
@@ -135,7 +136,7 @@ class P3Banner
         P3libLogger::log("Me, FLASH BANNER, am getting a swf now")
 
         #we moeten de huidige id geven aan de config, want we moeten de swf in de geindexeerde map knallen, naast de dingen die er nog naast moeten
-        P3libLogger::log(File.dirname(__FILE__) + '/JSFL/export.jsfl');
+
         modConfigJSFL(true, id)
         
         cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/vendor/plugins/p3_banner/lib/JSFL/import_"+@jobId+".jsfl\"'"
