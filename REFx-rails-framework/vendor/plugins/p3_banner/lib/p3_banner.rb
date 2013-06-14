@@ -159,8 +159,14 @@ class P3Banner
         
         proceed = false
         first = true
+        timeout = 0
         while proceed == false do
             
+            if timeout > 60
+                proceed = true
+                P3libLogger::log("REFX JOB" + @jobId + " FAILED")
+            end
+                
             relarray = @absOutputPath.split('/')
             
             last = relarray.pop()
@@ -180,10 +186,15 @@ class P3Banner
             else
                 if File.exists? newAbsPath
                     proceed = true
+                    #delete de file
+                    
+                    File.delete(File.dirname(__FILE__) + '/JSFL/import_' + @jobId + '.jsfl')
+                    #
                 end
             end
             
-            sleep(2)            
+            sleep(2)
+            timeout += 2
         end
     end
  end
