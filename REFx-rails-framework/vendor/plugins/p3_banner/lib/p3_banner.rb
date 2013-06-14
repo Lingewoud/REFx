@@ -47,7 +47,7 @@ class P3Banner
 			@jobId = jobId
 			@relOutputPath 	= File.join(relOutputBasePath,@jobId) + '/'
 		end
-
+        
 		@absOutputPath 		= File.join(@remoteDummyRootDir,relOutputBasePath,@jobId)
         
 		FileUtils.mkdir(@absOutputPath) if not File.directory? @absOutputPath if not dryRun
@@ -57,16 +57,16 @@ class P3Banner
 
     public
     
+    def checkStatus() #check status van de job voordat je 10 teruggeeft
+        
+    end
+    
     def modConfigJSFL(input=false, id=0)
 
         if(input)
             path = File.dirname(__FILE__) + '/JSFL/import.jsfl'
         else
             path = File.dirname(__FILE__) + '/JSFL/export.jsfl'
-        end
-    
-        if(id != 0)
-            @jobId = id.to_s()
         end
         
         data = ''
@@ -76,9 +76,17 @@ class P3Banner
         P3libLogger::log(@relOutputPath)
 
         relarray = @relOutputPath.split('/')
-        relarray.delete(@jobId)
-        newRelPath = relarray.join('/')
         
+        last = relarray.pop()
+        relarray.delete(last)
+              
+        newRelPath = relarray.join('/')
+      
+        if(id != 0)
+            id = Base64.decode64(id.to_s())
+            @jobId = id
+        end
+    
         f.each_line do |line|
             
             line2 = line.gsub(/\s/,'')
@@ -117,7 +125,7 @@ class P3Banner
         #path = '/Users/maartenvanhees/Source/GitHub/REFx3/REFx-rails-framework/JSFL/' + file
         path = File.dirname(__FILE__) + '/JSFL/' + file
         
-        File.open(path, 'w') {|f| f.write(data) }
+        File.open(path, 'w') {|f| f.write(data) }                
     end
     
     def indexFile()
@@ -129,6 +137,12 @@ class P3Banner
         cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/vendor/plugins/p3_banner/lib/JSFL/export_"+@jobId+".jsfl\"'"
         
         system(cmd)
+        
+        proceed = false        
+        while proceed == false do
+            sleep(30)
+            proceed = true
+        end
     end
     
     def getSWF(answerxml, id)
@@ -142,5 +156,34 @@ class P3Banner
         cmd = "osascript -e 'tell application \"Adobe Flash CS6\" to open \"#{RAILS_ROOT}/vendor/plugins/p3_banner/lib/JSFL/import_"+@jobId+".jsfl\"'"
         
         system(cmd)
+        
+        proceed = false
+        first = true
+        while proceed == false do
+            
+            relarray = @absOutputPath.split('/')
+            
+            last = relarray.pop()
+            relarray.delete(last)
+            
+            relarray.push(@jobId)
+            relarray.push('status.txt')
+            
+            newAbsPath = relarray.join('/')
+            
+            if first == true
+                if File.exists? newAbsPath
+                    File.delete(newAbsPath)                    
+                end
+                
+                first = false
+            else
+                if File.exists? newAbsPath
+                    proceed = true
+                end
+            end
+            
+            sleep(2)            
+        end
     end
  end

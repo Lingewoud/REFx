@@ -43,6 +43,10 @@ fl.runScript(config.libDir+'ExportProfile.jsfl');
 fl.runScript(config.libDir+'ObjectFindAndSelect.jsfl');
 
 // Start
+if( FLfile.exists( config.outputStatusPath ) ) {
+	FLfile.remove( config.outputStatusPath );
+}
+
 Utils.initLogger(config,scriptName);
 
 var srcFile = Utils.loadFLA(this.config.documentName);
@@ -80,6 +84,7 @@ Logger.log( procString );
 FLfile.write( config.outputStatusPath, procString +"\n", "append" );
 
 //end
+
 
 
 

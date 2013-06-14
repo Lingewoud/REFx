@@ -4,7 +4,7 @@ var config = {
 	outputBasePath		: 'file:///Users/shaman/Desktop/JSFL/', 								//Absolute path to the output dir
 	jobID 				: '004d', 																//PHP's job ID, postfixed to the outputBasePath, use to match log entries to jobs
 	outputFolder		: 'output/',															//Where should the script write the swf, image and xml files, relative to the outputBasePath
-	outputFileName 		: 'out',																//Basename for .fla and .swf output files
+	outputFileName 		: 'test',																//Basename for .fla and .swf output files
 	
 	logFilePath			: '',																	//Path where the log file will be written, relative to script dir
 	logFileName			: 'log.txt',															//Log filename
@@ -30,6 +30,7 @@ config.outputFilePath 		= config.outputBasePath+config.outputFolder + config.job
 config.profileFilePath 		= config.basePath+config.outputFolder + 'png.xml';
 config.outputFLAFilePath 	= config.outputFilePath + config.outputFileName +'.fla';
 config.outputSWFFilePath 	= config.outputFilePath + config.outputFileName +'.swf';
+config.outputStatusPath 	= config.outputFilePath +'status.txt';
 
 //Load Modules
 fl.runScript(config.libDir+'Utils.jsfl');
@@ -40,7 +41,10 @@ fl.runScript(config.libDir+'ExportProfile.jsfl');
 fl.runScript(config.libDir+'ObjectFindAndSelect.jsfl');
 			
 // Start
-fl.outputPanel.clear();
+if( FLfile.exists( config.outputStatusPath ) ) {
+	FLfile.remove( config.outputStatusPath );
+}
+
 Utils.initLogger(config,scriptName);
 
 FLfile.createFolder(config.outputFilePath);
@@ -58,15 +62,22 @@ try {
 srcFile.close( false );
 
 
-if ( success )
-{
-Logger.log( 'Processing completed successfully' );
+var procString = '';
+
+if ( success ) {
+	procString = 'Processing completed successfully';
+	Logger.log( procString );
+	FLfile.write(config.outputStatusPath, procString +"\n","append");
 }
 else
 {
-Logger.log( 'Errors encountered, operation may have failed',Logger.CRITICAL );
+	procString = 'Errors encountered, operation may have failed';
+	Logger.log( procString,Logger.CRITICAL );
+	FLfile.write(config.outputStatusPath, procString +"\n","append");
 }
 
-//end
-Logger.log( 'Script exiting ('+((new Date().getTime()-startTime.getTime())/1000)+'s)' );
+procString = 'Script exiting ('+((new Date().getTime()-startTime.getTime())/1000)+'s)';
 
+Logger.log( procString );
+
+FLfile.write( config.outputStatusPath, procString +"\n", "append" );
