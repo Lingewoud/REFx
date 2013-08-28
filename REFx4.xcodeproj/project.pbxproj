@@ -439,7 +439,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx4-dmg/src\nif [ -d REFx4.app ]\nthen\n    rm -r REFx4.app\nfi\ntouch hallo\nls ../../\ncp -r ../../REFx4.app ./\ncd ..\nmake\n\nrsync -av ~/Sourcecode/NighlyBuilds/REFx4/ lingewoud@refxnightly:/var/customers/webs/lingewoud/refx-nightly/\n\n\n\n\n\n\n\n\n";
+			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx4-dmg/src\nif [ -d REFx4.app ]\nthen\n    rm -r REFx4.app\nfi\ntouch hallo\nls ../../\ncp -r ../../REFx4.app ./\ncd ..\nmake\n\nrsync -av ~/Sourcecode/NighlyBuilds/REFx4/ lingewoud3@refx3-nightly.pas3.org:/var/customers/webs/lingewoud3/refx-nightly/\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
