@@ -438,7 +438,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx3-dmg/src\nif [ -d REFx3.app ]\nthen\n    rm -r REFx3.app\nfi\ntouch hallo\ncp -r ../../REFx3.app ./\ncd ..\nmake\n\nrsync -av ~/Sourcecode/NighlyBuilds/REFx3/ lingewoud@refxnightly:/var/customers/webs/lingewoud/refx-nightly/\n\n\n\n\n\n\n\n\n";
+			shellScript = "# Change to build products directory\n\ncd \"$BUILT_PRODUCTS_DIR\"\ncd refx3-dmg/src\nif [ -d REFx3.app ]\nthen\n    rm -r REFx3.app\nfi\ntouch hallo\ncp -r ../../REFx3.app ./\ncd ..\nmake\n\nrsync -av ~/Sourcecode/NighlyBuilds/REFx3/ lingewoud3@refx3-nightly.pas3.org:/var/customers/webs/lingewoud3/refx-nightly/\n\n\n\n\n\n\n\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -561,7 +561,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "REFx3/REFx3-Prefix.pch";
-				INFOPLIST_FILE = "REFx3/REFx3-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/REFx3/REFx3-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -578,7 +578,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "REFx3/REFx3-Prefix.pch";
-				INFOPLIST_FILE = "REFx3/REFx3-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/REFx3/REFx3-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
