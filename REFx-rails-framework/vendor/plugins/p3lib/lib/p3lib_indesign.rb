@@ -10,7 +10,6 @@ class P3libIndesign
     #orig is the inbetween pdf file which us used to generate a PNG with alpha channel
     def self.exportToPNG(inDesignApp, doc, outputPath, orig, dest, pixWidth, pixHeight)
 
-
         # TODO make preference
         native = false
     
@@ -20,10 +19,11 @@ class P3libIndesign
             nativeExportToPNG(inDesignApp, doc, dest)
             
         else
+            P3libLogger::log('Exporting to PNG using PDF as between file','','debug')
+
             inDesignApp.transparency_preference.blending_space.set(:to => :CMYK)
             inDesignApp.PDF_export_preferences.acrobat_compatibility.set(:to => :acrobat_8)
-    
-            begin
+        begin
                 inDesignApp.export(doc, :format => :PDF_type, :to => MacTypes::FileURL.path(orig).hfs_path, :timeout => 0, :showing_options => false)
             rescue Exception => e
                 P3libLogger::log('PNG export failed: '+ e.message, 'error')
@@ -47,13 +47,13 @@ class P3libIndesign
     def self.nativeExportToPNG(inDesignApp, doc, dest)
 
         if(!dest.index('image'))
+
             begin
                 inDesignApp.export(doc, :format => :PNG_format, :to => MacTypes::FileURL.path(dest).hfs_path, :timeout => 0, :showing_options => false)
             rescue Exception => e
                 P3libLogger::log('PNG export failed: '+ e.message, 'error')
             end
         else
-            
             # If is type image the image could be a PSD which can't be exported using inDesign's PNG export
             # Use HTML export instead (apparently Indesign can export PSD as PNG, it can't do so using the PNG export method)
             
