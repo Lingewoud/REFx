@@ -44,8 +44,11 @@
 - (void)flushLogs;
 - (void)refreshJobMgr;
 
-
+- (NSString *)appSupportPath;
 - (NSString *)testFolderPath;
+- (NSString *) engineDirectoryPath;
+- (NSURL *)applicationFilesDirectory;
+
 
 
 @end

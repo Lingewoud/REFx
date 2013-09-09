@@ -10,7 +10,7 @@
 #import "RXJobPicker.h"
 #import "RXRailsController.h"
 
-
+#import "REFx3AppDelegate.h"
 
 #include <Security/Authorization.h>
 #include <Security/AuthorizationTags.h>
@@ -59,7 +59,8 @@
                             stringByAppendingString:@"/Contents/Resources/REFx-rails-framework"];      
         }
 
-        AppSupportDir = @"/Library/Application Support/REFx4";
+        //AppSupportDir = @"/Library/Application Support/REFx4";
+        AppSupportDir = [[NSApp delegate] appSupportPath];
        
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"useDevelopmentEnvironment"]) {
             railsEnvironment=@"development";

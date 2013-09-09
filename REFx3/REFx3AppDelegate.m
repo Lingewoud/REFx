@@ -22,7 +22,9 @@
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{       
+{
+    [self initEngineDirectory];
+    
     if (![refxInstance isKindOfClass:[RXREFxIntance class]]) {
         refxInstance = [[RXREFxIntance alloc] init];
     }
@@ -117,6 +119,31 @@
     [mainWindowController refreshJobmanagerView];
 }
 
+- (NSString *) appSupportPath
+{
+    //return [[self applicationFilesDirectory] path];
+    return @"/Library/Application Support/REFx4";
+}
+
+- (NSString *) engineDirectoryPath
+{
+    NSString * enginePath = [[[self applicationFilesDirectory] path] stringByAppendingPathComponent:@"Engines"];
+    return enginePath;
+}
+
+- (void) initEngineDirectory
+{
+
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+
+    if(![fileManager fileExistsAtPath:[self engineDirectoryPath]]){
+        NSLog(@"Creating %@",[self engineDirectoryPath]);
+
+        [fileManager createDirectoryAtPath:[self engineDirectoryPath] withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+
+    [fileManager release];
+}
 
 
 - (IBAction)openTestJobsFolder:(id)sender

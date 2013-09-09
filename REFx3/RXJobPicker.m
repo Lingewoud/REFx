@@ -44,12 +44,68 @@
 {
     NSLog(@"stop scheduler...");
     [refxTimer invalidate];
-    
 }
 
-- (void)loopSingleAction;
+
+- (void)loopSingleAction
 {
-//    NSLog(@"loop single action");
+    if([rubyJobProcess isRunning])
+    {
+        return;
+    }
+    
+    int jobid = [self selectJob];
+    
+    if(jobid != 0 && jobRunning == NO)
+    {
+        jobRunning = YES;
+        
+        NSLog(@"DISPATCHING JOBID %i",jobid);
+        
+        NSString *jobidString = [NSString stringWithFormat:@"%i",jobid];
+        
+        //get engine name
+        NSString * engine = [self getJobEngine:jobid];
+        //get bundle location
+        
+        
+        NSString *runnerPath = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/RubyEngineRunner.rb", [[NSBundle mainBundle] bundlePath]];
+        NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [[NSApp delegate ]engineDirectoryPath ],engine];
+        NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [[NSApp delegate ]engineDirectoryPath ],engine];
+
+        NSLog(@"ENGINEPATH %@",enginePath);
+        rubyJobProcess = [[NSTask alloc] init];
+        
+        [rubyJobProcess setCurrentDirectoryPath:engineDir];
+        [rubyJobProcess setLaunchPath: enginePath];
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
+        {
+            NSLog(@"REFx4: debugmode on");
+            [rubyJobProcess setArguments: [NSArray arrayWithObjects:runnerPath,
+                                           @"-j",jobidString,
+                                           @"-d",
+                                           @"--environment",railsEnvironment,
+                                           nil]];
+        }
+        else{
+            NSLog(@"REFx4: debugmode on");
+            [rubyJobProcess setArguments: [NSArray arrayWithObjects:runnerPath,
+                                           @"-j",jobidString,
+                                           @"--environment",railsEnvironment,
+                                           nil]];
+        }
+        [rubyJobProcess launch];
+        
+        NSLog(@"Return from JOBID %i",jobid);
+        
+        jobRunning = NO;
+    }
+
+}
+
+
+- (void)loopSingleActionOLD
+{
     
     if([rubyJobProcess isRunning])
     {
@@ -60,6 +116,8 @@
     
     if(jobid != 0 && jobRunning == NO)
     {
+        NSLog(@"loop single action: %@",[self getJobEngine:jobid]);
+
         jobRunning = YES;
 
         NSLog(@"DISPATCHING JOBID %i",jobid);
@@ -87,22 +145,10 @@
         }
         [rubyJobProcess launch];
         
-        //[rubyJobProcess waitUntilExit];
-        /*int status = [rubyJobProcess terminationStatus];
-        
-        if (status == 0)
-            NSLog(@"Task succeeded.");
-        else
-            NSLog(@"Task failed.");
-        */
-        //[rubyJobProcess release];
-        
         NSLog(@"Return from JOBID %i",jobid);
          
         jobRunning = NO;    
     }
-    
-    
 }
 
 -(BOOL)openDatabase
@@ -130,6 +176,55 @@
 {
     sqlite3_close(db);
     dbOpened = NO;
+}
+
+
+
+-(NSString *) getJobEngine:(int)jobId
+{
+    if(!dbOpened)
+    {
+        NSLog(@"Database connection is lost. Trying to re-open");
+        
+        [self openDatabase];
+        return NO;
+    }
+    
+    //NSLog(@"select new job");
+    
+    sqlite3_stmt    *statement;
+    
+    NSString *sql = [NSString stringWithFormat: @"SELECT engine FROM jobs WHERE id = %i", jobId];
+    const char *query_stmt = [sql UTF8String];
+    
+    //NSString * ret;
+    NSString *ret = nil;
+    
+    if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+    {
+        int result = sqlite3_step(statement);
+        if(result == SQLITE_ROW)
+        {
+            ret = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+
+            //ret = sqlite3_column_value(statement, 0);
+
+        }
+/*        else
+        {
+            ret = @"";
+        }
+ */
+    }
+    else
+    {
+        NSLog(@"sqlite problem: %@", sql);
+    }
+    
+    sqlite3_finalize(statement);
+    
+    return ret;
+
 }
 
 
