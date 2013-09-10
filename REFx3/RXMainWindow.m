@@ -8,7 +8,6 @@
 #import "REFx3AppDelegate.h"
 #import "RXMainWindow.h"
 #import "RXREFxIntance.h"
-#import "RXLogView.h"
 #import "RXJobPicker.h"
 #import "RXRailsController.h"
 
@@ -20,7 +19,6 @@
 @synthesize startStopButtonCommunicationServer;
 @synthesize startStopButtonScheduler;
 @synthesize jobMgrView;
-@synthesize logTabView;
 @synthesize theWindow;
 
 - (id) initWithWindowNibName:(NSString *)windowNibName
@@ -53,13 +51,10 @@
 }
 
 - (void)instanciateLogController {
-    logController = [[RXLogView alloc] initWithNibName:@"RXLogView" bundle:nil];
+
     NSString * rootdirectory = [[[NSApp delegate] refxInstance ] railRootDir ];
     NSLog(@"rootdir: %@",rootdirectory);
-    [logController setRailsRootDir: rootdirectory];
-    
-    [logTabView setView:logController.view];
-    [logController pas3LogTimer];
+    //[logController setRailsRootDir: rootdirectory];
 }
 
 

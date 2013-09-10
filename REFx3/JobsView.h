@@ -13,7 +13,7 @@
 //#define EXPERIMENTAL_STUFF
 
 // Define the following class interface
-@interface JobsView : NSObject
+@interface JobsView : NSObject<NSTableViewDataSource>
 {
 	// -- outlet properties
 	IBOutlet NSTableView	*testTable;
@@ -27,7 +27,7 @@
     
 }
 
-
+//@property (assign) IBOutlet NSTableView *testTable;
 @property (nonatomic,retain) NSMutableDictionary	*testBuffer;
 
 //@property (assign) IBOutlet NSWindow *window;

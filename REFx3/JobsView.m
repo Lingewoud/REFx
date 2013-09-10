@@ -308,7 +308,7 @@
 	
 	// retrieve the currently selected row
 	loc_row = [[self testTable] selectedRow];
-    
+    loc_dat = nil;
 	if (loc_row >= 0)
 	{
 		// instantiate the data dictionary
@@ -325,10 +325,11 @@
 }
 
 // -- Set the cell data for the specified row/column, 2006 Apr 06
-/*- (void)tableView:(NSTableView *)aTbl setObjectValue:(id)aArg forTableColumn:(NSTableColumn *)aCol row:(int)aRow
+/*
+-(void)tableView:(NSTableView *)aTbl setObjectValue:(id)aArg forTableColumn:(NSTableColumn *)aCol row:(NSInteger)aRow
 {
 	id loc_id, loc_data;
-	NSString	*loc_log;
+	//NSString	*loc_log;
 	
 	// identify the table column
 	loc_id = [aCol identifier];
@@ -349,16 +350,16 @@
 }
 */
 
+
 // -- Return the number of rows to be displayed
-- (int)numberOfRowsInTableView:(NSTableView *)aTbl
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTbl
 {
-	return ([[[self testBuffer] objectForKey:@"id"] count]);
+    return ([[[self testBuffer] objectForKey:@"id"] count]);
 }
 
 // -- Return the cell data for the specified row/column
-- (id)tableView:(NSTableView *)aTbl objectValueForTableColumn:(NSTableColumn *)aCol row:(int)aRow
+- (id)tableView:(NSTableView *)aTbl objectValueForTableColumn:(NSTableColumn *)aCol row:(NSInteger)aRow
 {
-    
 	id loc_data, loc_uid;
 	
 	// determine which table column needs to be updated
@@ -367,7 +368,10 @@
 	if ([loc_uid isKindOfClass:[NSString class]])
 	{
 		loc_data = [[self testBuffer] objectForKey:loc_uid];
+       // NSLog(@"Table Column 1 %@, array index %@",loc_uid, loc_data);
 		loc_data = [loc_data objectAtIndex:aRow];
+        //NSLog(@"Table Column 2 %@, array index %@",loc_uid, loc_data);
+
 	}
     else
     {
@@ -375,12 +379,9 @@
     }
     
 	// return the row/column data
+
 	return (loc_data);
 }
-
-
-
-
 
 
 // -- Access the table outlet property
@@ -400,6 +401,7 @@
 // -- Update the data buffer
 - (void)setData:(NSDictionary *)aDat
 {
+    NSLog(@"setdata %@", aDat);
 	id	loc_dat;
 	int	loc_row;
 	
@@ -423,7 +425,7 @@
 			replaceObjectAtIndex:loc_row withObject:loc_dat];
 		
 		// submit a reload request
-		[testTable reloadData];
+		[[self testTable] reloadData];
 	}
 }
 @end

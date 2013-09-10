@@ -19,6 +19,7 @@
 @synthesize lastJobid;
 @synthesize preferencesController;
 @synthesize refxInstance;
+@synthesize LogWindowController;
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -52,6 +53,15 @@
    
     [self.preferencesController showWindow:self];
 }
+
+-(IBAction)showLogWindow:(id)sender{
+    if(!self.LogWindowController)
+        self.LogWindowController = [[RXLogWindowController alloc] initWithWindowNibName:@"RXLogWindow"];
+    
+    [self.LogWindowController showWindow:self];
+}
+
+
 
 //- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
 //    [self openMainWindow];

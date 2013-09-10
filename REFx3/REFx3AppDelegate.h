@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "PreferencesController.h"
+#import "RXLogWindowController.h"
 
 @class RXMainWindow;
 @class RXREFxIntance;
@@ -24,6 +25,7 @@
 @property (assign) IBOutlet NSTextField *lastJobid;
 @property (retain) RXMainWindow* mainWindowController;
 @property (retain) PreferencesController *preferencesController;
+@property (retain) RXLogWindowController *LogWindowController;
 
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
@@ -31,6 +33,7 @@
 
 @property (assign) RXREFxIntance* refxInstance;
 
+-(IBAction)showLogWindow:(id)sender;
 - (IBAction)saveAction:(id)sender;
 - (IBAction)setLastJobId:(id)sender;
 - (IBAction)showPreferences:(id)sender;

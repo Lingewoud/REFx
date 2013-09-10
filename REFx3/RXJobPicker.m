@@ -47,7 +47,7 @@
 }
 
 
-- (void)loopSingleAction
+- (void)loopSingleActionNew
 {
     if([rubyJobProcess isRunning])
     {
@@ -104,7 +104,7 @@
 }
 
 
-- (void)loopSingleActionOLD
+- (void)loopSingleAction
 {
     
     if([rubyJobProcess isRunning])
