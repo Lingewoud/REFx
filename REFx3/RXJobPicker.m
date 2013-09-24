@@ -9,6 +9,8 @@
 #import "RXJobPicker.h"
 #import "RXRailsController.h"
 #import "REFx3AppDelegate.h"
+#import "RXEngineManager.h"
+
 //#import "YAML/YAMLSerialization.h"
 
 @implementation RXJobPicker
@@ -46,6 +48,11 @@
     [refxTimer invalidate];
 }
 
+- (void)loopSingleAction
+{
+//    [self loopSingleActionOld];
+    [self loopSingleActionNew];
+}
 
 - (void)loopSingleActionNew
 {
@@ -68,10 +75,11 @@
         NSString * engine = [self getJobEngine:jobid];
         //get bundle location
         
-        
+        RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
+
         NSString *runnerPath = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/RubyEngineRunner.rb", [[NSBundle mainBundle] bundlePath]];
-        NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [[NSApp delegate ]engineDirectoryPath ],engine];
-        NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [[NSApp delegate ]engineDirectoryPath ],engine];
+        NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [sharedEngineManager engineDirectoryPath],engine];
+        NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [sharedEngineManager engineDirectoryPath],engine];
 
         NSLog(@"ENGINEPATH %@",enginePath);
         rubyJobProcess = [[NSTask alloc] init];
@@ -100,11 +108,9 @@
         
         jobRunning = NO;
     }
-
 }
 
-
-- (void)loopSingleAction
+- (void)loopSingleActionOld
 {
     
     if([rubyJobProcess isRunning])

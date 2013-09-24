@@ -73,6 +73,7 @@
 		3EC97CF21448920100B81F47 /* RXMainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CF11448920100B81F47 /* RXMainWindow.xib */; };
 		3EF2B01E1583FE4100CD035F /* refx4-dmg in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3EF2B01C1583FDF000CD035F /* refx4-dmg */; };
 		3EF2B04B15867CB700CD035F /* p3imgutils in Resources */ = {isa = PBXBuildFile; fileRef = 3EF2B04A15867CB600CD035F /* p3imgutils */; };
+		3EFA299B17F227CE00CA4CEC /* RXEngineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EFA299A17F227CE00CA4CEC /* RXEngineManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -151,6 +152,8 @@
 		3EF2AFFC1583F9C300CD035F /* InstallerPlugins.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstallerPlugins.framework; path = System/Library/Frameworks/InstallerPlugins.framework; sourceTree = SDKROOT; };
 		3EF2B01C1583FDF000CD035F /* refx4-dmg */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "refx4-dmg"; sourceTree = "<group>"; };
 		3EF2B04A15867CB600CD035F /* p3imgutils */ = {isa = PBXFileReference; lastKnownFileType = folder; path = p3imgutils; sourceTree = "<group>"; };
+		3EFA299917F227CE00CA4CEC /* RXEngineManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXEngineManager.h; sourceTree = "<group>"; };
+		3EFA299A17F227CE00CA4CEC /* RXEngineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXEngineManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +317,8 @@
 				3E3F693E17DFADD20034B653 /* GUI */,
 				3EC97CA314488BDB00B81F47 /* REFx3AppDelegate.h */,
 				3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */,
+				3EFA299917F227CE00CA4CEC /* RXEngineManager.h */,
+				3EFA299A17F227CE00CA4CEC /* RXEngineManager.m */,
 				3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */,
 				3E13D000144CA55B00523A5E /* RXREFxIntance.m */,
 				3E846F7F156F8A1A00F0BF08 /* JobPicker */,
@@ -493,6 +498,7 @@
 				3E3F694417DFB2070034B653 /* VDKQueue.m in Sources */,
 				3E3F694A17DFB3410034B653 /* RXLogWindowController.m in Sources */,
 				3E3F695517DFBBCA0034B653 /* RXLogTableDataSource.m in Sources */,
+				3EFA299B17F227CE00CA4CEC /* RXEngineManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,7 +13,6 @@
 @class RXMainWindow;
 @class RXREFxIntance;
 
-
 @interface REFx3AppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
     NSPersistentStoreCoordinator *__persistentStoreCoordinator;
@@ -26,7 +25,7 @@
 @property (retain) RXMainWindow* mainWindowController;
 @property (retain) PreferencesController *preferencesController;
 @property (retain) RXLogWindowController *LogWindowController;
-
+//@property (retain) RXEngines* enginesController;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
@@ -49,9 +48,6 @@
 
 - (NSString *)appSupportPath;
 - (NSString *)testFolderPath;
-- (NSString *) engineDirectoryPath;
 - (NSURL *)applicationFilesDirectory;
-
-
 
 @end

@@ -11,6 +11,7 @@
 #import "RXREFxIntance.h"
 #import "RXJobPicker.h"
 #import "RXRailsController.h"
+#import "RXEngineManager.h"
 
 @implementation REFx3AppDelegate
 
@@ -20,11 +21,16 @@
 @synthesize preferencesController;
 @synthesize refxInstance;
 @synthesize LogWindowController;
-
+//@synthesize enginesController;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    [self initEngineDirectory];
+
+    RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
+    [sharedEngineManager initEngineDirectory];
+
+    
+    //self.enginesController = [[RXEngineManager alloc] init];
     
     if (![refxInstance isKindOfClass:[RXREFxIntance class]]) {
         refxInstance = [[RXREFxIntance alloc] init];
@@ -61,11 +67,6 @@
     [self.LogWindowController showWindow:self];
 }
 
-
-
-//- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
-//    [self openMainWindow];
-//}
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {	
@@ -135,25 +136,9 @@
     return @"/Library/Application Support/REFx4";
 }
 
-- (NSString *) engineDirectoryPath
-{
-    NSString * enginePath = [[[self applicationFilesDirectory] path] stringByAppendingPathComponent:@"Engines"];
-    return enginePath;
-}
 
-- (void) initEngineDirectory
-{
 
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    if(![fileManager fileExistsAtPath:[self engineDirectoryPath]]){
-        NSLog(@"Creating %@",[self engineDirectoryPath]);
-
-        [fileManager createDirectoryAtPath:[self engineDirectoryPath] withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-
-    [fileManager release];
-}
 
 
 - (IBAction)openTestJobsFolder:(id)sender
