@@ -1,4 +1,4 @@
-####!/usr/bin/env ruby
+######!/usr/bin/env ruby
 #
 #  jobWrapper.rb
 #  refxlooptests
@@ -6,12 +6,17 @@
 #  Created by Pim Snel on 04-10-11.
 #  Copyright 2011 Lingewoud B.V. All rights reserved.
 #
-require "rubygems"
-#require "bundler/setup"  
-require 'activerecord'
+#require "rubygems"
+
 require 'optparse'
 require 'fileutils'
 require 'base64'
+system('pwd')
+exit
+
+#require "bundler/setup"
+
+#require 'active_record'
 
 class RefxJobWrapper
     

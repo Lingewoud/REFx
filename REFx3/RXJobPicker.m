@@ -77,26 +77,39 @@
         
         RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
 
-        NSString *runnerPath = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/RubyEngineRunner.rb", [[NSBundle mainBundle] bundlePath]];
+
+        NSString *rubyPath = [NSString stringWithFormat:@"/usr/bin/ruby"];
+
         NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [sharedEngineManager engineDirectoryPath],engine];
         NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [sharedEngineManager engineDirectoryPath],engine];
-
-        NSLog(@"ENGINEPATH %@",enginePath);
+        //NSString *engineDir = @"/Users/pim/Library/REFx4/Engines/P3Saywhat.bundle/Contents/Resources/";
+        //NSString *engineDir = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/", [[NSBundle mainBundle] bundlePath]];
+        NSString *runnerPath = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/RubyEngineRunner.rb", [[NSBundle mainBundle] bundlePath]];
+        
+        //NSLog(@"ENGINEPATH %@",engineDir);
+        //NSLog(@"executing  %@ %@ %@ %@ %@ %@ %@", enginePath,runnerPath,@"-j",jobidString, @"-d", @"--environment",railsEnvironment);
         rubyJobProcess = [[NSTask alloc] init];
         
         [rubyJobProcess setCurrentDirectoryPath:engineDir];
         [rubyJobProcess setLaunchPath: enginePath];
+        
+        [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
+
+        
+        NSLog(@"enf: %@",[rubyJobProcess environment]);
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
             NSLog(@"REFx4: debugmode on");
-            [rubyJobProcess setArguments: [NSArray arrayWithObjects:runnerPath,
+            [rubyJobProcess setArguments: [NSArray arrayWithObjects:
+                                           runnerPath,
                                            @"-j",jobidString,
                                            @"-d",
                                            @"--environment",railsEnvironment,
                                            nil]];
-        }
+
+ }
         else{
-            NSLog(@"REFx4: debugmode on");
+            NSLog(@"REFx4: debugmode off");
             [rubyJobProcess setArguments: [NSArray arrayWithObjects:runnerPath,
                                            @"-j",jobidString,
                                            @"--environment",railsEnvironment,

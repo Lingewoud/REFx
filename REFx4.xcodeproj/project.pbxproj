@@ -93,6 +93,7 @@
 		3E0A80A514EE847C00D9FBAA /* refx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = refx.icns; path = ../refx.icns; sourceTree = "<group>"; };
 		3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXREFxIntance.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3E13D000144CA55B00523A5E /* RXREFxIntance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXREFxIntance.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		3E3787B01815D796000FD48F /* REFx4.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = REFx4.entitlements; sourceTree = SOURCE_ROOT; };
 		3E3F693F17DFB2070034B653 /* NSFileHandle+readLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileHandle+readLine.h"; sourceTree = "<group>"; };
 		3E3F694017DFB2070034B653 /* NSFileHandle+readLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileHandle+readLine.m"; sourceTree = "<group>"; };
 		3E3F694117DFB2070034B653 /* VDKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VDKQueue.h; sourceTree = "<group>"; };
@@ -314,6 +315,7 @@
 		3EC97C9714488BDB00B81F47 /* REFx4 */ = {
 			isa = PBXGroup;
 			children = (
+				3E3787B01815D796000FD48F /* REFx4.entitlements */,
 				3E3F693E17DFADD20034B653 /* GUI */,
 				3EC97CA314488BDB00B81F47 /* REFx3AppDelegate.h */,
 				3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */,
@@ -376,6 +378,15 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0460;
+				TargetAttributes = {
+					3EC97C8C14488BDB00B81F47 = {
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 0;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 3EC97C8714488BDB00B81F47 /* Build configuration list for PBXProject "REFx4" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -591,6 +602,7 @@
 		3EC97CAF14488BDC00B81F47 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -608,6 +620,7 @@
 		3EC97CB014488BDC00B81F47 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
