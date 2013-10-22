@@ -24,6 +24,9 @@
 /* Begin PBXBuildFile section */
 		3E0A80A614EE847C00D9FBAA /* refx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E0A80A514EE847C00D9FBAA /* refx.icns */; };
 		3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E13D000144CA55B00523A5E /* RXREFxIntance.m */; };
+		3E3787B71816FA79000FD48F /* EngineTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787B21816FA79000FD48F /* EngineTextCell.m */; };
+		3E3787B81816FA79000FD48F /* EngineListingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787B41816FA79000FD48F /* EngineListingController.m */; };
+		3E3787B91816FA79000FD48F /* EngineData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787B61816FA79000FD48F /* EngineData.m */; };
 		3E3F694317DFB2070034B653 /* NSFileHandle+readLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3F694017DFB2070034B653 /* NSFileHandle+readLine.m */; };
 		3E3F694417DFB2070034B653 /* VDKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3F694217DFB2070034B653 /* VDKQueue.m */; };
 		3E3F694617DFB2770034B653 /* RXLogWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3F694517DFB2770034B653 /* RXLogWindow.xib */; };
@@ -94,6 +97,12 @@
 		3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXREFxIntance.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3E13D000144CA55B00523A5E /* RXREFxIntance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXREFxIntance.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3E3787B01815D796000FD48F /* REFx4.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = REFx4.entitlements; sourceTree = SOURCE_ROOT; };
+		3E3787B11816FA79000FD48F /* EngineTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineTextCell.h; sourceTree = "<group>"; };
+		3E3787B21816FA79000FD48F /* EngineTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineTextCell.m; sourceTree = "<group>"; };
+		3E3787B31816FA79000FD48F /* EngineListingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineListingController.h; sourceTree = "<group>"; };
+		3E3787B41816FA79000FD48F /* EngineListingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineListingController.m; sourceTree = "<group>"; };
+		3E3787B51816FA79000FD48F /* EngineData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineData.h; sourceTree = "<group>"; };
+		3E3787B61816FA79000FD48F /* EngineData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineData.m; sourceTree = "<group>"; };
 		3E3F693F17DFB2070034B653 /* NSFileHandle+readLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileHandle+readLine.h"; sourceTree = "<group>"; };
 		3E3F694017DFB2070034B653 /* NSFileHandle+readLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileHandle+readLine.m"; sourceTree = "<group>"; };
 		3E3F694117DFB2070034B653 /* VDKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VDKQueue.h; sourceTree = "<group>"; };
@@ -238,6 +247,12 @@
 		3E786DE1157042C100BB0FA9 /* Main Window */ = {
 			isa = PBXGroup;
 			children = (
+				3E3787B11816FA79000FD48F /* EngineTextCell.h */,
+				3E3787B21816FA79000FD48F /* EngineTextCell.m */,
+				3E3787B31816FA79000FD48F /* EngineListingController.h */,
+				3E3787B41816FA79000FD48F /* EngineListingController.m */,
+				3E3787B51816FA79000FD48F /* EngineData.h */,
+				3E3787B61816FA79000FD48F /* EngineData.m */,
 				3E473C00161CA7C700942E37 /* JobsView.h */,
 				3E473C02161CA7C700942E37 /* JobsView.m */,
 				3EC97CEF144891DB00B81F47 /* RXMainWindow.m */,
@@ -496,15 +511,18 @@
 				3EC97CAB14488BDC00B81F47 /* REFx3.xcdatamodeld in Sources */,
 				3EC97CD914488EF300B81F47 /* RXRailsController.m in Sources */,
 				3EC97CDC14488F5D00B81F47 /* RXJobPicker.m in Sources */,
+				3E3787B91816FA79000FD48F /* EngineData.m in Sources */,
 				3EC97CF0144891DB00B81F47 /* RXMainWindow.m in Sources */,
 				3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */,
 				3EB5D8381507C5660093B600 /* PreferencesController.m in Sources */,
 				3E473BF9161CA7A900942E37 /* FMDatabase.m in Sources */,
+				3E3787B81816FA79000FD48F /* EngineListingController.m in Sources */,
 				3E473BFA161CA7A900942E37 /* FMDatabaseAdditions.m in Sources */,
 				3E473BFB161CA7A900942E37 /* FMDatabasePool.m in Sources */,
 				3E473BFC161CA7A900942E37 /* FMDatabaseQueue.m in Sources */,
 				3E473BFD161CA7A900942E37 /* FMResultSet.m in Sources */,
 				3E473C04161CA7C700942E37 /* JobsView.m in Sources */,
+				3E3787B71816FA79000FD48F /* EngineTextCell.m in Sources */,
 				3E3F694317DFB2070034B653 /* NSFileHandle+readLine.m in Sources */,
 				3E3F694417DFB2070034B653 /* VDKQueue.m in Sources */,
 				3E3F694A17DFB3410034B653 /* RXLogWindowController.m in Sources */,
