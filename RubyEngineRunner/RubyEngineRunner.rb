@@ -11,8 +11,7 @@
 require 'optparse'
 require 'fileutils'
 require 'base64'
-system('pwd')
-exit
+
 
 #require "bundler/setup"
 

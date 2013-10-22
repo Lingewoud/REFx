@@ -28,8 +28,6 @@
 	self.nsMutaryOfMyData = [[NSMutableArray alloc]init];
 	
 	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
-																 text:@"Indesign Toolbox"]];
-	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
                                                                             text:@"Indesign Toolbox"]];
 	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
                                                                             text:@"Indesign Toolbox"]];
@@ -39,12 +37,12 @@
                                                                             text:@"Indesign Toolbox"]];
 	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
                                                                             text:@"Indesign Toolbox"]];
-
-	
+	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
+                                                                            text:@"Indesign Toolbox"]];
 	
 	self.myImageAndTextCelObj = [[EngineTextCell alloc] init];
 	self.myImageAndTextCelObj.image = [[self.nsMutaryOfMyData objectAtIndex:0]nsImageObj];
-	[self.myImageAndTextCelObj setEditable: YES];
+	//[self.myImageAndTextCelObj setEditable: YES];
 	NSTableColumn* zTableColumnObj = [[self.nsTableViewObj tableColumns] objectAtIndex:0];
 	[zTableColumnObj setDataCell: self.myImageAndTextCelObj];
 		
@@ -96,66 +94,7 @@
 - (NSCell *)tableView:(NSTableView *)pTableView dataCellForTableColumn:(NSTableColumn *)pTableColumn row:(NSInteger)pRow {	
 	//NSLog(@"dataCellForTableColumn");
 	return self.myImageAndTextCelObj;
-} // end tableView:dataCellForTableColumn:row:
-
-
-//- (IBAction)tableViewSelected:(id)sender {
-//    NSLog(@"the user just clicked on row %d", [self.nsTableViewObj selectedRow]);
-//} // end tableViewSelected
-
-
-
-- (IBAction)addAtSelectedRow:(id)pId {
-	
-	// this has effect of ending the editing if an edit was begun
-	// just before the addAtSelectedRow button was clicked.
-	[[self.nsTableViewObj window] makeFirstResponder:[self.nsTableViewObj window]];
-	
-	//NSLog(@"addAtSelectedRow");
-	
-	NSInteger zSelectedRow	= [self.nsTableViewObj selectedRow];
-	//NSLog(@"addAtSelectedRow row=%d array count = %d",zSelectedRow,[self.nsMutaryOfMyData count]);
-	if ( zSelectedRow < 0) {
-		return;
-	} // end if
-	
-	NSParameterAssert(zSelectedRow < [self.nsMutaryOfMyData count]); // crash out if out of bounds
-	
-	[nsMutaryOfMyData insertObject:[[EngineData alloc]initWithImagePathString:@"../../../anghiari.tif"
-														   text:@"Copy after Ruben's copy after Leonardo: The Battle of Anghiari.. And here is some extra text to see how we get on with very lengthy things"]
-						   atIndex:zSelectedRow];
-	
-	[self.nsTableViewObj noteNumberOfRowsChanged];
-	[self.nsTableViewObj reloadData];
-	
-} // end addAtSelectedRow
-
-
-
-- (IBAction)addToEndOfTable:(id)pId {
-	NSLog(@"addToEndOfTable");
-//	[nsMutaryOfMyData addObject:[[MyData alloc]initWithImagePathString:@"/Users/julius/0AnimatedPaintMP/TestPaintAspects/010_tableView/TableViewExample08/BellaElephants.tif"
-//														   text:@"Bella's Dream (detail): Bella and Elephants" 
-//														 secondaryText:@"Watercolour with body colour"]];
-	[nsMutaryOfMyData addObject:[[EngineData alloc]initWithImagePathString:@"../../../BellaElephants.tif"
-														   text:@"Bella's Dream (detail): Bella and Elephants"]];
-	
-	[self.nsTableViewObj noteNumberOfRowsChanged];
-	[self.nsTableViewObj reloadData];
-	
-} // end addToEndOfTable
-
-
-- (IBAction)removeCellAtSelectedRow:(id)sender {
-	NSLog(@"addToTable [self.nsTableViewObj selectedRow] = %d",[self.nsTableViewObj selectedRow] );
-	if ([self.nsTableViewObj selectedRow] < 0 || [self.nsTableViewObj selectedRow] >= [nsMutaryOfMyData count]) {
-		return;
-	} // end if
-	[nsMutaryOfMyData removeObjectAtIndex:[self.nsTableViewObj selectedRow]];
-	[self.nsTableViewObj noteNumberOfRowsChanged];
-	[self.nsTableViewObj reloadData];
-	
-} // end removeCellAtSelectedRow
+} 
 
 
 

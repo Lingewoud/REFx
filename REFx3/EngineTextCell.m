@@ -16,7 +16,7 @@
 }
 
 // over-ride NSCell selectWithFrame : called when frame is selected for editing
-- (void)selectWithFrame:(NSRect)aRect 
+- (void)xxselectWithFrame:(NSRect)aRect
 				 inView:(NSView *)controlView 
 				 editor:(NSText *)textObj 
 			   delegate:(id)anObject 
