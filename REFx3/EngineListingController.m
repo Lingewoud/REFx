@@ -9,51 +9,56 @@
 #import "EngineListingController.h"
 #import "EngineData.h"
 #import "EngineTextCell.h"
-
+#import "REFx3AppDelegate.h"
+#import "EngineWindowController.h"
 
 @implementation EngineListingController
 @synthesize nsMutaryOfMyData;
 @synthesize nsTableViewObj;
 @synthesize myImageAndTextCelObj;
-//@synthesize nsIntSelectedRow;
-
-// first step
-// cashe the images in MyData
-
-// second step : get the add abd delete going
 
 - (void) awakeFromNib {
-//	self.nsIntSelectedRow	= -1;
-	
-	self.nsMutaryOfMyData = [[NSMutableArray alloc]init];
-	
-	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
-                                                                            text:@"Indesign Toolbox"]];
-	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
-                                                                            text:@"Indesign Toolbox"]];
-	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
-                                                                            text:@"Indesign Toolbox"]];
-	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
-                                                                            text:@"Indesign Toolbox"]];
-	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
-                                                                            text:@"Indesign Toolbox"]];
-	[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"
-                                                                            text:@"Indesign Toolbox"]];
+    
+	self.nsMutaryOfMyData = [[NSMutableArray alloc] init];
+    
+    //NSMutableArray *enginelist = [[[NSApp delegate] sharedEngineManager] enginesEnabledArray];
+    
+    for (NSString *eName in [[[NSApp delegate] sharedEngineManager] enginesEnabledArray]) {
+        
+        NSString *engineName = [[NSString alloc] initWithString: eName];
+
+        [self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"                                                                               text:engineName]];
+    }
 	
 	self.myImageAndTextCelObj = [[EngineTextCell alloc] init];
 	self.myImageAndTextCelObj.image = [[self.nsMutaryOfMyData objectAtIndex:0]nsImageObj];
-	//[self.myImageAndTextCelObj setEditable: YES];
+	[self.myImageAndTextCelObj setEditable: NO];
+    [self.nsTableViewObj setTarget: self];
+
+    [self.nsTableViewObj setDoubleAction:@selector(doubleClickInTableView:)];
+    
 	NSTableColumn* zTableColumnObj = [[self.nsTableViewObj tableColumns] objectAtIndex:0];
 	[zTableColumnObj setDataCell: self.myImageAndTextCelObj];
-		
+    
 } // end awakeFromNib
 
+
+-(void) doubleClickInTableView:(id)sender
+{
+    NSInteger row = [nsTableViewObj clickedRow];
+    NSInteger column = [nsTableViewObj clickedColumn];
+    NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]);
+    
+    EngineWindowController *engineWindow = [[EngineWindowController alloc] initWithWindowNibName:@"EngineWindow"];
+    [engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
+    [engineWindow showWindow:self];
+}
 
 // these are called by the table(s)
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)pTableView
 {
-	NSLog(@"numberOfRowsInTableView ary count = %d",[nsMutaryOfMyData count]);
+	NSLog(@"numberOfRowsInTableView ary count = %lu",[nsMutaryOfMyData count]);
 	return [nsMutaryOfMyData count];
 	
 } // end numberOfRowsInTableView
@@ -96,6 +101,8 @@
 	return self.myImageAndTextCelObj;
 } 
 
-
+- (void)addToEndOfTable:(id)pId{}
+- (void)addAtSelectedRow:(id)pId{}
+- (void)removeCellAtSelectedRow:(id)sender{}
 
 @end

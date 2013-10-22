@@ -9,9 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import "PreferencesController.h"
 #import "RXLogWindowController.h"
+#import "RXEngineManager.h"
 
 @class RXMainWindow;
 @class RXREFxIntance;
+@class RXEngineManager;
 
 @interface REFx3AppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
@@ -25,7 +27,8 @@
 @property (retain) RXMainWindow* mainWindowController;
 @property (retain) PreferencesController *preferencesController;
 @property (retain) RXLogWindowController *LogWindowController;
-//@property (retain) RXEngines* enginesController;
+
+@property (retain) RXEngineManager *sharedEngineManager;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;

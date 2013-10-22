@@ -21,16 +21,13 @@
 @synthesize preferencesController;
 @synthesize refxInstance;
 @synthesize LogWindowController;
-//@synthesize enginesController;
+@synthesize sharedEngineManager;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 
-    RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
+    sharedEngineManager = [[RXEngineManager alloc] init];
     [sharedEngineManager initEngineDirectory];
-
-    
-    //self.enginesController = [[RXEngineManager alloc] init];
     
     if (![refxInstance isKindOfClass:[RXREFxIntance class]]) {
         refxInstance = [[RXREFxIntance alloc] init];

@@ -10,7 +10,7 @@
 
 @implementation RXEngineManager
 
-@synthesize someProperty;
+//@synthesize someProperty;
 
 #pragma mark Singleton Methods
 
@@ -33,7 +33,7 @@
     if (self) {
         someProperty = [[NSString alloc] initWithString:@"Default Property Value"];
 
-        [self enginesEnabled];
+        [self enginesEnabledArray];
     
     
     }
@@ -63,7 +63,7 @@
     [fileManager release];
 }
 
-- (NSMutableArray *) enginesEnabled
+- (NSMutableArray *) enginesEnabledArray
 {    
     NSFileManager *filemgr;
     NSMutableArray *enginesList;
@@ -97,5 +97,19 @@
     
     return enginesList;
 }
+
+- (NSString *)pathToEngine:(NSString *)anEngine
+{
+    NSString * enginePath = [NSString stringWithFormat:@"%@/%@.bundle",[self engineDirectoryPath],anEngine];
+    return enginePath;
+}
+- (NSString *)pathToEngineContents:(NSString *)anEngine
+{
+    NSString * engineContentsPath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/",[self engineDirectoryPath],anEngine];
+    return engineContentsPath;
+}
+
+- (NSURL *)urlToEngineApiDocs:(NSString *)anEngine{}
+- (void)insertEngineTestJob:(NSString *)anEngine{}
 
 @end

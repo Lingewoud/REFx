@@ -28,6 +28,8 @@
 		3E3787B81816FA79000FD48F /* EngineListingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787B41816FA79000FD48F /* EngineListingController.m */; };
 		3E3787B91816FA79000FD48F /* EngineData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787B61816FA79000FD48F /* EngineData.m */; };
 		3E3787BE1816FD6C000FD48F /* engineicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E3787BD1816FD6C000FD48F /* engineicon.png */; };
+		3E3787C018171A7B000FD48F /* EngineWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3787BF18171A7B000FD48F /* EngineWindow.xib */; };
+		3E3787C318171AFB000FD48F /* EngineWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787C218171AFB000FD48F /* EngineWindowController.m */; };
 		3E3F694317DFB2070034B653 /* NSFileHandle+readLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3F694017DFB2070034B653 /* NSFileHandle+readLine.m */; };
 		3E3F694417DFB2070034B653 /* VDKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3F694217DFB2070034B653 /* VDKQueue.m */; };
 		3E3F694617DFB2770034B653 /* RXLogWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3F694517DFB2770034B653 /* RXLogWindow.xib */; };
@@ -105,6 +107,9 @@
 		3E3787B51816FA79000FD48F /* EngineData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineData.h; sourceTree = "<group>"; };
 		3E3787B61816FA79000FD48F /* EngineData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineData.m; sourceTree = "<group>"; };
 		3E3787BD1816FD6C000FD48F /* engineicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = engineicon.png; sourceTree = "<group>"; };
+		3E3787BF18171A7B000FD48F /* EngineWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EngineWindow.xib; sourceTree = "<group>"; };
+		3E3787C118171AFB000FD48F /* EngineWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineWindowController.h; sourceTree = "<group>"; };
+		3E3787C218171AFB000FD48F /* EngineWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineWindowController.m; sourceTree = "<group>"; };
 		3E3F693F17DFB2070034B653 /* NSFileHandle+readLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileHandle+readLine.h"; sourceTree = "<group>"; };
 		3E3F694017DFB2070034B653 /* NSFileHandle+readLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileHandle+readLine.m"; sourceTree = "<group>"; };
 		3E3F694117DFB2070034B653 /* VDKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VDKQueue.h; sourceTree = "<group>"; };
@@ -201,6 +206,9 @@
 				3E3787B21816FA79000FD48F /* EngineTextCell.m */,
 				3E3787B31816FA79000FD48F /* EngineListingController.h */,
 				3E3787B41816FA79000FD48F /* EngineListingController.m */,
+				3E3787BF18171A7B000FD48F /* EngineWindow.xib */,
+				3E3787C118171AFB000FD48F /* EngineWindowController.h */,
+				3E3787C218171AFB000FD48F /* EngineWindowController.m */,
 				3E3787B51816FA79000FD48F /* EngineData.h */,
 				3E3787B61816FA79000FD48F /* EngineData.m */,
 			);
@@ -361,8 +369,8 @@
 			isa = PBXGroup;
 			children = (
 				3EC97CA914488BDC00B81F47 /* REFx3.xcdatamodeld */,
-				3E615FFF14EE986E0054898D /* REFxLogoApp.png */,
 				3E3787BD1816FD6C000FD48F /* engineicon.png */,
+				3E615FFF14EE986E0054898D /* REFxLogoApp.png */,
 				3E615FFB14EE968A0054898D /* REFxAppBg.jpg */,
 				3E0A80A514EE847C00D9FBAA /* refx.icns */,
 				3E6CBAF1144C733C00D4105F /* noserver.html */,
@@ -462,6 +470,7 @@
 				3E61600014EE986E0054898D /* REFxLogoApp.png in Resources */,
 				3EB5D8391507C5660093B600 /* Preferences.xib in Resources */,
 				3EB5D8411507D7CA0093B600 /* PAS3TestJobs in Resources */,
+				3E3787C018171A7B000FD48F /* EngineWindow.xib in Resources */,
 				3EF2B04B15867CB700CD035F /* p3imgutils in Resources */,
 				3E9D6ADB17DE51EC005ABF10 /* RubyEngineRunner in Resources */,
 				3E3F694617DFB2770034B653 /* RXLogWindow.xib in Resources */,
@@ -523,6 +532,7 @@
 				3EC97CAB14488BDC00B81F47 /* REFx3.xcdatamodeld in Sources */,
 				3EC97CD914488EF300B81F47 /* RXRailsController.m in Sources */,
 				3EC97CDC14488F5D00B81F47 /* RXJobPicker.m in Sources */,
+				3E3787C318171AFB000FD48F /* EngineWindowController.m in Sources */,
 				3E3787B91816FA79000FD48F /* EngineData.m in Sources */,
 				3EC97CF0144891DB00B81F47 /* RXMainWindow.m in Sources */,
 				3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */,

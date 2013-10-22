@@ -33,7 +33,7 @@
          //NSLog(@"dbpath:%@",dbPath);
          
          
-         //[self populateTableAndBuffer];
+         [self populateTableAndBuffer];
          [self startAutoUpdateTable];
 
     }
@@ -60,36 +60,12 @@
 // -- Handle the awakeFromNib signal
 - (void)awakeFromNib
 {
-    //NSLog(@"JobsView awakeFromNib");
 
-    // set the double-click handler, 2006 Apr 04
-//	[[self testTable] setTarget:self];
-//	[[self testTable] setDoubleAction:@selector(handleDoubleClick:)];
-    //dbPath = [[[NSApp delegate] refxInstance] getDbPath];
 }
 
 - (IBAction)refreshTable:(id)sender{
         [self populateTableAndBuffer];
 }
-
-// -- Handle the double-click event, 2006 Apr 04
-/*- (void)handleDoubleClick:(id)sender
-{
-	// update the log
-    NSLog(@"DoubleClick");
-
-    // display the edit panel
-	[testPanel setFloatingPanel:YES];
-	[testPanel makeKeyAndOrderFront:self];
-		
-	// display the table selection
-	//[self handleSelection];
-}
- */
-
-
-//BOOL isRowSelect()
-
 
 - (IBAction)viewBody:(id)sender
 {
@@ -174,8 +150,6 @@
     [db executeUpdate:@"UPDATE jobs SET status=1,attempt=0 WHERE id=?",[selectedRow objectForKey:@"id"]];
     [db close];
     [self populateTableAndBuffer];
-
-
 }
 
 - (IBAction)deleteJob:(id)sender{
@@ -246,13 +220,6 @@
             return;
         }
         
-        //NSLog(@"Is SQLite compiled with it's thread safe options turned on? %@!", [FMDatabase isSQLiteThreadSafe] ? @"Yes" : @"No");
-        
-        /*
-         CREATE TABLE jobs ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "priority" integer DEFAULT NULL, "engine" varchar(255) DEFAULT NULL, "body" text(16777216) DEFAULT NULL, "status" integer DEFAULT NULL, "created_at" datetime DEFAULT NULL, "updated_at" datetime DEFAULT NULL, "max_attempt" integer DEFAULT NULL, "attempt" integer DEFAULT NULL, "returnbody" text(16777216) DEFAULT NULL);
-         */
-//        FMResultSet *rs = [db executeQuery:@"select * from jobs WHERE id=?",[selectedRow objectForKey:@"id"]];
-        //NSLog(@"amount : %li",jobsAmount);
         FMResultSet *rs = [db executeQuery:@"select * from jobs order by id DESC Limit ?", [NSString stringWithFormat:@"%li", jobsAmount]];
         
         while ([rs next]) {
@@ -323,32 +290,6 @@
 	// return the retrieval results
 	return (loc_dat);
 }
-
-// -- Set the cell data for the specified row/column, 2006 Apr 06
-/*
--(void)tableView:(NSTableView *)aTbl setObjectValue:(id)aArg forTableColumn:(NSTableColumn *)aCol row:(NSInteger)aRow
-{
-	id loc_id, loc_data;
-	//NSString	*loc_log;
-	
-	// identify the table column
-	loc_id = [aCol identifier];
-	if ([loc_id isKindOfClass:[NSString class]])
-	{
-		// determine the old cell value
-		loc_data = [[self _testBuffer] objectForKey:loc_id];
-		loc_data = [loc_data objectAtIndex:aRow];
-		
-		// compare the old cell value against the "new" value, 2006 May 04
-		if (![loc_data isEqual:aArg])
-		{		
-			// update the data buffer
-			[[[self _testBuffer] objectForKey:loc_id]
-			replaceObjectAtIndex:aRow withObject:aArg];
-		}
-	}
-}
-*/
 
 
 // -- Return the number of rows to be displayed

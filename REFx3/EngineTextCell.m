@@ -30,6 +30,7 @@
     [super selectWithFrame: textFrame inView: controlView editor:textObj delegate:anObject start:selStart length:selLength];
 }
 
+
 // draw the image on the left hand side of the NSTextFieldCell
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {	
 	if (nsImageObj == nil) {
