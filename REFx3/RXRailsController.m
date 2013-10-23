@@ -59,7 +59,6 @@
         [comServerProcess setCurrentDirectoryPath:railsRootDirectory];
         [comServerProcess setLaunchPath: railsCommand];
         [comServerProcess setArguments: [NSArray arrayWithObjects: @"--port", railsPort,railsEnvironment,nil]];    
-//        [comServerProcess setArguments: [NSArray arrayWithObjects:@"webrick", @"--port", railsPort,nil]];    
         
         comServerRunning = YES;
         [comServerProcess launch];

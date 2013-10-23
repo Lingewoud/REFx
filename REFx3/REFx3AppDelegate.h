@@ -40,7 +40,6 @@
 - (IBAction)setLastJobId:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 - (IBAction)openTestJobsFolder:(id)sender;
-- (IBAction)insertTestJobSayWhat:(id)sender;
 - (IBAction)insertTestJobIndexIndesignFranchise:(id)sender;
 - (IBAction)insertTestJobGenerateIndesignFranchise:(id)sender;
 - (IBAction)insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender;

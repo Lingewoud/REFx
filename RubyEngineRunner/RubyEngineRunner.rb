@@ -147,7 +147,32 @@ class RefxJobWrapper
 
 		return ''
 	end
+    
+    def insertTestJob(engineName)
+        p 'INSERTING TEST JOB'
+        #p engineName
 
+            testJobPath = File.expand_path('~')+"/Library/REFx4/TestJobs"
+            Dir.mkdir(testJobPath) unless File.exists?(testJobPath)
+            
+            engineTestJobPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Resources/testJob.yml"
+
+            jobBody = File.read(engineTestJobPath)
+
+            jobBody = jobBody.gsub("<%=JOB_PATH%>", testJobPath)
+
+            pJob = Job.new
+            
+            pJob.priority = 1
+            pJob.engine = engineName
+            pJob.body = jobBody
+            pJob.status = 1
+            pJob.max_attempt = 1
+            pJob.attempt = 0
+            pJob.returnbody = ''
+
+            pJob.save
+    end
 end
 
 ActiveRecord::Base.logger = Logger.new(STDERR)
@@ -176,8 +201,14 @@ optparse = OptionParser.new do|opts|
 	opts.on( '-j', '--jobid jobid', 'jobid' ) do|jobid|
 		options[:jobid] = jobid
 	end
+    
+	options[:test] = nil
+	opts.on( '-t', '--test engineName', 'insert engine\'s test job' ) do |engineName|
+		options[:test] = engineName
+	end
 
-	# This displays the help screen, all programs are
+
+    # This displays the help screen, all programs are
 	# assumed to have this option.
 
 	opts.on( '-d', '--debug', 'debug mode')  do
@@ -205,7 +236,10 @@ optparse.parse!
 #puts "Logging to file #{options[:logfile]}" if options[:logfile]
 #p options[:jobid]
 
-if options[:jobid] != 0
+if options[:test]
+	refxjob = RefxJobWrapper.new
+	refxjob.insertTestJob(options[:test])
+elsif options[:jobid] != 0
 	refxjob = RefxJobWrapper.new
 	refxjob.selectJobById(options[:jobid])
 end

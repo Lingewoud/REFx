@@ -29,6 +29,7 @@
     sharedEngineManager = [[RXEngineManager alloc] init];
     [sharedEngineManager initEngineDirectory];
     
+    
     if (![refxInstance isKindOfClass:[RXREFxIntance class]]) {
         refxInstance = [[RXREFxIntance alloc] init];
     }
@@ -111,12 +112,6 @@
 
 
 
-- (IBAction)insertTestJobSayWhat:(id)sender
-{
-    [refxInstance.jobPicker insertTestJobSayWhat];
-    [mainWindowController refreshJobmanagerView];
-
-}
 
 
 - (IBAction)insertTestJobGenerateIndesignFranchise:(id)sender

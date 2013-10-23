@@ -8,18 +8,11 @@
 
 #import "EngineWindowController.h"
 #import "RXEngineManager.h"
+#import "RXREFxIntance.h"
 
-/*@interface EngineWindowController ()
-
-@end
-*/
 
 
 @implementation EngineWindowController
-
-//@synthesize EngineTitle;
-//@synthesize EngineDescription;
-//@synthesize EngineVersion;
 
 - (id)initWithWindow:(NSWindow *)window
 {
@@ -49,7 +42,42 @@
 
 - (IBAction)insertTestJob:(id)sender
 {
+    //run nstask
+    
+    
+    RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
+    NSString *railsEnvironment = [[[NSApp delegate] refxInstance] getRailsEnvironment];
+    //NSString *railsEnvironment = @"";
+    NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [sharedEngineManager engineDirectoryPath],self.EngineName];
+    NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [sharedEngineManager engineDirectoryPath],self.EngineName];
+    NSString *runnerPath = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/RubyEngineRunner.rb", [[NSBundle mainBundle] bundlePath]];
+    
+    NSTask *rubyJobProcess = [[NSTask alloc] init];
+    
+    [rubyJobProcess setCurrentDirectoryPath:engineDir];
+    [rubyJobProcess setLaunchPath: enginePath];
+    
+    [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
+        
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
+    {
+        [rubyJobProcess setArguments: [NSArray arrayWithObjects:
+                                       runnerPath,
+                                       @"-t",self.EngineName,
+                                       @"-d",
+                                       @"--environment",railsEnvironment,
+                                       nil]];
+        
+    }
+    else{
+        [rubyJobProcess setArguments: [NSArray arrayWithObjects:runnerPath,
+                                       @"-t",self.EngineName,
+                                       @"--environment",railsEnvironment,
+                                       nil]];
+    }
+    [rubyJobProcess launch];
 }
+
 - (IBAction)openApiDocs:(id)sender
 {
     //get dir

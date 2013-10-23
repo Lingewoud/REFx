@@ -89,8 +89,18 @@
     return self;
 }
 
+- (NSString*) getRailsEnvironment
+{
+    return railsEnvironment;
+}
+
+
 -(NSString*) getDbPath{
     return dbPath;
+}
+
+-(NSString*) railRootDir {
+    return railsRootDir;
 }
 
 - (void) startComServer:(NSString*)port {
@@ -266,9 +276,7 @@
     }
 }
 
--(NSString*) railRootDir {
-    return railsRootDir;
-}
+
 
 - (void) dealloc {
     railsRootDir = nil;

@@ -338,23 +338,14 @@
     }    
 }
 
-
-
 - (void) setJobsLastId:(NSInteger)rowId
 {
     if(dbOpened)
     {      
         sqlite3_stmt *statement;
         
-  
-        
-      //  NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,priority,engine,body,status,max_attempt,attempt,returnbody) value(%i,0,'MARKER','MARKER',10,1,1,'MARKER')", rowId];
         NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,engine,body) values (%li,'MARKER','MARKER');", (long)rowId];
 
-        
-     //   NSLog(@"SQL: @%", sql);
-//        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id) values (%i);", rowId];
-        
         const char *query_stmt = [sql UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -398,56 +389,6 @@
         sqlite3_finalize(statement);
     }
 }
-
-- (void) insertTestJobSayWhat
-{
-    
-    if(dbOpened)
-    {      
-        sqlite3_stmt *statement;
-        
-        NSString * testJobPath = [[NSApp delegate] testFolderPath];
-        
-        NSString *jobBody = [NSString stringWithFormat: @"---\n"
-                             "init_args: \n"
-                             "  - \n"
-                             "    value: %@\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: Say What? PAS3 says hello.\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: fileadmin/pas3/guidedAssets\n"
-                             "    type: string\n"
-                             "method: say\n"
-                             "method_args: \n"
-                             "  - \n"
-                             "    value: Say What? PAS3 says hello.\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: Victoria\n"
-                             "    type: string\n"
-                             ,testJobPath];
-        
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'P3Saywhat','%@',1,1,0,'');",jobBody];  
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-    }    
-}
-
-
 
 - (void) insertTestJobGenerateIndesignFranchise
 {
