@@ -96,10 +96,10 @@
         [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
 
         
-        NSLog(@"enf: %@",[rubyJobProcess environment]);
+        //NSLog(@"enf: %@",[rubyJobProcess environment]);
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
-            NSLog(@"REFx4: debugmode on");
+            //NSLog(@"REFx4: debugmode on");
             [rubyJobProcess setArguments: [NSArray arrayWithObjects:
                                            runnerPath,
                                            @"-j",jobidString,
@@ -109,7 +109,7 @@
 
  }
         else{
-            NSLog(@"REFx4: debugmode off");
+            //NSLog(@"REFx4: debugmode off");
             [rubyJobProcess setArguments: [NSArray arrayWithObjects:runnerPath,
                                            @"-j",jobidString,
                                            @"--environment",railsEnvironment,
@@ -117,7 +117,7 @@
         }
         [rubyJobProcess launch];
         
-        NSLog(@"Return from JOBID %i",jobid);
+        //NSLog(@"Return from JOBID %i",jobid);
         
         jobRunning = NO;
     }
@@ -306,7 +306,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            NSLog(@"update result %i",result);
+            //NSLog(@"update result %i",result);
         }
         else
         {
@@ -332,7 +332,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            NSLog(@"Flushed Jobs table %i",result);
+            //NSLog(@"Flushed Jobs table %i",result);
         }
         else
         {
@@ -365,7 +365,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            NSLog(@"update result %i",result);
+            //NSLog(@"update result %i",result);
         }
         else
         {
@@ -393,7 +393,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
+            //NSLog(@"insert result %i",result);
         }
         else
         {
@@ -441,7 +441,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
+            //NSLog(@"insert result %i",result);
         }
         else
         {
@@ -498,7 +498,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
+            //NSLog(@"insert result %i",result);
         }
         else
         {
@@ -675,7 +675,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
+            //NSLog(@"insert result %i",result);
         }
         else
         {
@@ -724,7 +724,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
+            //NSLog(@"insert result %i",result);
         }
         else
         {

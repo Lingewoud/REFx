@@ -22,28 +22,17 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <tabView id="36">
-                        <rect key="frame" x="21" y="42" width="440" height="243"/>
+                        <rect key="frame" x="21" y="10" width="440" height="275"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="General" identifier="1" id="37">
                                 <view key="view" id="40">
-                                    <rect key="frame" x="10" y="33" width="420" height="197"/>
+                                    <rect key="frame" x="10" y="33" width="420" height="229"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button id="5">
-                                            <rect key="frame" x="15" y="151" width="257" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Start services when application starts" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="8">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <binding destination="18" name="value" keyPath="values.startServicesAtStartup" id="21"/>
-                                            </connections>
-                                        </button>
                                         <textField verticalHuggingPriority="750" id="52">
-                                            <rect key="frame" x="17" y="112" width="55" height="22"/>
+                                            <rect key="frame" x="17" y="116" width="55" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="53">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#" negativeFormat="#" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" minimumFractionDigits="0" maximumFractionDigits="0" decimalSeparator="," groupingSeparator="." currencyDecimalSeparator="," id="60">
@@ -65,7 +54,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="54">
-                                            <rect key="frame" x="87" y="115" width="295" height="17"/>
+                                            <rect key="frame" x="87" y="119" width="295" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Amount of last jobs to display (defaults to 50)" id="55">
                                                 <font key="font" metaFont="system"/>
@@ -74,7 +63,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="cJw-jz-TDZ">
-                                            <rect key="frame" x="87" y="72" width="295" height="17"/>
+                                            <rect key="frame" x="87" y="89" width="295" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Port to list for new jobs" id="U9G-A7-z0l">
                                                 <font key="font" metaFont="system"/>
@@ -83,7 +72,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="Pnd-7q-aTw">
-                                            <rect key="frame" x="17" y="69" width="55" height="22"/>
+                                            <rect key="frame" x="17" y="86" width="55" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Trc-mW-JPS">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#" negativeFormat="#" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" minimumFractionDigits="0" maximumFractionDigits="0" id="lAF-jt-mR4">
@@ -100,16 +89,38 @@
                                                 <binding destination="18" name="value" keyPath="values.listenPort" id="ap2-1Q-75Q"/>
                                             </connections>
                                         </textField>
+                                        <button id="GLP-nQ-ec4">
+                                            <rect key="frame" x="15" y="183" width="283" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title=" Start COM Server when application starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="E6s-0Z-xwy">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.startComServerAtStart" id="0rn-sJ-ymw"/>
+                                            </connections>
+                                        </button>
+                                        <button id="2Th-Id-F4f">
+                                            <rect key="frame" x="15" y="157" width="343" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title=" Start Job Scheduler Service when application starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RBi-jR-EjN">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.startJobSchedulerAtStart" id="s8X-l2-Olj"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Development" identifier="2" id="38">
                                 <view key="view" id="39">
-                                    <rect key="frame" x="10" y="33" width="420" height="197"/>
+                                    <rect key="frame" x="10" y="33" width="420" height="229"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button id="28">
-                                            <rect key="frame" x="15" y="151" width="399" height="18"/>
+                                            <rect key="frame" x="15" y="183" width="399" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Use development environment (restart Application to apply)" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="29">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -120,7 +131,7 @@
                                             </connections>
                                         </button>
                                         <button id="44">
-                                            <rect key="frame" x="15" y="114" width="242" height="18"/>
+                                            <rect key="frame" x="15" y="146" width="242" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Use alternatie RAILS root directory " bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="45">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -131,7 +142,7 @@
                                             </connections>
                                         </button>
                                         <button id="63">
-                                            <rect key="frame" x="15" y="43" width="102" height="18"/>
+                                            <rect key="frame" x="15" y="75" width="102" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="debug mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="64">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -142,7 +153,7 @@
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" id="48">
-                                            <rect key="frame" x="17" y="86" width="395" height="22"/>
+                                            <rect key="frame" x="17" y="118" width="395" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="49">
                                                 <font key="font" metaFont="system"/>

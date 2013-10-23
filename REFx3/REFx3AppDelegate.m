@@ -35,20 +35,27 @@
     
     self.mainWindowController = [[RXMainWindow alloc] initWithWindowNibName:@"RXMainWindow"];
     [self openMainWindow];
-        
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"startServicesAtStartup"])
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"startComServerAtStart"])
     {
-        [self startAllServices];
+        [refxInstance startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
+        [[mainWindowController startStopButtonCommunicationServer] setState:1];
+
+    }
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"startJobSchedulerAtStart"])
+    {
+        [refxInstance.jobPicker startREFxLoop];
+        [[mainWindowController startStopButtonScheduler] setState:1];
     }
     
-    NSLog(@"before port %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]);
+    //NSLog(@"before port %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]);
 
     if([[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"] < 1)
     {
 
         [[NSUserDefaults standardUserDefaults] setInteger:3030 forKey:@"listenPort"];
     }
-    NSLog(@"after port %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]);
+    //NSLog(@"after port %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]);
     
 }
 
@@ -159,13 +166,6 @@
     NSString * path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/PAS3TestJobs/"];
     return path;
     
-}
-
--(void)startAllServices {
-    [refxInstance startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
-    [[mainWindowController startStopButtonCommunicationServer] setState:1];
-    [refxInstance.jobPicker startREFxLoop];
-    [[mainWindowController startStopButtonScheduler] setState:1];   
 }
 
 

@@ -18,13 +18,18 @@ require 'base64'
 
 class RefxJobWrapper
     
+    def selectJobById(jobId)
+		pJob = Job.find(jobId)
+		runJob(pJob)
+	end
+    
     def runJob(pJob)
         
         @logdir = File.expand_path('~')+"/Library/Logs/REFx4"
         Dir.mkdir(@logdir) unless File.exists?(@logdir)
         @logfile = @logdir + '/Engines.log'
         
-		p "start running job"
+		#p "start running job"
 		pJob.attempt = pJob.attempt.to_i + 1
 
 		## SAVE JOB: attempt + 1
@@ -58,29 +63,26 @@ class RefxJobWrapper
 			@engineObject=nil
 
             require "./#{pJob.engine}.rb"
-            #require File.join(File.dirname(__FILE__), '..', 'windows_gui')
-
 
 			evalcmd1=pJob.engine+'.new('+initArgString+')'
 			#p evalcmd1
 			@engineObject = eval(evalcmd1)
 
-			print "creating engine object"
+#print "creating engine object"
 			if @engineObject
 				logStartNewJob
 
 				evalcommand='@returnVal = @engineObject.'+cmdbody['method']+'('+methodArgString+')'
 
-				@startTime = 'JOB STARTED :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
+				@startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
 				_startTime = Time.now
 				eval(evalcommand)
                 
 				@endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
 				_endTime = Time.now
 				@duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
-				#@duration = 'JOB DURATION : '+ time_period_to_s((_endTime-_startTime).to_i)
 
-                p 'call logJobSummary'
+#p 'call logJobSummary'
                 logJobSummery
 
 				pJob.status = 10
@@ -92,50 +94,30 @@ class RefxJobWrapper
 				pJob.status = 20
 			end
 		#end
-		## SAVE JOB: in loop
 		pJob.save
-		p "finished job"
+		#p "finished job"
 
 	end
-
-	def selectJobById(jobId)
-
-		pJob = Job.find(jobId)
-		runJob(pJob)
-	end
-
-=begin
-	def selectJob()
-		# select job ONE to process starting with highest priority
-		processJobs = Job.find(:all,:conditions => ["status > 0 AND status < 10"], :order => "jobs.priority DESC", :limit => 1)
-
-		# walk through jobs
-		processJobs.each do |pJob|
-		end
-	end         
-=end
 
 	def logStartNewJob
 
 		open(@logfile, 'a') { |f|
-			f.puts "\n"
+            f.puts "\n"
 			f.puts "------------ STARTING A NEW REFx JOB -------------\n"
 			if($debug)
                 f.puts "DEBUG IS SET ON\n"
 			end
-			f.puts "\n"
 		}
 	end
+    
 	def logJobSummery
-        p 'log summary'
+        #p 'log summary'
         open(@logfile, 'a') { |f|
-			f.puts "\n"
-			f.puts "--------------- FINISH REFx JOB ------------------\n"
+			f.puts "------------ FINISH REFx JOB ---------------------\n"
 			f.puts @startTime +"\n"
 			f.puts @endTime +"\n"
 			f.puts @duration +"\n"
 			f.puts "--------------------------------------------------\n"
-			f.puts "\n"
 		}
 	end
 
@@ -221,7 +203,7 @@ optparse.parse!
 
 #puts "Being verbose" if options[:verbose]
 #puts "Logging to file #{options[:logfile]}" if options[:logfile]
-p options[:jobid]
+#p options[:jobid]
 
 if options[:jobid] != 0
 	refxjob = RefxJobWrapper.new
