@@ -7,6 +7,7 @@
 //
 
 #import "RXLogTableDataSource.h"
+#import "REFx3AppDelegate.h"
 
 @implementation RXLogTableDataSource
 
@@ -15,8 +16,7 @@
 {
     self = [super init];
     if (self) {
-        logFilePath = @"/Users/pim/Sourcecode/github/PAS3/REFx4/REFx-rails-framework/log/pas3.log";
-        
+        logFilePath = [[NSApp delegate] engineLogFilePath];
         [self readFile];
         [self startListeningFileChanges];
         [_linesFoundView setDataSource:self];
@@ -25,7 +25,6 @@
     
     return self;
 }
-
 
 - (void)startListeningFileChanges
 {

@@ -345,6 +345,11 @@
     return NSTerminateNow;
 }
 
+- (NSString*) engineLogFilePath
+{
+    return [NSString stringWithFormat: @"%@/Library/Logs/REFx4/Engines.log",NSHomeDirectory()];
+}
+
 - (void)dealloc
 {
     [__managedObjectContext release];

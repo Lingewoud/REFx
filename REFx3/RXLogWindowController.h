@@ -14,4 +14,6 @@
 
 }
 
+- (IBAction)openLogInConsoleApp:(id)sender;
+
 @end

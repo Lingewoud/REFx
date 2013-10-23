@@ -82,8 +82,6 @@
 
         NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [sharedEngineManager engineDirectoryPath],engine];
         NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [sharedEngineManager engineDirectoryPath],engine];
-        //NSString *engineDir = @"/Users/pim/Library/REFx4/Engines/P3Saywhat.bundle/Contents/Resources/";
-        //NSString *engineDir = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/", [[NSBundle mainBundle] bundlePath]];
         NSString *runnerPath = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/RubyEngineRunner.rb", [[NSBundle mainBundle] bundlePath]];
         
         //NSLog(@"ENGINEPATH %@",engineDir);

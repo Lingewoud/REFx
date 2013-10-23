@@ -52,5 +52,7 @@
 - (NSString *)appSupportPath;
 - (NSString *)testFolderPath;
 - (NSURL *)applicationFilesDirectory;
+- (NSString *) engineLogFilePath;
+
 
 @end
