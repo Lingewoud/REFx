@@ -61,6 +61,7 @@
 
         //AppSupportDir = @"/Library/Application Support/REFx4";
         AppSupportDir = [[NSApp delegate] appSupportPath];
+        NSLog(@"App Support Dir %@", AppSupportDir);
        
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"useDevelopmentEnvironment"]) {
             railsEnvironment=@"development";
@@ -71,8 +72,8 @@
             dbPath = [AppSupportDir stringByAppendingString:@"/Database/refx4production.sqlite3"];
         }
     
-        [self checkAppScript];
-        [self checkAppSupportDir];
+//        [self checkAppScript];
+//        [self checkAppSupportDir];
         NSLog(@"rails path %@",railsRootDir);
         
         
