@@ -12,7 +12,6 @@ require 'optparse'
 require 'fileutils'
 require 'base64'
 
-
 #require "bundler/setup"
 
 #require 'active_record'
@@ -20,6 +19,10 @@ require 'base64'
 class RefxJobWrapper
     
     def runJob(pJob)
+        
+        @logdir = File.expand_path('~')+"/Library/Logs/REFx4"
+        Dir.mkdir(@logdir) unless File.exists?(@logdir)
+        @logfile = @logdir + '/Engines.log'
         
 		p "start running job"
 		pJob.attempt = pJob.attempt.to_i + 1
@@ -59,7 +62,7 @@ class RefxJobWrapper
 
 
 			evalcmd1=pJob.engine+'.new('+initArgString+')'
-			p evalcmd1
+			#p evalcmd1
 			@engineObject = eval(evalcmd1)
 
 			print "creating engine object"
@@ -71,11 +74,14 @@ class RefxJobWrapper
 				@startTime = 'JOB STARTED :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
 				_startTime = Time.now
 				eval(evalcommand)
+                
 				@endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
 				_endTime = Time.now
 				@duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
 				#@duration = 'JOB DURATION : '+ time_period_to_s((_endTime-_startTime).to_i)
-				logJobSummery
+
+                p 'call logJobSummary'
+                logJobSummery
 
 				pJob.status = 10
 				pJob.returnbody = @returnVal
@@ -110,19 +116,21 @@ class RefxJobWrapper
 =end
 
 	def logStartNewJob
-		open('log/pas3.log', 'a') { |f|
+
+		open(@logfile, 'a') { |f|
 			f.puts "\n"
 			f.puts "------------ STARTING A NEW REFx JOB -------------\n"
 			if($debug)
-				f.puts "DEBUG IS SET ON\n"
+                f.puts "DEBUG IS SET ON\n"
 			end
 			f.puts "\n"
 		}
 	end
 	def logJobSummery
-		open('log/pas3.log', 'a') { |f|
+        p 'log summary'
+        open(@logfile, 'a') { |f|
 			f.puts "\n"
-			f.puts "--------------------------------------------------\n"
+			f.puts "--------------- FINISH REFx JOB ------------------\n"
 			f.puts @startTime +"\n"
 			f.puts @endTime +"\n"
 			f.puts @duration +"\n"

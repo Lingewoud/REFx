@@ -40,6 +40,16 @@
     {
         [self startAllServices];
     }
+    
+    NSLog(@"before port %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]);
+
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"] < 1)
+    {
+
+        [[NSUserDefaults standardUserDefaults] setInteger:3030 forKey:@"listenPort"];
+    }
+    NSLog(@"after port %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]);
+    
 }
 
 - (void)openMainWindow {
@@ -152,7 +162,7 @@
 }
 
 -(void)startAllServices {
-    [refxInstance startComServer:@"3031"];
+    [refxInstance startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
     [[mainWindowController startStopButtonCommunicationServer] setState:1];
     [refxInstance.jobPicker startREFxLoop];
     [[mainWindowController startStopButtonScheduler] setState:1];   

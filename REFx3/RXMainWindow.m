@@ -87,7 +87,10 @@
 {   
     if([startStopButtonCommunicationServer state]==1) {
         
-        [[[NSApp delegate] refxInstance ] startComServer:@"3031"];        
+        //[refxInstance startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
+
+        
+        [[[NSApp delegate] refxInstance ] startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
         
         [NSThread sleepForTimeInterval:3];        
     }

@@ -199,7 +199,7 @@
 			name = RailsController;
 			sourceTree = "<group>";
 		};
-		3E3787BC1816FD32000FD48F /* Englines */ = {
+		3E3787BC1816FD32000FD48F /* Engines */ = {
 			isa = PBXGroup;
 			children = (
 				3EFA299917F227CE00CA4CEC /* RXEngineManager.h */,
@@ -214,7 +214,7 @@
 				3E3787B51816FA79000FD48F /* EngineData.h */,
 				3E3787B61816FA79000FD48F /* EngineData.m */,
 			);
-			name = Englines;
+			name = Engines;
 			sourceTree = "<group>";
 		};
 		3E3F693D17DF9B990034B653 /* 3rdparty */ = {
@@ -346,7 +346,7 @@
 				3E3F693D17DF9B990034B653 /* 3rdparty */,
 				3E786DE1157042C100BB0FA9 /* Main */,
 				3E846F7F156F8A1A00F0BF08 /* JobPicker */,
-				3E3787BC1816FD32000FD48F /* Englines */,
+				3E3787BC1816FD32000FD48F /* Engines */,
 				3E3F694717DFB27C0034B653 /* Log Window */,
 				3E846F83156F8AEB00F0BF08 /* Preferences */,
 				3E13D00F144CE11B00523A5E /* RailsController */,
