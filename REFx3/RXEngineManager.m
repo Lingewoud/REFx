@@ -24,7 +24,7 @@
 }
 
 - (void)dealloc {
-    // Should never be called, but just here for clarity really.
+    [super dealloc];
 }
 
 - (id)init
@@ -70,7 +70,7 @@
     NSArray *enginesFileList;
     
     enginesList = [NSMutableArray arrayWithObjects: nil];
-    int count;
+    NSInteger count;
 
     int i;
     
@@ -88,7 +88,7 @@
         }
     }
     
-    int count2;
+    NSInteger count2;
     count2 = [enginesList count];
     for (i = 0; i < count2; i++)
     {
@@ -109,7 +109,9 @@
     return engineContentsPath;
 }
 
-- (NSURL *)urlToEngineApiDocs:(NSString *)anEngine{}
+- (NSURL *)urlToEngineApiDocs:(NSString *)anEngine{
+    return NULL;
+}
 - (void)insertEngineTestJob:(NSString *)anEngine{}
 
 @end

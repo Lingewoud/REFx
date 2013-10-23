@@ -77,9 +77,6 @@
         
         RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
 
-
-        NSString *rubyPath = [NSString stringWithFormat:@"/usr/bin/ruby"];
-
         NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [sharedEngineManager engineDirectoryPath],engine];
         NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [sharedEngineManager engineDirectoryPath],engine];
         NSString *runnerPath = [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/RubyEngineRunner.rb", [[NSBundle mainBundle] bundlePath]];
@@ -263,7 +260,7 @@
     const char *query_stmt = [sql UTF8String];
     
     int ret;
-    //ret = 0;    
+    ret = 0;
     
     if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
     {
@@ -297,13 +294,13 @@
         
         sqlite3_stmt *statement;
         
-        NSString *sql = [NSString stringWithFormat: @"UPDATE jobs SET status = %i WHERE id=%i", status, rowId];
+        NSString *sql = [NSString stringWithFormat: @"UPDATE jobs SET status = %li WHERE id=%li", (long)status, (long)rowId];
         
         const char *query_stmt = [sql UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            int result = sqlite3_step(statement);
+            //int result = sqlite3_step(statement);
             //NSLog(@"update result %i",result);
         }
         else
@@ -330,7 +327,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            //NSLog(@"Flushed Jobs table %i",result);
+            NSLog(@"Flushed Jobs table %i",result);
         }
         else
         {
@@ -352,7 +349,7 @@
   
         
       //  NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,priority,engine,body,status,max_attempt,attempt,returnbody) value(%i,0,'MARKER','MARKER',10,1,1,'MARKER')", rowId];
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,engine,body) values (%i,'MARKER','MARKER');", rowId];  
+        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,engine,body) values (%li,'MARKER','MARKER');", (long)rowId];
 
         
      //   NSLog(@"SQL: @%", sql);
@@ -363,7 +360,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            //NSLog(@"update result %i",result);
+            NSLog(@"update result %i",result);
         }
         else
         {
@@ -391,7 +388,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            //NSLog(@"insert result %i",result);
+            NSLog(@"insert result %i",result);
         }
         else
         {
@@ -439,7 +436,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            //NSLog(@"insert result %i",result);
+            NSLog(@"insert result %i",result);
         }
         else
         {
@@ -496,7 +493,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            //NSLog(@"insert result %i",result);
+            NSLog(@"insert result %i",result);
         }
         else
         {
@@ -673,7 +670,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            //NSLog(@"insert result %i",result);
+            NSLog(@"insert result %i",result);
         }
         else
         {
@@ -722,7 +719,7 @@
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
             int result = sqlite3_step(statement);
-            //NSLog(@"insert result %i",result);
+            NSLog(@"insert result %i",result);
         }
         else
         {

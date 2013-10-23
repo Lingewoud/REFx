@@ -59,7 +59,6 @@
 {
 
     NSString *fullPathString = [[[NSApp delegate] sharedEngineManager] pathToEngine:self.EngineName];
-    NSString *pathString = [[[NSApp delegate] sharedEngineManager] engineDirectoryPath];
     
     NSLog(@"open bundle in filemanager: %@", fullPathString);
     [[NSWorkspace sharedWorkspace] selectFile:fullPathString inFileViewerRootedAtPath:fullPathString];
@@ -69,7 +68,6 @@
 {
 
     NSString *fullPathString = [[[NSApp delegate] sharedEngineManager] pathToEngineContents:self.EngineName];
-    NSString *pathString = [[[NSApp delegate] sharedEngineManager] engineDirectoryPath];
     
     NSLog(@"open bundle in filemanager: %@", fullPathString);
     [[NSWorkspace sharedWorkspace] selectFile:fullPathString inFileViewerRootedAtPath:fullPathString];

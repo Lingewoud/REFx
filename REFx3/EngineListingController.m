@@ -47,9 +47,10 @@
 {
     NSInteger row = [nsTableViewObj clickedRow];
     NSInteger column = [nsTableViewObj clickedColumn];
-    NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]);
+    //NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]);
     
     EngineWindowController *engineWindow = [[EngineWindowController alloc] initWithWindowNibName:@"EngineWindow"];
+
     [engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
     [engineWindow showWindow:self];
 }

@@ -48,7 +48,7 @@
     
     NSFileHandle *logFileHandle = [NSFileHandle fileHandleForReadingAtPath:logFilePath];
     
-    unsigned long previous = [logFileHandle offsetInFile];
+    //unsigned long previous = [logFileHandle offsetInFile];
     
     unsigned long fileSize = [logFileHandle  seekToEndOfFile];
    // NSLog(@"myFile Size =%ul" , fileSize) ;
