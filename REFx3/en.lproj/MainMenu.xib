@@ -175,9 +175,6 @@
                                         </menuItem>
                                         <menuItem title="Open Test Jobs Folder" id="585">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="insertTestJobSayWhat:" target="494" id="594"/>
-                                            </connections>
                                         </menuItem>
                                     </items>
                                 </menu>
