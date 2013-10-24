@@ -44,11 +44,11 @@
     [startStopButtonCommunicationServer setState:0];
     
     [self instanciateLogController];
+    
+    // TRY TO FIX THE MISSING ENGINES BUG AFTER APPLICATION LOAD
+    //[self.theEngineListingController reloadEngines:self];
 }
 
-- (void)instanciateJobController {
-    
-}
 
 - (void)instanciateLogController {
 
@@ -82,6 +82,56 @@
         [[[[NSApp delegate] refxInstance] jobPicker] stopREFxLoop];        
     }
 }
+
+- (IBAction)flushRailsLog:(id)sender
+{
+    [[NSApp delegate] flushRailsLogs];
+}
+
+- (IBAction)flushEngineLog:(id)sender
+{
+    [[NSApp delegate] flushEngineLogs];
+}
+
+- (IBAction)flushJobs:(id)sender
+{
+    [[[[NSApp delegate] refxInstance] jobPicker] flushAllJobs];
+}
+
+- (IBAction)reinstallDatabase:(id)sender
+{
+    [[[[NSApp delegate] refxInstance] jobPicker] stopREFxLoop];
+    [[[[NSApp delegate] refxInstance ] railsController] stopComServer];
+    
+    [[NSApp delegate] reinstallDatabase];
+}
+
+
+- (IBAction)openLogWindow:(id)sender
+{
+    [[NSApp delegate] showLogWindow:sender];
+}
+
+- (IBAction)openWebInterface:(id)sender
+{
+    NSString * webUrl = [NSString stringWithFormat:@"http://localhost:%li", [[NSUserDefaults standardUserDefaults]  integerForKey:@"listenPort"]];
+    NSURL * myURL = [NSURL URLWithString: webUrl];
+    [[NSWorkspace sharedWorkspace] openURL:myURL];
+}
+- (IBAction)openEngineFolder:(id)sender
+{
+    NSString *fullPathString = [[[NSApp delegate] sharedEngineManager] engineDirectoryPath];
+    
+    NSLog(@"open bundle in filemanager: %@", fullPathString);
+    [[NSWorkspace sharedWorkspace] selectFile:fullPathString inFileViewerRootedAtPath:fullPathString];
+}
+
+- (IBAction)openTestJobsFolder:(id)sender
+{
+    NSString *fullPathString = [[[[NSApp delegate] applicationFilesDirectory] path] stringByAppendingPathComponent:@"TestJobs"];
+   [[NSWorkspace sharedWorkspace] selectFile:fullPathString inFileViewerRootedAtPath:fullPathString];
+}
+
 
 - (void)startStopActionCommunicationServer:(id)sender
 {   

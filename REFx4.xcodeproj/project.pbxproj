@@ -204,10 +204,6 @@
 			children = (
 				3EFA299917F227CE00CA4CEC /* RXEngineManager.h */,
 				3EFA299A17F227CE00CA4CEC /* RXEngineManager.m */,
-				3E3787B11816FA79000FD48F /* EngineTextCell.h */,
-				3E3787B21816FA79000FD48F /* EngineTextCell.m */,
-				3E3787B31816FA79000FD48F /* EngineListingController.h */,
-				3E3787B41816FA79000FD48F /* EngineListingController.m */,
 				3E3787BF18171A7B000FD48F /* EngineWindow.xib */,
 				3E3787C118171AFB000FD48F /* EngineWindowController.h */,
 				3E3787C218171AFB000FD48F /* EngineWindowController.m */,
@@ -258,21 +254,16 @@
 			name = FMDB;
 			sourceTree = "<group>";
 		};
-		3E786DE1157042C100BB0FA9 /* Main */ = {
+		3E786DE1157042C100BB0FA9 /* AppDelegate & REFxInstance */ = {
 			isa = PBXGroup;
 			children = (
 				3EC97CA314488BDB00B81F47 /* REFx3AppDelegate.h */,
 				3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */,
-				3E473C00161CA7C700942E37 /* JobsView.h */,
-				3E473C02161CA7C700942E37 /* JobsView.m */,
-				3EC97CEF144891DB00B81F47 /* RXMainWindow.m */,
-				3EC97CEE144891DB00B81F47 /* RXMainWindow.h */,
-				3EC97CF11448920100B81F47 /* RXMainWindow.xib */,
 				3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */,
 				3E13D000144CA55B00523A5E /* RXREFxIntance.m */,
 				3EC97CA614488BDC00B81F47 /* MainMenu.xib */,
 			);
-			name = Main;
+			name = "AppDelegate & REFxInstance";
 			sourceTree = "<group>";
 		};
 		3E846F7F156F8A1A00F0BF08 /* JobPicker */ = {
@@ -344,9 +335,10 @@
 			isa = PBXGroup;
 			children = (
 				3E3F693D17DF9B990034B653 /* 3rdparty */,
-				3E786DE1157042C100BB0FA9 /* Main */,
-				3E846F7F156F8A1A00F0BF08 /* JobPicker */,
+				3E786DE1157042C100BB0FA9 /* AppDelegate & REFxInstance */,
+				3EF431F21819BC4E00A2D449 /* MainWindow */,
 				3E3787BC1816FD32000FD48F /* Engines */,
+				3E846F7F156F8A1A00F0BF08 /* JobPicker */,
 				3E3F694717DFB27C0034B653 /* Log Window */,
 				3E846F83156F8AEB00F0BF08 /* Preferences */,
 				3E13D00F144CE11B00523A5E /* RailsController */,
@@ -373,6 +365,22 @@
 				3EC97CA014488BDB00B81F47 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3EF431F21819BC4E00A2D449 /* MainWindow */ = {
+			isa = PBXGroup;
+			children = (
+				3E473C00161CA7C700942E37 /* JobsView.h */,
+				3E473C02161CA7C700942E37 /* JobsView.m */,
+				3E3787B11816FA79000FD48F /* EngineTextCell.h */,
+				3E3787B21816FA79000FD48F /* EngineTextCell.m */,
+				3E3787B31816FA79000FD48F /* EngineListingController.h */,
+				3E3787B41816FA79000FD48F /* EngineListingController.m */,
+				3EC97CEF144891DB00B81F47 /* RXMainWindow.m */,
+				3EC97CEE144891DB00B81F47 /* RXMainWindow.h */,
+				3EC97CF11448920100B81F47 /* RXMainWindow.xib */,
+			);
+			name = MainWindow;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

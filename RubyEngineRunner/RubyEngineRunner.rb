@@ -11,6 +11,7 @@
 require 'optparse'
 require 'fileutils'
 require 'base64'
+require 'pathname'
 
 #require "bundler/setup"
 
@@ -148,30 +149,55 @@ class RefxJobWrapper
 		return ''
 	end
     
-    def insertTestJob(engineName)
+    def insertTestJob(engineName,testindex,testSourceFilename)
         p 'INSERTING TEST JOB'
-        #p engineName
+        
+        testindex = 0 if testindex.nil?
+        
+        source_file_base_dir = File.expand_path('~')+'/Library/REFx4'
+        enginePlistPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Info.plist"
+        
+        enginePlistDict = Plist::parse_xml(enginePlistPath)
+   
+        bodyYaml = enginePlistDict['testJobs'][testindex.to_i]['bodyYaml']
+        
 
-            testJobPath = File.expand_path('~')+"/Library/REFx4/TestJobs"
-            Dir.mkdir(testJobPath) unless File.exists?(testJobPath)
-            
-            engineTestJobPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Resources/testJob.yml"
 
-            jobBody = File.read(engineTestJobPath)
+        newId = Job.find_by_sql('SELECT * FROM jobs ORDER BY id DESC')
+        
+        id = newId[0].id + 1
+        id = 9999 if newId.nil?
+        
+        testJobPath = "TestJobs/"+id.to_s
+        p testJobPath
+        
+       
+        engineTestJobPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Resources/#{bodyYaml}"
+        
+        jobBody = File.read(engineTestJobPath)
+        jobBody = jobBody.gsub("<%=JOB_PATH%>", testJobPath)
+        jobBody = jobBody.gsub("<%=SOURCE_FILE_DIR%>", source_file_base_dir)
 
-            jobBody = jobBody.gsub("<%=JOB_PATH%>", testJobPath)
-
-            pJob = Job.new
-            
-            pJob.priority = 1
-            pJob.engine = engineName
-            pJob.body = jobBody
-            pJob.status = 1
-            pJob.max_attempt = 1
-            pJob.attempt = 0
-            pJob.returnbody = ''
-
-            pJob.save
+       if not testSourceFilename.nil?
+           # make relative path from absolute
+           path1 = Pathname.new source_file_base_dir
+           path2 = Pathname.new testSourceFilename
+           relative_testSourceFilename = path2.relative_path_from path1
+           
+           jobBody = jobBody.gsub("<%=SOURCE_FILE_NAME%>", relative_testSourceFilename)
+        end
+        
+        pJob = Job.new
+        
+        pJob.priority = 1
+        pJob.engine = engineName
+        pJob.body = jobBody
+        pJob.status = 1
+        pJob.max_attempt = 1
+        pJob.attempt = 0
+        pJob.returnbody = ''
+        
+        pJob.save
     end
 end
 
@@ -180,7 +206,7 @@ ActiveRecord::Base.colorize_logging = false
 
 ActiveRecord::Base.establish_connection(
 	:adapter => "sqlite3",
-	:dbfile  => "/Library/Application Support/REFx4/Database/refx4development.sqlite3"
+	:dbfile  => File.expand_path('~')+"/Library/REFx4/Database/refx4production.sqlite3"
 )
 
 class Job < ActiveRecord::Base  
@@ -207,6 +233,18 @@ optparse = OptionParser.new do|opts|
 		options[:test] = engineName
 	end
 
+    options[:testSourceFilename] = nil
+    opts.on( '-f', '--filename testSourceFilename', 'sourceFile name for test job' ) do |testSourceFilename|
+        options[:testSourceFilename] = testSourceFilename
+    end
+
+    options[:testindex] = '0'
+    opts.on( '-i', '--testindex testindex', 'test index' ) do |testindex|
+        p "option testindex"
+        p testindex
+        options[:testindex] = testindex
+        options[:testindex].to_s
+    end
 
     # This displays the help screen, all programs are
 	# assumed to have this option.
@@ -232,13 +270,13 @@ end
 # the options. What's left is the list of files to resize.
 optparse.parse!
 
-#puts "Being verbose" if options[:verbose]
+#puts "Being verbose" if options[:verbose]/
 #puts "Logging to file #{options[:logfile]}" if options[:logfile]
 #p options[:jobid]
 
 if options[:test]
 	refxjob = RefxJobWrapper.new
-	refxjob.insertTestJob(options[:test])
+	refxjob.insertTestJob(options[:test],options[:testindex],options[:testSourceFilename])
 elsif options[:jobid] != 0
 	refxjob = RefxJobWrapper.new
 	refxjob.selectJobById(options[:jobid])

@@ -19,29 +19,37 @@
 
 - (void) awakeFromNib {
     
-	self.nsMutaryOfMyData = [[NSMutableArray alloc] init];
-    
-    //NSMutableArray *enginelist = [[[NSApp delegate] sharedEngineManager] enginesEnabledArray];
+    [self loadEngines];
+}
+
+- (void) loadEngines
+{
+    self.nsMutaryOfMyData = [[NSMutableArray alloc] init];
     
     for (NSString *eName in [[[NSApp delegate] sharedEngineManager] enginesEnabledArray]) {
         
         NSString *engineName = [[NSString alloc] initWithString: eName];
-
-        [self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString:@"/Users/pim/Downloads/070-NSTableView-ImageAndTextCell/Naamloos.png"                                                                               text:engineName]];
+        
+        [self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString: [[NSBundle mainBundle] pathForResource:@"engineicon" ofType:@"png"]                                                                              text:engineName]];
     }
 	
 	self.myImageAndTextCelObj = [[EngineTextCell alloc] init];
 	self.myImageAndTextCelObj.image = [[self.nsMutaryOfMyData objectAtIndex:0]nsImageObj];
 	[self.myImageAndTextCelObj setEditable: NO];
     [self.nsTableViewObj setTarget: self];
-
+    
     [self.nsTableViewObj setDoubleAction:@selector(doubleClickInTableView:)];
     
 	NSTableColumn* zTableColumnObj = [[self.nsTableViewObj tableColumns] objectAtIndex:0];
 	[zTableColumnObj setDataCell: self.myImageAndTextCelObj];
-    
-} // end awakeFromNib
 
+}
+
+- (IBAction)reloadEngines:(id)sender
+{
+    [self loadEngines];
+    [self.nsTableViewObj reloadData];
+}
 
 -(void) doubleClickInTableView:(id)sender
 {

@@ -21,7 +21,7 @@
     
     if (self) {
         railsRootDirectory = [dir copy];
-        NSLog(@"init railscontroller with dir %@", railsRootDirectory);
+        //NSLog(@"init railscontroller with dir %@", railsRootDirectory);
     }
     
     return self;
@@ -50,7 +50,7 @@
             NSLog(@"ERROR: No port set");
         }
         
-        [self setRunningRailsPort:railsPort];
+        runningRailsPort = [NSString stringWithFormat:@"%li", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]];
         
         NSString *railsEnvironment = [NSString stringWithFormat:@"--environment=%@", environment];
 
@@ -69,9 +69,8 @@
 
 // stopComServer stops a RAILS instance at a specific port by calling the terminator script
 - (void)stopComServer
-{
-    NSLog(@"Stopping Rails at port: %@ ...", [self runningRailsPort]);
-    
+{   
+    NSString * railsPort =[NSString stringWithFormat:@"%li", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]];
     NSString *terminatePath = [NSString stringWithFormat:@"%@/Contents/Resources/",[[NSBundle mainBundle] bundlePath]];
     NSLog(@"term path: %@",terminatePath);
     
@@ -82,7 +81,7 @@
     NSTask *terminatebProcess = [[NSTask alloc] init];    
     [terminatebProcess setCurrentDirectoryPath:terminatePath];
     [terminatebProcess setLaunchPath: terminateCommand];
-    [terminatebProcess setArguments: [NSArray arrayWithObjects:@"-p",[self runningRailsPort],nil]];    
+    [terminatebProcess setArguments: [NSArray arrayWithObjects:@"-p",railsPort,nil]];
     [terminatebProcess launch];        
     
     [terminatebProcess waitUntilExit];
@@ -91,8 +90,6 @@
     if (status == 0){
         NSLog(@"Task succeeded.");
         comServerRunning = NO;
-        
-        // TODO STOP MANAGER INTERFACE
     }
     else NSLog(@"Task failed.");
     

@@ -92,18 +92,47 @@
     count2 = [enginesList count];
     for (i = 0; i < count2; i++)
     {
-        NSLog (@"%@", [enginesList objectAtIndex: i]);
+        //NSLog (@"%@", [enginesList objectAtIndex: i]);
     }
     
     return enginesList;
 }
+
+- (id)engineInfoDict:(NSString*)anEngine objectForKey:(NSString*)key
+{
+    NSString *path = [[[RXEngineManager sharedEngineManager] pathToEngineContents:anEngine] stringByAppendingPathComponent:@"Info.plist"];
+    NSMutableDictionary *engineDictPlist =[[NSMutableDictionary alloc] initWithContentsOfFile:path];
+    
+    //NSLog(@"dic for key %@ :%@",key, [engineDictPlist objectForKey:key]);
+    return [engineDictPlist objectForKey:key];
+}
+
+- (NSString *)pathToEngineRunner
+{
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"useAlternativeRunnerPath"])
+    {
+        return [[NSUserDefaults standardUserDefaults] stringForKey:@"altRunnerPath"];
+    }
+    else
+    {
+        return [NSString stringWithFormat:@"%@/Contents/Resources/RubyEngineRunner/RubyEngineRunner.rb", [[NSBundle mainBundle] bundlePath]];
+    }
+}
+
 
 - (NSString *)pathToEngine:(NSString *)anEngine
 {
     NSString * enginePath = [NSString stringWithFormat:@"%@/%@.bundle",[self engineDirectoryPath],anEngine];
     return enginePath;
 }
+
 - (NSString *)pathToEngineContents:(NSString *)anEngine
+{
+    NSString * engineContentsPath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/",[self engineDirectoryPath],anEngine];
+    return engineContentsPath;
+}
+
+- (NSString *)pathToEngineResources:(NSString *)anEngine
 {
     NSString * engineContentsPath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/",[self engineDirectoryPath],anEngine];
     return engineContentsPath;

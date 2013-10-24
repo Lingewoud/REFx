@@ -30,6 +30,8 @@
 -(NSString*) getDbPath;
 -(NSString*) getRailsEnvironment;
 -(NSString *) railRootDir;
+- (void) createDatabasesForceIfExist: (BOOL) force;
+
 
 @property (retain) RXJobPicker* jobPicker;
 @property (retain) RXRailsController* railsController;

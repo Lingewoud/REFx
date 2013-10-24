@@ -29,6 +29,7 @@
     sharedEngineManager = [[RXEngineManager alloc] init];
     [sharedEngineManager initEngineDirectory];
     
+    NSLog(@"Starting Application with DBPATH: %@",[self sqlLitePath]);
     
     if (![refxInstance isKindOfClass:[RXREFxIntance class]]) {
         refxInstance = [[RXREFxIntance alloc] init];
@@ -93,56 +94,68 @@
     }	
 }
 
--(void)flushLogs
+-(void)flushRailsLogs
 {
     [refxInstance flushLogs];
+}
+
+-(void)flushEngineLogs
+{
+    NSString * empty = [NSString stringWithFormat:@""];
+    [empty writeToFile:[self engineLogFilePath]
+                 atomically:NO
+                   encoding:NSStringEncodingConversionAllowLossy
+                      error:nil];
+}
+
+
+-(void)reinstallDatabase
+{
+    [refxInstance createDatabasesForceIfExist:YES];
 }
 
 - (void)refreshJobMgr{
     [mainWindowController refreshJobmanagerView];    
 }
 
-
 - (IBAction)setLastJobId:(id)sender
 {   
     [refxInstance.jobPicker setJobsLastId:[[lastJobid stringValue] integerValue]];
     [mainWindowController refreshJobmanagerView];
-
 }
 
-
-
-
-
-- (IBAction)insertTestJobGenerateIndesignFranchise:(id)sender
-{   
-    [refxInstance.jobPicker insertTestJobGenerateIndesignFranchise];
-    [mainWindowController refreshJobmanagerView];
-
-}
-
-- (IBAction)insertTestJobIndexIndesignFranchise:(id)sender
-{   
-    [refxInstance.jobPicker insertTestJobIndexIndesignFranchise];
-    [mainWindowController refreshJobmanagerView];
-}
-
-- (void) insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender
-{
-    [refxInstance.jobPicker insertTestJobIndexIndesignFranchiseOpenIndd];
-    [mainWindowController refreshJobmanagerView];
-}
-
-- (void) insertTestJobIndexIndesignFranchiseOpenInddCS6:(id)sender
-{
-    [refxInstance.jobPicker insertTestJobIndexIndesignFranchiseOpenInddCS6];
-    [mainWindowController refreshJobmanagerView];
-}
-
-- (NSString *) appSupportPath
+- (NSString *)appSupportPath
 {
     //return [[self applicationFilesDirectory] path];
-    return @"/Library/Application Support/REFx4";
+    //return @"/Library/Application Support/REFx4";
+    
+    NSString * path = [NSString stringWithFormat: @"%@/Library/REFx4",NSHomeDirectory()];
+    
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    if(![fileManager fileExistsAtPath:path]){
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: path withIntermediateDirectories: YES attributes: nil error: NULL ];
+    }
+    return path;
+}
+
+- (NSString *)sqlLitePath
+{
+    NSString * path = [NSString stringWithFormat: @"%@/Database",[self appSupportPath]];
+    NSLog(@"is this dbPath: %@",path);
+
+    NSFileManager *fileManager = [[NSFileManager alloc] init];
+
+    if(![fileManager fileExistsAtPath:path]){
+        NSLog(@"Creating dbPath: %@",path);
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: path withIntermediateDirectories: YES attributes: nil error: NULL ];
+    }
+    return path;
+}
+
+- (NSString*) engineLogFilePath
+{
+    return [NSString stringWithFormat: @"%@/Library/Logs/REFx4/Engines.log",NSHomeDirectory()];
 }
 
 
@@ -150,7 +163,7 @@
 
 
 
-- (IBAction)openTestJobsFolder:(id)sender
+/*- (IBAction)openTestJobsFolder:(id)sender
 {
 
     [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:[self testFolderPath]]];
@@ -162,6 +175,7 @@
     return path;
     
 }
+*/
 
 
 /**
@@ -340,10 +354,7 @@
     return NSTerminateNow;
 }
 
-- (NSString*) engineLogFilePath
-{
-    return [NSString stringWithFormat: @"%@/Library/Logs/REFx4/Engines.log",NSHomeDirectory()];
-}
+
 
 - (void)dealloc
 {

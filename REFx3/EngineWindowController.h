@@ -13,7 +13,9 @@
 @property (assign) IBOutlet NSTextField *EngineTitle;
 @property (assign) IBOutlet NSTextField *EngineVersion;
 @property (assign) IBOutlet NSTextField *EngineDescription;
-@property (assign)  NSString *EngineName;
+@property (assign) NSString *EngineName;
+@property (assign) IBOutlet NSPopUpButton *testJobMenu;
+
 
 
 -(void) setWindowEngineName:(NSString*) eName;

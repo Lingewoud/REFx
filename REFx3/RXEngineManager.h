@@ -23,7 +23,12 @@
 
 - (NSString *)pathToEngine:(NSString *)anEngine;
 - (NSString *)pathToEngineContents:(NSString *)anEngine;
+- (NSString *)pathToEngineResources:(NSString *)anEngine;
+
 - (NSString *)urlToEngineApiDocs:(NSString *)anEngine;
 - (void)insertEngineTestJob:(NSString *)anEngine;
+- (id)engineInfoDict:(NSString*)anEngine objectForKey:(NSString*)key;
+- (NSString *)pathToEngineRunner;
+
 
 @end

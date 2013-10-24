@@ -27,6 +27,7 @@
 - (IBAction)addAtSelectedRow:(id)pId;
 - (IBAction)addToEndOfTable:(id)pId;
 - (IBAction)removeCellAtSelectedRow:(id)sender;
+- (IBAction)reloadEngines:(id)sender;
 
 
 @end

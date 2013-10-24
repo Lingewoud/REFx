@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesController">
@@ -119,19 +119,8 @@
                                     <rect key="frame" x="10" y="33" width="420" height="229"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <button id="28">
-                                            <rect key="frame" x="15" y="183" width="399" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Use development environment (restart Application to apply)" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="29">
-                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                                <font key="font" metaFont="system"/>
-                                            </buttonCell>
-                                            <connections>
-                                                <binding destination="18" name="value" keyPath="values.useDevelopmentEnvironment" id="43"/>
-                                            </connections>
-                                        </button>
                                         <button id="44">
-                                            <rect key="frame" x="15" y="146" width="242" height="18"/>
+                                            <rect key="frame" x="15" y="195" width="242" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Use alternatie RAILS root directory " bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="45">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -142,7 +131,7 @@
                                             </connections>
                                         </button>
                                         <button id="63">
-                                            <rect key="frame" x="15" y="75" width="102" height="18"/>
+                                            <rect key="frame" x="15" y="71" width="102" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="debug mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="64">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -153,7 +142,7 @@
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" id="48">
-                                            <rect key="frame" x="17" y="118" width="395" height="22"/>
+                                            <rect key="frame" x="17" y="167" width="395" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="49">
                                                 <font key="font" metaFont="system"/>
@@ -164,6 +153,29 @@
                                                 <binding destination="18" name="value" keyPath="values.altRailsRootDir" id="51"/>
                                             </connections>
                                         </textField>
+                                        <textField verticalHuggingPriority="750" id="iNj-Vq-c53">
+                                            <rect key="frame" x="17" y="104" width="395" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="JFf-rd-gYL">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.altRunnerPath" id="m58-0L-Wc9"/>
+                                            </connections>
+                                        </textField>
+                                        <button id="91L-eF-mLs">
+                                            <rect key="frame" x="15" y="132" width="259" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Use alternatie rubyEngineRunner Path" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="uTl-UI-Mwk">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.useAlternativeRunnerPath" id="rGF-7x-co2"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </tabViewItem>

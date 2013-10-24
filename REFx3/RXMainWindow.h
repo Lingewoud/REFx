@@ -7,7 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "EngineListingController.h"
+
 @class RXJobMngrWebGui;
+@class EngineListingController;
 
 @interface RXMainWindow : NSWindowController<NSWindowDelegate> {
     RXJobMngrWebGui* jobMngrController;
@@ -15,6 +18,8 @@
 
 @property (assign) IBOutlet NSButton *startStopButtonScheduler;
 @property (assign) IBOutlet NSButton *startStopButtonCommunicationServer;
+@property (assign) IBOutlet EngineListingController *theEngineListingController;
+
 
 @property (assign) IBOutlet NSTabViewItem* jobMgrView;
 @property (assign) IBOutlet NSWindow* theWindow;
@@ -26,6 +31,16 @@
 - (IBAction)startStopActionScheduler:(id)sender;
 - (IBAction)startStopActionCommunicationServer:(id)sender;
 - (IBAction)insertJob:(id)sender;
+
+- (IBAction)openLogWindow:(id)sender;
+- (IBAction)openEngineFolder:(id)sender;
+- (IBAction)openTestJobsFolder:(id)sender;
+- (IBAction)flushRailsLog:(id)sender;
+- (IBAction)flushEngineLog:(id)sender;
+- (IBAction)flushJobs:(id)sender;
+- (IBAction)reinstallDatabase:(id)sender;
+- (IBAction)openWebInterface:(id)sender;
+
 
 - (void)refreshJobmanagerView;
 @end

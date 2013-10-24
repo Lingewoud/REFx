@@ -45,13 +45,20 @@
 - (IBAction)insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender;
 - (IBAction)insertTestJobIndexIndesignFranchiseOpenInddCS6:(id)sender;
 
-- (void)flushLogs;
+-(void)flushRailsLogs;
+-(void)flushEngineLogs;
+
+
 - (void)refreshJobMgr;
 
 - (NSString *)appSupportPath;
+- (NSString *)sqlLitePath;
+
 - (NSString *)testFolderPath;
 - (NSURL *)applicationFilesDirectory;
 - (NSString *) engineLogFilePath;
+-(void)reinstallDatabase;
+
 
 
 @end

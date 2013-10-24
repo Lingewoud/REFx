@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="RXMainWindow">
@@ -107,7 +107,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="updated_at" width="98.0703125" minWidth="10" maxWidth="3.4028234663852886e+38" id="158">
+                                        <tableColumn identifier="updated_at" editable="NO" width="98.0703125" minWidth="10" maxWidth="3.4028234663852886e+38" id="158">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="last update">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -167,11 +167,11 @@
                             </subviews>
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" id="73">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="73">
                             <rect key="frame" x="1" y="452" width="637" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" id="71">
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="71">
                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -186,10 +186,10 @@
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="REFxLogoApp" id="Hiz-Lf-nYV"/>
                     </imageView>
                     <scrollView focusRingType="none" borderType="none" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="bSW-Sh-mcg">
-                        <rect key="frame" x="10" y="104.00000457763653" width="184" height="390"/>
+                        <rect key="frame" x="10" y="104.00000067748184" width="184" height="390"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="ayB-Jr-hVl">
-                            <rect key="frame" x="0.0" y="0.0" width="184" height="390"/>
+                            <rect key="frame" x="0.0" y="6.7748180754279019e-07" width="184" height="390"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="20" id="B2a-rl-LnG">
@@ -199,7 +199,7 @@
                                     <color key="backgroundColor" red="0.21960784310000001" green="0.45882352939999999" blue="0.84313725490000002" alpha="0.0" colorSpace="deviceRGB"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn editable="NO" width="100" minWidth="100" id="9TV-vJ-O3E">
+                                        <tableColumn editable="NO" minWidth="100" id="9TV-vJ-O3E">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="img+ text">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -221,11 +221,11 @@
                             </subviews>
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" id="2IZ-HA-bvB">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="2IZ-HA-bvB">
                             <rect key="frame" x="-100" y="-100" width="379" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" id="ogz-jg-gV0">
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="ogz-jg-gV0">
                             <rect key="frame" x="-100" y="-100" width="15" height="102"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -262,7 +262,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="zso-ze-F6T">
-                        <rect key="frame" x="8" y="494" width="118" height="17"/>
+                        <rect key="frame" x="8" y="494.00000067748175" width="118" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ENGINES ENABLED" id="efq-Yd-BcZ">
                             <font key="font" size="12" name="LucidaGrande-Bold"/>
@@ -297,13 +297,40 @@
                             <action selector="deleteJob:" target="99" id="I4X-AQ-6nX"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="7E61D8C6-6ECE-4959-8050-8A4D9B090656" label="Log Window" paletteLabel="Log Window" tag="-1" image="NSActionTemplate" id="7Sw-c4-E7f"/>
-                    <toolbarItem implicitItemIdentifier="EFBD36EE-2B3C-4491-BCE0-AC521020BCE1" label="Engine Folder" paletteLabel="Engine Folder" tag="-1" image="NSActionTemplate" id="SYa-Oe-4BL"/>
-                    <toolbarItem implicitItemIdentifier="360C9DD6-04E7-4D9B-968D-AC2792F50FCB" label="Reload Engines" paletteLabel="Reload Engines" tag="-1" image="NSActionTemplate" id="46E-nv-MYa"/>
-                    <toolbarItem implicitItemIdentifier="62C4A3E1-3511-43A0-82B9-4CF7E9EF37B8" label="Test Folder" paletteLabel="Test Folder" tag="-1" image="NSActionTemplate" id="CXN-9W-bgR"/>
+                    <toolbarItem implicitItemIdentifier="7E61D8C6-6ECE-4959-8050-8A4D9B090656" label="Log Window" paletteLabel="Log Window" tag="-1" image="NSActionTemplate" id="7Sw-c4-E7f">
+                        <connections>
+                            <action selector="openLogWindow:" target="-2" id="rgX-Uo-ltG"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="EFBD36EE-2B3C-4491-BCE0-AC521020BCE1" label="Engine Folder" paletteLabel="Engine Folder" tag="-1" image="NSActionTemplate" id="SYa-Oe-4BL">
+                        <connections>
+                            <action selector="openEngineFolder:" target="-2" id="Zv7-7M-mbW"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="360C9DD6-04E7-4D9B-968D-AC2792F50FCB" label="Reload Engines" paletteLabel="Reload Engines" tag="-1" image="NSActionTemplate" id="46E-nv-MYa">
+                        <connections>
+                            <action selector="reloadEngines:" target="XlN-Ej-v9F" id="wDv-op-z1c"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="62C4A3E1-3511-43A0-82B9-4CF7E9EF37B8" label="Test Folder" paletteLabel="Test Folder" tag="-1" image="NSActionTemplate" id="CXN-9W-bgR">
+                        <connections>
+                            <action selector="openTestJobsFolder:" target="-2" id="nzH-6q-GY7"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="7B824828-C2F7-48FB-BD6E-97FCF04E50BE" label="Maintenance" paletteLabel="Maintenance" tag="-1" image="NSActionTemplate" id="4xT-Z7-08J">
+                        <connections>
+                            <action selector="makeKeyAndOrderFront:" target="ZEH-U6-XV7" id="7Kk-qc-7go"/>
+                        </connections>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="E9C47735-85AD-4E50-811A-3F76456FF5F7" label="WebInterface" paletteLabel="WebInterface" tag="-1" image="NSActionTemplate" id="G09-9u-RW7">
+                        <connections>
+                            <action selector="openWebInterface:" target="-2" id="jFs-4Y-vPH"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7Sw-c4-E7f"/>
+                    <toolbarItem reference="G09-9u-RW7"/>
                     <toolbarItem reference="Jzy-AZ-qpk"/>
                     <toolbarItem reference="Jzy-AZ-qpk"/>
                     <toolbarItem reference="Jzy-AZ-qpk"/>
@@ -316,6 +343,7 @@
                     <toolbarItem reference="CXN-9W-bgR"/>
                     <toolbarItem reference="46E-nv-MYa"/>
                     <toolbarItem reference="SYa-Oe-4BL"/>
+                    <toolbarItem reference="4xT-Z7-08J"/>
                 </defaultToolbarItems>
             </toolbar>
         </window>
@@ -343,7 +371,7 @@
                             <rect key="frame" x="1" y="1" width="551" height="402"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="104">
+                                <textView editable="NO" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" smartInsertDelete="YES" id="104">
                                     <rect key="frame" x="0.0" y="0.0" width="551" height="402"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -356,11 +384,11 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" id="105">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="105">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" id="106">
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="106">
                             <rect key="frame" x="536" y="1" width="16" height="402"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
@@ -439,6 +467,65 @@ Gw
                 <outlet property="nsTableViewObj" destination="B2a-rl-LnG" id="1PG-Gx-V0o"/>
             </connections>
         </customObject>
+        <window title="Maintenance Tools" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="ZEH-U6-XV7" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="1680" y="929" width="274" height="202"/>
+            <rect key="screenRect" x="1680" y="0.0" width="1920" height="1178"/>
+            <view key="contentView" id="Dgs-fX-lzF">
+                <rect key="frame" x="0.0" y="0.0" width="274" height="202"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" id="Z8q-Xx-veM">
+                        <rect key="frame" x="49" y="122" width="178" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Flush Job Database" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1SB-fh-tWd">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="flushJobs:" target="-2" id="h0T-rE-qOS"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="gyk-9f-4fJ">
+                        <rect key="frame" x="49" y="13" width="178" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Flush Engine Log" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jZL-LW-pTQ">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="S61-ZL-kD7">
+                        <rect key="frame" x="18" y="158" width="238" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="REFx4 Maintenance" id="ebB-gd-8nT">
+                            <font key="font" metaFont="system" size="20"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="NwC-g2-0Pn">
+                        <rect key="frame" x="49" y="89" width="178" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Reinstall database" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lGc-CJ-ght">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="reinstallDatabase:" target="-2" id="hI0-cc-Wd9"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="WDJ-Ot-ul9">
+                        <rect key="frame" x="49" y="46" width="178" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Flush COM Server Log" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f7t-2f-sGa">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                    </button>
+                </subviews>
+            </view>
+        </window>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>
