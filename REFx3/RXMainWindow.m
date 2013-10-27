@@ -45,6 +45,12 @@
     
     [self instanciateLogController];
     
+    NSString * appVersionString = [[NSBundle mainBundle]
+                                   objectForInfoDictionaryKey:@"CFBundleVersion"];
+    
+    [self.Appversion setStringValue:appVersionString];
+    
+    
     // TRY TO FIX THE MISSING ENGINES BUG AFTER APPLICATION LOAD
     //[self.theEngineListingController reloadEngines:self];
 }

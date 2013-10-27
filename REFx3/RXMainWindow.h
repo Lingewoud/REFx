@@ -26,6 +26,7 @@
 
 @property (assign) IBOutlet NSTextField *insJobEngine;
 @property (assign) IBOutlet NSTextField *insJobBody;
+@property (assign) IBOutlet NSTextField *Appversion;
 @property (assign) IBOutlet NSPanel *insJobPanel;
 
 - (IBAction)startStopActionScheduler:(id)sender;
