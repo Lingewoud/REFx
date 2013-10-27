@@ -13,7 +13,7 @@
 #import "FMDatabaseQueue.h"
 #import "REFx3AppDelegate.h"
 #import "RXREFxIntance.h"
-
+#import "YAMLSerialization.h"
 
 @implementation JobsView
 
@@ -24,20 +24,40 @@
      if (self = [super init])
      {
 		// instantiate the following private property
-         testBuffer = [NSMutableDictionary dictionaryWithCapacity:10];
+         testBuffer = [NSMutableDictionary dictionaryWithCapacity:11];
          
          [testBuffer retain];
 
          dbPath = [[[NSApp delegate] refxInstance] getDbPath];
          [dbPath retain];
-         //NSLog(@"dbpath:%@",dbPath);
          
+
          
          [self populateTableAndBuffer];
          [self startAutoUpdateTable];
 
     }
      return (self);
+}
+
+- (void) awakeFromNib {
+    [self.testTable setTarget:self];
+    [self.testTable setDoubleAction:@selector(doubleClickInTableView:)];
+
+}
+
+-(void) doubleClickInTableView:(id)sender
+{
+    [self viewBody:sender];
+
+    //NSInteger row = [testTable clickedRow];
+    //NSInteger column = [testTable clickedColumn];
+    NSLog(@"open record view");
+    
+    //EngineWindowController *engineWindow = [[EngineWindowController alloc] initWithWindowNibName:@"EngineWindow"];
+    
+    //[engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
+    //[engineWindow showWindow:self];
 }
 
 - (void)startAutoUpdateTable
@@ -57,11 +77,6 @@
     [tableUpdateTimer invalidate];
 }
 
-// -- Handle the awakeFromNib signal
-- (void)awakeFromNib
-{
-
-}
 
 - (IBAction)refreshTable:(id)sender{
         [self populateTableAndBuffer];
@@ -70,11 +85,11 @@
 - (IBAction)viewBody:(id)sender
 {
     if([[self testTable] selectedRow]==-1) return;
-        
+    
     NSDictionary *selectedRow =[self getData];
     
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
-
+    
     if (![db open]) {
         NSLog(@"Could not open db.");
         return;
@@ -83,52 +98,48 @@
     FMResultSet *rs = [db executeQuery:@"select * from jobs WHERE id=?",[selectedRow objectForKey:@"id"]];
     while ([rs next]) {
         
+        [JobRecordWindow setTitle:[NSString stringWithFormat:@"REFx Job %@",[rs stringForColumn:@"id"]]];
+        [JobRecordTextFieldEngineName setStringValue:[rs stringForColumn:@"engine"]];
+        [JobRecordTextFieldPriority setStringValue:[rs stringForColumn:@"priority"]];
+        [JobRecordTextFieldAttempts setStringValue:[rs stringForColumn:@"attempt"]];
+        [JobRecordTextFieldStatus setStringValue:[rs stringForColumn:@"status"]];
+        [JobRecordTextFieldLastUpdate setStringValue:[rs stringForColumn:@"updated_at"]];
         
         if([rs stringForColumn:@"body"])
-            [[[panelTextField textStorage] mutableString] setString: [rs stringForColumn:@"body"]];
+        {
+            [[[JobRecordTextViewInputParam textStorage] mutableString] setString: [rs stringForColumn:@"body"]];
+   
+            // Alternativelly object(s)WithYAMLData:options:error or object(s)WithYAMLString:options:error.
+            id yaml = [YAMLSerialization objectWithYAMLString: [rs stringForColumn:@"body"]
+                                                      options: kYAMLReadOptionStringScalars
+                                                        error: nil];
+            
+            // Dump Objective-C object description.
+            printf("%s", [[yaml description] UTF8String]);
+            NSLog(@"%@", [yaml objectForKey:@"method"]);
 
+            [JobRecordTextFieldMethod setStringValue:[yaml objectForKey:@"method"]];
+
+            //NSLog(@"method:%@",[yaml objectForKey:@"method"]);
+            
+            
+        }
         else
-            [[[panelTextField textStorage] mutableString] setString: @""];
-    }
-    [db close];
-    [testPanel setTitle:@"Body"];
-
-    
-    // display the edit panel
-	[testPanel setFloatingPanel:YES];
-	[testPanel makeKeyAndOrderFront:self];
-}
-- (IBAction)returnBody:(id)sender
-{
-    if([[self testTable] selectedRow]==-1) return;
-
-    NSDictionary *selectedRow =[self getData];
-    FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
-    
-    if (![db open]) {
-        NSLog(@"Could not open db.");
-        return;
-    }
-    
-    
-    
-    FMResultSet *rs = [db executeQuery:@"select * from jobs WHERE id=?",[selectedRow objectForKey:@"id"]];
-    while ([rs next]) {
-        
-        
+        {
+            [[[JobRecordTextViewInputParam textStorage] mutableString] setString: @""];
+        }
         if([rs stringForColumn:@"returnbody"])
-            [[[panelTextField textStorage] mutableString] setString: [rs stringForColumn:@"returnbody"]];
-        
+        {
+            [[[JobRecordTextViewResult textStorage] mutableString] setString: [rs stringForColumn:@"returnbody"]];
+        }
         else
-            [[[panelTextField textStorage] mutableString] setString: @""];
+        {
+            [[[JobRecordTextViewResult textStorage] mutableString] setString: @""];
+        }
     }
     [db close];
-    [testPanel setTitle:@"Return Body"];
-
-    
-    // display the edit panel
-	[testPanel setFloatingPanel:YES];
-	[testPanel makeKeyAndOrderFront:self];
+        
+	[JobRecordWindow makeKeyAndOrderFront:self];
 }
 
 
@@ -173,21 +184,24 @@
 
 
 - (void) populateTableAndBuffer{
+    
 	NSMutableArray *loc_id;
     NSMutableArray *loc_priority;
     NSMutableArray *loc_engine;
     NSMutableArray *loc_status;
     NSMutableArray *loc_attempt;
     NSMutableArray *loc_body;
+    NSMutableArray *loc_method;
+    NSMutableArray *loc_initargscount;
+    NSMutableArray *loc_methodargscount;
     NSMutableArray *loc_returnbody;
     NSMutableArray *loc_created_at;
     NSMutableArray *loc_updated_at;
+    NSMutableDictionary *yaml;
     
 	
 	if (testBuffer != nil)
 	{
-		// FOR DEBUGGING ONLY
-		
 		// instantiate the following locals
 		loc_id = [NSMutableArray array];
 		loc_priority = [NSMutableArray array];
@@ -195,7 +209,9 @@
 		loc_status = [NSMutableArray array];
 		loc_attempt = [NSMutableArray array];
 		loc_body = [NSMutableArray array];
-        
+		loc_initargscount = [NSMutableArray array];
+		loc_methodargscount = [NSMutableArray array];
+		loc_method = [NSMutableArray array];
         loc_returnbody = [NSMutableArray array];
 		loc_created_at = [NSMutableArray array];
 		loc_updated_at = [NSMutableArray array];
@@ -210,8 +226,6 @@
         {
             jobsAmount = 50;
         }
-
-        
         
         FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
         
@@ -223,7 +237,6 @@
         FMResultSet *rs = [db executeQuery:@"select * from jobs order by id DESC Limit ?", [NSString stringWithFormat:@"%li", jobsAmount]];
         
         while ([rs next]) {
-            //NSLog(@"%@",[rs stringForColumn:@"engine"]);
 			[loc_id addObject:[NSNumber numberWithInt:[rs intForColumn:@"id"]]];
 			[loc_priority addObject:[NSNumber numberWithInt:[rs intForColumn:@"priority"]]];
 			[loc_engine addObject:[rs stringForColumn:@"engine"]];
@@ -232,11 +245,57 @@
 			if([rs stringForColumn:@"status"]) [loc_status addObject:[rs stringForColumn:@"status"]];
             else [loc_status addObject:@""];
             
-            if([rs stringForColumn:@"body"]) [loc_body addObject:@"HAS DATA"];
-            else [loc_body addObject:@""];
-            
-            if([rs stringForColumn:@"returnbody"]) [loc_returnbody addObject:@"HAS DATA"];
-            else [loc_returnbody addObject:@""];
+            NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
+            if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0)
+            {
+                //NSLog(@"string: %@",tempBody);
+                [loc_body addObject:@"HAS DATA"];
+
+                yaml = [YAMLSerialization objectWithYAMLString: tempBody
+                                                          options: kYAMLReadOptionStringScalars
+                                                            error: nil];
+                
+                
+
+                
+//                printf("%s", [[yaml description] UTF8String]);
+                if ([[yaml objectForKey:@"init_args"] isKindOfClass:[NSArray class]]) {
+                    
+
+                    [loc_initargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"init_args"] count]]];
+
+                }
+                else [loc_initargscount addObject:@"-"];
+
+
+                if ([[yaml objectForKey:@"method_args"] isKindOfClass:[NSArray class]]) {
+                    [loc_methodargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"method_args"] count]]];
+                    
+                    //NSLog(@"%lu", [[yaml objectForKey:@"method_args"] count]);
+                }
+                else  [loc_methodargscount addObject:@"-"];
+
+
+                [loc_method addObject:[yaml objectForKey:@"method"]];
+
+            }
+            else
+            {
+                [loc_body addObject:@""];
+                [loc_method addObject:@""];
+                [loc_methodargscount addObject:@""];
+                [loc_initargscount addObject:@""];
+
+            }
+
+
+            if([rs stringForColumn:@"returnbody"])
+            {
+                //[NSString stringWithFormat:@"%lu",[[rs stringForColumn:@"returnbody"] length]];
+                
+                [loc_returnbody addObject:[NSString stringWithFormat:@"%lu chars",[[rs stringForColumn:@"returnbody"] length]]];
+            }
+            else [loc_returnbody addObject:@"-"];
             
             if([rs dateForColumn:@"created_at"]) [loc_created_at addObject:[rs dateForColumn:@"created_at"]];
             else [loc_created_at addObject:@""];
@@ -252,6 +311,9 @@
 		[testBuffer setObject: loc_attempt forKey:@"attempts"];
 		[testBuffer setObject: loc_status forKey:@"status"];
 		[testBuffer setObject: loc_body forKey:@"body"];
+		[testBuffer setObject: loc_method forKey:@"method"];
+		[testBuffer setObject: loc_methodargscount forKey:@"methodargscount"];
+		[testBuffer setObject: loc_initargscount forKey:@"initargscount"];
 		[testBuffer setObject: loc_returnbody forKey:@"returnbody"];
 		[testBuffer setObject: loc_created_at forKey:@"created_at"];
 		[testBuffer setObject: loc_updated_at forKey:@"updated_at"];
@@ -282,6 +344,8 @@
 		loc_dat = [NSMutableDictionary dictionaryWithCapacity:2];
 		if (loc_dat != nil)
 		{
+            //NSLog(@"colid %@",loc_dat);
+
 			// update the data dictionary
 			[loc_dat setObject:	[[[self _testBuffer] objectForKey:@"id"] objectAtIndex:loc_row] forKey:@"id"];
 			[loc_dat setObject: [NSNumber numberWithInt:loc_row] forKey:@"row"];
@@ -305,6 +369,7 @@
 	
 	// determine which table column needs to be updated
 	loc_uid = [aCol identifier];
+    //NSLog(@"colid %@",loc_uid);
     
 	if ([loc_uid isKindOfClass:[NSString class]])
 	{
@@ -342,7 +407,7 @@
 // -- Update the data buffer
 - (void)setData:(NSDictionary *)aDat
 {
-    NSLog(@"setdata %@", aDat);
+    //NSLog(@"setdata %@", aDat);
 	id	loc_dat;
 	int	loc_row;
 	

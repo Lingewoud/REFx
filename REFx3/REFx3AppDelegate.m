@@ -44,21 +44,22 @@
         [[mainWindowController startStopButtonCommunicationServer] setState:1];
 
     }
+    
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] < 1)
+    {
+        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"maxJobAttempts"];
+    }
+    
     if([[NSUserDefaults standardUserDefaults] boolForKey:@"startJobSchedulerAtStart"])
     {
         [refxInstance.jobPicker startREFxLoop];
         [[mainWindowController startStopButtonScheduler] setState:1];
     }
     
-    //NSLog(@"before port %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]);
-
     if([[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"] < 1)
     {
-
         [[NSUserDefaults standardUserDefaults] setInteger:3030 forKey:@"listenPort"];
     }
-    //NSLog(@"after port %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]);
-    
 }
 
 - (void)openMainWindow {

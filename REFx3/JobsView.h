@@ -18,7 +18,18 @@
 	// -- outlet properties
 	IBOutlet NSTableView	*testTable;
     IBOutlet NSPanel        *testPanel;
-    IBOutlet NSTextView    *panelTextField;
+    IBOutlet NSTextView     *panelTextField;
+    
+    IBOutlet NSWindow       *JobRecordWindow;
+    IBOutlet NSTextField    *JobRecordTextFieldId;
+    IBOutlet NSTextField    *JobRecordTextFieldEngineName;
+    IBOutlet NSTextField    *JobRecordTextFieldMethod;
+    IBOutlet NSTextField    *JobRecordTextFieldPriority;
+    IBOutlet NSTextField    *JobRecordTextFieldStatus;
+    IBOutlet NSTextField    *JobRecordTextFieldLastUpdate;
+    IBOutlet NSTextField    *JobRecordTextFieldAttempts;
+    IBOutlet NSTextView     *JobRecordTextViewInputParam;
+    IBOutlet NSTextView     *JobRecordTextViewResult;
     
 	// private properties
 	@private
@@ -27,10 +38,7 @@
     
 }
 
-//@property (assign) IBOutlet NSTableView *testTable;
 @property (nonatomic,retain) NSMutableDictionary	*testBuffer;
-
-//@property (assign) IBOutlet NSWindow *window;
 
 // -- accessor methods
 - (NSDictionary *)testBuffer;

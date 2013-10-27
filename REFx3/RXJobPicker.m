@@ -81,8 +81,13 @@
         
         [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
 
+        NSMutableArray * args = [NSMutableArray arrayWithObjects:
+                          runnerPath,
+                          @"-j",jobidString,
+                          @"--environment",railsEnvironment,
+                          nil];
         
-        if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
+/*        if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
             [rubyJobProcess setArguments: [NSArray arrayWithObjects:
                                            runnerPath,
@@ -97,6 +102,18 @@
                                            @"--environment",railsEnvironment,
                                            nil]];
         }
+  */      
+        if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
+        {
+            [args addObject:@"-d"];
+        }
+        
+        if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] > 0 && [[NSUserDefaults standardUserDefaults] integerForKey:@"disableMaxAttempts"]==0){
+            [args addObject:@"-m"];
+            [args addObject:[NSString stringWithFormat:@"%li", [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] ]];
+        }
+        
+        [rubyJobProcess setArguments:args];
         [rubyJobProcess launch];
         
         jobRunning = NO;

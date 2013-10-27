@@ -92,18 +92,18 @@
                                         <button id="GLP-nQ-ec4">
                                             <rect key="frame" x="15" y="183" width="283" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title=" Start COM Server when application starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="E6s-0Z-xwy">
+                                            <buttonCell key="cell" type="check" title=" Start COM Server when application starts" bezelStyle="regularSquare" imagePosition="left" inset="2" id="E6s-0Z-xwy">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <binding destination="18" name="value" keyPath="values.startComServerAtStart" id="0rn-sJ-ymw"/>
+                                                <binding destination="18" name="value" keyPath="values.startComServerAtStart" id="l8j-vU-kb0"/>
                                             </connections>
                                         </button>
                                         <button id="2Th-Id-F4f">
                                             <rect key="frame" x="15" y="157" width="343" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title=" Start Job Scheduler Service when application starts" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RBi-jR-EjN">
+                                            <buttonCell key="cell" type="check" title=" Start Job Scheduler Service when application starts" bezelStyle="regularSquare" imagePosition="left" inset="2" id="RBi-jR-EjN">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -111,6 +111,35 @@
                                                 <binding destination="18" name="value" keyPath="values.startJobSchedulerAtStart" id="s8X-l2-Olj"/>
                                             </connections>
                                         </button>
+                                        <textField verticalHuggingPriority="750" id="AWr-Ky-597">
+                                            <rect key="frame" x="47" y="46" width="25" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="10" drawsBackground="YES" id="bBa-Ra-hNf">
+                                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="MKL-ID-o6w">
+                                                    <real key="roundingIncrement" value="0.0"/>
+                                                    <real key="minimum" value="1"/>
+                                                    <real key="maximum" value="10"/>
+                                                    <metadata>
+                                                        <bool key="localizesFormat" value="YES"/>
+                                                    </metadata>
+                                                </numberFormatter>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.maxJobAttempts" id="Oqa-QY-pky"/>
+                                            </connections>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" id="YIz-20-d0D">
+                                            <rect key="frame" x="87" y="48" width="295" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max. job processing attempts. max 10" id="jkZ-mv-Ptc">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                     </subviews>
                                 </view>
                             </tabViewItem>
@@ -122,7 +151,7 @@
                                         <button id="44">
                                             <rect key="frame" x="15" y="195" width="242" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Use alternatie RAILS root directory " bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="45">
+                                            <buttonCell key="cell" type="check" title="Use alternatie RAILS root directory " bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="45">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
@@ -168,12 +197,23 @@
                                         <button id="91L-eF-mLs">
                                             <rect key="frame" x="15" y="132" width="259" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                            <buttonCell key="cell" type="check" title="Use alternatie rubyEngineRunner Path" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="uTl-UI-Mwk">
+                                            <buttonCell key="cell" type="check" title="Use alternatie rubyEngineRunner Path" bezelStyle="regularSquare" imagePosition="left" inset="2" id="uTl-UI-Mwk">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
                                                 <binding destination="18" name="value" keyPath="values.useAlternativeRunnerPath" id="rGF-7x-co2"/>
+                                            </connections>
+                                        </button>
+                                        <button id="BP2-Rp-xRY">
+                                            <rect key="frame" x="15" y="28" width="255" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="Unlimited attempts for job execution" bezelStyle="regularSquare" imagePosition="left" inset="2" id="OKy-js-Rdg">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.disableMaxAttempts" id="2Bg-uM-Kpy"/>
                                             </connections>
                                         </button>
                                     </subviews>

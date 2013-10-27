@@ -410,51 +410,5 @@
                 </subviews>
             </view>
         </window>
-        <menuItem title="Test Jobs" id="583">
-            <modifierMask key="keyEquivalentModifierMask"/>
-            <menu key="submenu" title="Test Jobs" id="584">
-                <items>
-                    <menuItem title="Test IDX: open InDesign-CS4-doc" id="596">
-                        <modifierMask key="keyEquivalentModifierMask"/>
-                        <connections>
-                            <action selector="insertTestJobIndexIndesignFranchiseOpenIndd:" target="494" id="597"/>
-                        </connections>
-                    </menuItem>
-                    <menuItem title="Test IDX: open InDesign-CS6-doc" id="598">
-                        <modifierMask key="keyEquivalentModifierMask"/>
-                        <connections>
-                            <action selector="insertTestJobIndexIndesignFranchiseOpenInddCS6:" target="494" id="600"/>
-                        </connections>
-                    </menuItem>
-                    <menuItem title="Test IDX: sample InDesign-CS4-doc" id="588">
-                        <modifierMask key="keyEquivalentModifierMask"/>
-                        <connections>
-                            <action selector="insertTestJobIndexIndesignFranchise:" target="494" id="589"/>
-                        </connections>
-                    </menuItem>
-                    <menuItem title="Test Generate: sample InDesign-CS4-doc" id="587">
-                        <modifierMask key="keyEquivalentModifierMask"/>
-                        <connections>
-                            <action selector="insertTestJobGenerateIndesignFranchise:" target="494" id="590"/>
-                        </connections>
-                    </menuItem>
-                    <menuItem title="Open Test Jobs Folder" id="585">
-                        <modifierMask key="keyEquivalentModifierMask"/>
-                    </menuItem>
-                </items>
-            </menu>
-        </menuItem>
-        <menuItem title="Develop" id="19">
-            <menu key="submenu" title="Develop" id="556">
-                <items>
-                    <menuItem title="E-Mail log buffer" id="650">
-                        <modifierMask key="keyEquivalentModifierMask"/>
-                    </menuItem>
-                    <menuItem title="E-Mail job" id="651">
-                        <modifierMask key="keyEquivalentModifierMask"/>
-                    </menuItem>
-                </items>
-            </menu>
-        </menuItem>
     </objects>
 </document>
