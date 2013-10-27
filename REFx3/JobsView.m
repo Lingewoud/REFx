@@ -100,34 +100,48 @@
         
         [JobRecordWindow setTitle:[NSString stringWithFormat:@"REFx Job %@",[rs stringForColumn:@"id"]]];
         [JobRecordTextFieldEngineName setStringValue:[rs stringForColumn:@"engine"]];
-        [JobRecordTextFieldPriority setStringValue:[rs stringForColumn:@"priority"]];
-        [JobRecordTextFieldAttempts setStringValue:[rs stringForColumn:@"attempt"]];
-        [JobRecordTextFieldStatus setStringValue:[rs stringForColumn:@"status"]];
-        [JobRecordTextFieldLastUpdate setStringValue:[rs stringForColumn:@"updated_at"]];
+        if([[rs stringForColumn:@"body"] isEqualToString:@"MARKER"])
+        {
+            return;
+            [JobRecordTextFieldPriority setStringValue:@"-"];
+            [JobRecordTextFieldAttempts setStringValue:@"-"];
+            [JobRecordTextFieldStatus setStringValue:@"-"];
+            [JobRecordTextFieldLastUpdate setStringValue:@"-"];
+
+        }
+        else{
+            [JobRecordTextFieldPriority setStringValue:[rs stringForColumn:@"priority"]];
+            [JobRecordTextFieldAttempts setStringValue:[rs stringForColumn:@"attempt"]];
+            [JobRecordTextFieldStatus setStringValue:[rs stringForColumn:@"status"]];
+            [JobRecordTextFieldLastUpdate setStringValue:[rs stringForColumn:@"updated_at"]];
+        }
         
+        NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
+        if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0)
+
         if([rs stringForColumn:@"body"])
         {
             [[[JobRecordTextViewInputParam textStorage] mutableString] setString: [rs stringForColumn:@"body"]];
    
-            // Alternativelly object(s)WithYAMLData:options:error or object(s)WithYAMLString:options:error.
-            id yaml = [YAMLSerialization objectWithYAMLString: [rs stringForColumn:@"body"]
+            NSDictionary *yaml = [YAMLSerialization objectWithYAMLString: [rs stringForColumn:@"body"]
                                                       options: kYAMLReadOptionStringScalars
                                                         error: nil];
             
-            // Dump Objective-C object description.
-            printf("%s", [[yaml description] UTF8String]);
-            NSLog(@"%@", [yaml objectForKey:@"method"]);
+            if([yaml isKindOfClass:[NSDictionary class]])
+            {
+                // Dump Objective-C object description.
+                //printf("%s", [[yaml description] UTF8String]);
 
-            [JobRecordTextFieldMethod setStringValue:[yaml objectForKey:@"method"]];
-
-            //NSLog(@"method:%@",[yaml objectForKey:@"method"]);
-            
-            
+                [JobRecordTextFieldMethod setStringValue:[yaml objectForKey:@"method"]];
+            }
+            else{
+                [JobRecordTextFieldMethod setStringValue:@"-"];
+            }
         }
-        else
-        {
+        else {
             [[[JobRecordTextViewInputParam textStorage] mutableString] setString: @""];
         }
+        
         if([rs stringForColumn:@"returnbody"])
         {
             [[[JobRecordTextViewResult textStorage] mutableString] setString: [rs stringForColumn:@"returnbody"]];
@@ -248,7 +262,6 @@
             NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
             if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0)
             {
-                //NSLog(@"string: %@",tempBody);
                 [loc_body addObject:@"HAS DATA"];
 
                 yaml = [YAMLSerialization objectWithYAMLString: tempBody
@@ -256,12 +269,10 @@
                                                             error: nil];
                 
                 
-
-                
-//                printf("%s", [[yaml description] UTF8String]);
-                if ([[yaml objectForKey:@"init_args"] isKindOfClass:[NSArray class]]) {
+                if([yaml isKindOfClass:[NSDictionary class]])
+                {
+                    if ([[yaml objectForKey:@"init_args"] isKindOfClass:[NSArray class]]) {
                     
-
                     [loc_initargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"init_args"] count]]];
 
                 }
@@ -270,24 +281,27 @@
 
                 if ([[yaml objectForKey:@"method_args"] isKindOfClass:[NSArray class]]) {
                     [loc_methodargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"method_args"] count]]];
-                    
-                    //NSLog(@"%lu", [[yaml objectForKey:@"method_args"] count]);
                 }
                 else  [loc_methodargscount addObject:@"-"];
 
 
                 [loc_method addObject:[yaml objectForKey:@"method"]];
-
+                }
+                else
+                {
+                    [loc_method addObject:@"-"];
+                    [loc_methodargscount addObject:@"-"];
+                    [loc_initargscount addObject:@"-"];
+                }
             }
             else
             {
-                [loc_body addObject:@""];
-                [loc_method addObject:@""];
-                [loc_methodargscount addObject:@""];
-                [loc_initargscount addObject:@""];
+                [loc_body addObject:@"-"];
+                [loc_method addObject:@"-"];
+                [loc_methodargscount addObject:@"-"];
+                [loc_initargscount addObject:@"-"];
 
             }
-
 
             if([rs stringForColumn:@"returnbody"])
             {
