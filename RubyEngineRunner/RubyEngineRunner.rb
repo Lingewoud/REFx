@@ -18,28 +18,31 @@ require 'pathname'
 #require 'active_record'
 
 class RefxJobWrapper
-    
-    def selectJobById(jobId)
+
+	def selectJobById(jobId,maxattempts=nil)
 		pJob = Job.find(jobId)
-		runJob(pJob)
+		runJob(pJob,maxattempts)
 	end
-    
-    def runJob(pJob)
-        
-        @logdir = File.expand_path('~')+"/Library/Logs/REFx4"
-        Dir.mkdir(@logdir) unless File.exists?(@logdir)
-        @logfile = @logdir + '/Engines.log'
-        
+
+	def runJob(pJob,maxattempts=nil)
+
+		@logdir = File.expand_path('~')+"/Library/Logs/REFx4"
+		Dir.mkdir(@logdir) unless File.exists?(@logdir)
+		@logfile = @logdir + '/Engines.log'
+
 		#p "start running job"
 		pJob.attempt = pJob.attempt.to_i + 1
 
 		## SAVE JOB: attempt + 1
 		pJob.save
 
-#		if pJob.attempt > pJob.max_attempt
-#			p "max attempt reached"
-#			pJob.status = 66
-#		else
+		p 'maxattempts'
+		p maxattempts
+		p pJob.attempt 
+		if !maxattempts.nil? && pJob.attempt > maxattempts.to_i
+			p "max attempt reached"
+			pJob.status = 66
+		else
 			#logger.info(Time.now.to_s+': start processing job '+ pJob.id.to_s)
 			cmdbody = YAML::load(pJob.body)
 
@@ -63,13 +66,12 @@ class RefxJobWrapper
 			# CREATE ENGINE OBJECT and make sure the engine object is nil
 			@engineObject=nil
 
-            require "./#{pJob.engine}.rb"
+			require "./#{pJob.engine}.rb"
 
 			evalcmd1=pJob.engine+'.new('+initArgString+')'
 			#p evalcmd1
 			@engineObject = eval(evalcmd1)
 
-#print "creating engine object"
 			if @engineObject
 				logStartNewJob
 
@@ -78,13 +80,12 @@ class RefxJobWrapper
 				@startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
 				_startTime = Time.now
 				eval(evalcommand)
-                
+
 				@endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
 				_endTime = Time.now
 				@duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
 
-#p 'call logJobSummary'
-                logJobSummery
+				logJobSummery
 
 				pJob.status = 10
 				pJob.returnbody = @returnVal
@@ -94,26 +95,25 @@ class RefxJobWrapper
 				pJob.returnbody = errorMsg
 				pJob.status = 20
 			end
-		#end
-		pJob.save
-		#p "finished job"
 
+		end
+		pJob.save
 	end
 
 	def logStartNewJob
 
 		open(@logfile, 'a') { |f|
-            f.puts "\n"
+			f.puts "\n"
 			f.puts "------------ STARTING A NEW REFx JOB -------------\n"
 			if($debug)
-                f.puts "DEBUG IS SET ON\n"
+				f.puts "DEBUG IS SET ON\n"
 			end
 		}
 	end
-    
+
 	def logJobSummery
-        #p 'log summary'
-        open(@logfile, 'a') { |f|
+		#p 'log summary'
+		open(@logfile, 'a') { |f|
 			f.puts "------------ FINISH REFx JOB ---------------------\n"
 			f.puts @startTime +"\n"
 			f.puts @endTime +"\n"
@@ -148,57 +148,57 @@ class RefxJobWrapper
 
 		return ''
 	end
-    
-    def insertTestJob(engineName,testindex,testSourceFilename)
-        p 'INSERTING TEST JOB'
-        
-        testindex = 0 if testindex.nil?
-        
-        source_file_base_dir = File.expand_path('~')+'/Library/REFx4'
-        enginePlistPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Info.plist"
-        
-        enginePlistDict = Plist::parse_xml(enginePlistPath)
-   
-        bodyYaml = enginePlistDict['testJobs'][testindex.to_i]['bodyYaml']
-        
+
+	def insertTestJob(engineName,testindex,testSourceFilename)
+		p 'INSERTING TEST JOB'
+
+		testindex = 0 if testindex.nil?
+
+		source_file_base_dir = File.expand_path('~')+'/Library/REFx4'
+		enginePlistPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Info.plist"
+
+		enginePlistDict = Plist::parse_xml(enginePlistPath)
+
+		bodyYaml = enginePlistDict['testJobs'][testindex.to_i]['bodyYaml']
 
 
-        newId = Job.find_by_sql('SELECT * FROM jobs ORDER BY id DESC')
-        
-        id = newId[0].id + 1
-        id = 9999 if newId.nil?
-        
-        testJobPath = "TestJobs/"+id.to_s
-        p testJobPath
-        
-       
-        engineTestJobPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Resources/#{bodyYaml}"
-        
-        jobBody = File.read(engineTestJobPath)
-        jobBody = jobBody.gsub("<%=JOB_PATH%>", testJobPath)
-        jobBody = jobBody.gsub("<%=SOURCE_FILE_DIR%>", source_file_base_dir)
 
-       if not testSourceFilename.nil?
-           # make relative path from absolute
-           path1 = Pathname.new source_file_base_dir
-           path2 = Pathname.new testSourceFilename
-           relative_testSourceFilename = path2.relative_path_from path1
-           
-           jobBody = jobBody.gsub("<%=SOURCE_FILE_NAME%>", relative_testSourceFilename)
-        end
-        
-        pJob = Job.new
-        
-        pJob.priority = 1
-        pJob.engine = engineName
-        pJob.body = jobBody
-        pJob.status = 1
-        pJob.max_attempt = 1
-        pJob.attempt = 0
-        pJob.returnbody = ''
-        
-        pJob.save
-    end
+		newId = Job.find_by_sql('SELECT * FROM jobs ORDER BY id DESC')
+
+		id = newId[0].id + 1
+		id = 9999 if newId.nil?
+
+		testJobPath = "TestJobs/"+id.to_s
+		p testJobPath
+
+
+		engineTestJobPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Resources/#{bodyYaml}"
+
+		jobBody = File.read(engineTestJobPath)
+		jobBody = jobBody.gsub("<%=JOB_PATH%>", testJobPath)
+		jobBody = jobBody.gsub("<%=SOURCE_FILE_DIR%>", source_file_base_dir)
+
+		if not testSourceFilename.nil?
+			# make relative path from absolute
+			path1 = Pathname.new source_file_base_dir
+			path2 = Pathname.new testSourceFilename
+			relative_testSourceFilename = path2.relative_path_from path1
+
+			jobBody = jobBody.gsub("<%=SOURCE_FILE_NAME%>", relative_testSourceFilename)
+		end
+
+		pJob = Job.new
+
+		pJob.priority = 1
+		pJob.engine = engineName
+		pJob.body = jobBody
+		pJob.status = 1
+		pJob.max_attempt = 1
+		pJob.attempt = 0
+		pJob.returnbody = ''
+
+		pJob.save
+	end
 end
 
 ActiveRecord::Base.logger = Logger.new(STDERR)
@@ -227,26 +227,31 @@ optparse = OptionParser.new do|opts|
 	opts.on( '-j', '--jobid jobid', 'jobid' ) do|jobid|
 		options[:jobid] = jobid
 	end
-    
+
+	options[:maxattempts] = nil
+	opts.on( '-m', '--maxattempts maxattempts', 'maxattempts' ) do|maxattempts|
+		options[:maxattempts] = maxattempts
+	end
+
 	options[:test] = nil
 	opts.on( '-t', '--test engineName', 'insert engine\'s test job' ) do |engineName|
 		options[:test] = engineName
 	end
 
-    options[:testSourceFilename] = nil
-    opts.on( '-f', '--filename testSourceFilename', 'sourceFile name for test job' ) do |testSourceFilename|
-        options[:testSourceFilename] = testSourceFilename
-    end
+	options[:testSourceFilename] = nil
+	opts.on( '-f', '--filename testSourceFilename', 'sourceFile name for test job' ) do |testSourceFilename|
+		options[:testSourceFilename] = testSourceFilename
+	end
 
-    options[:testindex] = '0'
-    opts.on( '-i', '--testindex testindex', 'test index' ) do |testindex|
-        p "option testindex"
-        p testindex
-        options[:testindex] = testindex
-        options[:testindex].to_s
-    end
+	options[:testindex] = '0'
+	opts.on( '-i', '--testindex testindex', 'test index' ) do |testindex|
+		p "option testindex"
+		p testindex
+		options[:testindex] = testindex
+		options[:testindex].to_s
+	end
 
-    # This displays the help screen, all programs are
+	# This displays the help screen, all programs are
 	# assumed to have this option.
 
 	opts.on( '-d', '--debug', 'debug mode')  do
@@ -272,14 +277,14 @@ optparse.parse!
 
 #puts "Being verbose" if options[:verbose]/
 #puts "Logging to file #{options[:logfile]}" if options[:logfile]
-#p options[:jobid]
+p options
 
 if options[:test]
 	refxjob = RefxJobWrapper.new
 	refxjob.insertTestJob(options[:test],options[:testindex],options[:testSourceFilename])
 elsif options[:jobid] != 0
 	refxjob = RefxJobWrapper.new
-	refxjob.selectJobById(options[:jobid])
+	refxjob.selectJobById(options[:jobid],options[:maxattempts])
 end
 
 exit 0
