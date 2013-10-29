@@ -24,9 +24,7 @@
     RXREFxIntance* refxInstance;
 }
 
--(void) checkAppScript;
 -(void) startComServer:(NSString*)port;
--(void) flushLogs;
 -(NSString*) getDbPath;
 -(NSString*) getRailsEnvironment;
 -(NSString *) railRootDir;

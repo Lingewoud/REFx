@@ -60,6 +60,7 @@
     {
         [[NSUserDefaults standardUserDefaults] setInteger:3030 forKey:@"listenPort"];
     }
+    NSLog(@"Test path is set: %@",[self testFolderPath]);
 }
 
 - (void)openMainWindow {
@@ -132,9 +133,9 @@
     
     NSString * path = [NSString stringWithFormat: @"%@/Library/REFx4",NSHomeDirectory()];
     
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    //NSFileManager *fileManager = [[NSFileManager alloc] init];
     
-    if(![fileManager fileExistsAtPath:path]){
+    if(![[ NSFileManager defaultManager ] fileExistsAtPath:path]){
         [[ NSFileManager defaultManager ] createDirectoryAtPath: path withIntermediateDirectories: YES attributes: nil error: NULL ];
     }
     return path;
@@ -145,9 +146,9 @@
     NSString * path = [NSString stringWithFormat: @"%@/Database",[self appSupportPath]];
     NSLog(@"is this dbPath: %@",path);
 
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
+    //NSFileManager *fileManager = [[NSFileManager alloc] init];
 
-    if(![fileManager fileExistsAtPath:path]){
+    if(![[ NSFileManager defaultManager ] fileExistsAtPath:path]){
         NSLog(@"Creating dbPath: %@",path);
         [[ NSFileManager defaultManager ] createDirectoryAtPath: path withIntermediateDirectories: YES attributes: nil error: NULL ];
     }
@@ -160,32 +161,26 @@
 }
 
 
-
-
-
-
-/*- (IBAction)openTestJobsFolder:(id)sender
-{
-
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:[self testFolderPath]]];
-}
-
 - (NSString *)testFolderPath
 {
-    NSString * path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/PAS3TestJobs/"];
-    return path;
     
-}
-*/
+    NSString *fullPathString = [[[self applicationFilesDirectory] path] stringByAppendingPathComponent:@"TestJobs"];
 
+    if(![[ NSFileManager defaultManager ] fileExistsAtPath:fullPathString]){
+        NSLog(@"Creating dbPath: %@",fullPathString);
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: fullPathString withIntermediateDirectories: YES attributes: nil error: NULL ];
+    }
+    
+    return fullPathString;
+}
 
 /**
     Returns the directory the application uses to store the Core Data store file. This code uses a directory named "REFx4" in the user's Library directory.
  */
 - (NSURL *)applicationFilesDirectory {
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *libraryURL = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+    //NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *libraryURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
     return [libraryURL URLByAppendingPathComponent:@"REFx4"];
 }
 

@@ -37,7 +37,7 @@
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="65">
-                        <rect key="frame" x="194" y="-80" width="847" height="620"/>
+                        <rect key="frame" x="194" y="-79" width="847" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" focusRingType="none" id="tsL-Fi-XmU">
                             <rect key="frame" x="0.0" y="17" width="847" height="603"/>
@@ -413,7 +413,7 @@
         <window title="Insert New Job" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="118" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1876" y="-14" width="505" height="432"/>
+            <rect key="contentRect" x="123" y="478" width="505" height="432"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
             <value key="minSize" type="size" width="505" height="432"/>
             <value key="maxSize" type="size" width="505" height="432"/>
@@ -744,7 +744,7 @@ Gw
         </window>
     </objects>
     <resources>
-        <image name="LogViewTemplate" width="12" height="12"/>
+        <image name="LogViewTemplate" width="24" height="24"/>
         <image name="MaintenanceTemplate" width="20" height="20"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>

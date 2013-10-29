@@ -31,5 +31,5 @@ end
 # the options. What's left is the list of files to resize.
 optparse.parse!
 
-system ("ps x | grep \"script/server --port "+options[:port]+"\" | grep -v grep | kill -9  `awk '{print $1}'`")
+system ("ps x | grep \"script/server webrick --port "+options[:port]+"\" | grep -v grep | kill -9  `awk '{print $1}'`")
 exit 0

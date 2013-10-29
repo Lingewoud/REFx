@@ -134,17 +134,14 @@
 
 - (IBAction)openTestJobsFolder:(id)sender
 {
-    NSString *fullPathString = [[[[NSApp delegate] applicationFilesDirectory] path] stringByAppendingPathComponent:@"TestJobs"];
-   [[NSWorkspace sharedWorkspace] selectFile:fullPathString inFileViewerRootedAtPath:fullPathString];
+    //NSString *fullPathString = [[NSApp delegate] testFolderPath] ;
+   [[NSWorkspace sharedWorkspace] selectFile: [[NSApp delegate] testFolderPath] inFileViewerRootedAtPath:[[NSApp delegate] testFolderPath]];
 }
 
 
 - (void)startStopActionCommunicationServer:(id)sender
 {   
     if([startStopButtonCommunicationServer state]==1) {
-        
-        //[refxInstance startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
-
         
         [[[NSApp delegate] refxInstance ] startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
         

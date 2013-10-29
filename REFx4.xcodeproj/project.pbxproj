@@ -78,6 +78,16 @@
 		3EA987A8144F4A71001A296B /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EA987A7144F4A71001A296B /* libsqlite3.dylib */; };
 		3EB5D8381507C5660093B600 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EB5D8361507C5660093B600 /* PreferencesController.m */; };
 		3EB5D8391507C5660093B600 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EB5D8371507C5660093B600 /* Preferences.xib */; };
+		3EBA49F4182071770019B9B2 /* LogViewTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49F3182071770019B9B2 /* LogViewTemplate.png */; };
+		3EBA49FE182074B90019B9B2 /* MaintenanceTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49F5182074B90019B9B2 /* MaintenanceTemplate.png */; };
+		3EBA49FF182074B90019B9B2 /* ToolbarCreateTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49F6182074B90019B9B2 /* ToolbarCreateTemplate.png */; };
+		3EBA4A00182074B90019B9B2 /* ToolbarFilterTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49F7182074B90019B9B2 /* ToolbarFilterTemplate.png */; };
+		3EBA4A01182074B90019B9B2 /* ToolbarInfoTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49F8182074B90019B9B2 /* ToolbarInfoTemplate.png */; };
+		3EBA4A02182074B90019B9B2 /* ToolbarOpenTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49F9182074B90019B9B2 /* ToolbarOpenTemplate.png */; };
+		3EBA4A03182074B90019B9B2 /* ToolbarOpenWebTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49FA182074B90019B9B2 /* ToolbarOpenWebTemplate.png */; };
+		3EBA4A04182074B90019B9B2 /* ToolbarPauseSelectedTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49FB182074B90019B9B2 /* ToolbarPauseSelectedTemplate.png */; };
+		3EBA4A05182074B90019B9B2 /* ToolbarRemoveTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49FC182074B90019B9B2 /* ToolbarRemoveTemplate.png */; };
+		3EBA4A06182074B90019B9B2 /* ToolbarResumeSelectedTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 3EBA49FD182074B90019B9B2 /* ToolbarResumeSelectedTemplate.png */; };
 		3EC97C9214488BDB00B81F47 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3EC97C9114488BDB00B81F47 /* Cocoa.framework */; };
 		3EC97C9C14488BDB00B81F47 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97C9A14488BDB00B81F47 /* InfoPlist.strings */; };
 		3EC97C9E14488BDB00B81F47 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97C9D14488BDB00B81F47 /* main.m */; };
@@ -169,6 +179,16 @@
 		3EB5D8351507C5660093B600 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PreferencesController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3EB5D8361507C5660093B600 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PreferencesController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3EB5D8371507C5660093B600 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		3EBA49F3182071770019B9B2 /* LogViewTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LogViewTemplate.png; sourceTree = "<group>"; };
+		3EBA49F5182074B90019B9B2 /* MaintenanceTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MaintenanceTemplate.png; sourceTree = "<group>"; };
+		3EBA49F6182074B90019B9B2 /* ToolbarCreateTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarCreateTemplate.png; sourceTree = "<group>"; };
+		3EBA49F7182074B90019B9B2 /* ToolbarFilterTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarFilterTemplate.png; sourceTree = "<group>"; };
+		3EBA49F8182074B90019B9B2 /* ToolbarInfoTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarInfoTemplate.png; sourceTree = "<group>"; };
+		3EBA49F9182074B90019B9B2 /* ToolbarOpenTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarOpenTemplate.png; sourceTree = "<group>"; };
+		3EBA49FA182074B90019B9B2 /* ToolbarOpenWebTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarOpenWebTemplate.png; sourceTree = "<group>"; };
+		3EBA49FB182074B90019B9B2 /* ToolbarPauseSelectedTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarPauseSelectedTemplate.png; sourceTree = "<group>"; };
+		3EBA49FC182074B90019B9B2 /* ToolbarRemoveTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarRemoveTemplate.png; sourceTree = "<group>"; };
+		3EBA49FD182074B90019B9B2 /* ToolbarResumeSelectedTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarResumeSelectedTemplate.png; sourceTree = "<group>"; };
 		3EC97C8D14488BDB00B81F47 /* REFx4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = REFx4.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EC97C9114488BDB00B81F47 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		3EC97C9414488BDB00B81F47 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -283,6 +303,16 @@
 		3E5754E3181C7593006FDAEB /* iconsset1 */ = {
 			isa = PBXGroup;
 			children = (
+				3EBA49F5182074B90019B9B2 /* MaintenanceTemplate.png */,
+				3EBA49F6182074B90019B9B2 /* ToolbarCreateTemplate.png */,
+				3EBA49F7182074B90019B9B2 /* ToolbarFilterTemplate.png */,
+				3EBA49F8182074B90019B9B2 /* ToolbarInfoTemplate.png */,
+				3EBA49F9182074B90019B9B2 /* ToolbarOpenTemplate.png */,
+				3EBA49FA182074B90019B9B2 /* ToolbarOpenWebTemplate.png */,
+				3EBA49FB182074B90019B9B2 /* ToolbarPauseSelectedTemplate.png */,
+				3EBA49FC182074B90019B9B2 /* ToolbarRemoveTemplate.png */,
+				3EBA49FD182074B90019B9B2 /* ToolbarResumeSelectedTemplate.png */,
+				3EBA49F3182071770019B9B2 /* LogViewTemplate.png */,
 				3E57556A181D605E006FDAEB /* LogViewTemplate@2x.png */,
 				3E575564181D5E7E006FDAEB /* ToolbarResumeSelectedTemplate@2x.png */,
 				3E575568181D5E8E006FDAEB /* ToolbarOpenWebTemplate@2x.png */,
@@ -496,22 +526,30 @@
 			files = (
 				3E473C08161CA83100942E37 /* FMDatabase.h in Resources */,
 				3E473C09161CA83100942E37 /* FMDatabase.m in Resources */,
+				3EBA4A04182074B90019B9B2 /* ToolbarPauseSelectedTemplate.png in Resources */,
 				3E57555F181D5E69006FDAEB /* ToolbarFilterTemplate@2x.png in Resources */,
 				3E473C0A161CA83100942E37 /* FMDatabaseAdditions.h in Resources */,
 				3E473C0B161CA83100942E37 /* FMDatabaseAdditions.m in Resources */,
+				3EBA4A00182074B90019B9B2 /* ToolbarFilterTemplate.png in Resources */,
 				3E473C0C161CA83100942E37 /* FMDatabasePool.h in Resources */,
 				3E575565181D5E7E006FDAEB /* ToolbarResumeSelectedTemplate@2x.png in Resources */,
 				3E473C0D161CA83100942E37 /* FMDatabasePool.m in Resources */,
+				3EBA49F4182071770019B9B2 /* LogViewTemplate.png in Resources */,
+				3EBA4A06182074B90019B9B2 /* ToolbarResumeSelectedTemplate.png in Resources */,
+				3EBA49FE182074B90019B9B2 /* MaintenanceTemplate.png in Resources */,
 				3E473C0E161CA83100942E37 /* FMDatabaseQueue.h in Resources */,
 				3E473C0F161CA83100942E37 /* FMDatabaseQueue.m in Resources */,
 				3E57555A181D5E4B006FDAEB /* ToolbarRemoveTemplate@2x.png in Resources */,
 				3E3787BE1816FD6C000FD48F /* engineicon.png in Resources */,
 				3E473C10161CA83100942E37 /* FMResultSet.h in Resources */,
 				3E473C11161CA83100942E37 /* FMResultSet.m in Resources */,
+				3EBA4A03182074B90019B9B2 /* ToolbarOpenWebTemplate.png in Resources */,
+				3EBA4A01182074B90019B9B2 /* ToolbarInfoTemplate.png in Resources */,
 				3E473C06161CA82600942E37 /* JobsView.h in Resources */,
 				3E473C07161CA82600942E37 /* JobsView.m in Resources */,
 				3EC97C9C14488BDB00B81F47 /* InfoPlist.strings in Resources */,
 				3EC97CA214488BDB00B81F47 /* Credits.rtf in Resources */,
+				3EBA49FF182074B90019B9B2 /* ToolbarCreateTemplate.png in Resources */,
 				3E575567181D5E84006FDAEB /* ToolbarPauseSelectedTemplate@2x.png in Resources */,
 				3EC97CA814488BDC00B81F47 /* MainMenu.xib in Resources */,
 				3EC97CF21448920100B81F47 /* RXMainWindow.xib in Resources */,
@@ -530,8 +568,10 @@
 				3E575576181DAFA8006FDAEB /* REFxLogo-refx4.png in Resources */,
 				3EB5D8391507C5660093B600 /* Preferences.xib in Resources */,
 				3E3787C018171A7B000FD48F /* EngineWindow.xib in Resources */,
+				3EBA4A02182074B90019B9B2 /* ToolbarOpenTemplate.png in Resources */,
 				3E575563181D5E75006FDAEB /* ToolbarOpenTemplate@2x.png in Resources */,
 				3E9D6ADB17DE51EC005ABF10 /* RubyEngineRunner in Resources */,
+				3EBA4A05182074B90019B9B2 /* ToolbarRemoveTemplate.png in Resources */,
 				3E575569181D5E8E006FDAEB /* ToolbarOpenWebTemplate@2x.png in Resources */,
 				3E3F694617DFB2770034B653 /* RXLogWindow.xib in Resources */,
 			);

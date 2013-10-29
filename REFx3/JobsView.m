@@ -138,7 +138,8 @@
                 [JobRecordTextFieldMethod setStringValue:@"-"];
             }
         }
-        else {
+        else
+        {
             [[[JobRecordTextViewInputParam textStorage] mutableString] setString: @""];
         }
         

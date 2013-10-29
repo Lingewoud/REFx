@@ -39,11 +39,6 @@
 - (IBAction)saveAction:(id)sender;
 - (IBAction)setLastJobId:(id)sender;
 - (IBAction)showPreferences:(id)sender;
-- (IBAction)openTestJobsFolder:(id)sender;
-- (IBAction)insertTestJobIndexIndesignFranchise:(id)sender;
-- (IBAction)insertTestJobGenerateIndesignFranchise:(id)sender;
-- (IBAction)insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender;
-- (IBAction)insertTestJobIndexIndesignFranchiseOpenInddCS6:(id)sender;
 
 -(void)flushRailsLogs;
 -(void)flushEngineLogs;

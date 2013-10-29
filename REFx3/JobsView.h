@@ -51,7 +51,6 @@
 - (IBAction)refreshTable:(id)sender;
 - (IBAction)deleteJob:(id)sender;
 - (IBAction)viewBody:(id)sender;
-- (IBAction)returnBody:(id)sender;
 
 
 
