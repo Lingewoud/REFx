@@ -35,12 +35,6 @@
 - (void) setJobsLastId:(NSInteger)rowId;
 - (BOOL) openDatabase;
 - (void) closeDatabase;
-/*
-- (void) insertTestJobIndexIndesignFranchiseOpenIndd;
-- (void) insertTestJobIndexIndesignFranchiseOpenInddCS6;
-- (void) insertTestJobGenerateIndesignFranchise;
-- (void) insertTestJobIndexIndesignFranchise;
-*/
 - (void) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
 
 

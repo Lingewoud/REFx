@@ -55,6 +55,10 @@
     {
         return;
     }
+    else
+    {
+        //[rubyJobProcess release];
+    }
     
     int jobid = [self selectJob];
     
@@ -70,8 +74,8 @@
         
         RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
 
-        NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [sharedEngineManager engineDirectoryPath],engine];
-        NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [sharedEngineManager engineDirectoryPath],engine];
+        NSString *engineDir = [sharedEngineManager pathToEngineResources:engine];
+        NSString *enginePath = [NSString stringWithFormat:@"%@main.rb", [sharedEngineManager pathToEngineResources:engine]];
         NSString *runnerPath = [sharedEngineManager pathToEngineRunner];
 
         rubyJobProcess = [[NSTask alloc] init];
@@ -87,22 +91,7 @@
                           @"--environment",railsEnvironment,
                           nil];
         
-/*        if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
-        {
-            [rubyJobProcess setArguments: [NSArray arrayWithObjects:
-                                           runnerPath,
-                                           @"-j",jobidString,
-                                           @"-d",
-                                           @"--environment",railsEnvironment,
-                                           nil]];
-        }
-        else{
-            [rubyJobProcess setArguments: [NSArray arrayWithObjects:runnerPath,
-                                           @"-j",jobidString,
-                                           @"--environment",railsEnvironment,
-                                           nil]];
-        }
-  */      
+
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
             [args addObject:@"-d"];
@@ -114,7 +103,17 @@
         }
         
         [rubyJobProcess setArguments:args];
-        [rubyJobProcess launch];
+        
+        @try {
+            [rubyJobProcess launch];
+            //[NSThread sleepForTimeInterval:2]; // THIS LINE FOR TESTING
+        }
+        @catch (NSException *exception) {
+            //increase attempt
+            [self setJobId:jobid status:67];
+            NSLog(@"Problem Running Task: %@", [exception description]);
+        }
+        
         
         jobRunning = NO;
     }
@@ -226,7 +225,6 @@
 
 - (void)setJobId:(NSInteger)rowId status:(NSInteger)status
 {
-    return;
     
     if(dbOpened)
     {
@@ -240,8 +238,8 @@
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
         {
-            //int result = sqlite3_step(statement);
-            //NSLog(@"update result %i",result);
+            int result = sqlite3_step(statement);
+            NSLog(@"update result %i",result);
         }
         else
         {

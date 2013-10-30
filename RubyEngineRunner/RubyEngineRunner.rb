@@ -161,16 +161,7 @@ class RefxJobWrapper
 
 		bodyYaml = enginePlistDict['testJobs'][testindex.to_i]['bodyYaml']
 
-
-
-		newId = Job.find_by_sql('SELECT * FROM jobs ORDER BY id DESC')
-
-		id = newId[0].id + 1
-		id = 9999 if newId.nil?
-
-		testJobPath = "TestJobs/"+id.to_s
-		p testJobPath
-
+		testJobPath = "TestJobs/"
 
 		engineTestJobPath = File.expand_path('~')+"/Library/REFx4/Engines/#{engineName}.bundle/Contents/Resources/#{bodyYaml}"
 

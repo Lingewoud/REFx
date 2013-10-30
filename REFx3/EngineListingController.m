@@ -20,18 +20,26 @@
 - (void) awakeFromNib {
     
     [self loadEngines];
+     NSLog(@"loadEngineProblem 2");
 }
 
 - (void) loadEngines
 {
+        NSLog(@"loadEngineProblem 3");
     self.nsMutaryOfMyData = [[NSMutableArray alloc] init];
+    
+    //NSMutableString *eName = [[NSMutableString alloc] init];
     
     for (NSString *eName in [[[NSApp delegate] sharedEngineManager] enginesEnabledArray]) {
         
-        NSString *engineName = [[NSString alloc] initWithString: eName];
+        NSString *engineName = [[NSString alloc] initWithString: eName] ;
         
-        [self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString: [[NSBundle mainBundle] pathForResource:@"engineicon" ofType:@"png"]                                                                              text:engineName]];
+        [self.nsMutaryOfMyData addObject:[[EngineData alloc]
+                                          initWithImagePathString: [[NSBundle mainBundle] pathForResource:@"engineicon" ofType:@"png"]
+                                          text:engineName]];
     }
+    
+    
 	
 	self.myImageAndTextCelObj = [[EngineTextCell alloc] init];
 	self.myImageAndTextCelObj.image = [[self.nsMutaryOfMyData objectAtIndex:0]nsImageObj];
@@ -57,10 +65,13 @@
     NSInteger column = [nsTableViewObj clickedColumn];
     //NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]);
     
-    EngineWindowController *engineWindow = [[EngineWindowController alloc] initWithWindowNibName:@"EngineWindow"];
-
-    [engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
-    [engineWindow showWindow:self];
+    //test if engine exist
+    if([[RXEngineManager sharedEngineManager] engineIsValid:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]])
+    {
+        EngineWindowController *engineWindow = [[EngineWindowController alloc] initWithWindowNibName:@"EngineWindow"];
+        [engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
+        [engineWindow showWindow:self];
+    }
 }
 
 // these are called by the table(s)

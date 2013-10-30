@@ -64,7 +64,7 @@
 }
 
 - (void)openMainWindow {
-    [mainWindowController showWindow:self];
+    [self.mainWindowController showWindow:self];
 }
 
 -(IBAction)openMainWindowAction:(id)sender{
@@ -360,7 +360,8 @@
     
     [preferencesController release];
     [mainWindowController release];
-    
+    //[RXREFxIntance release];
+    //[sharedEngineManager release];
 
     [super dealloc];
 }

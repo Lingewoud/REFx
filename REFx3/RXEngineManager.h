@@ -27,6 +27,7 @@
 
 - (NSString *)urlToEngineApiDocs:(NSString *)anEngine;
 - (void)insertEngineTestJob:(NSString *)anEngine;
+- (BOOL)engineIsValid:(NSString *)anEngine;
 - (id)engineInfoDict:(NSString*)anEngine objectForKey:(NSString*)key;
 - (NSString *)pathToEngineRunner;
 

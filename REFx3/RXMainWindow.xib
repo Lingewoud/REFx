@@ -36,15 +36,15 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
-                    <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" verticalScrollElasticity="none" id="65">
-                        <rect key="frame" x="194" y="-79" width="847" height="620"/>
+                    <scrollView focusRingType="none" borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="65">
+                        <rect key="frame" x="194" y="0.0" width="847" height="540"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" focusRingType="none" id="tsL-Fi-XmU">
-                            <rect key="frame" x="0.0" y="17" width="847" height="603"/>
+                            <rect key="frame" x="0.0" y="17" width="847" height="523"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="72" id="74">
-                                    <rect key="frame" x="0.0" y="0.0" width="847" height="603"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="847" height="523"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -379,6 +379,11 @@
                             <action selector="openWebInterface:" target="-2" id="jFs-4Y-vPH"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="1D15C983-8A08-45E3-876C-6935211E4AD8" label="Toolbar Item" paletteLabel="Toolbar Item" tag="-1" image="ToolbarCreateTemplate" id="GQD-qD-AFH">
+                        <connections>
+                            <action selector="insertJob:" target="-2" id="2q5-fW-WRT"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7Sw-c4-E7f"/>
@@ -388,6 +393,7 @@
                     <toolbarItem reference="xvM-r2-av8"/>
                     <toolbarItem reference="dEF-RB-TIW"/>
                     <toolbarItem reference="TJA-dH-VmA"/>
+                    <toolbarItem reference="GQD-qD-AFH"/>
                     <toolbarItem reference="Jzy-AZ-qpk"/>
                     <toolbarItem reference="CXN-9W-bgR"/>
                     <toolbarItem reference="SYa-Oe-4BL"/>
@@ -745,14 +751,15 @@ Gw
     </objects>
     <resources>
         <image name="LogViewTemplate" width="24" height="24"/>
-        <image name="MaintenanceTemplate" width="20" height="20"/>
+        <image name="MaintenanceTemplate" width="40" height="40"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>
         <image name="REFxLogo-refx4" width="400" height="400"/>
-        <image name="ToolbarInfoTemplate" width="20" height="20"/>
-        <image name="ToolbarOpenTemplate" width="16" height="16"/>
-        <image name="ToolbarOpenWebTemplate" width="20" height="20"/>
-        <image name="ToolbarRemoveTemplate" width="16" height="16"/>
-        <image name="ToolbarResumeSelectedTemplate" width="16" height="16"/>
+        <image name="ToolbarCreateTemplate" width="32" height="32"/>
+        <image name="ToolbarInfoTemplate" width="40" height="40"/>
+        <image name="ToolbarOpenTemplate" width="32" height="32"/>
+        <image name="ToolbarOpenWebTemplate" width="40" height="40"/>
+        <image name="ToolbarRemoveTemplate" width="32" height="32"/>
+        <image name="ToolbarResumeSelectedTemplate" width="32" height="32"/>
     </resources>
 </document>

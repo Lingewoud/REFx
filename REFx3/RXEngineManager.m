@@ -74,9 +74,7 @@
 
     int i;
     
-    filemgr = [NSFileManager defaultManager];
-    
-    enginesFileList = [filemgr contentsOfDirectoryAtPath: [self engineDirectoryPath] error: nil];
+    enginesFileList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath: [self engineDirectoryPath] error: nil];
     
     count = [enginesFileList count];
     
@@ -105,6 +103,19 @@
     
     //NSLog(@"dic for key %@ :%@",key, [engineDictPlist objectForKey:key]);
     return [engineDictPlist objectForKey:key];
+}
+
+
+- (BOOL)engineIsValid:(NSString *)anEngine;
+{
+    NSString *path = [[[RXEngineManager sharedEngineManager] pathToEngineContents:anEngine] stringByAppendingPathComponent:@"Info.plist"];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:path]){
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 - (NSString *)pathToEngineRunner
@@ -137,6 +148,8 @@
     NSString * engineContentsPath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/",[self engineDirectoryPath],anEngine];
     return engineContentsPath;
 }
+
+
 
 - (NSURL *)urlToEngineApiDocs:(NSString *)anEngine{
     return NULL;

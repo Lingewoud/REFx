@@ -53,6 +53,7 @@
     
     // TRY TO FIX THE MISSING ENGINES BUG AFTER APPLICATION LOAD
     //[self.theEngineListingController reloadEngines:self];
+    NSLog(@"loadEngineProblem 1");
 }
 
 
