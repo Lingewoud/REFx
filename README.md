@@ -18,7 +18,6 @@ Screenshots
 
 ![image](http://picdrop.t3lab.com/3sbnIeDcHA.png)
 
-![image](http://picdrop.t3lab.com/GTnMWvPAom.png)
 
 More Info
 ---------
