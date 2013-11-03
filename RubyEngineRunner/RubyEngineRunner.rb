@@ -80,7 +80,7 @@ class RefxJobWrapper
 				@startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
 				_startTime = Time.now
 				eval(evalcommand)
-
+                
 				@endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
 				_endTime = Time.now
 				@duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
@@ -151,7 +151,7 @@ class RefxJobWrapper
 
 	def insertTestJob(engineName,testindex,testSourceFilename)
 		p 'INSERTING TEST JOB'
-
+        sleep(1)
 		testindex = 0 if testindex.nil?
 
 		source_file_base_dir = File.expand_path('~')+'/Library/REFx4'

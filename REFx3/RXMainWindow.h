@@ -19,7 +19,7 @@
 @property (assign) IBOutlet NSButton *startStopButtonScheduler;
 @property (assign) IBOutlet NSButton *startStopButtonCommunicationServer;
 @property (assign) IBOutlet EngineListingController *theEngineListingController;
-
+@property (assign) IBOutlet NSTextField *lastJobid;
 
 @property (assign) IBOutlet NSTabViewItem* jobMgrView;
 @property (assign) IBOutlet NSWindow* theWindow;
@@ -41,7 +41,8 @@
 - (IBAction)flushJobs:(id)sender;
 - (IBAction)reinstallDatabase:(id)sender;
 - (IBAction)openWebInterface:(id)sender;
+- (IBAction)setLastJobId:(id)sender;
 
 
-- (void)refreshJobmanagerView;
+//- (void)refreshJobmanagerView;
 @end

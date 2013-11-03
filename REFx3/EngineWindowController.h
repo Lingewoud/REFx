@@ -24,5 +24,5 @@
 - (IBAction)openApiDocs:(id)sender;
 - (IBAction)revealInFinder:(id)sender;
 - (IBAction)revealContentsInFinder:(id)sender;
-
+-(void) reinitWindow;
 @end

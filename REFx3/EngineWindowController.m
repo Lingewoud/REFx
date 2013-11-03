@@ -26,13 +26,21 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+    [self reinitWindow];
+}
 
+
+
+-(void) reinitWindow
+{
     [self.window setTitle:[NSString stringWithFormat:@"Engine: %@", self.EngineName]];
     
     [self.EngineTitle setStringValue:self.EngineName];
     [self.EngineVersion setStringValue:[[RXEngineManager sharedEngineManager] engineInfoDict:self.EngineName objectForKey:@"CFBundleVersion"]];
     [self.EngineDescription setStringValue: [[RXEngineManager sharedEngineManager] engineInfoDict:self.EngineName objectForKey:@"CFBundleGetInfoString"]];
- 
+    
+    [self.testJobMenu removeAllItems];
+    
     for (NSDictionary *dict in [[RXEngineManager sharedEngineManager] engineInfoDict:self.EngineName objectForKey:@"testJobs"])
     {
         [self.testJobMenu addItemWithTitle:[dict objectForKey:@"title"]];

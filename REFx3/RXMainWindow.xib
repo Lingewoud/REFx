@@ -11,6 +11,7 @@
                 <outlet property="insJobBody" destination="124" id="155"/>
                 <outlet property="insJobEngine" destination="120" id="156"/>
                 <outlet property="insJobPanel" destination="118" id="157"/>
+                <outlet property="lastJobid" destination="znj-d0-FTs" id="6Ty-O0-rE6"/>
                 <outlet property="startStopButtonCommunicationServer" destination="25" id="39"/>
                 <outlet property="startStopButtonScheduler" destination="27" id="38"/>
                 <outlet property="theWindow" destination="1" id="62"/>
@@ -384,6 +385,11 @@
                             <action selector="insertJob:" target="-2" id="2q5-fW-WRT"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="1C7D48BD-ED23-4924-9F2C-C5D016912BA3" label="Run Self Tests" paletteLabel="Run Self Tests" tag="-1" image="NSSlideshowTemplate" id="VfL-xv-PMc">
+                        <connections>
+                            <action selector="runAllDefaultEngineTests:" target="XlN-Ej-v9F" id="zGH-ll-cY2"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7Sw-c4-E7f"/>
@@ -393,7 +399,7 @@
                     <toolbarItem reference="xvM-r2-av8"/>
                     <toolbarItem reference="dEF-RB-TIW"/>
                     <toolbarItem reference="TJA-dH-VmA"/>
-                    <toolbarItem reference="GQD-qD-AFH"/>
+                    <toolbarItem reference="VfL-xv-PMc"/>
                     <toolbarItem reference="Jzy-AZ-qpk"/>
                     <toolbarItem reference="CXN-9W-bgR"/>
                     <toolbarItem reference="SYa-Oe-4BL"/>
@@ -413,6 +419,7 @@
                 <outlet property="JobRecordTextViewInputParam" destination="BR0-wQ-SEy" id="SdG-7v-ZDA"/>
                 <outlet property="JobRecordTextViewResult" destination="gma-cC-QPv" id="zpZ-5q-e1P"/>
                 <outlet property="JobRecordWindow" destination="JhV-Rd-B2g" id="Nlu-bR-w2Q"/>
+                <outlet property="OpenDestinationFolder" destination="rgt-bI-Spw" id="WoH-vc-3IQ"/>
                 <outlet property="testTable" destination="74" id="264"/>
             </connections>
         </customObject>
@@ -488,16 +495,17 @@ Gw
             </connections>
         </customObject>
         <window title="Maintenance Tools" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="ZEH-U6-XV7" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="1680" y="929" width="274" height="202"/>
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <rect key="contentRect" x="1680" y="886" width="274" height="248"/>
             <rect key="screenRect" x="1680" y="0.0" width="1920" height="1178"/>
+            <value key="minSize" type="size" width="274" height="248"/>
+            <value key="maxSize" type="size" width="274" height="248"/>
             <view key="contentView" id="Dgs-fX-lzF">
-                <rect key="frame" x="0.0" y="0.0" width="274" height="202"/>
+                <rect key="frame" x="0.0" y="0.0" width="274" height="248"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" id="Z8q-Xx-veM">
-                        <rect key="frame" x="49" y="122" width="178" height="32"/>
+                        <rect key="frame" x="49" y="168" width="178" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Flush Job Database" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="1SB-fh-tWd">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -508,7 +516,7 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="gyk-9f-4fJ">
-                        <rect key="frame" x="49" y="13" width="178" height="32"/>
+                        <rect key="frame" x="49" y="59" width="178" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Flush Engine Log" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jZL-LW-pTQ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -516,7 +524,7 @@ Gw
                         </buttonCell>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="S61-ZL-kD7">
-                        <rect key="frame" x="18" y="158" width="238" height="30"/>
+                        <rect key="frame" x="18" y="204" width="238" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="REFx4 Maintenance" id="ebB-gd-8nT">
                             <font key="font" metaFont="system" size="20"/>
@@ -525,7 +533,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="NwC-g2-0Pn">
-                        <rect key="frame" x="49" y="89" width="178" height="32"/>
+                        <rect key="frame" x="49" y="135" width="178" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Reinstall database" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lGc-CJ-ght">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -536,12 +544,23 @@ Gw
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" id="WDJ-Ot-ul9">
-                        <rect key="frame" x="49" y="46" width="178" height="32"/>
+                        <rect key="frame" x="49" y="92" width="178" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Flush COM Server Log" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f7t-2f-sGa">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                    </button>
+                    <button verticalHuggingPriority="750" id="haF-hs-osR">
+                        <rect key="frame" x="49" y="13" width="178" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Set Last Jobs ID" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Dcp-th-fyT">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="makeKeyAndOrderFront:" target="msB-v8-am7" id="kyY-2v-LDP"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
@@ -745,6 +764,58 @@ Gw
                             </tabViewItem>
                         </tabViewItems>
                     </tabView>
+                    <button verticalHuggingPriority="750" id="rgt-bI-Spw">
+                        <rect key="frame" x="412" y="342" width="155" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Destination Folder" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hgs-6l-F8u">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="openDestinationFolderAction:" target="99" id="L5i-yF-ReU"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+        </window>
+        <window title="Set Last jobID" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="msB-v8-am7" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="249" y="988" width="271" height="113"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <view key="contentView" id="fjE-Ht-8Si">
+                <rect key="frame" x="0.0" y="0.0" width="271" height="113"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" id="ywi-cf-s2T">
+                        <rect key="frame" x="159" y="5" width="103" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Set LastID" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="KPz-co-rOB">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="setLastJobId:" target="-2" id="RSr-OE-sbG"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="znj-d0-FTs">
+                        <rect key="frame" x="10" y="11" width="142" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="aVG-gR-eeF">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="TyZ-Zd-Dvp">
+                        <rect key="frame" x="12" y="52" width="252" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="You can set the last JobID to a number higher number then the current last jobID." id="4gX-lv-UF6">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
         </window>
@@ -754,6 +825,7 @@ Gw
         <image name="MaintenanceTemplate" width="40" height="40"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSRefreshTemplate" width="10" height="12"/>
+        <image name="NSSlideshowTemplate" width="17" height="14"/>
         <image name="REFxLogo-refx4" width="400" height="400"/>
         <image name="ToolbarCreateTemplate" width="32" height="32"/>
         <image name="ToolbarInfoTemplate" width="40" height="40"/>

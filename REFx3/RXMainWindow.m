@@ -20,6 +20,7 @@
 @synthesize startStopButtonScheduler;
 @synthesize jobMgrView;
 @synthesize theWindow;
+@synthesize lastJobid;
 
 - (id) initWithWindowNibName:(NSString *)windowNibName
 {
@@ -53,7 +54,7 @@
     
     // TRY TO FIX THE MISSING ENGINES BUG AFTER APPLICATION LOAD
     //[self.theEngineListingController reloadEngines:self];
-    NSLog(@"loadEngineProblem 1");
+    //NSLog(@"loadEngineProblem 1");
 }
 
 
@@ -61,7 +62,6 @@
 
     NSString * rootdirectory = [[[NSApp delegate] refxInstance ] railRootDir ];
     NSLog(@"rootdir: %@",rootdirectory);
-    //[logController setRailsRootDir: rootdirectory];
 }
 
 
@@ -72,9 +72,7 @@
     [_insJobPanel orderOut:sender];
     NSLog(@"%@ %@",engine,body);
 
-    [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engine body:body];
-    
-    [self refreshJobmanagerView];
+    int newid = [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engine body:body];
 }
 
 - (void)startStopActionScheduler:(id)sender
@@ -113,7 +111,6 @@
     [[NSApp delegate] reinstallDatabase];
 }
 
-
 - (IBAction)openLogWindow:(id)sender
 {
     [[NSApp delegate] showLogWindow:sender];
@@ -135,10 +132,13 @@
 
 - (IBAction)openTestJobsFolder:(id)sender
 {
-    //NSString *fullPathString = [[NSApp delegate] testFolderPath] ;
    [[NSWorkspace sharedWorkspace] selectFile: [[NSApp delegate] testFolderPath] inFileViewerRootedAtPath:[[NSApp delegate] testFolderPath]];
 }
 
+- (IBAction)setLastJobId:(id)sender
+{
+    [[[[NSApp delegate] refxInstance] jobPicker] setJobsLastId:[[self.lastJobid stringValue] integerValue]];
+}
 
 - (void)startStopActionCommunicationServer:(id)sender
 {   
@@ -146,7 +146,7 @@
         
         [[[NSApp delegate] refxInstance ] startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
         
-        [NSThread sleepForTimeInterval:3];        
+        //[NSThread sleepForTimeInterval:3];
     }
     else
     {
@@ -154,8 +154,7 @@
     }
 }
 
-- (void)refreshJobmanagerView {   
-}
+
 
 
 @end

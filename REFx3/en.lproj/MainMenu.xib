@@ -44,9 +44,6 @@
                                     <items>
                                         <menuItem title="Set last jobID" id="557">
                                             <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="makeKeyAndOrderFront:" target="560" id="568"/>
-                                            </connections>
                                         </menuItem>
                                         <menuItem title="Truncate Jobs Database" id="648">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -363,52 +360,7 @@
                 </menuItem>
             </items>
         </menu>
-        <customObject id="494" customClass="REFx3AppDelegate">
-            <connections>
-                <outlet property="lastJobid" destination="564" id="569"/>
-            </connections>
-        </customObject>
+        <customObject id="494" customClass="REFx3AppDelegate"/>
         <customObject id="420" customClass="NSFontManager"/>
-        <window title="Set Last jobID" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="560" customClass="NSPanel">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" utility="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="155" y="745" width="271" height="113"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
-            <view key="contentView" id="561">
-                <rect key="frame" x="0.0" y="0.0" width="271" height="113"/>
-                <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <button verticalHuggingPriority="750" id="562">
-                        <rect key="frame" x="159" y="5" width="103" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Set LastID" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="563">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="setLastJobId:" target="494" id="570"/>
-                        </connections>
-                    </button>
-                    <textField verticalHuggingPriority="750" id="564">
-                        <rect key="frame" x="10" y="11" width="142" height="22"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="565">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="566">
-                        <rect key="frame" x="12" y="52" width="252" height="54"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="You can set the last JobID to a number higher number then the current last jobID." id="567">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                </subviews>
-            </view>
-        </window>
     </objects>
 </document>

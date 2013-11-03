@@ -10,25 +10,28 @@
 #import "EngineData.h"
 #import "EngineTextCell.h"
 #import "REFx3AppDelegate.h"
-#import "EngineWindowController.h"
+#import "RXREFxIntance.h"
+#import "RXJobPicker.h"
 
 @implementation EngineListingController
 @synthesize nsMutaryOfMyData;
 @synthesize nsTableViewObj;
 @synthesize myImageAndTextCelObj;
+@synthesize engineWindow;
 
 - (void) awakeFromNib {
     
     [self loadEngines];
-     NSLog(@"loadEngineProblem 2");
+
+    self.engineWindow = [[EngineWindowController alloc] initWithWindowNibName:@"EngineWindow"];
 }
 
 - (void) loadEngines
 {
-        NSLog(@"loadEngineProblem 3");
     self.nsMutaryOfMyData = [[NSMutableArray alloc] init];
     
     //NSMutableString *eName = [[NSMutableString alloc] init];
+    NSLog(@"engine array %@",[[[NSApp delegate] sharedEngineManager] enginesEnabledArray]);
     
     for (NSString *eName in [[[NSApp delegate] sharedEngineManager] enginesEnabledArray]) {
         
@@ -50,7 +53,82 @@
     
 	NSTableColumn* zTableColumnObj = [[self.nsTableViewObj tableColumns] objectAtIndex:0];
 	[zTableColumnObj setDataCell: self.myImageAndTextCelObj];
+}
 
+- (IBAction)runAllDefaultEngineTests:(id)sender
+{
+    [[[[NSApp delegate] refxInstance] jobPicker] stopREFxLoop];
+    NSInteger testIndex = 0;
+
+    for (NSString *eName in [[[NSApp delegate] sharedEngineManager] enginesEnabledArray])
+    {
+        if([[RXEngineManager sharedEngineManager] engineIsValid:eName])
+        {
+
+            testIndex = 0;
+            for (NSDictionary *dict in [[RXEngineManager sharedEngineManager] engineInfoDict:eName objectForKey:@"testJobs"])
+            {
+                if([dict boolForKey:@"runInSelfTest"])
+                {
+                    NSLog(@"insert selftest for %@ with index %li",eName, testIndex);
+                    NSString *yamlFile =[NSString stringWithFormat:@"%@/%@",[[RXEngineManager sharedEngineManager] pathToEngineResources:eName],[dict objectForKey:@"bodyYaml"]];
+                    NSLog(@"YAMLFILE: %@",yamlFile);
+                    if([[NSFileManager defaultManager] fileExistsAtPath:yamlFile])
+                    {
+                        NSString * yamlbody = [NSString stringWithContentsOfFile:yamlFile
+                                                                   encoding:NSASCIIStringEncoding
+                                                                      error:NULL];
+                        
+                        yamlbody = [yamlbody stringByReplacingOccurrencesOfString:@"<%=JOB_PATH%>"
+                                                                    withString:@"TestJobs/"];
+                        yamlbody = [yamlbody stringByReplacingOccurrencesOfString:@"<%=SOURCE_FILE_DIR%>"
+                                                                       withString:[[NSApp delegate] appSupportPath]];
+                        
+                        int newid = [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:eName body:yamlbody];
+                        NSLog(@"NEWID: %i",newid);
+
+                    }
+       
+                }
+                testIndex ++;
+
+            }
+            
+            //remember all id's
+        
+        }
+    
+    }
+    
+    [[[[NSApp delegate] refxInstance] jobPicker] startREFxLoop];
+
+
+
+}
+
+- (NSString*)stringWithPathRelativeTo:(NSString*)anchorPath {
+    NSArray *pathComponents = [self pathComponents];
+    NSArray *anchorComponents = [anchorPath pathComponents];
+    
+    NSInteger componentsInCommon = MIN([pathComponents count], [anchorComponents count]);
+    for (NSInteger i = 0, n = componentsInCommon; i < n; i++) {
+        if (![[pathComponents objectAtIndex:i] isEqualToString:[anchorComponents objectAtIndex:i]]) {
+            componentsInCommon = i;
+            break;
+        }
+    }
+    
+    NSUInteger numberOfParentComponents = [anchorComponents count] - componentsInCommon;
+    NSUInteger numberOfPathComponents = [pathComponents count] - componentsInCommon;
+    
+    NSMutableArray *relativeComponents = [NSMutableArray arrayWithCapacity:
+                                          numberOfParentComponents + numberOfPathComponents];
+    for (NSInteger i = 0; i < numberOfParentComponents; i++) {
+        [relativeComponents addObject:@".."];
+    }
+    [relativeComponents addObjectsFromArray:
+     [pathComponents subarrayWithRange:NSMakeRange(componentsInCommon, numberOfPathComponents)]];
+    return [NSString pathWithComponents:relativeComponents];
 }
 
 - (IBAction)reloadEngines:(id)sender
@@ -61,6 +139,7 @@
 
 -(void) doubleClickInTableView:(id)sender
 {
+    
     NSInteger row = [nsTableViewObj clickedRow];
     NSInteger column = [nsTableViewObj clickedColumn];
     //NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]);
@@ -68,9 +147,12 @@
     //test if engine exist
     if([[RXEngineManager sharedEngineManager] engineIsValid:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]])
     {
-        EngineWindowController *engineWindow = [[EngineWindowController alloc] initWithWindowNibName:@"EngineWindow"];
-        [engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
-        [engineWindow showWindow:self];
+        //close existing
+        NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]);
+ 
+        [self.engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
+        [self.engineWindow reinitWindow];
+        [self.engineWindow showWindow:self];
     }
 }
 

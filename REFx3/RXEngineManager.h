@@ -30,6 +30,8 @@
 - (BOOL)engineIsValid:(NSString *)anEngine;
 - (id)engineInfoDict:(NSString*)anEngine objectForKey:(NSString*)key;
 - (NSString *)pathToEngineRunner;
+-(void)insertTestJobFor:(NSString*)engine withIndex:(NSInteger)testIndex;
+
 
 
 @end

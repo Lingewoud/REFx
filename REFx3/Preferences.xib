@@ -143,6 +143,12 @@
                                     </subviews>
                                 </view>
                             </tabViewItem>
+                            <tabViewItem label="Self Test" identifier="" id="wAJ-5v-5wo">
+                                <view key="view" id="vHA-lA-qXG">
+                                    <rect key="frame" x="10" y="33" width="420" height="229"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                            </tabViewItem>
                             <tabViewItem label="Development" identifier="2" id="38">
                                 <view key="view" id="39">
                                     <rect key="frame" x="10" y="33" width="420" height="229"/>

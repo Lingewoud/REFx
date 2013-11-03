@@ -34,10 +34,26 @@
 
          
          [self populateTableAndBuffer];
-         [self startAutoUpdateTable];
+         //[self startAutoUpdateTable];
+         [self startListeningFileChanges];
 
     }
      return (self);
+}
+
+- (void)startListeningFileChanges
+{
+    NSLog(@"JobsView: Starting listening for changes in %@",dbPath);
+    
+    VDKQueue *queue = [VDKQueue new];
+    [queue addPath: dbPath notifyingAbout:VDKQueueNotifyAboutWrite];
+    [queue setDelegate:self];
+}
+
+-(void) VDKQueue:(VDKQueue *)queue receivedNotification:(NSString*)noteName forPath:(NSString*)fpath
+{
+    //NSLog(@"Database was update, so we update the table view");
+    [self populateTableAndBuffer];
 }
 
 - (void) awakeFromNib {
@@ -50,14 +66,9 @@
 {
     [self viewBody:sender];
 
-    //NSInteger row = [testTable clickedRow];
-    //NSInteger column = [testTable clickedColumn];
     NSLog(@"open record view");
     
-    //EngineWindowController *engineWindow = [[EngineWindowController alloc] initWithWindowNibName:@"EngineWindow"];
-    
-    //[engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
-    //[engineWindow showWindow:self];
+
 }
 
 - (void)startAutoUpdateTable
@@ -113,34 +124,67 @@
             [JobRecordTextFieldPriority setStringValue:[rs stringForColumn:@"priority"]];
             [JobRecordTextFieldAttempts setStringValue:[rs stringForColumn:@"attempt"]];
             [JobRecordTextFieldStatus setStringValue:[rs stringForColumn:@"status"]];
-            [JobRecordTextFieldLastUpdate setStringValue:[rs stringForColumn:@"updated_at"]];
+            if([rs stringForColumn:@"updated_at"])
+            {
+                [JobRecordTextFieldLastUpdate setStringValue:[rs stringForColumn:@"updated_at"]];
+            }
+            else
+            {
+                [JobRecordTextFieldLastUpdate setStringValue:@"-"];
+            }
         }
         
         NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
-        if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0)
-
-        if([rs stringForColumn:@"body"])
+        if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] > 0)
         {
-            [[[JobRecordTextViewInputParam textStorage] mutableString] setString: [rs stringForColumn:@"body"]];
-   
-            NSDictionary *yaml = [YAMLSerialization objectWithYAMLString: [rs stringForColumn:@"body"]
-                                                      options: kYAMLReadOptionStringScalars
-                                                        error: nil];
-            
-            if([yaml isKindOfClass:[NSDictionary class]])
+
+            if([rs stringForColumn:@"body"])
             {
-                // Dump Objective-C object description.
-                //printf("%s", [[yaml description] UTF8String]);
+                [[[JobRecordTextViewInputParam textStorage] mutableString] setString: [rs stringForColumn:@"body"]];
+                
+                NSDictionary *yaml = [YAMLSerialization objectWithYAMLString: [rs stringForColumn:@"body"]
+                                                                     options: kYAMLReadOptionStringScalars
+                                                                       error: nil];
+                
+                if([yaml isKindOfClass:[NSDictionary class]])
+                {
+                    // Dump Objective-C object description.
+                    //printf("%s", [[yaml description] UTF8String]);
+                    
+                    [JobRecordTextFieldMethod setStringValue:[yaml objectForKey:@"method"]];
+                    //printf("%s", [[[yaml objectForKey:@"init_args"] description] UTF8String]);
+                    //NSLog(@"%@",[[[yaml objectForKey:@"init_args"] objectAtIndex:0] objectForKey:@"value"]);
+                    
+                    NSString *absoluteOutputBasePath = [[[[yaml objectForKey:@"init_args"] objectAtIndex:0]
+                                                        objectForKey:@"value"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    
+                    NSString *relativeDestinationPath = [[[[yaml objectForKey:@"init_args"] objectAtIndex:2]
+                                                          objectForKey:@"value"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    
+                    //NSString *relativeSourceFilePath = [[[yaml objectForKey:@"init_args"] objectAtIndex:1] objectForKey:@"value"];
+                    NSString *jobidPath = [NSString stringWithFormat:@"%@/",[rs stringForColumn:@"id"]];
+                    self.absoluteDestinationPath = [NSString stringWithString: [[absoluteOutputBasePath stringByAppendingPathComponent:relativeDestinationPath] stringByAppendingPathComponent:jobidPath]];
+                    
+                    if([[NSFileManager defaultManager] fileExistsAtPath:_absoluteDestinationPath]){
+                        //NSLog(@"absoluteDestinationPath: %@",_absoluteDestinationPath);
 
-                [JobRecordTextFieldMethod setStringValue:[yaml objectForKey:@"method"]];
+                        [OpenDestinationFolder setEnabled:YES];
+                    }
+                    else
+                    {
+                        NSLog(@"absoluteDestinationPath: %@",_absoluteDestinationPath);
+                        [OpenDestinationFolder setEnabled:NO];
+                    }
+                }
+                else
+                {
+                    [JobRecordTextFieldMethod setStringValue:@"-"];
+                }
             }
-            else{
-                [JobRecordTextFieldMethod setStringValue:@"-"];
+            else
+            {
+                [[[JobRecordTextViewInputParam textStorage] mutableString] setString: @""];
             }
-        }
-        else
-        {
-            [[[JobRecordTextViewInputParam textStorage] mutableString] setString: @""];
         }
         
         if([rs stringForColumn:@"returnbody"])
@@ -155,6 +199,14 @@
     [db close];
         
 	[JobRecordWindow makeKeyAndOrderFront:self];
+}
+
+- (IBAction)openDestinationFolderAction:(id)sender{
+    //NSLog(@"absPath %@",self.absoluteDestinationPath);
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:self.absoluteDestinationPath]){
+            [[NSWorkspace sharedWorkspace] selectFile:self.absoluteDestinationPath inFileViewerRootedAtPath:self.absoluteDestinationPath];
+    }
 }
 
 

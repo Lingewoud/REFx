@@ -22,7 +22,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		3E0A80A614EE847C00D9FBAA /* refx.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E0A80A514EE847C00D9FBAA /* refx.icns */; };
 		3E13D001144CA55B00523A5E /* RXREFxIntance.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E13D000144CA55B00523A5E /* RXREFxIntance.m */; };
 		3E3787B71816FA79000FD48F /* EngineTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787B21816FA79000FD48F /* EngineTextCell.m */; };
 		3E3787B81816FA79000FD48F /* EngineListingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787B41816FA79000FD48F /* EngineListingController.m */; };
@@ -66,8 +65,6 @@
 		3E57556B181D605E006FDAEB /* LogViewTemplate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E57556A181D605E006FDAEB /* LogViewTemplate@2x.png */; };
 		3E575574181DAF23006FDAEB /* refx4icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3E575573181DAF23006FDAEB /* refx4icon.icns */; };
 		3E575576181DAFA8006FDAEB /* REFxLogo-refx4.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E575575181DAFA8006FDAEB /* REFxLogo-refx4.png */; };
-		3E615FFC14EE968A0054898D /* REFxAppBg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3E615FFB14EE968A0054898D /* REFxAppBg.jpg */; };
-		3E61600014EE986E0054898D /* REFxLogoApp.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E615FFF14EE986E0054898D /* REFxLogoApp.png */; };
 		3E6CBAF0144C72FE00D4105F /* railsTerminator.rb in Resources */ = {isa = PBXBuildFile; fileRef = 3E6CBAEF144C72FE00D4105F /* railsTerminator.rb */; };
 		3E6CBAF2144C733C00D4105F /* noserver.html in Resources */ = {isa = PBXBuildFile; fileRef = 3E6CBAF1144C733C00D4105F /* noserver.html */; };
 		3E9BC4A8144E1CBD00EEBA44 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E9BC4A6144E1CA400EEBA44 /* Security.framework */; };
@@ -118,7 +115,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3E0A80A514EE847C00D9FBAA /* refx.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = refx.icns; path = ../refx.icns; sourceTree = "<group>"; };
 		3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXREFxIntance.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3E13D000144CA55B00523A5E /* RXREFxIntance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXREFxIntance.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3E3787B01815D796000FD48F /* REFx4.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = REFx4.entitlements; sourceTree = SOURCE_ROOT; };
@@ -166,8 +162,6 @@
 		3E57556A181D605E006FDAEB /* LogViewTemplate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LogViewTemplate@2x.png"; sourceTree = "<group>"; };
 		3E575573181DAF23006FDAEB /* refx4icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = refx4icon.icns; sourceTree = "<group>"; };
 		3E575575181DAFA8006FDAEB /* REFxLogo-refx4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "REFxLogo-refx4.png"; sourceTree = "<group>"; };
-		3E615FFB14EE968A0054898D /* REFxAppBg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = REFxAppBg.jpg; sourceTree = "<group>"; };
-		3E615FFF14EE986E0054898D /* REFxLogoApp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = REFxLogoApp.png; sourceTree = "<group>"; };
 		3E6CBAEF144C72FE00D4105F /* railsTerminator.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = railsTerminator.rb; sourceTree = "<group>"; };
 		3E6CBAF1144C733C00D4105F /* noserver.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = noserver.html; sourceTree = "<group>"; };
 		3E9BC4A6144E1CA400EEBA44 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -431,9 +425,6 @@
 				3E3787B01815D796000FD48F /* REFx4.entitlements */,
 				3EC97CA914488BDC00B81F47 /* REFx3.xcdatamodeld */,
 				3E3787BD1816FD6C000FD48F /* engineicon.png */,
-				3E615FFF14EE986E0054898D /* REFxLogoApp.png */,
-				3E615FFB14EE968A0054898D /* REFxAppBg.jpg */,
-				3E0A80A514EE847C00D9FBAA /* refx.icns */,
 				3E6CBAF1144C733C00D4105F /* noserver.html */,
 				3EC97C9914488BDB00B81F47 /* REFx4-Info.plist */,
 				3EC97C9A14488BDB00B81F47 /* InfoPlist.strings */,
@@ -558,11 +549,8 @@
 				3E6CBAF2144C733C00D4105F /* noserver.html in Resources */,
 				3EA987A3144F49F0001A296B /* REFx-rails-framework in Resources */,
 				3E575574181DAF23006FDAEB /* refx4icon.icns in Resources */,
-				3E0A80A614EE847C00D9FBAA /* refx.icns in Resources */,
 				3E57555B181D5E4B006FDAEB /* MaintenanceTemplate@2x.png in Resources */,
-				3E615FFC14EE968A0054898D /* REFxAppBg.jpg in Resources */,
 				3E57556B181D605E006FDAEB /* LogViewTemplate@2x.png in Resources */,
-				3E61600014EE986E0054898D /* REFxLogoApp.png in Resources */,
 				3E575561181D5E70006FDAEB /* ToolbarCreateTemplate@2x.png in Resources */,
 				3E5754E2181C758F006FDAEB /* logview.png in Resources */,
 				3E575576181DAFA8006FDAEB /* REFxLogo-refx4.png in Resources */,

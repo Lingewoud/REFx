@@ -7,8 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-//@class MyNSCell;
+#import "EngineWindowController.h"
+
 @class EngineTextCell;
+//@class EngineWindowController;
+
 
 
 @interface EngineListingController : NSObject {
@@ -21,6 +24,8 @@
 @property (assign) NSMutableArray * nsMutaryOfMyData;
 @property (assign) EngineTextCell * myImageAndTextCelObj;
 @property (assign) IBOutlet NSTableView * nsTableViewObj;
+@property (retain) EngineWindowController *engineWindow;
+
 
 //- (IBAction)tableViewSelected:(id)sender;
 
@@ -28,6 +33,8 @@
 - (IBAction)addToEndOfTable:(id)pId;
 - (IBAction)removeCellAtSelectedRow:(id)sender;
 - (IBAction)reloadEngines:(id)sender;
+- (IBAction)runAllDefaultEngineTests:(id)sender;
+
 
 
 @end

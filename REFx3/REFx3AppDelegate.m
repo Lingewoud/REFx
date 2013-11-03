@@ -17,7 +17,6 @@
 
 @synthesize mainWindow;
 @synthesize mainWindowController;
-@synthesize lastJobid;
 @synthesize preferencesController;
 @synthesize refxInstance;
 @synthesize LogWindowController;
@@ -116,15 +115,12 @@
     [refxInstance createDatabasesForceIfExist:YES];
 }
 
-- (void)refreshJobMgr{
-    [mainWindowController refreshJobmanagerView];    
+/*- (void)refreshJobMgr{
+    //[mainWindowController refreshJobmanagerView];
 }
+*/
 
-- (IBAction)setLastJobId:(id)sender
-{   
-    [refxInstance.jobPicker setJobsLastId:[[lastJobid stringValue] integerValue]];
-    [mainWindowController refreshJobmanagerView];
-}
+
 
 - (NSString *)appSupportPath
 {

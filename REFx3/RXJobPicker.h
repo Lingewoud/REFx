@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #include <sqlite3.h>
+#import "VDKQueue.h"
 
-@interface RXJobPicker : NSObject {
+@interface RXJobPicker : NSObject <VDKQueueDelegate> {
 
-    NSTimer *refxTimer;
     BOOL jobRunning;
+    BOOL loopIsEnabled;
     NSString* railsRootDir;
     NSString* railsDbPath;
     NSString* railsEnvironment;
@@ -22,6 +23,8 @@
     
 
 }
+@property (retain) NSTimer *refxTimer;
+
 
 
 - (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env;
@@ -32,10 +35,12 @@
 - (void) flushAllJobs;
 - (void) startREFxLoop;
 - (void) stopREFxLoop;
+- (void) startREFxLoopAction;
+- (void) stopREFxLoopAction;
 - (void) setJobsLastId:(NSInteger)rowId;
 - (BOOL) openDatabase;
 - (void) closeDatabase;
-- (void) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
+- (int) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
 
 
 

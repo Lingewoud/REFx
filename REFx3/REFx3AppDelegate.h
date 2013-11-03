@@ -23,7 +23,6 @@
 }
 
 @property (assign) IBOutlet NSWindow *mainWindow;
-@property (assign) IBOutlet NSTextField *lastJobid;
 @property (retain) RXMainWindow* mainWindowController;
 @property (retain) PreferencesController *preferencesController;
 @property (retain) RXLogWindowController *LogWindowController;
@@ -37,14 +36,13 @@
 
 -(IBAction)showLogWindow:(id)sender;
 - (IBAction)saveAction:(id)sender;
-- (IBAction)setLastJobId:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 
 -(void)flushRailsLogs;
 -(void)flushEngineLogs;
 
 
-- (void)refreshJobMgr;
+//- (void)refreshJobMgr;
 
 - (NSString *)appSupportPath;
 - (NSString *)sqlLitePath;

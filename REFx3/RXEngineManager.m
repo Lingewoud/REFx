@@ -7,6 +7,7 @@
 //
 
 #import "RXEngineManager.h"
+#import "RXREFxIntance.h"
 
 @implementation RXEngineManager
 
@@ -65,7 +66,7 @@
 
 - (NSMutableArray *) enginesEnabledArray
 {    
-    NSFileManager *filemgr;
+  //  NSFileManager *filemgr;
     NSMutableArray *enginesList;
     NSArray *enginesFileList;
     
@@ -101,7 +102,6 @@
     NSString *path = [[[RXEngineManager sharedEngineManager] pathToEngineContents:anEngine] stringByAppendingPathComponent:@"Info.plist"];
     NSMutableDictionary *engineDictPlist =[[NSMutableDictionary alloc] initWithContentsOfFile:path];
     
-    //NSLog(@"dic for key %@ :%@",key, [engineDictPlist objectForKey:key]);
     return [engineDictPlist objectForKey:key];
 }
 
@@ -147,6 +147,83 @@
 {
     NSString * engineContentsPath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/",[self engineDirectoryPath],anEngine];
     return engineContentsPath;
+}
+
+
+-(void)insertTestJobFor:(NSString*)engine withIndex:(NSInteger)testIndex
+{
+    bool cancelOperation = NO;
+    
+    RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
+    
+    NSString *railsEnvironment = [[[NSApp delegate] refxInstance] getRailsEnvironment];
+    NSString *enginePath = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/main.rb", [sharedEngineManager engineDirectoryPath],engine];
+    NSString *engineDir = [NSString stringWithFormat:@"%@/%@.bundle/Contents/Resources/", [sharedEngineManager engineDirectoryPath],engine];
+    NSString *runnerPath = [sharedEngineManager pathToEngineRunner];
+    
+    NSMutableArray * args = [NSMutableArray arrayWithObjects: runnerPath, @"-t",engine, @"--environment",railsEnvironment, nil];
+    
+    if(testIndex > 0 ){
+        [args addObject:@"-i"];
+        [args addObject:[NSString stringWithFormat:@"%li", testIndex]];
+    }
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
+    {
+        [args addObject:@"-d"];
+    }
+    
+    NSMutableArray* testArr = [[RXEngineManager sharedEngineManager] engineInfoDict:engine objectForKey:@"testJobs"];
+    NSMutableDictionary * testDict = [testArr objectAtIndex:testIndex];
+    NSLog(@"dict:%@",testDict);
+    
+    if ([[testDict objectForKey:@"needSourceFile"] intValue] != 0 ) {
+        
+        NSLog(@"Open input file handler");
+        int i; // Loop counter.
+        
+        NSOpenPanel* openDlg = [NSOpenPanel openPanel];
+        [openDlg setCanChooseFiles:YES];
+        [openDlg setCanChooseDirectories:NO];
+        [openDlg setAllowsMultipleSelection:NO];
+        
+        NSString* fileName;
+        
+        if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
+        {
+            // Get an array containing the full filenames of all
+            // files and directories selected.
+            NSArray* files = [openDlg filenames];
+            
+            // Loop through all the files and process them.
+            for( i = 0; i < [files count]; i++ )
+            {
+                fileName = [files objectAtIndex:i];
+            }
+            NSLog(@"filename %@",fileName);
+            
+            [args addObject:@"-f"];
+            [args addObject:fileName];
+        }
+        else
+        {
+            NSLog(@"what to do when no file was given?");
+            cancelOperation = YES;
+        }
+    }
+    
+    if(cancelOperation == NO)
+    {
+        NSLog(@"args: %@",args);
+        
+        NSTask *rubyJobProcess = [[NSTask alloc] init];
+        
+        [rubyJobProcess setCurrentDirectoryPath:engineDir];
+        [rubyJobProcess setLaunchPath: enginePath];
+        [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
+        [rubyJobProcess setArguments: args];
+        [rubyJobProcess waitUntilExit];
+        [rubyJobProcess launch];
+    }
 }
 
 
