@@ -24,6 +24,7 @@
 
 }
 @property (retain) NSTimer *refxTimer;
+@property (retain) NSTimer *refxSafetyTimer;
 
 
 

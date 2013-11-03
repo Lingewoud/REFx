@@ -14,6 +14,8 @@
 
 @implementation RXJobPicker
 @synthesize refxTimer;
+@synthesize refxSafetyTimer;
+
 - (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env
 {
     self = [super init];
@@ -30,6 +32,10 @@
     }
     
     self.refxTimer = [[NSTimer alloc] init];
+    
+    self.refxSafetyTimer = [[NSTimer alloc] init];
+    [self startREFxSafetyTimer];
+
 
     return self;
 }
@@ -100,6 +106,16 @@
 
 }
 
+- (void)startREFxSafetyTimer
+{
+    NSLog(@"start safety time...");
+    self.refxSafetyTimer = [NSTimer scheduledTimerWithTimeInterval: 60.0
+                                                      target: self
+                                                    selector: @selector(startLoopIfEnabledAndOpenJobs)
+                                                    userInfo: nil
+                                                     repeats: YES];
+}
+
 - (void)startREFxLoopAction
 {
     NSLog(@"start scheduler...");
@@ -126,10 +142,6 @@
     if([rubyJobProcess isRunning])
     {
         return;
-    }
-    else
-    {
-        //[rubyJobProcess release];
     }
     
     int jobid = [self selectJob];
@@ -277,10 +289,14 @@
         int result = sqlite3_step(statement);
         if(result == SQLITE_ROW)
         {
+            NSLog(@"find open jobs");
+
             ret = sqlite3_column_int(statement, 0);
         }
         else
         {
+            NSLog(@"Could not find open jobs, but there could be some");
+
             ret = 0;
         }
     }
@@ -305,7 +321,8 @@
     }
     
     sqlite3_stmt    *statement;
-    
+    NSLog(@"Find open jobs");
+
     NSString *sql = @"SELECT id, attempt FROM jobs WHERE status > 0 AND status < 10 ORDER BY jobs.priority DESC LIMIT 1";
     const char *query_stmt = [sql UTF8String];
     
@@ -317,6 +334,8 @@
         int result = sqlite3_step(statement);
         if(result == SQLITE_ROW)
         {
+            NSLog(@"I guest I found open jobs");
+
             ret = sqlite3_column_int(statement, 0);
             attempt = sqlite3_column_int(statement,1);
             
@@ -336,10 +355,6 @@
                 return ret;
             }
         }
-        /*else
-        {
-            ret = 0;
-        }*/
     }
     else
     {
