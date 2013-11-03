@@ -1,6 +1,6 @@
 //
 //  RXJobPicker.m
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -9,51 +9,127 @@
 #import "RXJobPicker.h"
 #import "RXRailsController.h"
 #import "REFx3AppDelegate.h"
-//#import "YAML/YAMLSerialization.h"
+#import "RXEngineManager.h"
+
 
 @implementation RXJobPicker
-
+@synthesize refxTimer;
 - (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env
 {
     self = [super init];
     if (self) {
         NSLog(@"init jobpicker");
 
+        loopIsEnabled = NO;
         railsDbPath = dbPath;
         [self openDatabase];
         railsRootDir = dir;
         railsEnvironment = env;
+        [self startLoopIfEnabledAndOpenJobs];
+        [self startListeningFileChanges];
     }
     
+    self.refxTimer = [[NSTimer alloc] init];
+
     return self;
 }
 
+- (void)startListeningFileChanges
+{
+    NSLog(@"Starting listening for changes in %@",railsDbPath);
+    
+    VDKQueue *queue = [VDKQueue new];
+    [queue addPath: railsDbPath notifyingAbout:VDKQueueNotifyAboutWrite];
+    [queue setDelegate:self];
+}
+
+-(void) VDKQueue:(VDKQueue *)queue receivedNotification:(NSString*)noteName forPath:(NSString*)fpath
+{
+    NSLog(@"Database was update, so we update the table view");
+    [self startLoopIfEnabledAndOpenJobs];
+}
+
+-(void) startLoopIfEnabledAndOpenJobs
+{
+    //if the scheduler is enabled and the their are open jobs then rjun the loop
+    if(loopIsEnabled){
+        NSLog(@"Loop is enabled");
+        if([self numberOpenJobs] > 0)
+        {
+            if(![self.refxTimer isValid])
+           {
+               NSLog(@"There are open jobs, we start the loop");
+               [self startREFxLoopAction];
+           
+           }
+           else{
+               //NSLog(@"A timer is already running, we stop the loop");
+
+               //[self stopREFxLoopAction];
+           
+           }
+        }
+        else
+        {
+               NSLog(@"There are no open jobs, we stop the loop");
+            [self stopREFxLoopAction];
+        }
+    }
+    else
+    {
+        [self stopREFxLoopAction];
+    }
+    //else we stop the loop
+}
 
 
 - (void)startREFxLoop
 {
+    NSLog(@"set scheduler enabled");
+
+    loopIsEnabled = YES;
+    [self startLoopIfEnabledAndOpenJobs];
+}
+
+- (void)stopREFxLoop
+{
+    NSLog(@"set scheduler disabled");
+    
+    loopIsEnabled = NO;
+    [self startLoopIfEnabledAndOpenJobs];
+
+}
+
+- (void)startREFxLoopAction
+{
     NSLog(@"start scheduler...");
-    refxTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
+    self.refxTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0
                                                  target: self
                                                selector: @selector(loopSingleAction)
                                                userInfo: nil
                                                 repeats: YES];
 }
 
-- (void)stopREFxLoop
+- (void)stopREFxLoopAction
 {
-    NSLog(@"stop scheduler...");
-    [refxTimer invalidate];
-    
+    NSLog(@"stop scheduler... ");
+    if([self.refxTimer isValid])
+    {
+        [self.refxTimer invalidate];
+        self.refxTimer = nil;
+    }
 }
 
-- (void)loopSingleAction;
+- (void)loopSingleAction
 {
-//    NSLog(@"loop single action");
-    
+    NSLog(@"Find new job");
     if([rubyJobProcess isRunning])
     {
         return;
+    }
+    else
+    {
+        //[rubyJobProcess release];
     }
     
     int jobid = [self selectJob];
@@ -61,48 +137,57 @@
     if(jobid != 0 && jobRunning == NO)
     {
         jobRunning = YES;
-
+        
         NSLog(@"DISPATCHING JOBID %i",jobid);
-        
+        [self setJobId:jobid status:2];
         NSString *jobidString = [NSString stringWithFormat:@"%i",jobid];
-        NSString *railsCommand = [NSString stringWithFormat:@"%@/script/runner", railsRootDir];
-        rubyJobProcess = [[NSTask alloc] init];    
         
-        [rubyJobProcess setCurrentDirectoryPath:railsRootDir];
-        [rubyJobProcess setLaunchPath: railsCommand];
+        NSString * engine = [self getJobEngine:jobid];
+        
+        RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
+
+        NSString *engineDir = [sharedEngineManager pathToEngineResources:engine];
+        NSString *enginePath = [NSString stringWithFormat:@"%@main.rb", [sharedEngineManager pathToEngineResources:engine]];
+        NSString *runnerPath = [sharedEngineManager pathToEngineRunner];
+
+        rubyJobProcess = [[NSTask alloc] init];
+        
+        [rubyJobProcess setCurrentDirectoryPath:engineDir];
+        [rubyJobProcess setLaunchPath: enginePath];
+        
+        [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
+
+        NSMutableArray * args = [NSMutableArray arrayWithObjects:
+                          runnerPath,
+                          @"-j",jobidString,
+                          @"--environment",railsEnvironment,
+                          nil];
+        
+
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
-            NSLog(@"REFx3: debugmode on");
-            [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",
-                                           @"-j",jobidString,
-                                           @"-d",
-                                           @"--environment",railsEnvironment,
-                                           nil]];
+            [args addObject:@"-d"];
         }
-        else{
-            [rubyJobProcess setArguments: [NSArray arrayWithObjects:@"lib/refxJobWrapper.rb",
-                                           @"-j",jobidString,
-                                           @"--environment",railsEnvironment,
-                                           nil]];
+        
+        if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] > 0 && [[NSUserDefaults standardUserDefaults] integerForKey:@"disableMaxAttempts"]==0){
+            [args addObject:@"-m"];
+            [args addObject:[NSString stringWithFormat:@"%li", [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] ]];
         }
-        [rubyJobProcess launch];
         
-        //[rubyJobProcess waitUntilExit];
-        /*int status = [rubyJobProcess terminationStatus];
+        [rubyJobProcess setArguments:args];
         
-        if (status == 0)
-            NSLog(@"Task succeeded.");
-        else
-            NSLog(@"Task failed.");
-        */
-        //[rubyJobProcess release];
+        @try {
+            [rubyJobProcess launch];
+        }
+        @catch (NSException *exception) {
+            //increase attempt
+            [self setJobId:jobid status:67];
+            NSLog(@"Problem Running Task: %@", [exception description]);
+        }
         
-        NSLog(@"Return from JOBID %i",jobid);
-         
-        jobRunning = NO;    
+        
+        jobRunning = NO;
     }
-    
-    
 }
 
 -(BOOL)openDatabase
@@ -132,26 +217,60 @@
     dbOpened = NO;
 }
 
-
--(int)selectJob
+-(NSString *) getJobEngine:(int)jobId
 {
     if(!dbOpened)
     {
         NSLog(@"Database connection is lost. Trying to re-open");
-
+        
         [self openDatabase];
-        return NO;   
+        return NO;
     }
-    
-    //NSLog(@"select new job");
     
     sqlite3_stmt    *statement;
     
-    NSString *sql = @"SELECT id,priority,engine,body,status,max_attempt,attempt,returnbody FROM jobs WHERE status > 0 AND status < 10 ORDER BY jobs.priority DESC LIMIT 1";
+    NSString *sql = [NSString stringWithFormat: @"SELECT engine FROM jobs WHERE id = %i", jobId];
+    const char *query_stmt = [sql UTF8String];
+    
+    NSString *ret = nil;
+    
+    if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+    {
+        int result = sqlite3_step(statement);
+        if(result == SQLITE_ROW)
+        {
+            ret = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
+        }
+
+    }
+    else
+    {
+        NSLog(@"sqlite problem: %@", sql);
+    }
+    
+    sqlite3_finalize(statement);
+    
+    return ret;
+
+}
+
+-(int)numberOpenJobs
+{
+    if(!dbOpened)
+    {
+        NSLog(@"Database connection is lost. Trying to re-open");
+        
+        [self openDatabase];
+        return NO;
+    }
+    
+    sqlite3_stmt    *statement;
+    
+    NSString *sql = @"SELECT count(id) as numopenjobs FROM jobs WHERE status > 0 AND status < 10";
     const char *query_stmt = [sql UTF8String];
     
     int ret;
-    //ret = 0;    
+    ret = 0;
     
     if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
     {
@@ -175,9 +294,65 @@
     return ret;
 }
 
+-(int)selectJob
+{
+    if(!dbOpened)
+    {
+        NSLog(@"Database connection is lost. Trying to re-open");
+
+        [self openDatabase];
+        return NO;   
+    }
+    
+    sqlite3_stmt    *statement;
+    
+    NSString *sql = @"SELECT id, attempt FROM jobs WHERE status > 0 AND status < 10 ORDER BY jobs.priority DESC LIMIT 1";
+    const char *query_stmt = [sql UTF8String];
+    
+    int ret;
+    ret = 0;
+    int attempt;
+    if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
+    {
+        int result = sqlite3_step(statement);
+        if(result == SQLITE_ROW)
+        {
+            ret = sqlite3_column_int(statement, 0);
+            attempt = sqlite3_column_int(statement,1);
+            
+            if([[NSUserDefaults standardUserDefaults] integerForKey:@"disableMaxAttempts"]==0)
+            {
+                if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] > 0 && [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] < attempt)
+                {
+                    sqlite3_finalize(statement);
+                    [self setJobId:ret status:67];
+                    return 0;
+                }
+            }
+            else
+            {
+                sqlite3_finalize(statement);
+
+                return ret;
+            }
+        }
+        /*else
+        {
+            ret = 0;
+        }*/
+    }
+    else
+    {
+        NSLog(@"sqlite problem: %@", sql);
+    }
+    
+    sqlite3_finalize(statement);
+    
+    return ret;
+}
+
 - (void)setJobId:(NSInteger)rowId status:(NSInteger)status
 {
-    return;
     
     if(dbOpened)
     {
@@ -185,7 +360,7 @@
         
         sqlite3_stmt *statement;
         
-        NSString *sql = [NSString stringWithFormat: @"UPDATE jobs SET status = %i WHERE id=%i", status, rowId];
+        NSString *sql = [NSString stringWithFormat: @"UPDATE jobs SET status = %li WHERE id=%li", (long)status, (long)rowId];
         
         const char *query_stmt = [sql UTF8String];
         
@@ -202,7 +377,6 @@
         sqlite3_finalize(statement);
     }    
 }
-
 
 - (void)flushAllJobs {
     if(dbOpened)
@@ -229,23 +403,14 @@
     }    
 }
 
-
-
 - (void) setJobsLastId:(NSInteger)rowId
 {
     if(dbOpened)
     {      
         sqlite3_stmt *statement;
         
-  
-        
-      //  NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,priority,engine,body,status,max_attempt,attempt,returnbody) value(%i,0,'MARKER','MARKER',10,1,1,'MARKER')", rowId];
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,engine,body) values (%i,'MARKER','MARKER');", rowId];  
+        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,engine,body) values (%li,'MARKER','MARKER');", (long)rowId];
 
-        
-     //   NSLog(@"SQL: @%", sql);
-//        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id) values (%i);", rowId];
-        
         const char *query_stmt = [sql UTF8String];
         
         if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
@@ -259,18 +424,18 @@
         }
         
         sqlite3_finalize(statement);
+        
+        //lastInsertRowId
     }    
 
 }
 
 
-- (void) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body
+- (int) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body
 {
     if(dbOpened)
     {
         sqlite3_stmt *statement;
-                
-//        NSString *jobBody = [NSString stringWithFormat: @"%@",body];
         
         NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'%@','%@',1,1,0,'');",engine,body];
         
@@ -288,348 +453,8 @@
         
         sqlite3_finalize(statement);
     }
-}
+    return sqlite3_last_insert_rowid(db);
 
-- (void) insertTestJobSayWhat
-{
-    
-    if(dbOpened)
-    {      
-        sqlite3_stmt *statement;
-        
-        NSString * testJobPath = [[NSApp delegate] testFolderPath];
-        
-        NSString *jobBody = [NSString stringWithFormat: @"---\n"
-                             "init_args: \n"
-                             "  - \n"
-                             "    value: %@\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: Say What? PAS3 says hello.\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: fileadmin/pas3/guidedAssets\n"
-                             "    type: string\n"
-                             "method: say\n"
-                             "method_args: \n"
-                             "  - \n"
-                             "    value: Say What? PAS3 says hello.\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: Victoria\n"
-                             "    type: string\n"
-                             ,testJobPath];
-        
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'P3Saywhat','%@',1,1,0,'');",jobBody];  
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-    }    
-}
-
-
-
-- (void) insertTestJobGenerateIndesignFranchise
-{
-    
-    if(dbOpened)
-    {      
-        sqlite3_stmt *statement;
-        
-        NSString * testJobPath = [[NSApp delegate] testFolderPath];
-        
-        NSString *jobBody = [NSString stringWithFormat: @"---\n"
-                             "init_args: \n"
-                             "  - \n"
-                             "    value: %@\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: >\n"
-                             "      input/pas3visitekaartjeCS4.indd\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: uploads/tx_p3ga\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: Adobe InDesign CS4\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: true\n"
-                             "    type: bool\n"
-                             "method: getFinalPreview\n"
-                             "method_args: \n"
-                             "  - \n"
-                             "    value: >\n"
-                             "      PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRvY3VtZW50IHNwcmVhZF9jb3VudD0iMSIgcGFnZV9jb3VudD0iMSIgaHRtbF9wcmV2PSJ1cGxvYWRzL3R4X3AzZ2EvNDIxL3BhZ2VfMV8xLnBuZyIgPgo8c3ByZWFkcyA+CjxzcHJlYWQyMTUgcGFnZV9jb3VudD0iMSIgaW5kZXg9IjEiIGlkPSIyMTUiID4KPHBhZ2VzID4KPHBhZ2UyMjIgc291cmNlSWQ9IjIyMiIgcHJldmlldz0idXBsb2Fkcy90eF9wM2dhLzQyMS9wYWdlXzFfMS5wbmciIGlkPSIyMjIiIHNpZGU9InNpbmdsZSIgaHRtbF9wcmV2PSJ1cGxvYWRzL3R4X3AzZ2EvNDIxL3BhZ2VfMV8xLnBuZyIgPgo8bGF5ZXJHcm91cHMgPgo8Z3JvdXAwMCA+CjxsYXllcjE2MyBwcmV2aWV3PSJ1cGxvYWRzL3R4X3AzZ2EvNDIxL3BhZ2VfMV8xX2xheWVyMTYzLnBuZyIgbGF5ZXJJRD0iMTYzIiBodG1sX3ByZXY9InVwbG9hZHMvdHhfcDNnYS80MjEvcGFnZV8xXzFfbGF5ZXIxNjMucG5nIiAvPgoKPC9ncm91cDAwPgo8Z3JvdXAwMSA+CjxsYXllcjIxMCBwcmV2aWV3PSJ1cGxvYWRzL3R4X3AzZ2EvNDIxL3BhZ2VfMV8xX2xheWVyMjEwLnBuZyIgbGF5ZXJJRD0iMjEwIiBodG1sX3ByZXY9InVwbG9hZHMvdHhfcDNnYS80MjEvcGFnZV8xXzFfbGF5ZXIyMTAucG5nIiAvPgoKPC9ncm91cDAxPgo8Z3JvdXAwMiA+CjxsYXllcjUzNiBsYXllcklEPSI1MzYiIC8+Cgo8L2dyb3VwMDI+Cgo8L2xheWVyR3JvdXBzPgoKPC9wYWdlMjIyPgoKPC9wYWdlcz4KCjwvc3ByZWFkMjE1PgoKPC9zcHJlYWRzPgoKPC9kb2N1bWVudD4K\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: NewspaperAds_1v4_IND4rini\n"
-                             "    type: string\n",testJobPath];
-        
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'P3Indesignfranchise','%@',1,1,0,'');",jobBody];  
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-    }    
-}
-
-- (void) insertTestJobIndexIndesignFranchiseOpenIndd
-{
-    
-    int i; // Loop counter.
-    
-    // Create the File Open Dialog class.
-    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-    
-    // Enable the selection of files in the dialog.
-    [openDlg setCanChooseFiles:YES];
-    
-    // Enable the selection of directories in the dialog.
-    [openDlg setCanChooseDirectories:NO];
-    [openDlg setAllowsMultipleSelection:NO];
-    
-    NSString* fileName;
-    // Display the dialog.  If the OK button was pressed,
-    // process the files.
-    if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
-    {
-        // Get an array containing the full filenames of all
-        // files and directories selected.
-        NSArray* files = [openDlg filenames];
-        
-        // Loop through all the files and process them.
-        for( i = 0; i < [files count]; i++ )
-        {
-            fileName = [files objectAtIndex:i];
-            
-            // Do something with the filename.
-        }
-    }
-    
-    //NSLog(@"filename %@",fileName);
-    
-    
-    
-    if(dbOpened)
-    {
-        sqlite3_stmt *statement;
-        
-        
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
-        NSString * testJobPath = [fileName stringByDeletingLastPathComponent];
-        
-        if(![fileManager fileExistsAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"]]){
-            
-            [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];
-            //  [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];
-            
-        }
-        [fileManager release];
-        
-        //NSString * testJobPath = [[NSApp delegate] testFolderPath];
-        
-        NSString *jobBody = [NSString stringWithFormat: @"---\n"
-                             "init_args: \n"
-                             "  - \n"
-                             "    value: %@\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: >\n"
-                             "      %@\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: REFx3Jobs\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: Adobe InDesign CS4\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: false\n"
-                             "    type: bool\n"
-                             "method: getXML\n"
-                             "method_args: \n",testJobPath,[fileName lastPathComponent]];
-        
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'P3Indesignfranchise','%@',1,1,0,'');",jobBody];
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-    }    
-}
-
-- (void) insertTestJobIndexIndesignFranchiseOpenInddCS6
-{
-    
-    int i; // Loop counter.
-    
-    // Create the File Open Dialog class.
-    NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-    
-    // Enable the selection of files in the dialog.
-    [openDlg setCanChooseFiles:YES];
-    
-    // Enable the selection of directories in the dialog.
-    [openDlg setCanChooseDirectories:NO];
-    [openDlg setAllowsMultipleSelection:NO];
-    
-    NSString* fileName;
-    // Display the dialog.  If the OK button was pressed,
-    // process the files.
-    if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
-    {
-        // Get an array containing the full filenames of all
-        // files and directories selected.
-        NSArray* files = [openDlg filenames];
-        
-        // Loop through all the files and process them.
-        for( i = 0; i < [files count]; i++ )
-        {
-            fileName = [files objectAtIndex:i];
-            
-            // Do something with the filename.
-        }
-    }
-    
-    //NSLog(@"filename %@",fileName);
-    
-                
-
-    if(dbOpened)
-    {      
-        sqlite3_stmt *statement;
-        
-
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
-        NSString * testJobPath = [fileName stringByDeletingLastPathComponent];
-
-        if(![fileManager fileExistsAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"]]){
-
-            [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];      
-         //  [fileManager createDirectoryAtPath:[testJobPath stringByAppendingString:@"/REFx3Jobs"] withIntermediateDirectories:YES attributes:nil error:nil];      
-
-        }
-        [fileManager release];
-
-        //NSString * testJobPath = [[NSApp delegate] testFolderPath];
-        
-        NSString *jobBody = [NSString stringWithFormat: @"---\n"
-                             "init_args: \n"
-                             "  - \n"
-                             "    value: %@\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: >\n"
-                             "      %@\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: REFx3Jobs\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: Adobe InDesign CS6\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: false\n"
-                             "    type: bool\n"
-                             "method: getXML\n"
-                             "method_args: \n",testJobPath,[fileName lastPathComponent]];
-        
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'P3Indesignfranchise','%@',1,1,0,'');",jobBody];  
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-    }    
-}
-
-
-- (void) insertTestJobIndexIndesignFranchise
-{
-
-    if(dbOpened)
-    {      
-        sqlite3_stmt *statement;
-       
-        NSString * testJobPath = [[NSApp delegate] testFolderPath];
-        
-        NSString *jobBody = [NSString stringWithFormat: @"---\n"
-                             "init_args: \n"
-                             "  - \n"
-                             "    value: %@\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: >\n"
-                             "      input/pas3visitekaartjeCS4.indd\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: uploads/tx_p3ga\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: Adobe InDesign CS4\n"
-                             "    type: string\n"
-                             "  - \n"
-                             "    value: false\n"
-                             "    type: bool\n"
-                             "method: getXML\n"
-                             "method_args: \n",testJobPath];
-        
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'P3Indesignfranchise','%@',1,1,0,'');",jobBody];  
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-    }    
 }
 
 - (void) dealloc {

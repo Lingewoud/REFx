@@ -1,6 +1,6 @@
 //
 //  main.m
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2012 Lingewoud B.V. All rights reserved.

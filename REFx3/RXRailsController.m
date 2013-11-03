@@ -1,6 +1,6 @@
 //
 //  RXRailsController.m
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -21,7 +21,7 @@
     
     if (self) {
         railsRootDirectory = [dir copy];
-        NSLog(@"init railscontroller with dir %@", railsRootDirectory);
+        //NSLog(@"init railscontroller with dir %@", railsRootDirectory);
     }
     
     return self;
@@ -47,9 +47,10 @@
         NSString *railsCommand = [NSString stringWithFormat:@"%@/script/server", railsRootDirectory];
         
         if(![railsPort intValue]) {
-            railsPort = @"3030";
+            NSLog(@"ERROR: No port set");
         }
-        [self setRunningRailsPort:railsPort];
+        
+        runningRailsPort = [NSString stringWithFormat:@"%li", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]];
         
         NSString *railsEnvironment = [NSString stringWithFormat:@"--environment=%@", environment];
 
@@ -57,8 +58,7 @@
         
         [comServerProcess setCurrentDirectoryPath:railsRootDirectory];
         [comServerProcess setLaunchPath: railsCommand];
-        [comServerProcess setArguments: [NSArray arrayWithObjects: @"--port", railsPort,railsEnvironment,nil]];    
-//        [comServerProcess setArguments: [NSArray arrayWithObjects:@"webrick", @"--port", railsPort,nil]];    
+        [comServerProcess setArguments: [NSArray arrayWithObjects: @"webrick", @"--port", railsPort,railsEnvironment,nil]];
         
         comServerRunning = YES;
         [comServerProcess launch];
@@ -69,9 +69,8 @@
 
 // stopComServer stops a RAILS instance at a specific port by calling the terminator script
 - (void)stopComServer
-{
-    NSLog(@"Stopping Rails at port: %@ ...", [self runningRailsPort]);
-    
+{   
+    NSString * railsPort =[NSString stringWithFormat:@"%li", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]];
     NSString *terminatePath = [NSString stringWithFormat:@"%@/Contents/Resources/",[[NSBundle mainBundle] bundlePath]];
     NSLog(@"term path: %@",terminatePath);
     
@@ -82,7 +81,7 @@
     NSTask *terminatebProcess = [[NSTask alloc] init];    
     [terminatebProcess setCurrentDirectoryPath:terminatePath];
     [terminatebProcess setLaunchPath: terminateCommand];
-    [terminatebProcess setArguments: [NSArray arrayWithObjects:@"-p",[self runningRailsPort],nil]];    
+    [terminatebProcess setArguments: [NSArray arrayWithObjects:@"-p",railsPort,nil]];
     [terminatebProcess launch];        
     
     [terminatebProcess waitUntilExit];
@@ -91,8 +90,6 @@
     if (status == 0){
         NSLog(@"Task succeeded.");
         comServerRunning = NO;
-        
-        // TODO STOP MANAGER INTERFACE
     }
     else NSLog(@"Task failed.");
     

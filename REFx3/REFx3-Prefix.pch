@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'REFx3' target in the 'REFx3' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

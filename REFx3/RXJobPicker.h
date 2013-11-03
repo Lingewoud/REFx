@@ -1,6 +1,6 @@
 //
 //  RXJobPicker.h
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #include <sqlite3.h>
+#import "VDKQueue.h"
 
-@interface RXJobPicker : NSObject {
+@interface RXJobPicker : NSObject <VDKQueueDelegate> {
 
-    NSTimer *refxTimer;
     BOOL jobRunning;
+    BOOL loopIsEnabled;
     NSString* railsRootDir;
     NSString* railsDbPath;
     NSString* railsEnvironment;
@@ -22,6 +23,8 @@
     
 
 }
+@property (retain) NSTimer *refxTimer;
+
 
 
 - (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env;
@@ -32,15 +35,12 @@
 - (void) flushAllJobs;
 - (void) startREFxLoop;
 - (void) stopREFxLoop;
+- (void) startREFxLoopAction;
+- (void) stopREFxLoopAction;
 - (void) setJobsLastId:(NSInteger)rowId;
 - (BOOL) openDatabase;
 - (void) closeDatabase;
-- (void) insertTestJobSayWhat;
-- (void) insertTestJobIndexIndesignFranchiseOpenIndd;
-- (void) insertTestJobIndexIndesignFranchiseOpenInddCS6;
-- (void) insertTestJobGenerateIndesignFranchise;
-- (void) insertTestJobIndexIndesignFranchise;
-- (void) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
+- (int) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
 
 
 

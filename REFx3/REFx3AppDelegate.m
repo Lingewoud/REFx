@@ -1,6 +1,6 @@
 //
-//  REFx3AppDelegate.m
-//  REFx3
+//  REFx4AppDelegate.m
+//  REFx4
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -11,33 +11,59 @@
 #import "RXREFxIntance.h"
 #import "RXJobPicker.h"
 #import "RXRailsController.h"
+#import "RXEngineManager.h"
 
 @implementation REFx3AppDelegate
 
 @synthesize mainWindow;
 @synthesize mainWindowController;
-@synthesize lastJobid;
 @synthesize preferencesController;
 @synthesize refxInstance;
-
+@synthesize LogWindowController;
+@synthesize sharedEngineManager;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
-{       
+{
+
+    sharedEngineManager = [[RXEngineManager alloc] init];
+    [sharedEngineManager initEngineDirectory];
+    
+    NSLog(@"Starting Application with DBPATH: %@",[self sqlLitePath]);
+    
     if (![refxInstance isKindOfClass:[RXREFxIntance class]]) {
         refxInstance = [[RXREFxIntance alloc] init];
     }
     
     self.mainWindowController = [[RXMainWindow alloc] initWithWindowNibName:@"RXMainWindow"];
     [self openMainWindow];
-        
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"startServicesAtStartup"])
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"startComServerAtStart"])
     {
-        [self startAllServices];
+        [refxInstance startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
+        [[mainWindowController startStopButtonCommunicationServer] setState:1];
+
     }
+    
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] < 1)
+    {
+        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"maxJobAttempts"];
+    }
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"startJobSchedulerAtStart"])
+    {
+        [refxInstance.jobPicker startREFxLoop];
+        [[mainWindowController startStopButtonScheduler] setState:1];
+    }
+    
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"] < 1)
+    {
+        [[NSUserDefaults standardUserDefaults] setInteger:3030 forKey:@"listenPort"];
+    }
+    NSLog(@"Test path is set: %@",[self testFolderPath]);
 }
 
 - (void)openMainWindow {
-    [mainWindowController showWindow:self];
+    [self.mainWindowController showWindow:self];
 }
 
 -(IBAction)openMainWindowAction:(id)sender{
@@ -51,9 +77,13 @@
     [self.preferencesController showWindow:self];
 }
 
-//- (void)applicationDidBecomeActive:(NSNotification *)aNotification {
-//    [self openMainWindow];
-//}
+-(IBAction)showLogWindow:(id)sender{
+    if(!self.LogWindowController)
+        self.LogWindowController = [[RXLogWindowController alloc] initWithWindowNibName:@"RXLogWindow"];
+    
+    [self.LogWindowController showWindow:self];
+}
+
 
 - (BOOL)applicationShouldHandleReopen:(NSApplication *)theApplication hasVisibleWindows:(BOOL)flag
 {	
@@ -65,90 +95,89 @@
     }	
 }
 
--(void)flushLogs
+-(void)flushRailsLogs
 {
     [refxInstance flushLogs];
 }
 
-- (void)refreshJobMgr{
-    [mainWindowController refreshJobmanagerView];    
-}
-
-
-- (IBAction)setLastJobId:(id)sender
-{   
-    [refxInstance.jobPicker setJobsLastId:[[lastJobid stringValue] integerValue]];
-    [mainWindowController refreshJobmanagerView];
-
-}
-
-
-
-- (IBAction)insertTestJobSayWhat:(id)sender
+-(void)flushEngineLogs
 {
-    [refxInstance.jobPicker insertTestJobSayWhat];
-    [mainWindowController refreshJobmanagerView];
-
+    NSString * empty = [NSString stringWithFormat:@""];
+    [empty writeToFile:[self engineLogFilePath]
+                 atomically:NO
+                   encoding:NSStringEncodingConversionAllowLossy
+                      error:nil];
 }
 
 
-- (IBAction)insertTestJobGenerateIndesignFranchise:(id)sender
-{   
-    [refxInstance.jobPicker insertTestJobGenerateIndesignFranchise];
-    [mainWindowController refreshJobmanagerView];
-
-}
-
-- (IBAction)insertTestJobIndexIndesignFranchise:(id)sender
-{   
-    [refxInstance.jobPicker insertTestJobIndexIndesignFranchise];
-    [mainWindowController refreshJobmanagerView];
-}
-
-- (void) insertTestJobIndexIndesignFranchiseOpenIndd:(id)sender
+-(void)reinstallDatabase
 {
-    [refxInstance.jobPicker insertTestJobIndexIndesignFranchiseOpenIndd];
-    [mainWindowController refreshJobmanagerView];
+    [refxInstance createDatabasesForceIfExist:YES];
 }
 
-- (void) insertTestJobIndexIndesignFranchiseOpenInddCS6:(id)sender
+/*- (void)refreshJobMgr{
+    //[mainWindowController refreshJobmanagerView];
+}
+*/
+
+
+
+- (NSString *)appSupportPath
 {
-    [refxInstance.jobPicker insertTestJobIndexIndesignFranchiseOpenInddCS6];
-    [mainWindowController refreshJobmanagerView];
+    //return [[self applicationFilesDirectory] path];
+    //return @"/Library/Application Support/REFx4";
+    
+    NSString * path = [NSString stringWithFormat: @"%@/Library/REFx4",NSHomeDirectory()];
+    
+    //NSFileManager *fileManager = [[NSFileManager alloc] init];
+    
+    if(![[ NSFileManager defaultManager ] fileExistsAtPath:path]){
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: path withIntermediateDirectories: YES attributes: nil error: NULL ];
+    }
+    return path;
 }
 
-
-
-- (IBAction)openTestJobsFolder:(id)sender
+- (NSString *)sqlLitePath
 {
+    NSString * path = [NSString stringWithFormat: @"%@/Database",[self appSupportPath]];
+    NSLog(@"is this dbPath: %@",path);
 
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:[self testFolderPath]]];
+    //NSFileManager *fileManager = [[NSFileManager alloc] init];
+
+    if(![[ NSFileManager defaultManager ] fileExistsAtPath:path]){
+        NSLog(@"Creating dbPath: %@",path);
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: path withIntermediateDirectories: YES attributes: nil error: NULL ];
+    }
+    return path;
 }
+
+- (NSString*) engineLogFilePath
+{
+    return [NSString stringWithFormat: @"%@/Library/Logs/REFx4/Engines.log",NSHomeDirectory()];
+}
+
 
 - (NSString *)testFolderPath
 {
-    NSString * path = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/Resources/PAS3TestJobs/"];
-    return path;
     
-}
+    NSString *fullPathString = [[[self applicationFilesDirectory] path] stringByAppendingPathComponent:@"TestJobs"];
 
--(void)startAllServices {
-//    [refxInstance.railsController startComServer:@"3030"];
-    [refxInstance startComServer:@"3030"];
-    [[mainWindowController startStopButtonCommunicationServer] setState:1];
-    [refxInstance.jobPicker startREFxLoop];
-    [[mainWindowController startStopButtonScheduler] setState:1];   
+    if(![[ NSFileManager defaultManager ] fileExistsAtPath:fullPathString]){
+        NSLog(@"Creating dbPath: %@",fullPathString);
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: fullPathString withIntermediateDirectories: YES attributes: nil error: NULL ];
+    }
+    
+    return fullPathString;
 }
-
 
 /**
-    Returns the directory the application uses to store the Core Data store file. This code uses a directory named "REFx3" in the user's Library directory.
+    Returns the directory the application uses to store the Core Data store file. This code uses a directory named "REFx4" in the user's Library directory.
  */
 - (NSURL *)applicationFilesDirectory {
 
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *libraryURL = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
-    return [libraryURL URLByAppendingPathComponent:@"REFx3"];
+    //NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *libraryURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
+    return [libraryURL URLByAppendingPathComponent:@"REFx4"];
 }
 
 /**
@@ -159,7 +188,7 @@
         return __managedObjectModel;
     }
 	
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"REFx3" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"REFx4" withExtension:@"momd"];
     __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
     return __managedObjectModel;
 }
@@ -208,7 +237,7 @@
         }
     }
     
-    NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"REFx3.storedata"];
+    NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"REFx4.storedata"];
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
     if (![__persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
         [[NSApplication sharedApplication] presentError:error];
@@ -317,6 +346,8 @@
     return NSTerminateNow;
 }
 
+
+
 - (void)dealloc
 {
     [__managedObjectContext release];
@@ -325,7 +356,8 @@
     
     [preferencesController release];
     [mainWindowController release];
-    
+    //[RXREFxIntance release];
+    //[sharedEngineManager release];
 
     [super dealloc];
 }

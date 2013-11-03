@@ -12,7 +12,7 @@ begin
 rescue Exception
   # Mongrel not available
 end
-
+=begin
 server = case ARGV.first
   when "lighttpd", "mongrel", "webrick"
     ARGV.shift
@@ -25,6 +25,9 @@ server = case ARGV.first
       "webrick"
     end
 end
+=end
+
+server = "webbrick"
 
 case server
   when "webrick"

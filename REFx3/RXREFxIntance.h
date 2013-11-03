@@ -1,6 +1,6 @@
 //
 //  RXREFxIntance.h
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 17-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -22,15 +22,14 @@
     NSString* railsEnvironment;
 
     RXREFxIntance* refxInstance;
-    
 }
 
-- (NSString *) railRootDir;
-
--(void) checkAppScript;
 -(void) startComServer:(NSString*)port;
--(void)flushLogs;
 -(NSString*) getDbPath;
+-(NSString*) getRailsEnvironment;
+-(NSString *) railRootDir;
+- (void) createDatabasesForceIfExist: (BOOL) force;
+
 
 @property (retain) RXJobPicker* jobPicker;
 @property (retain) RXRailsController* railsController;

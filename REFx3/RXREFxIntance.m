@@ -1,6 +1,6 @@
 //
 //  RXREFxIntance.m
-//  REFx3
+//  REFx4
 //
 //  Created by W.A. Snel on 17-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -10,7 +10,7 @@
 #import "RXJobPicker.h"
 #import "RXRailsController.h"
 
-
+#import "REFx3AppDelegate.h"
 
 #include <Security/Authorization.h>
 #include <Security/AuthorizationTags.h>
@@ -32,10 +32,6 @@
 // init instanciated the JobPicker and the RailsController
 - (id)init
 {
-    
-    //TODO
-    //Show loading screen and hide when finished
-    
     self = [super init];
     if (self) {
        
@@ -59,21 +55,18 @@
                             stringByAppendingString:@"/Contents/Resources/REFx-rails-framework"];      
         }
 
-        AppSupportDir = @"/Library/Application Support/REFx3";
+        AppSupportDir = [[NSApp delegate] appSupportPath];
+        NSLog(@"App Support Dir %@", AppSupportDir);
        
-        if([[NSUserDefaults standardUserDefaults] boolForKey:@"useDevelopmentEnvironment"]) {
-            railsEnvironment=@"development";
-            dbPath = [AppSupportDir stringByAppendingString:@"/Database/refx3development.sqlite3"];
-        } 
-        else {
-            railsEnvironment=@"production";
-            dbPath = [AppSupportDir stringByAppendingString:@"/Database/refx3production.sqlite3"];
-        }
-    
-        [self checkAppScript];
-        [self checkAppSupportDir];
-        NSLog(@"rails path %@",railsRootDir);
+        railsEnvironment=@"production";
         
+        //FIXME REMOVE AND USE DB
+        dbPath = [AppSupportDir stringByAppendingString:@"/Database/refx4production.sqlite3"];
+
+        [self writeDbRailsConfig];
+        [self createDatabasesForceIfExist:NO];
+
+        NSLog(@"rails path %@",railsRootDir);
         
         //instanciating the JobPicker 
         jobPicker = [[RXJobPicker alloc] initWithDbPath: dbPath railsRootDir: railsRootDir environment:railsEnvironment];
@@ -87,71 +80,58 @@
     return self;
 }
 
+- (void) writeDbRailsConfig
+{
+    NSString *dbConfFile = [NSString stringWithFormat: @"production:\n   adapter: sqlite3\n   database: %@\n   pool: 5\n   timeout: 5000", dbPath];
+    NSString *fileName = [NSString stringWithFormat:@"%@/config/database.yml",railsRootDir];
+
+    [dbConfFile writeToFile:fileName
+              atomically:NO
+                encoding:NSStringEncodingConversionAllowLossy
+                   error:nil];
+}
+
+- (NSString*) getRailsEnvironment
+{
+    return railsEnvironment;
+}
+
 -(NSString*) getDbPath{
     return dbPath;
 }
 
+-(NSString*) railRootDir {
+    return railsRootDir;
+}
+
 - (void) startComServer:(NSString*)port {
     if(![port intValue]) {
-        port = @"3030";
+        NSLog(@"ERROR: No port set");
     }
-    
     
     [railsController startComServer:port :railsEnvironment];
-    
 }
 
-- (int) darwinVersion
+//create production database
+- (void) createDatabasesForceIfExist: (BOOL)force
 {
-    int mib[2];
-    size_t len;
-    char *kernelVersion;
-    
-    // Get the kernel's version as a string called "kernelVersion":
-    mib[0] = CTL_KERN;
-    mib[1] = KERN_OSRELEASE;
-    sysctl(mib, 2, NULL, &len, NULL, 0);
-    kernelVersion = malloc(len * sizeof(char));
-    sysctl(mib, 2, kernelVersion, &len, NULL, 0);
-    
-    NSString *myString = [NSString stringWithUTF8String: kernelVersion];    
-    NSArray *stringArray = [myString componentsSeparatedByString:@"."];
-    
-    free(kernelVersion);
-
-    return [[stringArray objectAtIndex: 0] intValue];
-}
-
-- (void) checkAppSupportDir
-{
-    NSLog(@"Authorization Start for Application Support Dir");
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-    if(![fileManager fileExistsAtPath:AppSupportDir]){
+    //NSFileManager *fileManager = [[NSFileManager alloc] init];
         
-        NSDictionary *error = [NSDictionary new]; 
-        
-        NSString *installScriptTmp = [railsRootDir stringByAppendingString:@"/lib/refxAppSupportDirectory.sh"];
-        NSString *script = [NSString stringWithFormat:@"do shell script \"%@\" with administrator privileges", installScriptTmp];  
-        
-        NSAppleScript *appleScript = [[NSAppleScript new] initWithSource:script]; 
-        if ([appleScript executeAndReturnError:&error]) {
-            NSLog(@"success!"); 
-        } else {
-            NSLog(@"failure!"); 
+/*    if(force)
+    {
+        if([[NSFileManager defaultManager] fileExistsAtPath:dbPath])
+        {
+            NSError * error;
+            [[NSFileManager defaultManager] removeItemAtPath:dbPath error:&error];
+            if (error.code != NSFileNoSuchFileError) {
+                NSLog(@"%@", error);
+            }
         }
     }
-    [fileManager release];
-    
-    //now create the databases
-    [self createDatabases];
-}
+  */  
+    if(![[NSFileManager defaultManager] fileExistsAtPath:dbPath]){
 
-//create development and production database
-- (void) createDatabases
-{
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-        
-    if(![fileManager fileExistsAtPath:[AppSupportDir stringByAppendingString:@"/Database/refx3production.sqlite3"]]){
+        NSLog(@"creating database at:%@", dbPath);
 
         NSTask *ps = [[NSTask alloc] init];
         [ps setLaunchPath:@"/bin/sh"];
@@ -169,31 +149,10 @@
         [ps release];
         
     }
-    
-    if(![fileManager fileExistsAtPath:[AppSupportDir stringByAppendingString:@"/Database/refx3development.sqlite3"]]){
-        
-        NSTask *ps = [[NSTask alloc] init];
-        [ps setLaunchPath:@"/bin/sh"];
-        
-        NSString *cmd = [NSString stringWithFormat:@"cd %@ && rake db:migrate RAILS_ENV=\"development\" 2>&1", railsRootDir];
-        
-        NSMutableArray *args = [[NSMutableArray alloc] init];
-        [args addObject:@"-c"];
-        [args addObject:cmd];
-        
-        [ps setArguments:args];
-        [ps waitUntilExit];
-        [ps launch];
-        
-        [ps release];
-    }
-    
-    [fileManager release];
-
 }
 
 
--(void)flushLogs{
+-(void)flushRailsLogs{
     //return;
     
     NSTask *ps = [[NSTask alloc] init];
@@ -212,62 +171,7 @@
     [ps release];
 }
 
-// checkAppScript checks if the appscript binary are installed. If not it tries to install
-- (void) checkAppScript
-{
-    
-    int darwinVer = [self darwinVersion];
-    
-    if(darwinVer < 10)
-    {
-        NSLog(@"Authorization Start Leopard");
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
-        if(![fileManager fileExistsAtPath:[railsRootDir stringByAppendingString:@"/vendor/gems/rb-appscript-0.5.1"]]){
 
-            NSDictionary *error = [NSDictionary new]; 
-            
-            NSString *installAppScriptScriptTmp = [railsRootDir stringByAppendingString:@"/lib/refxPrerequisitesInstallLeopard.sh"];
-            NSString *script =  [NSString stringWithFormat:@"do shell script \"%@\" with administrator privileges", installAppScriptScriptTmp];  
-            
-            NSAppleScript *appleScript = [[NSAppleScript new] initWithSource:script]; 
-            if ([appleScript executeAndReturnError:&error]) {
-                NSLog(@"success!"); 
-            } else {
-                NSLog(@"failure!"); 
-            }
-        }
-        [fileManager release];
-
-    } else {
-        
-        NSLog(@"Authorization Start SnowLeopard/Lion/MountainLion");
-        NSFileManager *fileManager = [[NSFileManager alloc] init];
-        NSString *mypath = [NSString stringWithFormat:@"/Library/Ruby/Site/1.8/universal-darwin%i.0/sqlite3",darwinVer];
-
-        NSLog(@"success%@",mypath);
-        
-        if(![fileManager fileExistsAtPath: [NSString stringWithFormat:@"/Library/Ruby/Site/1.8/universal-darwin%i.0/ae.bundle",darwinVer]] ||
-           ![fileManager fileExistsAtPath: [NSString stringWithFormat:@"/Library/Ruby/Site/1.8/universal-darwin%i.0/sqlite3",darwinVer]]){
-            
-            NSDictionary *error = [NSDictionary new]; 
-            
-            NSString *installAppScriptScriptTmp = [railsRootDir stringByAppendingString:@"/lib/refxPrerequisitesInstall.sh"];
-            NSString *script =  [NSString stringWithFormat:@"do shell script \"%@\" with administrator privileges", installAppScriptScriptTmp];  
-            
-            NSAppleScript *appleScript = [[NSAppleScript new] initWithSource:script]; 
-            if ([appleScript executeAndReturnError:&error]) {
-                NSLog(@"success!"); 
-            } else {
-                NSLog(@"failure!"); 
-            }
-        }
-        [fileManager release];
-    }
-}
-
--(NSString*) railRootDir {
-    return railsRootDir;
-}
 
 - (void) dealloc {
     railsRootDir = nil;
