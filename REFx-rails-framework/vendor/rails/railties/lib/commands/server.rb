@@ -27,7 +27,7 @@ server = case ARGV.first
 end
 =end
 
-server = "webbrick"
+server = "webrick"
 
 case server
   when "webrick"
