@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#include <sqlite3.h>
+//#include <sqlite3.h>
 #import "VDKQueue.h"
 
 @interface RXJobPicker : NSObject <VDKQueueDelegate> {
@@ -17,8 +17,7 @@
     NSString* railsRootDir;
     NSString* railsDbPath;
     NSString* railsEnvironment;
-    BOOL dbOpened;
-    sqlite3 *db;
+
     NSTask *rubyJobProcess;
     
 
@@ -39,8 +38,6 @@
 - (void) startREFxLoopAction;
 - (void) stopREFxLoopAction;
 - (void) setJobsLastId:(NSInteger)rowId;
-- (BOOL) openDatabase;
-- (void) closeDatabase;
 - (long) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
 
 

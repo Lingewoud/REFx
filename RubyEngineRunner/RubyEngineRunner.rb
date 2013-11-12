@@ -36,9 +36,6 @@ class RefxJobWrapper
 		## SAVE JOB: attempt + 1
 		pJob.save
 
-#p 'maxattempts'
-#		p maxattempts
-#		p pJob.attempt
 		if !maxattempts.nil? && pJob.attempt > maxattempts.to_i
 			p "max attempt reached"
 			pJob.status = 66
@@ -50,7 +47,14 @@ class RefxJobWrapper
 			initArgString = "'"+pJob.id.to_s+"'"
 
 			#IF THE PLUGIN NEEDS MORE ARGUMENTS
-			initArgString2= createArgString(cmdbody['init_args'])
+            begin
+                initArgString2= createArgString(cmdbody['init_args'])
+            rescue Exception => e
+                p "cant find init_args"
+                pJob.status = 69
+                pJob.save
+                return
+            end
 
 			initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
 

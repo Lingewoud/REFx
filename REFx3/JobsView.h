@@ -1,6 +1,4 @@
 //
-//  DemoView.h
-//  Cocoa Sqlite Example
 //
 //  Created by Pim Snel on 01-10-12.
 //  Copyright (c) 2012 Pim Snel. All rights reserved.

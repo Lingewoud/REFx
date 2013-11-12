@@ -1,7 +1,4 @@
 //
-//  DemoView.m
-//  Cocoa Sqlite Example
-//
 //  Created by Pim Snel on 01-10-12.
 //  Copyright (c) 2012 Pim Snel. All rights reserved.
 //
@@ -67,8 +64,6 @@
     [self viewBody:sender];
 
     NSLog(@"open record view");
-    
-
 }
 
 - (void)startAutoUpdateTable
@@ -87,7 +82,6 @@
 
     [tableUpdateTimer invalidate];
 }
-
 
 - (IBAction)refreshTable:(id)sender{
         [self populateTableAndBuffer];

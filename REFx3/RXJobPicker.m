@@ -11,6 +11,11 @@
 #import "REFx3AppDelegate.h"
 #import "RXEngineManager.h"
 
+#import "FMDatabase.h"
+#import "FMDatabaseAdditions.h"
+#import "FMDatabasePool.h"
+#import "FMDatabaseQueue.h"
+
 
 @implementation RXJobPicker
 @synthesize refxTimer;
@@ -24,7 +29,6 @@
 
         loopIsEnabled = NO;
         railsDbPath = dbPath;
-        [self openDatabase];
         railsRootDir = dir;
         railsEnvironment = env;
         
@@ -42,7 +46,6 @@
                                                          repeats: YES];
     }
     
-
     return self;
 }
 
@@ -145,10 +148,6 @@
     {
         return;
     }
-    else
-    {
-        //[rubyJobProcess release];
-    }
     
     int jobid = [self selectJob];
     
@@ -223,282 +222,153 @@
             [self setJobId:jobid status:67];
             NSLog(@"Problem Running Task: %@", [exception description]);
         }
-        
-        
+                
         jobRunning = NO;
     }
 }
 
--(BOOL)openDatabase
-{
-    NSLog(@"open Database");
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-
-    //check if file is already there
-    if([fileManager fileExistsAtPath:railsDbPath])
-    {
-        if(sqlite3_open([railsDbPath UTF8String], &db) == SQLITE_OK)
-        {
-            NSLog(@"Database was opened at %@", railsDbPath);
-            dbOpened = YES;
-            return YES;
-        }
-    }
-    
-    NSLog(@"Database not found at location %@", railsDbPath);
-    return NO;
-}
-
--(void)closeDatabase
-{
-    sqlite3_close(db);
-    dbOpened = NO;
-}
-
 -(NSString *) getJobEngine:(int)jobId
 {
-    if(!dbOpened)
-    {
-        NSLog(@"Database connection is lost. Trying to re-open");
-        
-        [self openDatabase];
-        return NO;
+    FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
+    if (![db open]) {
+        NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
+        return nil;
     }
     
-    sqlite3_stmt    *statement;
     
     NSString *sql = [NSString stringWithFormat: @"SELECT engine FROM jobs WHERE id = %i", jobId];
-    const char *query_stmt = [sql UTF8String];
-    
-    NSString *ret = nil;
-    
-    if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-    {
-        int result = sqlite3_step(statement);
-        if(result == SQLITE_ROW)
-        {
-            ret = [[NSString alloc] initWithUTF8String:(char *)sqlite3_column_text(statement, 0)];
-        }
 
-    }
-    else
-    {
-        NSLog(@"sqlite problem: %@", sql);
-    }
-    
-    sqlite3_finalize(statement);
-    
-    return ret;
+    NSString *engine = [db stringForQuery:sql];
+    NSLog(@"select engine:%@",engine);
 
+    [db close];
+    return engine;
 }
 
 -(int)numberOpenJobs
 {
-    if(!dbOpened)
-    {
-        NSLog(@"Database connection is lost. Trying to re-open");
-        
-        [self openDatabase];
-        return NO;
+    FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
+    if (![db open]) {
+        NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
+        return 0;
     }
     
-    sqlite3_stmt    *statement;
+    NSLog(@"Counting open jobs");
+
+    int count = [db intForQuery:@"SELECT count(id) as numopenjobs FROM jobs WHERE status > 0 AND status < 10"];
     
-    NSString *sql = @"SELECT count(id) as numopenjobs FROM jobs WHERE status > 0 AND status < 10";
-    const char *query_stmt = [sql UTF8String];
-    
-    int ret;
-    ret = 0;
-    
-    if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-    {
-        int result = sqlite3_step(statement);
-        if(result == SQLITE_ROW)
-        {
-            ret = sqlite3_column_int(statement, 0);
-        }
-        else
-        {
-            ret = 0;
-        }
-    }
-    else
-    {
-        NSLog(@"sqlite problem: %@", sql);
-    }
-    
-    sqlite3_finalize(statement);
-    
-    return ret;
+    [db close];
+    return count;
 }
 
 -(int)selectJob
 {
-    if(!dbOpened)
-    {
-        NSLog(@"Database connection is lost. Trying to re-open");
-
-        [self openDatabase];
-        return NO;   
+    FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
+    if (![db open]) {
+        NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
+        return 0;
     }
-    
-    sqlite3_stmt    *statement;
-    
-    NSString *sql = @"SELECT id, attempt FROM jobs WHERE status > 0 AND status < 10 ORDER BY jobs.priority DESC LIMIT 1";
-    const char *query_stmt = [sql UTF8String];
     
     int ret;
     ret = 0;
     int attempt;
-    if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-    {
-        int result = sqlite3_step(statement);
-        if(result == SQLITE_ROW)
-        {
-            ret = sqlite3_column_int(statement, 0);
-            attempt = sqlite3_column_int(statement,1);
-            
-            if([[NSUserDefaults standardUserDefaults] integerForKey:@"disableMaxAttempts"]==0)
-            {
-                if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] > 0 && [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] < attempt)
-                {
-                    sqlite3_finalize(statement);
-                    [self setJobId:ret status:67];
-                    return 0;
-                }
-            }
-            else
-            {
-                sqlite3_finalize(statement);
-
-                return ret;
-            }
-        }
-        /*else
-        {
-            ret = 0;
-        }*/
-    }
-    else
-    {
-        NSLog(@"sqlite problem: %@", sql);
+    
+    FMResultSet *rs = [db executeQuery:@"SELECT id, attempt FROM jobs WHERE status > 0 AND status < 10 ORDER BY jobs.priority DESC LIMIT 1"];
+    while ([rs next]) {
+        
+        ret = [rs intForColumn:@"id"];
+        attempt = [rs intForColumn:@"attempt"];
     }
     
-    sqlite3_finalize(statement);
+    [db close];
+    
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"disableMaxAttempts"]==0)
+    {
+        if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] > 0 &&
+           [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] < attempt)
+        {
+            [self setJobId:ret status:67];
+            ret = 0;
+        }
+    }
     
     return ret;
 }
 
 - (void)setJobId:(NSInteger)rowId status:(NSInteger)status
 {
+
+    FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
+    if (![db open]) {
+        NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
+        return;
+    }
     
-    if(dbOpened)
-    {
-        NSLog(@"increase attempt");
-        
-        sqlite3_stmt *statement;
-        
-        NSString *sql = [NSString stringWithFormat: @"UPDATE jobs SET status = %li WHERE id=%li", (long)status, (long)rowId];
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"update result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-    }    
+   // db.traceExecution = YES;
+   // db.logsErrors = YES;
+    NSLog(@"Exec: UPDATE jobs SET status = %li WHERE id=%li", (long)status, (long)rowId);
+
+    NSString *sql = [NSString stringWithFormat:@"UPDATE jobs SET status = %li WHERE id=%li", (long)status, (long)rowId];
+    [db executeUpdate:sql];
+    
+    [db close];
 }
 
 - (void)flushAllJobs {
-    if(dbOpened)
-    {
-        NSLog(@"Flush jobs");
-        
-        sqlite3_stmt *statement;
-        
-        NSString *sql = [NSString stringWithFormat: @"DELETE FROM jobs"];
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"Flushed Jobs table %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-    }    
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
+    if (![db open]) {
+        NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
+        return;
+    }
+
+    NSLog(@"Flush jobs");
+   
+    [db executeUpdate:@"DELETE FROM jobs"];
+    
+    [db close];
+    return;
 }
 
 - (void) setJobsLastId:(NSInteger)rowId
 {
-    if(dbOpened)
-    {      
-        sqlite3_stmt *statement;
-        
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (id,engine,body) values (%li,'MARKER','MARKER');", (long)rowId];
-
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"update result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
-        
-        //lastInsertRowId
-    }    
-
+    FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
+    if (![db open]) {
+        NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
+        return;
+    }
+    
+    NSLog(@"INSERT INTO jobs: %li", (long)rowId);
+    
+    NSString *sql = [NSString stringWithFormat:@"INSERT INTO jobs (id,engine,body) values (%li,'MARKER','MARKER');", (long)rowId];
+    [db executeUpdate:sql];
+    
+    [db close];
+    
+    return;
 }
-
 
 - (long) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body
 {
-    if(dbOpened)
-    {
-        sqlite3_stmt *statement;
-        
-        NSString *sql = [NSString stringWithFormat: @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'%@','%@',1,1,0,'');",engine,body];
-        
-        const char *query_stmt = [sql UTF8String];
-        
-        if (sqlite3_prepare_v2(db, query_stmt, -1, &statement, NULL) == SQLITE_OK)
-        {
-            int result = sqlite3_step(statement);
-            NSLog(@"insert result %i",result);
-        }
-        else
-        {
-            NSLog(@"sqlite problem: %@", sql);
-        }
-        
-        sqlite3_finalize(statement);
+    FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
+    if (![db open]) {
+        NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
+        return 0;
     }
-    return sqlite3_last_insert_rowid(db);
-
+    
+    NSLog(@"INSERT TEST INTO jobs: %@", engine);
+    NSString *sql = [NSString stringWithFormat:
+                     @"INSERT INTO jobs (priority,engine,body,status,max_attempt,attempt,returnbody) values (1,'%@','%@',1,1,0,'');",engine,body];
+    
+    [db executeUpdate:sql];
+    long newid = (long)[db lastInsertRowId];
+    [db close];
+    
+    return newid;
 }
 
+
 - (void) dealloc {
-    [self closeDatabase];
-    db = nil;
     [self stopREFxLoop];
     railsRootDir = nil;
     refxTimer = nil;
