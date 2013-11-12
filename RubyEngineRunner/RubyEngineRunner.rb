@@ -36,9 +36,9 @@ class RefxJobWrapper
 		## SAVE JOB: attempt + 1
 		pJob.save
 
-		p 'maxattempts'
-		p maxattempts
-		p pJob.attempt 
+#p 'maxattempts'
+#		p maxattempts
+#		p pJob.attempt
 		if !maxattempts.nil? && pJob.attempt > maxattempts.to_i
 			p "max attempt reached"
 			pJob.status = 66
@@ -268,7 +268,7 @@ optparse.parse!
 
 #puts "Being verbose" if options[:verbose]/
 #puts "Logging to file #{options[:logfile]}" if options[:logfile]
-p options
+#p options
 
 if options[:test]
 	refxjob = RefxJobWrapper.new

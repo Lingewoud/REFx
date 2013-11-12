@@ -14,6 +14,8 @@
 
 @implementation RXJobPicker
 @synthesize refxTimer;
+@synthesize refxSafetyTimer;
+
 - (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env
 {
     self = [super init];
@@ -25,11 +27,21 @@
         [self openDatabase];
         railsRootDir = dir;
         railsEnvironment = env;
+        
+        self.refxTimer = [[NSTimer alloc] init];
+        self.refxSafetyTimer = [[NSTimer alloc] init];
+        
         [self startLoopIfEnabledAndOpenJobs];
         [self startListeningFileChanges];
+        
+        NSLog(@"start safety timer ...");
+        self.refxSafetyTimer = [NSTimer scheduledTimerWithTimeInterval: 60.0
+                                                          target: self
+                                                        selector: @selector(safetyTimerRun)
+                                                        userInfo: nil
+                                                         repeats: YES];
     }
     
-    self.refxTimer = [[NSTimer alloc] init];
 
     return self;
 }
@@ -46,6 +58,12 @@
 -(void) VDKQueue:(VDKQueue *)queue receivedNotification:(NSString*)noteName forPath:(NSString*)fpath
 {
     NSLog(@"Database was update, so we update the table view");
+    [self startLoopIfEnabledAndOpenJobs];
+}
+
+-(void) safetyTimerRun
+{
+    NSLog(@"Safety Timer: Checking if queue is still working if it should");
     [self startLoopIfEnabledAndOpenJobs];
 }
 
@@ -176,8 +194,29 @@
         
         [rubyJobProcess setArguments:args];
         
+
+        /*
+        NSPipe *errorPipe = [NSPipe pipe];
+        NSPipe *outputPipe = [NSPipe pipe];
+
+        [rubyJobProcess setStandardInput:[NSPipe pipe]];
+        [rubyJobProcess setStandardError:errorPipe];
+        [rubyJobProcess setStandardOutput:outputPipe];
+         */
+        
         @try {
             [rubyJobProcess launch];
+           /*
+            NSData *outputData = [[outputPipe fileHandleForReading] readDataToEndOfFile];
+            NSString *outputString = [[[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding] autorelease];
+
+            NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
+            NSString *errorString = [[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding] autorelease];
+            
+            NSLog(@"proc output:%@",outputString);
+            NSLog(@"proc error:%@",errorString);
+            */
+
         }
         @catch (NSException *exception) {
             //increase attempt
@@ -431,7 +470,7 @@
 }
 
 
-- (int) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body
+- (long) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body
 {
     if(dbOpened)
     {

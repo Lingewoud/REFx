@@ -772,6 +772,7 @@
 				GCC_PREFIX_HEADER = "REFx3/REFx4-Prefix.pch";
 				INFOPLIST_FILE = "REFx3/REFx4-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = REFx4;
 				WRAPPER_EXTENSION = app;
 			};
@@ -792,6 +793,7 @@
 				GCC_PREFIX_HEADER = "REFx3/REFx4-Prefix.pch";
 				INFOPLIST_FILE = "REFx3/REFx4-Info.plist";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = REFx4;
 				WRAPPER_EXTENSION = app;
 			};

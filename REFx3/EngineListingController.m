@@ -84,8 +84,8 @@
                         yamlbody = [yamlbody stringByReplacingOccurrencesOfString:@"<%=SOURCE_FILE_DIR%>"
                                                                        withString:[[NSApp delegate] appSupportPath]];
                         
-                        int newid = [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:eName body:yamlbody];
-                        NSLog(@"NEWID: %i",newid);
+                        long newid = [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:eName body:yamlbody];
+                        NSLog(@"NEWID: %li",newid);
 
                     }
        

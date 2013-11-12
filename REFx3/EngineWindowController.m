@@ -45,7 +45,47 @@
     {
         [self.testJobMenu addItemWithTitle:[dict objectForKey:@"title"]];
     }
+    
+    //UPDATES BUTTON
+    /*
+    if([[RXEngineManager sharedEngineManager] engineInfoDict:self.EngineName objectForKey:@"UpdateURI"])
+    {
+        [self.updatesButton setEnabled:YES];
+        [self.updatesButton setHidden:NO];
+        
+    
+        
+    }
+    else
+    {
+        [self.updatesButton setEnabled:NO];
+        [self.updatesButton setHidden:YES];
+    }
+    */
 }
+
+-(IBAction)checkForUpdate:(id)sender
+{
+    //check if git is installed
+    
+    //clone remote url in temp folder
+    
+    /*
+    NSTask *gitCloneProc = [[NSTask alloc] init];
+    
+    [gitCloneProc setCurrentDirectoryPath:engineDir];
+    [gitCloneProc setLaunchPath: @"/usr/bin/git"];
+    [gitCloneProc setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
+    [gitCloneProc setArguments: args];
+    [gitCloneProc launch];
+     */
+    //[[RXEngineManager sharedEngineManager] engineInfoDict:self.EngineName objectForKey:@"UpdateURI"]
+    //check version
+    //if higher
+    //inform user set install text
+    //else inform user
+}
+
 
 -(void) setWindowEngineName:(NSString*) eName
 {

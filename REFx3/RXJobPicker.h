@@ -24,6 +24,7 @@
 
 }
 @property (retain) NSTimer *refxTimer;
+@property (retain) NSTimer *refxSafetyTimer;
 
 
 
@@ -40,7 +41,7 @@
 - (void) setJobsLastId:(NSInteger)rowId;
 - (BOOL) openDatabase;
 - (void) closeDatabase;
-- (int) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
+- (long) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
 
 
 

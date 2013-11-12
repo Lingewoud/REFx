@@ -46,11 +46,12 @@
     
     [self instanciateLogController];
     
-    NSString * appVersionString = [[NSBundle mainBundle]
-                                   objectForInfoDictionaryKey:@"CFBundleVersion"];
-    
-    [self.Appversion setStringValue:appVersionString];
-    
+//    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+
+    //[self.Appversion setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    [self.Appversion setStringValue:[NSString stringWithFormat:@"v%@ (%@)",
+                                     [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+                                     [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]];
     
     // TRY TO FIX THE MISSING ENGINES BUG AFTER APPLICATION LOAD
     //[self.theEngineListingController reloadEngines:self];
@@ -70,9 +71,9 @@
     NSString * engine = [_insJobEngine stringValue];
     NSString * body = [_insJobBody stringValue];
     [_insJobPanel orderOut:sender];
-    NSLog(@"%@ %@",engine,body);
 
-    int newid = [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engine body:body];
+    long newid = [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engine body:body];
+    NSLog(@"new id: %li, %@ %@",newid,engine,body);
 }
 
 - (void)startStopActionScheduler:(id)sender
