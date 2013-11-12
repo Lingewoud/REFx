@@ -91,19 +91,13 @@
        
                 }
                 testIndex ++;
-
             }
             
             //remember all id's
-        
         }
-    
     }
     
     [[[[NSApp delegate] refxInstance] jobPicker] startREFxLoop];
-
-
-
 }
 
 - (NSString*)stringWithPathRelativeTo:(NSString*)anchorPath {

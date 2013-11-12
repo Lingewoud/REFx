@@ -18,6 +18,7 @@
 
 - (id)init
 {
+    
      if (self = [super init])
      {
 		// instantiate the following private property
@@ -303,8 +304,21 @@
 			[loc_engine addObject:[rs stringForColumn:@"engine"]];
             [loc_attempt addObject:[NSNumber numberWithInt:[rs intForColumn:@"attempt"]]];
 
-			if([rs stringForColumn:@"status"]) [loc_status addObject:[rs stringForColumn:@"status"]];
-            else [loc_status addObject:@""];
+			if([rs stringForColumn:@"status"])
+            {
+                NSMutableDictionary *statusList =[NSMutableDictionary dictionary];
+                [statusList setObject: @"New" forKey: @"1"];
+                [statusList setObject: @"Running" forKey: @"2"];
+                [statusList setObject: @"Finished" forKey: @"10"];
+                [statusList setObject: @"Pauzed" forKey: @"11"];
+                [statusList setObject: @"runtime error, max attempts" forKey: @"66"];
+                [statusList setObject: @"Engine not installed" forKey: @"67"];
+                [statusList setObject: @"Engine: fatal" forKey: @"68"];
+                [statusList setObject: @"Runner: fatal" forKey: @"69"];
+                
+                [loc_status addObject:[statusList objectForKey:[rs stringForColumn:@"status"]]];
+            }
+            else [loc_status addObject:@"-"];
             
             NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
             if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0)
