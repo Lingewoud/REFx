@@ -1,6 +1,6 @@
 //
-//  REFx4AppDelegate.m
-//  REFx4
+//  REFxAppDelegate.m
+//  REFx
 //
 //  Created by W.A. Snel on 14-10-11.
 //  Copyright 2011 Lingewoud b.v. All rights reserved.
@@ -97,7 +97,7 @@
 
 -(void)flushRailsLogs
 {
-    [refxInstance flushLogs];
+
 }
 
 -(void)flushEngineLogs
@@ -115,21 +115,10 @@
     [refxInstance createDatabasesForceIfExist:YES];
 }
 
-/*- (void)refreshJobMgr{
-    //[mainWindowController refreshJobmanagerView];
-}
-*/
-
-
-
 - (NSString *)appSupportPath
 {
-    //return [[self applicationFilesDirectory] path];
-    //return @"/Library/Application Support/REFx4";
     
     NSString * path = [NSString stringWithFormat: @"%@/Library/REFx4",NSHomeDirectory()];
-    
-    //NSFileManager *fileManager = [[NSFileManager alloc] init];
     
     if(![[ NSFileManager defaultManager ] fileExistsAtPath:path]){
         [[ NSFileManager defaultManager ] createDirectoryAtPath: path withIntermediateDirectories: YES attributes: nil error: NULL ];
@@ -141,8 +130,6 @@
 {
     NSString * path = [NSString stringWithFormat: @"%@/Database",[self appSupportPath]];
     NSLog(@"is this dbPath: %@",path);
-
-    //NSFileManager *fileManager = [[NSFileManager alloc] init];
 
     if(![[ NSFileManager defaultManager ] fileExistsAtPath:path]){
         NSLog(@"Creating dbPath: %@",path);
@@ -356,8 +343,6 @@
     
     [preferencesController release];
     [mainWindowController release];
-    //[RXREFxIntance release];
-    //[sharedEngineManager release];
 
     [super dealloc];
 }

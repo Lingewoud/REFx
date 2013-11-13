@@ -253,6 +253,7 @@
     NSMutableArray *loc_status;
     NSMutableArray *loc_attempt;
     NSMutableArray *loc_body;
+    NSMutableArray *loc_basepath;
     NSMutableArray *loc_method;
     NSMutableArray *loc_initargscount;
     NSMutableArray *loc_methodargscount;
@@ -271,6 +272,7 @@
 		loc_status = [NSMutableArray array];
 		loc_attempt = [NSMutableArray array];
 		loc_body = [NSMutableArray array];
+		loc_basepath = [NSMutableArray array];
 		loc_initargscount = [NSMutableArray array];
 		loc_methodargscount = [NSMutableArray array];
 		loc_method = [NSMutableArray array];
@@ -321,32 +323,40 @@
             else [loc_status addObject:@"-"];
             
             NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
+            long tempInitArgsCount = 0;
             if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0)
             {
                 [loc_body addObject:@"HAS DATA"];
-
-                yaml = [YAMLSerialization objectWithYAMLString: tempBody
-                                                          options: kYAMLReadOptionStringScalars
-                                                            error: nil];
                 
+                yaml = [YAMLSerialization objectWithYAMLString: tempBody
+                                                       options: kYAMLReadOptionStringScalars
+                                                         error: nil];
                 
                 if([yaml isKindOfClass:[NSDictionary class]])
                 {
-                    if ([[yaml objectForKey:@"init_args"] isKindOfClass:[NSArray class]]) {
+                    if ([[yaml objectForKey:@"init_args"] isKindOfClass:[NSArray class]]){
+                        
+                        tempInitArgsCount = [[yaml objectForKey:@"init_args"] count];
+                        [loc_initargscount addObject: [NSString stringWithFormat:@"%lu", tempInitArgsCount]];
+
+                        
+                    }
+                    else
+                    {
+                        [loc_initargscount addObject:@"-"];
+                    }
                     
-                    [loc_initargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"init_args"] count]]];
-
-                }
-                else [loc_initargscount addObject:@"-"];
-
-
-                if ([[yaml objectForKey:@"method_args"] isKindOfClass:[NSArray class]]) {
-                    [loc_methodargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"method_args"] count]]];
-                }
-                else  [loc_methodargscount addObject:@"-"];
-
-
-                [loc_method addObject:[yaml objectForKey:@"method"]];
+                    
+                    if ([[yaml objectForKey:@"method_args"] isKindOfClass:[NSArray class]])
+                    {
+                        [loc_methodargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"method_args"] count]]];
+                    }
+                    else
+                    {
+                        [loc_methodargscount addObject:@"-"];
+                    }
+                    
+                    [loc_method addObject:[yaml objectForKey:@"method"]];
                 }
                 else
                 {
@@ -363,11 +373,19 @@
                 [loc_initargscount addObject:@"-"];
 
             }
+            
+            if(tempInitArgsCount > 0)
+            {
+                [loc_basepath addObject:[[[yaml objectForKey:@"init_args"] objectAtIndex:0] objectForKey:@"value"]];
+            }
+            else
+            {
+                [loc_basepath addObject:@"-"];
+            }
+            
 
             if([rs stringForColumn:@"returnbody"])
             {
-                //[NSString stringWithFormat:@"%lu",[[rs stringForColumn:@"returnbody"] length]];
-                
                 [loc_returnbody addObject:[NSString stringWithFormat:@"%lu chars",[[rs stringForColumn:@"returnbody"] length]]];
             }
             else [loc_returnbody addObject:@"-"];
@@ -386,6 +404,7 @@
 		[testBuffer setObject: loc_attempt forKey:@"attempts"];
 		[testBuffer setObject: loc_status forKey:@"status"];
 		[testBuffer setObject: loc_body forKey:@"body"];
+		[testBuffer setObject: loc_basepath forKey:@"basepath"];
 		[testBuffer setObject: loc_method forKey:@"method"];
 		[testBuffer setObject: loc_methodargscount forKey:@"methodargscount"];
 		[testBuffer setObject: loc_initargscount forKey:@"initargscount"];
@@ -423,7 +442,7 @@
 
 			// update the data dictionary
 			[loc_dat setObject:	[[[self _testBuffer] objectForKey:@"id"] objectAtIndex:loc_row] forKey:@"id"];
-			[loc_dat setObject: [NSNumber numberWithInt:loc_row] forKey:@"row"];
+			[loc_dat setObject: [NSNumber numberWithLong:loc_row] forKey:@"row"];
 		}
 	}
 	// return the retrieval results

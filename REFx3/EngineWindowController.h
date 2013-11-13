@@ -1,6 +1,6 @@
 //
 //  EngineWindowController.h
-//  REFx4
+//  REFx
 //
 //  Created by Pim Snel on 22-10-13.
 //

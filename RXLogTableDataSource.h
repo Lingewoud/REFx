@@ -1,6 +1,6 @@
 //
 //  RXTableDataSource.h
-//  REFx4
+//  REFx
 //
 //  Created by Pim Snel on 10-09-13.
 //

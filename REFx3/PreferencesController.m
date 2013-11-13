@@ -1,6 +1,6 @@
 //
 //  PreferencesController.m
-//  REFx4
+//  REFx
 //
 //  Created by Pim Snel on 07-03-12.
 //  Copyright (c) 2012 Lingewoud b.v. All rights reserved.

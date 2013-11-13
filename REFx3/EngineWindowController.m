@@ -1,6 +1,6 @@
 //
 //  EngineWindowController.m
-//  REFx4
+//  REFx
 //
 //  Created by Pim Snel on 22-10-13.
 //
@@ -119,35 +119,19 @@
     NSMutableDictionary * testDict = [testArr objectAtIndex:testIndex];
     NSLog(@"dict:%@",testDict);
     
-    
-    
     if ([[testDict objectForKey:@"needSourceFile"] intValue] != 0 ) {
-        
-        NSLog(@"Open input file handler");
-        int i; // Loop counter.
-        
-        NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-        [openDlg setCanChooseFiles:YES];
-        [openDlg setCanChooseDirectories:NO];
-        [openDlg setAllowsMultipleSelection:NO];
-        
-        NSString* fileName;
 
-        if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
+        NSOpenPanel *openPanel = [[NSOpenPanel alloc] init];
+        [openPanel setCanChooseFiles:YES];
+        [openPanel setCanChooseDirectories:NO];
+        [openPanel setAllowsMultipleSelection:NO];
+        
+        if ([openPanel runModal] == NSOKButton)
         {
-            // Get an array containing the full filenames of all
-            // files and directories selected.
-            NSArray* files = [openDlg filenames];
-            
-            // Loop through all the files and process them.
-            for( i = 0; i < [files count]; i++ )
-            {
-                fileName = [files objectAtIndex:i];
-            }
-            NSLog(@"filename %@",fileName);
+            NSString *selectedFileName = [[openPanel URL] path];
             
             [args addObject:@"-f"];
-            [args addObject:fileName];
+            [args addObject:selectedFileName];
         }
         else
         {

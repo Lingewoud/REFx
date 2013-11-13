@@ -68,7 +68,7 @@
             testIndex = 0;
             for (NSDictionary *dict in [[RXEngineManager sharedEngineManager] engineInfoDict:eName objectForKey:@"testJobs"])
             {
-                if([dict boolForKey:@"runInSelfTest"])
+                if([[dict objectForKey:@"runInSelfTest"] boolValue])
                 {
                     NSLog(@"insert selftest for %@ with index %li",eName, testIndex);
                     NSString *yamlFile =[NSString stringWithFormat:@"%@/%@",[[RXEngineManager sharedEngineManager] pathToEngineResources:eName],[dict objectForKey:@"bodyYaml"]];
@@ -100,7 +100,7 @@
     [[[[NSApp delegate] refxInstance] jobPicker] startREFxLoop];
 }
 
-- (NSString*)stringWithPathRelativeTo:(NSString*)anchorPath {
+/*- (NSString*)stringWithPathRelativeTo:(NSString*)anchorPath {
     NSArray *pathComponents = [self pathComponents];
     NSArray *anchorComponents = [anchorPath pathComponents];
     
@@ -124,6 +124,7 @@
      [pathComponents subarrayWithRange:NSMakeRange(componentsInCommon, numberOfPathComponents)]];
     return [NSString pathWithComponents:relativeComponents];
 }
+*/
 
 - (IBAction)reloadEngines:(id)sender
 {
@@ -135,16 +136,16 @@
 {
     
     NSInteger row = [nsTableViewObj clickedRow];
-    NSInteger column = [nsTableViewObj clickedColumn];
+    //NSInteger column = [nsTableViewObj clickedColumn];
     //NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]);
-    
+
     //test if engine exist
-    if([[RXEngineManager sharedEngineManager] engineIsValid:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]])
+    if([[RXEngineManager sharedEngineManager] engineIsValid:[self tableView:nsTableViewObj objectValueForTableColumn:[[nsTableViewObj tableColumns] objectAtIndex:0] row:(int)row]])
     {
         //close existing
-        NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]);
+        NSLog(@"open engine panel %@",[self tableView:nsTableViewObj objectValueForTableColumn:[[nsTableViewObj tableColumns] objectAtIndex:0] row:(int)row]);
  
-        [self.engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:column row:row]];
+        [self.engineWindow setWindowEngineName:[self tableView:nsTableViewObj objectValueForTableColumn:[[nsTableViewObj tableColumns] objectAtIndex:0] row:(int)row]];
         [self.engineWindow reinitWindow];
         [self.engineWindow showWindow:self];
     }

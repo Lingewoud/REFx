@@ -1,6 +1,6 @@
 //
 //  RXEngines.h
-//  REFx4
+//  REFx
 //
 //  Created by Pim Snel on 24-09-13.
 //

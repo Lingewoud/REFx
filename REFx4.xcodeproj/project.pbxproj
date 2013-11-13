@@ -761,6 +761,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B62B86BFEA3F480A8D4C81FA /* Pods.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -782,6 +783,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B62B86BFEA3F480A8D4C81FA /* Pods.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (

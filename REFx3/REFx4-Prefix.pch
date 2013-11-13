@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'REFx4' target in the 'REFx4' project
+// Prefix header for all source files of the 'REFx' target in the 'REFx' project
 //
 
 #ifdef __OBJC__

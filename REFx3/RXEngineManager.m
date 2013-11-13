@@ -1,6 +1,6 @@
 //
 //  RXEngines.m
-//  REFx4
+//  REFx
 //
 //  Created by Pim Snel on 24-09-13.
 //
@@ -178,31 +178,17 @@
     
     if ([[testDict objectForKey:@"needSourceFile"] intValue] != 0 ) {
         
-        NSLog(@"Open input file handler");
-        int i; // Loop counter.
+        NSOpenPanel *openPanel = [[NSOpenPanel alloc] init];
+        [openPanel setCanChooseFiles:YES];
+        [openPanel setCanChooseDirectories:NO];
+        [openPanel setAllowsMultipleSelection:NO];
         
-        NSOpenPanel* openDlg = [NSOpenPanel openPanel];
-        [openDlg setCanChooseFiles:YES];
-        [openDlg setCanChooseDirectories:NO];
-        [openDlg setAllowsMultipleSelection:NO];
-        
-        NSString* fileName;
-        
-        if ( [openDlg runModalForDirectory:nil file:nil] == NSOKButton )
+        if ([openPanel runModal] == NSOKButton)
         {
-            // Get an array containing the full filenames of all
-            // files and directories selected.
-            NSArray* files = [openDlg filenames];
-            
-            // Loop through all the files and process them.
-            for( i = 0; i < [files count]; i++ )
-            {
-                fileName = [files objectAtIndex:i];
-            }
-            NSLog(@"filename %@",fileName);
+            NSString *selectedFileName = [[openPanel URL] path];
             
             [args addObject:@"-f"];
-            [args addObject:fileName];
+            [args addObject:selectedFileName];
         }
         else
         {
@@ -219,7 +205,8 @@
         
         [rubyJobProcess setCurrentDirectoryPath:engineDir];
         [rubyJobProcess setLaunchPath: enginePath];
-        [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
+        [rubyJobProcess setEnvironment:
+         [NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
         [rubyJobProcess setArguments: args];
         [rubyJobProcess waitUntilExit];
         [rubyJobProcess launch];
