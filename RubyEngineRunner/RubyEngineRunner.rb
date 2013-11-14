@@ -30,77 +30,66 @@ class RefxJobWrapper
 		Dir.mkdir(@logdir) unless File.exists?(@logdir)
 		@logfile = @logdir + '/Engines.log'
 
-		#p "start running job"
-		pJob.attempt = pJob.attempt.to_i + 1
+        #logger.info(Time.now.to_s+': start processing job '+ pJob.id.to_s)
+        cmdbody = YAML::load(pJob.body)
 
-		## SAVE JOB: attempt + 1
-		pJob.save
+        #We always add the jobId to the init arguments on the first position
+        initArgString = "'"+pJob.id.to_s+"'"
 
-		if !maxattempts.nil? && pJob.attempt > maxattempts.to_i
-			p "max attempt reached"
-			pJob.status = 66
-		else
-			#logger.info(Time.now.to_s+': start processing job '+ pJob.id.to_s)
-			cmdbody = YAML::load(pJob.body)
+        #IF THE PLUGIN NEEDS MORE ARGUMENTS
+        begin
+            initArgString2= createArgString(cmdbody['init_args'])
+        rescue Exception => e
+            p "cant find init_args"
+            pJob.status = 69
+            pJob.save
+            return
+        end
 
-			#We always add the jobId to the init arguments on the first position
-			initArgString = "'"+pJob.id.to_s+"'"
+        initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
 
-			#IF THE PLUGIN NEEDS MORE ARGUMENTS
-            begin
-                initArgString2= createArgString(cmdbody['init_args'])
-            rescue Exception => e
-                p "cant find init_args"
-                pJob.status = 69
-                pJob.save
-                return
-            end
+        methodArgString= createArgString(cmdbody['method_args'])
 
-			initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
+        ##### CMDBODY DEBUG
 
-			methodArgString= createArgString(cmdbody['method_args'])
+        #logger.info 'engine: '+pJob.engine
+        #logger.info 'method: '+cmdbody['method']
+        #logger.info 'init_args: '+ initArgString
+        #logger.info 'method_args: '+ methodArgString
 
-			##### CMDBODY DEBUG
+        # CREATE ENGINE OBJECT and make sure the engine object is nil
+        @engineObject=nil
 
-			#logger.info 'engine: '+pJob.engine
-			#logger.info 'method: '+cmdbody['method']
-			#logger.info 'init_args: '+ initArgString
-			#logger.info 'method_args: '+ methodArgString
+        require "./#{pJob.engine}.rb"
 
-			# CREATE ENGINE OBJECT and make sure the engine object is nil
-			@engineObject=nil
+        evalcmd1=pJob.engine+'.new('+initArgString+')'
+        #p evalcmd1
+        @engineObject = eval(evalcmd1)
 
-			require "./#{pJob.engine}.rb"
+        if @engineObject
+            logStartNewJob
 
-			evalcmd1=pJob.engine+'.new('+initArgString+')'
-			#p evalcmd1
-			@engineObject = eval(evalcmd1)
+            evalcommand='@returnVal = @engineObject.'+cmdbody['method']+'('+methodArgString+')'
 
-			if @engineObject
-				logStartNewJob
+            @startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
+            _startTime = Time.now
+            eval(evalcommand)
+            
+            @endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
+            _endTime = Time.now
+            @duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
 
-				evalcommand='@returnVal = @engineObject.'+cmdbody['method']+'('+methodArgString+')'
+            logJobSummery
 
-				@startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
-				_startTime = Time.now
-				eval(evalcommand)
-                
-				@endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
-				_endTime = Time.now
-				@duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
+            pJob.status = 10
+            pJob.returnbody = @returnVal
+        else
+            errorMsg = "engine "+pJob.engine+" does not exist"
+            print "failed object can be made"
+            pJob.returnbody = errorMsg
+            pJob.status = 20
+        end
 
-				logJobSummery
-
-				pJob.status = 10
-				pJob.returnbody = @returnVal
-			else
-				errorMsg = "engine "+pJob.engine+" does not exist"
-				print "failed object can be made"
-				pJob.returnbody = errorMsg
-				pJob.status = 20
-			end
-
-		end
 		pJob.save
 	end
 
@@ -116,7 +105,6 @@ class RefxJobWrapper
 	end
 
 	def logJobSummery
-		#p 'log summary'
 		open(@logfile, 'a') { |f|
 			f.puts "------------ FINISH REFx JOB ---------------------\n"
 			f.puts @startTime +"\n"
@@ -278,6 +266,7 @@ if options[:test]
 	refxjob = RefxJobWrapper.new
 	refxjob.insertTestJob(options[:test],options[:testindex],options[:testSourceFilename])
 elsif options[:jobid] != 0
+    $REFXjobid = options[:jobid]
 	refxjob = RefxJobWrapper.new
 	refxjob.selectJobById(options[:jobid],options[:maxattempts])
 end

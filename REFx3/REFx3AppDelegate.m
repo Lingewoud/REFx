@@ -143,6 +143,18 @@
     return [NSString stringWithFormat: @"%@/Library/Logs/REFx4/Engines.log",NSHomeDirectory()];
 }
 
+- (NSString *)jobLogFilePath
+{
+    
+    NSString *fullPathString = [[[self applicationFilesDirectory] path] stringByAppendingPathComponent:@"JobsLogs"];
+    
+    if(![[ NSFileManager defaultManager ] fileExistsAtPath:fullPathString]){
+        NSLog(@"Creating JobsLogs: %@",fullPathString);
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: fullPathString withIntermediateDirectories: YES attributes: nil error: NULL ];
+    }
+    
+    return fullPathString;
+}
 
 - (NSString *)testFolderPath
 {
@@ -150,7 +162,7 @@
     NSString *fullPathString = [[[self applicationFilesDirectory] path] stringByAppendingPathComponent:@"TestJobs"];
 
     if(![[ NSFileManager defaultManager ] fileExistsAtPath:fullPathString]){
-        NSLog(@"Creating dbPath: %@",fullPathString);
+        NSLog(@"Creating testFolderPath: %@",fullPathString);
         [[ NSFileManager defaultManager ] createDirectoryAtPath: fullPathString withIntermediateDirectories: YES attributes: nil error: NULL ];
     }
     

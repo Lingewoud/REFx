@@ -153,9 +153,20 @@
     
     if(jobid != 0 && jobRunning == NO)
     {
-        jobRunning = YES;
-        
+
         NSLog(@"DISPATCHING JOBID %i",jobid);
+        
+        jobRunning = YES;
+
+        NSString * jobLogFolder = [NSString stringWithFormat:@"%@/%i",[[NSApp delegate ] jobLogFilePath],jobid];
+        NSLog(@"Creating JobsLogs: %@",jobLogFolder);
+
+        if([[ NSFileManager defaultManager ] fileExistsAtPath:jobLogFolder]){
+            [[ NSFileManager defaultManager ] removeItemAtPath:jobLogFolder error:nil];
+        }
+        
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: jobLogFolder withIntermediateDirectories: YES attributes: nil error: NULL ];
+        
         [self setJobId:jobid status:2];
         NSString *jobidString = [NSString stringWithFormat:@"%i",jobid];
         
@@ -192,30 +203,38 @@
         }
         
         [rubyJobProcess setArguments:args];
-        
 
-        /*
+
         NSPipe *errorPipe = [NSPipe pipe];
         NSPipe *outputPipe = [NSPipe pipe];
 
         [rubyJobProcess setStandardInput:[NSPipe pipe]];
         [rubyJobProcess setStandardError:errorPipe];
         [rubyJobProcess setStandardOutput:outputPipe];
-         */
         
         @try {
             [rubyJobProcess launch];
-           /*
+
             NSData *outputData = [[outputPipe fileHandleForReading] readDataToEndOfFile];
             NSString *outputString = [[[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding] autorelease];
 
             NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
             NSString *errorString = [[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding] autorelease];
+    
+            NSString * jobStdErrorLogFile = [jobLogFolder stringByAppendingString:@"/error.log"];
+            NSString * jobStdOutputLogFile = [jobLogFolder stringByAppendingString:@"/output.log"];
             
-            NSLog(@"proc output:%@",outputString);
-            NSLog(@"proc error:%@",errorString);
-            */
-
+            //NSLog(@"proc output:%@",outputString);
+            //NSLog(@"proc error:%@",errorString);
+            
+            if([outputString length] > 0)
+            {
+                [outputString writeToFile:jobStdOutputLogFile atomically:NO encoding:NSUTF8StringEncoding error:nil];
+            }
+            if([errorString length] > 0)
+            {
+                [errorString writeToFile:jobStdErrorLogFile atomically:NO encoding:NSUTF8StringEncoding error:nil];
+            }
         }
         @catch (NSException *exception) {
             //increase attempt
@@ -282,17 +301,41 @@
     
     [db close];
     
+    if(ret > 0)
+    {
+        [self increaseAttemts:ret];
+    }
+    
     if([[NSUserDefaults standardUserDefaults] integerForKey:@"disableMaxAttempts"]==0)
     {
         if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] > 0 &&
            [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] < attempt)
         {
-            [self setJobId:ret status:67];
+            [self setJobId:ret status:66];
             ret = 0;
         }
     }
     
     return ret;
+}
+
+- (void)increaseAttemts:(NSInteger)jobid
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
+    if (![db open]) {
+        NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
+        return;
+    }
+    
+//    db.traceExecution = YES;
+//    db.logsErrors = YES;
+    
+    NSString *sql = [NSString stringWithFormat:@"UPDATE jobs SET attempt = attempt + 1 WHERE id=%li",  (long)jobid];
+    NSLog(@"Exec: %@",  sql);
+
+    [db executeUpdate:sql];
+    
+    [db close];
 }
 
 - (void)setJobId:(NSInteger)rowId status:(NSInteger)status

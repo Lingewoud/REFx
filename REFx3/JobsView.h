@@ -29,6 +29,9 @@
     IBOutlet NSTextField    *JobRecordTextFieldAttempts;
     IBOutlet NSTextView     *JobRecordTextViewInputParam;
     IBOutlet NSTextView     *JobRecordTextViewResult;
+    IBOutlet NSTextView     *JobRecordTextViewLogEngine;
+    IBOutlet NSTextView     *JobRecordTextViewLogOutput;
+    IBOutlet NSTextView     *JobRecordTextViewLogError;
     IBOutlet NSButton       *OpenDestinationFolder;
     //NSString                *absoluteDestinationPath;
     

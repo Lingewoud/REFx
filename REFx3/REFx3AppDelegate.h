@@ -41,13 +41,11 @@
 -(void)flushRailsLogs;
 -(void)flushEngineLogs;
 
-
-//- (void)refreshJobMgr;
-
 - (NSString *)appSupportPath;
 - (NSString *)sqlLitePath;
 
 - (NSString *)testFolderPath;
+- (NSString *)jobLogFilePath;
 - (NSURL *)applicationFilesDirectory;
 - (NSString *) engineLogFilePath;
 -(void)reinstallDatabase;

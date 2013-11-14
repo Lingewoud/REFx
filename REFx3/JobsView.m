@@ -129,6 +129,8 @@
             }
         }
         
+        [[[JobRecordTextViewInputParam textStorage] mutableString] setString: @""];
+
         NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
         if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] > 0)
         {
@@ -190,9 +192,42 @@
         {
             [[[JobRecordTextViewResult textStorage] mutableString] setString: @""];
         }
-    }
-    [db close];
         
+        NSString * jobLogFolder = [NSString stringWithFormat:@"%@/%@",[[NSApp delegate ] jobLogFilePath],[rs stringForColumn:@"id"]];
+        
+        NSString * jobStdErrorLogFile = [jobLogFolder stringByAppendingString:@"/error.log"];
+        if([[ NSFileManager defaultManager ] fileExistsAtPath:jobStdErrorLogFile]){
+            NSString *txtErrorFileContents = [NSString stringWithContentsOfFile:jobStdErrorLogFile encoding:NSUTF8StringEncoding error:NULL];
+            [[[JobRecordTextViewLogError textStorage] mutableString] setString: txtErrorFileContents];
+        }
+        else [[[JobRecordTextViewLogError textStorage] mutableString] setString: @""];
+
+        
+        NSString * jobStdOutputLogFile = [jobLogFolder stringByAppendingString:@"/output.log"];
+        if([[ NSFileManager defaultManager ] fileExistsAtPath:jobStdOutputLogFile]){
+            NSString *txtOutputFileContents = [NSString stringWithContentsOfFile:jobStdOutputLogFile encoding:NSUTF8StringEncoding error:NULL];
+            [[[JobRecordTextViewLogOutput textStorage] mutableString] setString: txtOutputFileContents];
+        }
+        else [[[JobRecordTextViewLogOutput textStorage] mutableString] setString: @""];
+
+        
+        NSString * jobStdEngineLogFile = [jobLogFolder stringByAppendingString:@"/engine.log"];
+        if([[ NSFileManager defaultManager ] fileExistsAtPath:jobStdEngineLogFile]){
+            NSString *txtEngineFileContents = [NSString stringWithContentsOfFile:jobStdEngineLogFile encoding:NSUTF8StringEncoding error:NULL];
+            [[[JobRecordTextViewLogEngine textStorage] mutableString] setString: txtEngineFileContents];
+        }
+        else [[[JobRecordTextViewLogEngine textStorage] mutableString] setString: @""];
+
+    }
+   
+    [db close];
+    
+
+    
+    
+    
+    
+    
 	[JobRecordWindow makeKeyAndOrderFront:self];
 }
 
@@ -210,7 +245,7 @@
     if([[self testTable] selectedRow]==-1) return;
 
     NSDictionary *selectedRow =[self getData];
-    NSLog(@"reset Record %@ at row %@",[selectedRow objectForKey:@"id"], [selectedRow objectForKey:@"row"]);
+    //NSLog(@"reset Record %@ at row %@",[selectedRow objectForKey:@"id"], [selectedRow objectForKey:@"row"]);
 
     FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
     
@@ -218,9 +253,9 @@
         NSLog(@"Could not open db.");
         return;
     }
-    
-    NSLog(@"UPDATE jobs SET status=1,attempt=0 WHERE id=%@",[selectedRow objectForKey:@"id"]);
-    [db executeUpdate:@"UPDATE jobs SET status=1,attempt=0 WHERE id=?",[selectedRow objectForKey:@"id"]];
+    db.traceExecution = YES;
+    db.logsErrors = YES;
+    [db executeUpdate:@"UPDATE jobs SET status=1,attempt=0,returnbody='' WHERE id=?",[selectedRow objectForKey:@"id"]];
     [db close];
     [self populateTableAndBuffer];
 }
