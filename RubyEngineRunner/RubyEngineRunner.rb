@@ -27,14 +27,14 @@ class RefxJobWrapper
 	def runJob(pJob,maxattempts=nil)
 
         p "start running job"
-        pJob.attempt = pJob.attempt.to_i + 1
+    #    pJob.attempt = pJob.attempt.to_i + 1
         ## SAVE JOB: attempt + 1
-        pJob.save
+    #    pJob.save
         
-        if !maxattempts.nil? && pJob.attempt > maxattempts.to_i
-            p "max attempt reached"
-            pJob.status = 66
-        else
+    #    if !maxattempts.nil? && pJob.attempt > maxattempts.to_i
+    #        p "max attempt reached"
+    #        pJob.status = 66
+    #    else
         
             @logdir = File.expand_path('~')+"/Library/Logs/REFx4"
             Dir.mkdir(@logdir) unless File.exists?(@logdir)
@@ -100,7 +100,8 @@ class RefxJobWrapper
                 pJob.returnbody = errorMsg
                 pJob.status = 20
             end
-        end
+    #    end
+
 
 		pJob.save
         exit 0

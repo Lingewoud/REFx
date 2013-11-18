@@ -51,7 +51,9 @@
 }
 
 @property (nonatomic,retain) NSMutableDictionary	*testBuffer;
-@property (nonatomic,retain) NSString	*absoluteDestinationPath;
+@property (nonatomic,retain) NSString *absoluteDestinationPath;
+//@property (nonatomic,retain) NSString *exportFileName;
+@property (nonatomic,retain) NSString *jobViewJobid;
 
 // -- accessor methods
 - (NSDictionary *)testBuffer;
@@ -65,6 +67,8 @@
 - (IBAction)pauzeJob:(id)sender;
 - (IBAction)deleteJob:(id)sender;
 - (IBAction)viewBody:(id)sender;
+- (IBAction)saveToZip:(id)sender;
+
 - (IBAction)openDestinationFolderAction:(id)sender;
 
 

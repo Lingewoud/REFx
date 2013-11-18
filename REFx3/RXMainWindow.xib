@@ -674,7 +674,7 @@ Gw
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="oi5-hu-x7Z">
-                        <rect key="frame" x="-2" y="353" width="92" height="17"/>
+                        <rect key="frame" x="-2" y="346" width="92" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Engine" id="RDy-jV-Zj1">
                             <font key="font" metaFont="system"/>
@@ -683,7 +683,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="bsQ-c5-d3s">
-                        <rect key="frame" x="99" y="353" width="142" height="17"/>
+                        <rect key="frame" x="99" y="346" width="142" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="EngineName" id="wSI-wt-xdj">
                             <font key="font" metaFont="system"/>
@@ -692,7 +692,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="lOR-8p-46E">
-                        <rect key="frame" x="-2" y="330" width="92" height="17"/>
+                        <rect key="frame" x="-2" y="323" width="92" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Method" id="uV3-cU-wrm">
                             <font key="font" metaFont="system"/>
@@ -701,7 +701,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="9Wf-d7-NSZ">
-                        <rect key="frame" x="99" y="330" width="142" height="17"/>
+                        <rect key="frame" x="99" y="323" width="142" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Method" id="Vuy-5P-unO">
                             <font key="font" metaFont="system"/>
@@ -710,7 +710,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="KeX-qt-KTY">
-                        <rect key="frame" x="233" y="353" width="92" height="17"/>
+                        <rect key="frame" x="233" y="346" width="92" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Status" id="vxI-FY-FNF">
                             <font key="font" metaFont="system"/>
@@ -719,7 +719,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="nMX-Us-Sh6">
-                        <rect key="frame" x="334" y="353" width="142" height="17"/>
+                        <rect key="frame" x="334" y="346" width="142" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="10" id="B9J-8d-4KX">
                             <font key="font" metaFont="system"/>
@@ -728,7 +728,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="RA2-ke-BeN">
-                        <rect key="frame" x="-2" y="308" width="92" height="17"/>
+                        <rect key="frame" x="-2" y="301" width="92" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Priority" id="uDu-9d-fva">
                             <font key="font" metaFont="system"/>
@@ -737,7 +737,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="zcf-KC-cue">
-                        <rect key="frame" x="99" y="308" width="142" height="17"/>
+                        <rect key="frame" x="99" y="301" width="142" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="0" id="KfF-rJ-LmA">
                             <font key="font" metaFont="system"/>
@@ -746,7 +746,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="jLP-lN-7DK">
-                        <rect key="frame" x="233" y="308" width="92" height="17"/>
+                        <rect key="frame" x="233" y="301" width="92" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Last Update" id="UJP-HO-tgS">
                             <font key="font" metaFont="system"/>
@@ -755,7 +755,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="I2Y-1b-OU0">
-                        <rect key="frame" x="334" y="308" width="233" height="17"/>
+                        <rect key="frame" x="334" y="301" width="233" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="2103455" id="rgP-AW-lAg">
                             <font key="font" metaFont="system"/>
@@ -764,7 +764,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="HDO-hu-ofu">
-                        <rect key="frame" x="233" y="330" width="92" height="17"/>
+                        <rect key="frame" x="233" y="323" width="92" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Attempts" id="I94-b3-KpV">
                             <font key="font" metaFont="system"/>
@@ -773,7 +773,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="TQB-la-vGh">
-                        <rect key="frame" x="334" y="330" width="142" height="17"/>
+                        <rect key="frame" x="334" y="323" width="142" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="4" id="nUA-ct-o9W">
                             <font key="font" metaFont="system"/>
@@ -937,7 +937,7 @@ Gw
                         </tabViewItems>
                     </tabView>
                     <button verticalHuggingPriority="750" id="rgt-bI-Spw">
-                        <rect key="frame" x="412" y="342" width="155" height="32"/>
+                        <rect key="frame" x="149" y="364" width="155" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Destination Folder" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hgs-6l-F8u">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -945,6 +945,17 @@ Gw
                         </buttonCell>
                         <connections>
                             <action selector="openDestinationFolderAction:" target="99" id="L5i-yF-ReU"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="Wvk-YA-pgm">
+                        <rect key="frame" x="0.0" y="364" width="155" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="save job to zip" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="W6a-pS-kjZ">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="saveToZip:" target="99" id="7r2-9G-PW9"/>
                         </connections>
                     </button>
                 </subviews>

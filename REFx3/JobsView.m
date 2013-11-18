@@ -127,6 +127,8 @@
         return;
     }
     
+    self.jobViewJobid = [selectedRow objectForKey:@"id"];
+    
     FMResultSet *rs = [db executeQuery:@"select * from jobs WHERE id=?",[selectedRow objectForKey:@"id"]];
     while ([rs next]) {
         
@@ -257,6 +259,116 @@
     
     if([[NSFileManager defaultManager] fileExistsAtPath:self.absoluteDestinationPath]){
             [[NSWorkspace sharedWorkspace] selectFile:self.absoluteDestinationPath inFileViewerRootedAtPath:self.absoluteDestinationPath];
+    }
+}
+
+
+- (IBAction)saveToZip:(id)sender
+{
+    NSString *defaultName = [NSString stringWithFormat:@"job-%@",self.jobViewJobid];
+    
+    NSSavePanel *save = [NSSavePanel savePanel];
+    [save setAllowedFileTypes:[NSArray arrayWithObject:@"zip"]];
+    [save setAllowsOtherFileTypes:NO];
+    [save setNameFieldStringValue:defaultName];
+    
+    NSInteger result = [save runModal];
+    NSError *error = nil;
+    
+    if (result == NSOKButton)
+    {
+        NSString *selectedFile = [[save URL] path];
+        
+
+        
+        FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+        
+        if (![db open]) {
+            NSLog(@"Could not open db.");
+            return;
+        }
+        
+        FMResultSet *rs = [db executeQuery:@"select * from jobs WHERE id=?",self.jobViewJobid];
+        while ([rs next]) {
+            
+            NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
+            if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] > 0)
+            {
+                NSDictionary *yaml = [YAMLSerialization objectWithYAMLString: [rs stringForColumn:@"body"]
+                                                                     options: kYAMLReadOptionStringScalars
+                                                                       error: nil];
+                if([yaml isKindOfClass:[NSDictionary class]])
+                {
+                    
+                    if([[ NSFileManager defaultManager ] fileExistsAtPath:[selectedFile stringByDeletingPathExtension]]){
+                        NSLog(@"deleting %@",[selectedFile stringByDeletingPathExtension]);
+                        [[ NSFileManager defaultManager ] removeItemAtPath:[selectedFile stringByDeletingPathExtension] error:nil];
+                    }
+
+                    error = nil;
+
+
+                    if([[ NSFileManager defaultManager] createDirectoryAtPath: [selectedFile stringByDeletingPathExtension] withIntermediateDirectories: YES attributes: nil error: &error ])
+                    {
+                        NSLog(@"creating %@ %@error",[selectedFile stringByDeletingPathExtension],error);
+                    }
+                    else
+                    {
+                        NSLog(@"noy created %@",[selectedFile stringByDeletingPathExtension]);
+                    }
+                    
+                    NSString *absoluteOutputBasePath = [[[[yaml objectForKey:@"init_args"] objectAtIndex:0]
+                                                         objectForKey:@"value"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                    
+                    NSString *relativeSourceFilePath = [[[yaml objectForKey:@"init_args"] objectAtIndex:1] objectForKey:@"value"];
+                    
+                    NSString *absoluteSourcePath = [[absoluteOutputBasePath stringByAppendingPathComponent:relativeSourceFilePath] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+           
+                    
+                    NSString * bodyYamlFileName = [[selectedFile stringByDeletingPathExtension] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.yml",[rs stringForColumn:@"engine"]]];
+                    NSError *error = nil;
+                    [tempBody writeToFile:bodyYamlFileName
+                               atomically:NO
+                                 encoding:NSUTF8StringEncoding
+                                    error:&error];
+                    
+                    if ([[NSFileManager defaultManager] fileExistsAtPath:absoluteSourcePath] )
+                    {
+                        [[NSFileManager defaultManager] copyItemAtPath:absoluteSourcePath toPath:[[selectedFile stringByDeletingPathExtension] stringByAppendingPathComponent:[absoluteSourcePath lastPathComponent]] error:nil];
+                    }
+                    else
+                    {
+                        NSLog(@"Could not copy file: %@,->%@",absoluteSourcePath,[[selectedFile stringByDeletingPathExtension] stringByAppendingPathComponent:[absoluteSourcePath lastPathComponent]]);
+                    }
+                    
+
+                    NSTask *zip = [[NSTask alloc] init];
+                    [zip setLaunchPath:@"/usr/bin/zip"];
+                    [zip setCurrentDirectoryPath:[selectedFile stringByDeletingLastPathComponent]];
+                    [zip setArguments:[NSArray arrayWithObjects: @"-jr", selectedFile, [NSString stringWithFormat:@"%@", [selectedFile stringByDeletingPathExtension]], nil]];
+                    
+                    NSLog(@"::%@ ::%@",[selectedFile stringByDeletingLastPathComponent], [selectedFile stringByDeletingPathExtension]);
+                    NSLog(@"args: %@", [NSArray arrayWithObjects: @"-r", selectedFile, @"-i",[NSString stringWithFormat:@"%@", [selectedFile stringByDeletingPathExtension]], nil]);
+                    //NSPipe *aPipe = [[NSPipe alloc] init];
+                    //[unzip setStandardOutput:aPipe];
+                    
+                    [zip launch];
+                    [zip waitUntilExit];
+                                        
+                    if([[ NSFileManager defaultManager ] fileExistsAtPath:[selectedFile stringByDeletingPathExtension]]){
+                        [[ NSFileManager defaultManager ] removeItemAtPath:[selectedFile stringByDeletingPathExtension] error:nil];
+                    }
+                }
+            }
+            
+        }
+        
+        if (error) {
+            // This is one way to handle the error, as an example
+            [NSApp presentError:error];
+        }
+        
+        [db close];
     }
 }
 
