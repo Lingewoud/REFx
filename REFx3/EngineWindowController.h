@@ -14,7 +14,7 @@
 @property (assign) IBOutlet NSTextField *EngineTitle;
 @property (assign) IBOutlet NSTextField *EngineVersion;
 @property (assign) IBOutlet NSTextField *EngineDescription;
-@property (assign) IBOutlet NSTextField *newVersionText;
+//@property (assign) IBOutlet NSTextField *newVersionText;
 
 @property (assign) IBOutlet NSPopUpButton *testJobMenu;
 @property (assign) IBOutlet NSButton *updatesButton;

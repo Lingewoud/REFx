@@ -32,7 +32,7 @@
 
          
          [self populateTableAndBuffer];
-         //[self startAutoUpdateTable];
+
          [self startListeningFileChanges];
 
     }
@@ -52,11 +52,14 @@
 {
     //NSLog(@"Database was update, so we update the table view");
     [self populateTableAndBuffer];
+    [self updateJobsStats];
 }
 
 - (void) awakeFromNib {
     [self.testTable setTarget:self];
     [self.testTable setDoubleAction:@selector(doubleClickInTableView:)];
+    [self updateJobsStats];
+
 
 }
 
@@ -86,6 +89,29 @@
 
 - (IBAction)refreshTable:(id)sender{
         [self populateTableAndBuffer];
+}
+
+- (void) updateJobsStats
+{
+    FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+    
+    if (![db open]) {
+        NSLog(@"Could not open db.");
+        return;
+    }
+    
+    int error = [db intForQuery:@"SELECT count(id) FROM jobs WHERE status >= 60"];
+    int new = [db intForQuery:@"SELECT count(id) FROM jobs WHERE status = 1"];
+    int pauzed = [db intForQuery:@"SELECT count(id) FROM jobs WHERE status = 11"];
+    int total = [db intForQuery:@"SELECT count(id) FROM jobs"];
+    
+    [jobsNumError setStringValue:[NSString stringWithFormat:@"%i",error]];
+    [jobsNumNew setStringValue:[NSString stringWithFormat:@"%i",new]];
+    [jobsNumPauzed setStringValue:[NSString stringWithFormat:@"%i",pauzed]];
+    [jobsNumTotal setStringValue:[NSString stringWithFormat:@"%i",total]];
+    
+    [db close];
+
 }
 
 - (IBAction)viewBody:(id)sender
@@ -203,13 +229,14 @@
         else [[[JobRecordTextViewLogError textStorage] mutableString] setString: @""];
 
         
-        NSString * jobStdOutputLogFile = [jobLogFolder stringByAppendingString:@"/output.log"];
+        /*
+         NSString * jobStdOutputLogFile = [jobLogFolder stringByAppendingString:@"/output.log"];
         if([[ NSFileManager defaultManager ] fileExistsAtPath:jobStdOutputLogFile]){
             NSString *txtOutputFileContents = [NSString stringWithContentsOfFile:jobStdOutputLogFile encoding:NSUTF8StringEncoding error:NULL];
             [[[JobRecordTextViewLogOutput textStorage] mutableString] setString: txtOutputFileContents];
         }
         else [[[JobRecordTextViewLogOutput textStorage] mutableString] setString: @""];
-
+         */
         
         NSString * jobStdEngineLogFile = [jobLogFolder stringByAppendingString:@"/engine.log"];
         if([[ NSFileManager defaultManager ] fileExistsAtPath:jobStdEngineLogFile]){
@@ -222,12 +249,6 @@
    
     [db close];
     
-
-    
-    
-    
-    
-    
 	[JobRecordWindow makeKeyAndOrderFront:self];
 }
 
@@ -238,7 +259,6 @@
             [[NSWorkspace sharedWorkspace] selectFile:self.absoluteDestinationPath inFileViewerRootedAtPath:self.absoluteDestinationPath];
     }
 }
-
 
 - (IBAction)resetJob:(id)sender{
     
@@ -253,9 +273,42 @@
         NSLog(@"Could not open db.");
         return;
     }
-    db.traceExecution = YES;
-    db.logsErrors = YES;
-    [db executeUpdate:@"UPDATE jobs SET status=1,attempt=0,returnbody='' WHERE id=?",[selectedRow objectForKey:@"id"]];
+//    db.traceExecution = YES;
+//    db.logsErrors = YES;
+    [db executeUpdate:@"UPDATE jobs SET status=1,attempt=0,returnbody=NULL WHERE id=?",[selectedRow objectForKey:@"id"]];
+    [db close];
+    [self populateTableAndBuffer];
+}
+
+- (IBAction)pauzeJob:(id)sender{
+
+    
+    if([[self testTable] selectedRow]==-1) return;
+    
+    NSDictionary *selectedRow =[self getData];
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+    
+    if (![db open]) {
+        NSLog(@"Could not open db.");
+        return;
+    }
+    
+    int status = [db intForQuery:@"SELECT status FROM jobs WHERE  id=?",[selectedRow objectForKey:@"id"]];
+    
+    if(status == 1)
+    {
+        [db executeUpdate:@"UPDATE jobs SET status=11 WHERE id=?",[selectedRow objectForKey:@"id"]];
+    }
+    else
+    {
+        NSLog(@"Can only pauze job that is new.");
+    }
+    
+    
+//    db.traceExecution = YES;
+//    db.logsErrors = YES;
+
     [db close];
     [self populateTableAndBuffer];
 }
@@ -279,7 +332,6 @@
     [self populateTableAndBuffer];
 }
 
-
 - (void) populateTableAndBuffer{
     
 	NSMutableArray *loc_id;
@@ -296,7 +348,6 @@
     NSMutableArray *loc_created_at;
     NSMutableArray *loc_updated_at;
     NSMutableDictionary *yaml;
-    
 	
 	if (testBuffer != nil)
 	{
@@ -315,7 +366,6 @@
 		loc_created_at = [NSMutableArray array];
 		loc_updated_at = [NSMutableArray array];
         NSInteger jobsAmount;
-        
         
         if([[NSUserDefaults standardUserDefaults] integerForKey:@"jobsAmount"]>0)
         {
@@ -348,10 +398,10 @@
                 [statusList setObject: @"Running" forKey: @"2"];
                 [statusList setObject: @"Finished" forKey: @"10"];
                 [statusList setObject: @"Pauzed" forKey: @"11"];
-                [statusList setObject: @"runtime error, max attempts" forKey: @"66"];
-                [statusList setObject: @"Engine not installed" forKey: @"67"];
-                [statusList setObject: @"Engine: fatal" forKey: @"68"];
-                [statusList setObject: @"Runner: fatal" forKey: @"69"];
+                [statusList setObject: @"Err. Max attempts" forKey: @"66"];
+                [statusList setObject: @"Err. No Engined" forKey: @"67"];
+                [statusList setObject: @"Err. Engine fatal" forKey: @"68"];
+                [statusList setObject: @"Err. Runner fatal" forKey: @"69"];
                 
                 [loc_status addObject:[statusList objectForKey:[rs stringForColumn:@"status"]]];
             }

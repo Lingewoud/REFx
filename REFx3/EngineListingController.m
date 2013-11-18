@@ -30,8 +30,7 @@
 {
     self.nsMutaryOfMyData = [[NSMutableArray alloc] init];
     
-    //NSMutableString *eName = [[NSMutableString alloc] init];
-    NSLog(@"engine array %@",[[[NSApp delegate] sharedEngineManager] enginesEnabledArray]);
+    //NSLog(@"engine array %@",[[[NSApp delegate] sharedEngineManager] enginesEnabledArray]);
     
     for (NSString *eName in [[[NSApp delegate] sharedEngineManager] enginesEnabledArray]) {
         
@@ -155,11 +154,10 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)pTableView
 {
-	NSLog(@"numberOfRowsInTableView ary count = %lu",[nsMutaryOfMyData count]);
+	//NSLog(@"numberOfRowsInTableView ary count = %lu",[nsMutaryOfMyData count]);
 	return [nsMutaryOfMyData count];
 	
-} // end numberOfRowsInTableView
-
+}
 
 - (id)tableView:(NSTableView *)pTableView objectValueForTableColumn:(NSTableColumn *)pTableColumn row:(int)pRow {
 
@@ -169,8 +167,7 @@
 	// e.g. returned string="fred", cell = "hello world",
 	// user selects the word "world" and types "fred": no change takes place.
 	
-} // end tableView:objectValueForTableColumn:tableColumn
-
+}
 
 // this is the delegate method that allows you to put data into your cell
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)pRow {
@@ -180,7 +177,7 @@
 	zMyCell.nsImageObj				= zMyDataObj.nsImageObj;
 	[zMyCell setTitle:zMyDataObj.nsStrText];
 	
-} // end tableView:willDisplayCell:forTableColumn:row:
+}
 
 
 // this is the routine that returns cell data (an edited string) back after editing
@@ -189,7 +186,7 @@
 	NSLog(@"setObjectValue string = %@",(NSString *)anObject);
 	zMyDataObj.nsStrText	= (NSString *)anObject;
 	
-} // end tableView:setObjectValue:forTableColumn:row:
+}
 
 
 // if this is not here we crash - called whenever mouseOver

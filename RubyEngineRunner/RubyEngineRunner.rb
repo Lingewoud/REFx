@@ -26,71 +26,84 @@ class RefxJobWrapper
 
 	def runJob(pJob,maxattempts=nil)
 
-		@logdir = File.expand_path('~')+"/Library/Logs/REFx4"
-		Dir.mkdir(@logdir) unless File.exists?(@logdir)
-		@logfile = @logdir + '/Engines.log'
-
-        #logger.info(Time.now.to_s+': start processing job '+ pJob.id.to_s)
-        cmdbody = YAML::load(pJob.body)
-
-        #We always add the jobId to the init arguments on the first position
-        initArgString = "'"+pJob.id.to_s+"'"
-
-        #IF THE PLUGIN NEEDS MORE ARGUMENTS
-        begin
-            initArgString2= createArgString(cmdbody['init_args'])
-        rescue Exception => e
-            p "cant find init_args"
-            pJob.status = 69
-            pJob.save
-            return
-        end
-
-        initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
-
-        methodArgString= createArgString(cmdbody['method_args'])
-
-        ##### CMDBODY DEBUG
-
-        #logger.info 'engine: '+pJob.engine
-        #logger.info 'method: '+cmdbody['method']
-        #logger.info 'init_args: '+ initArgString
-        #logger.info 'method_args: '+ methodArgString
-
-        # CREATE ENGINE OBJECT and make sure the engine object is nil
-        @engineObject=nil
-
-        require "./#{pJob.engine}.rb"
-
-        evalcmd1=pJob.engine+'.new('+initArgString+')'
-        #p evalcmd1
-        @engineObject = eval(evalcmd1)
-
-        if @engineObject
-            logStartNewJob
-
-            evalcommand='@returnVal = @engineObject.'+cmdbody['method']+'('+methodArgString+')'
-
-            @startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
-            _startTime = Time.now
-            eval(evalcommand)
-            
-            @endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
-            _endTime = Time.now
-            @duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
-
-            logJobSummery
-
-            pJob.status = 10
-            pJob.returnbody = @returnVal
+        p "start running job"
+        pJob.attempt = pJob.attempt.to_i + 1
+        ## SAVE JOB: attempt + 1
+        pJob.save
+        
+        if !maxattempts.nil? && pJob.attempt > maxattempts.to_i
+            p "max attempt reached"
+            pJob.status = 66
         else
-            errorMsg = "engine "+pJob.engine+" does not exist"
-            print "failed object can be made"
-            pJob.returnbody = errorMsg
-            pJob.status = 20
+        
+            @logdir = File.expand_path('~')+"/Library/Logs/REFx4"
+            Dir.mkdir(@logdir) unless File.exists?(@logdir)
+            @logfile = @logdir + '/Engines.log'
+
+            #logger.info(Time.now.to_s+': start processing job '+ pJob.id.to_s)
+            cmdbody = YAML::load(pJob.body)
+
+            #We always add the jobId to the init arguments on the first position
+            initArgString = "'"+pJob.id.to_s+"'"
+
+            #IF THE PLUGIN NEEDS MORE ARGUMENTS
+            begin
+                initArgString2= createArgString(cmdbody['init_args'])
+            rescue Exception => e
+                p "cant find init_args"
+                pJob.status = 69
+                pJob.save
+                return
+            end
+
+            initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
+
+            methodArgString= createArgString(cmdbody['method_args'])
+
+            ##### CMDBODY DEBUG
+
+            #logger.info 'engine: '+pJob.engine
+            #logger.info 'method: '+cmdbody['method']
+            #logger.info 'init_args: '+ initArgString
+            #logger.info 'method_args: '+ methodArgString
+
+            # CREATE ENGINE OBJECT and make sure the engine object is nil
+            @engineObject=nil
+
+            require "./#{pJob.engine}.rb"
+
+            evalcmd1=pJob.engine+'.new('+initArgString+')'
+            #p evalcmd1
+            @engineObject = eval(evalcmd1)
+
+            if @engineObject
+                logStartNewJob
+                p 'dag'
+                evalcommand='@returnVal = @engineObject.'+cmdbody['method']+'('+methodArgString+')'
+
+                @startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
+                _startTime = Time.now
+                eval(evalcommand)
+                
+                @endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
+                _endTime = Time.now
+                @duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
+
+                #logJobSummery
+                p 'hallo'
+
+                pJob.status = 10
+                pJob.returnbody = @returnVal
+            else
+                errorMsg = "engine "+pJob.engine+" does not exist"
+                print "failed object can be made"
+                pJob.returnbody = errorMsg
+                pJob.status = 20
+            end
         end
 
 		pJob.save
+        exit 0
 	end
 
 	def logStartNewJob
@@ -184,8 +197,8 @@ class RefxJobWrapper
 	end
 end
 
-ActiveRecord::Base.logger = Logger.new(STDERR)
-ActiveRecord::Base.colorize_logging = false
+#ActiveRecord::Base.logger = Logger.new(STDERR)
+#ActiveRecord::Base.colorize_logging = false
 
 ActiveRecord::Base.establish_connection(
 	:adapter => "sqlite3",
@@ -194,6 +207,7 @@ ActiveRecord::Base.establish_connection(
 
 class Job < ActiveRecord::Base  
 end  
+
 
 $debug = false
 options = {}

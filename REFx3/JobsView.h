@@ -19,6 +19,14 @@
     IBOutlet NSPanel        *testPanel;
     IBOutlet NSTextView     *panelTextField;
     
+    IBOutlet NSTextField    *jobsNumTotal;
+    IBOutlet NSTextField    *jobsNumError;
+    IBOutlet NSTextField    *jobsNumPauzed;
+    IBOutlet NSTextField    *jobsNumNew;
+    
+    
+    
+    
     IBOutlet NSWindow       *JobRecordWindow;
     IBOutlet NSTextField    *JobRecordTextFieldId;
     IBOutlet NSTextField    *JobRecordTextFieldEngineName;
@@ -30,7 +38,7 @@
     IBOutlet NSTextView     *JobRecordTextViewInputParam;
     IBOutlet NSTextView     *JobRecordTextViewResult;
     IBOutlet NSTextView     *JobRecordTextViewLogEngine;
-    IBOutlet NSTextView     *JobRecordTextViewLogOutput;
+    //IBOutlet NSTextView     *JobRecordTextViewLogOutput;
     IBOutlet NSTextView     *JobRecordTextViewLogError;
     IBOutlet NSButton       *OpenDestinationFolder;
     //NSString                *absoluteDestinationPath;
@@ -54,9 +62,11 @@
 - (void)setData:(NSDictionary *)aDat;
 - (IBAction)resetJob:(id)sender;
 - (IBAction)refreshTable:(id)sender;
+- (IBAction)pauzeJob:(id)sender;
 - (IBAction)deleteJob:(id)sender;
 - (IBAction)viewBody:(id)sender;
 - (IBAction)openDestinationFolderAction:(id)sender;
+
 
 
 

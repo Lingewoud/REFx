@@ -141,7 +141,23 @@
     }
 }
 
+
 - (void)loopSingleAction
+{
+    if([rubyJobProcess isRunning])
+    {
+        return;
+    }
+    
+    //int jobid = [self selectJob];
+    
+    if(jobRunning == NO)
+    {
+        [self performSelectorInBackground:@selector(executeRubyRunner) withObject:nil];
+    }
+}
+
+- (void)executeRubyRunner
 {
     NSLog(@"Find new job");
     if([rubyJobProcess isRunning])
@@ -153,14 +169,14 @@
     
     if(jobid != 0 && jobRunning == NO)
     {
-
+        
         NSLog(@"DISPATCHING JOBID %i",jobid);
         
         jobRunning = YES;
-
+        
         NSString * jobLogFolder = [NSString stringWithFormat:@"%@/%i",[[NSApp delegate ] jobLogFilePath],jobid];
         NSLog(@"Creating JobsLogs: %@",jobLogFolder);
-
+        
         if([[ NSFileManager defaultManager ] fileExistsAtPath:jobLogFolder]){
             [[ NSFileManager defaultManager ] removeItemAtPath:jobLogFolder error:nil];
         }
@@ -173,25 +189,25 @@
         NSString * engine = [self getJobEngine:jobid];
         
         RXEngineManager *sharedEngineManager = [RXEngineManager sharedEngineManager];
-
+        
         NSString *engineDir = [sharedEngineManager pathToEngineResources:engine];
         NSString *enginePath = [NSString stringWithFormat:@"%@main.rb", [sharedEngineManager pathToEngineResources:engine]];
         NSString *runnerPath = [sharedEngineManager pathToEngineRunner];
-
+        
         rubyJobProcess = [[NSTask alloc] init];
         
         [rubyJobProcess setCurrentDirectoryPath:engineDir];
         [rubyJobProcess setLaunchPath: enginePath];
         
         [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
-
-        NSMutableArray * args = [NSMutableArray arrayWithObjects:
-                          runnerPath,
-                          @"-j",jobidString,
-                          @"--environment",railsEnvironment,
-                          nil];
         
-
+        NSMutableArray * args = [NSMutableArray arrayWithObjects:
+                                 runnerPath,
+                                 @"-j",jobidString,
+                                 @"--environment",railsEnvironment,
+                                 nil];
+        
+        
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
             [args addObject:@"-d"];
@@ -203,45 +219,49 @@
         }
         
         [rubyJobProcess setArguments:args];
-
-
+        
+        
         NSPipe *errorPipe = [NSPipe pipe];
-        NSPipe *outputPipe = [NSPipe pipe];
-
-        [rubyJobProcess setStandardInput:[NSPipe pipe]];
+        //NSPipe *outputPipe = [NSPipe pipe];
+        
+        //[rubyJobProcess setStandardInput:[NSPipe pipe]];
+        //[rubyJobProcess setStandardOutput:outputPipe];
         [rubyJobProcess setStandardError:errorPipe];
-        [rubyJobProcess setStandardOutput:outputPipe];
+        //[rubyJobProcess waitUntilExit];
         
         @try {
+            
             [rubyJobProcess launch];
-
+            
+        /*
             NSData *outputData = [[outputPipe fileHandleForReading] readDataToEndOfFile];
             NSString *outputString = [[[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding] autorelease];
-
-            NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
-            NSString *errorString = [[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding] autorelease];
-    
-            NSString * jobStdErrorLogFile = [jobLogFolder stringByAppendingString:@"/error.log"];
             NSString * jobStdOutputLogFile = [jobLogFolder stringByAppendingString:@"/output.log"];
-            
-            //NSLog(@"proc output:%@",outputString);
-            //NSLog(@"proc error:%@",errorString);
-            
             if([outputString length] > 0)
             {
                 [outputString writeToFile:jobStdOutputLogFile atomically:NO encoding:NSUTF8StringEncoding error:nil];
             }
+         */
+
+             //NSLog(@"proc output:%@",outputString);
+            
+            NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
+            NSString *errorString = [[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding] autorelease];
+            NSString * jobStdErrorLogFile = [jobLogFolder stringByAppendingString:@"/error.log"];
+            
             if([errorString length] > 0)
             {
                 [errorString writeToFile:jobStdErrorLogFile atomically:NO encoding:NSUTF8StringEncoding error:nil];
             }
+            //NSLog(@"proc error:%@",errorString);
+        
         }
         @catch (NSException *exception) {
             //increase attempt
             [self setJobId:jobid status:67];
             NSLog(@"Problem Running Task: %@", [exception description]);
         }
-                
+        
         jobRunning = NO;
     }
 }
