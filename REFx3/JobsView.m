@@ -11,6 +11,8 @@
 #import "REFx3AppDelegate.h"
 #import "RXREFxIntance.h"
 #import "YAMLSerialization.h"
+#import "RXJobPicker.h"
+
 
 @implementation JobsView
 
@@ -371,6 +373,139 @@
         [db close];
     }
 }
+
+- (IBAction)openFromZip:(id)sender
+{
+    NSString * importDir = [[NSApp delegate] jobImportedJobsPath];
+    
+    BOOL cancelOperation = NO;
+    NSOpenPanel *openPanel = [[NSOpenPanel alloc] init];
+    [openPanel setCanChooseFiles:YES];
+    [openPanel setCanChooseDirectories:NO];
+    [openPanel setAllowsMultipleSelection:NO];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObject:@"zip"]];
+    
+    if ([openPanel runModal] == NSOKButton)
+    {
+        NSString *selectedFile = [[openPanel URL] path];
+        
+        NSError *error = nil;
+        
+        NSString * destDir = [importDir stringByAppendingPathComponent: [[selectedFile stringByDeletingPathExtension] lastPathComponent]];
+        
+        if([[ NSFileManager defaultManager] createDirectoryAtPath: destDir
+                                                  withIntermediateDirectories: YES
+                                                       attributes: nil
+                                                            error: &error ])
+        {
+            NSLog(@"creating %@ %@error",destDir,error);
+        }
+        
+        NSTask *unzip = [[NSTask alloc] init];
+        [unzip setLaunchPath:@"/usr/bin/unzip"];
+        [unzip setCurrentDirectoryPath:importDir];
+        [unzip setArguments:[NSArray arrayWithObjects: @"-o", selectedFile, @"-d", destDir, nil]];
+        
+        [unzip launch];
+        [unzip waitUntilExit];
+        
+        NSArray *dirFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:destDir error:nil];
+        NSArray *yamlFiles = [dirFiles filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"self ENDSWITH '.yml'"]];
+        
+        NSLog(@"yml: %@",yamlFiles);
+        if([yamlFiles count] == 1)
+        {
+            NSString *engineName= [[yamlFiles objectAtIndex:0] stringByDeletingPathExtension];
+            NSLog(@"engine: %@", engineName);
+            
+            NSString *body = [NSString stringWithContentsOfFile: [destDir stringByAppendingPathComponent:[yamlFiles objectAtIndex:0]] encoding:NSUTF8StringEncoding error:NULL];
+            //NSLog(@"body: %@",body);
+            
+            NSMutableDictionary *yaml;
+            yaml = [YAMLSerialization objectWithYAMLString: body
+                                                   options: kYAMLReadOptionStringScalars
+                                                     error: nil];
+            
+            if([yaml isKindOfClass:[NSDictionary class]])
+            {
+                if ([[yaml objectForKey:@"init_args"] isKindOfClass:[NSArray class]]){
+                    NSMutableArray *initArgs = [yaml objectForKey:@"init_args"];
+                    if ([[yaml objectForKey:@"method"] isKindOfClass:[NSString class]])
+                    {
+                        NSString *method = [yaml objectForKey:@"method"];
+                        
+                        if ([[yaml objectForKey:@"method_args"] isKindOfClass:[NSArray class]])
+                        {
+                            NSArray *methodArgs = [yaml objectForKey:@"method_args"];
+                        }
+                        else
+                        {
+                            NSArray *methodArgs = nil;
+                        }
+                        
+                        NSMutableDictionary *newAbsoluteOutputBasePath = [NSMutableDictionary dictionaryWithCapacity:2];
+                        [newAbsoluteOutputBasePath setValue:[[NSApp delegate] appSupportPath] forKey:@"value"];
+                        [newAbsoluteOutputBasePath setValue:@"string" forKey:@"type"];
+                        
+                        NSDictionary * newRelativeSourceFilePath = [NSMutableDictionary dictionaryWithCapacity:2];
+                        NSString *relativeSourceFilePath = [[[[initArgs objectAtIndex:1] objectForKey:@"value"] lastPathComponent] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                        
+                        NSString * filepath = [NSString stringWithFormat:@"Import/%@/%@", [[selectedFile stringByDeletingPathExtension] lastPathComponent],[[[[initArgs objectAtIndex:1] objectForKey:@"value"] lastPathComponent] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+                        
+                        [newRelativeSourceFilePath setValue:filepath forKey:@"value"];
+                        [newRelativeSourceFilePath setValue:@"string" forKey:@"type"];
+                        
+                        NSMutableDictionary *newRelativeOutputBasePath = [NSMutableDictionary dictionaryWithCapacity:2];
+                        [newRelativeOutputBasePath setValue:[NSString stringWithFormat:@"Import/%@/", [[selectedFile stringByDeletingPathExtension] lastPathComponent]] forKey:@"value"];
+                        [newRelativeOutputBasePath setValue:@"string" forKey:@"type"];
+                        
+                        
+                        [initArgs replaceObjectAtIndex:0 withObject:newAbsoluteOutputBasePath];
+                        [initArgs replaceObjectAtIndex:1 withObject:newRelativeSourceFilePath];
+                        [initArgs replaceObjectAtIndex:2 withObject:newRelativeOutputBasePath];
+                        
+                        [yaml setValue:initArgs forKey:@"init_args"];
+                        
+                        //NSLog(@"new yamlob:%@",yaml);
+                        
+                        // Returns autoreleased object.
+                        NSString *yamlString = [YAMLSerialization YAMLStringWithObject: yaml options: nil error: nil];
+                        
+                        //NSLog(@"new yamlstr:%@",yamlString);
+                        
+                        long newid = [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engineName body:yamlString];
+                        NSLog(@"new id: %li, %@ %@",newid,engineName,yamlString);
+                        
+                        
+                        
+                        
+                    }
+
+                }
+                
+                
+                
+            }
+
+            
+            
+            
+        }
+    }
+    else
+    {
+        NSLog(@"what to do when no file was given?");
+        cancelOperation = YES;
+    }
+    
+  
+    
+    //read yaml
+    //filename
+    //change yaml
+    //add to jobs
+}
+
 
 - (IBAction)resetJob:(id)sender{
     

@@ -46,6 +46,7 @@
 
 - (NSString *)testFolderPath;
 - (NSString *)jobLogFilePath;
+- (NSString *)jobImportedJobsPath;
 - (NSURL *)applicationFilesDirectory;
 - (NSString *) engineLogFilePath;
 -(void)reinstallDatabase;

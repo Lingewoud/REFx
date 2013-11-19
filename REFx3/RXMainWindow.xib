@@ -479,6 +479,11 @@
                             <action selector="pauzeJob:" target="99" id="huq-dO-y47"/>
                         </connections>
                     </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="AB136C16-5489-419F-BB8E-842B90C6630A" label="New Job form Zip" paletteLabel="New Job form Zip" tag="-1" image="ToolbarCreateTemplate" id="KyV-8U-Mxp">
+                        <connections>
+                            <action selector="openFromZip:" target="99" id="uTb-B9-19O"/>
+                        </connections>
+                    </toolbarItem>
                 </allowedToolbarItems>
                 <defaultToolbarItems>
                     <toolbarItem reference="7Sw-c4-E7f"/>
@@ -491,6 +496,7 @@
                     <toolbarItem reference="TJA-dH-VmA"/>
                     <toolbarItem reference="Jzy-AZ-qpk"/>
                     <toolbarItem reference="Jzy-AZ-qpk"/>
+                    <toolbarItem reference="KyV-8U-Mxp"/>
                     <toolbarItem reference="CXN-9W-bgR"/>
                     <toolbarItem reference="SYa-Oe-4BL"/>
                     <toolbarItem reference="6eR-PY-gwg"/>

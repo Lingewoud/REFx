@@ -156,6 +156,19 @@
     return fullPathString;
 }
 
+- (NSString *)jobImportedJobsPath
+{
+    
+    NSString *fullPathString = [[[self applicationFilesDirectory] path] stringByAppendingPathComponent:@"Import"];
+    
+    if(![[ NSFileManager defaultManager ] fileExistsAtPath:fullPathString]){
+        NSLog(@"Creating ImportJobs: %@",fullPathString);
+        [[ NSFileManager defaultManager ] createDirectoryAtPath: fullPathString withIntermediateDirectories: YES attributes: nil error: NULL ];
+    }
+    
+    return fullPathString;
+}
+
 - (NSString *)testFolderPath
 {
     

@@ -24,9 +24,6 @@
     IBOutlet NSTextField    *jobsNumPauzed;
     IBOutlet NSTextField    *jobsNumNew;
     
-    
-    
-    
     IBOutlet NSWindow       *JobRecordWindow;
     IBOutlet NSTextField    *JobRecordTextFieldId;
     IBOutlet NSTextField    *JobRecordTextFieldEngineName;
@@ -68,6 +65,7 @@
 - (IBAction)deleteJob:(id)sender;
 - (IBAction)viewBody:(id)sender;
 - (IBAction)saveToZip:(id)sender;
+- (IBAction)openFromZip:(id)sender;
 
 - (IBAction)openDestinationFolderAction:(id)sender;
 
