@@ -91,7 +91,6 @@
 		3EC97CA214488BDB00B81F47 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CA014488BDB00B81F47 /* Credits.rtf */; };
 		3EC97CA514488BDC00B81F47 /* REFx3AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */; };
 		3EC97CA814488BDC00B81F47 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3EC97CA614488BDC00B81F47 /* MainMenu.xib */; };
-		3EC97CAB14488BDC00B81F47 /* REFx3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CA914488BDC00B81F47 /* REFx3.xcdatamodeld */; };
 		3EC97CD914488EF300B81F47 /* RXRailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CD814488EF300B81F47 /* RXRailsController.m */; };
 		3EC97CDC14488F5D00B81F47 /* RXJobPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CDB14488F5D00B81F47 /* RXJobPicker.m */; };
 		3EC97CF0144891DB00B81F47 /* RXMainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EC97CEF144891DB00B81F47 /* RXMainWindow.m */; };
@@ -117,7 +116,6 @@
 /* Begin PBXFileReference section */
 		3E13CFFF144CA55B00523A5E /* RXREFxIntance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXREFxIntance.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3E13D000144CA55B00523A5E /* RXREFxIntance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXREFxIntance.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		3E3787B01815D796000FD48F /* REFx4.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = REFx4.entitlements; sourceTree = SOURCE_ROOT; };
 		3E3787B11816FA79000FD48F /* EngineTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineTextCell.h; sourceTree = "<group>"; };
 		3E3787B21816FA79000FD48F /* EngineTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineTextCell.m; sourceTree = "<group>"; };
 		3E3787B31816FA79000FD48F /* EngineListingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineListingController.h; sourceTree = "<group>"; };
@@ -196,7 +194,6 @@
 		3EC97CA314488BDB00B81F47 /* REFx3AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = REFx3AppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3EC97CA414488BDC00B81F47 /* REFx3AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = REFx3AppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3EC97CA714488BDC00B81F47 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		3EC97CAA14488BDC00B81F47 /* REFx3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = REFx3.xcdatamodel; sourceTree = "<group>"; };
 		3EC97CD714488EF200B81F47 /* RXRailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXRailsController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		3EC97CD814488EF300B81F47 /* RXRailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RXRailsController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		3EC97CDA14488F5D00B81F47 /* RXJobPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = RXJobPicker.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -247,8 +244,6 @@
 				3E3787BF18171A7B000FD48F /* EngineWindow.xib */,
 				3E3787C118171AFB000FD48F /* EngineWindowController.h */,
 				3E3787C218171AFB000FD48F /* EngineWindowController.m */,
-				3E3787B51816FA79000FD48F /* EngineData.h */,
-				3E3787B61816FA79000FD48F /* EngineData.m */,
 			);
 			name = Engines;
 			sourceTree = "<group>";
@@ -422,8 +417,6 @@
 			children = (
 				3E575575181DAFA8006FDAEB /* REFxLogo-refx4.png */,
 				3E5754E3181C7593006FDAEB /* iconsset1 */,
-				3E3787B01815D796000FD48F /* REFx4.entitlements */,
-				3EC97CA914488BDC00B81F47 /* REFx3.xcdatamodeld */,
 				3E3787BD1816FD6C000FD48F /* engineicon.png */,
 				3E6CBAF1144C733C00D4105F /* noserver.html */,
 				3EC97C9914488BDB00B81F47 /* REFx4-Info.plist */,
@@ -442,6 +435,8 @@
 				3E473C02161CA7C700942E37 /* JobsView.m */,
 				3E3787B11816FA79000FD48F /* EngineTextCell.h */,
 				3E3787B21816FA79000FD48F /* EngineTextCell.m */,
+				3E3787B51816FA79000FD48F /* EngineData.h */,
+				3E3787B61816FA79000FD48F /* EngineData.m */,
 				3E3787B31816FA79000FD48F /* EngineListingController.h */,
 				3E3787B41816FA79000FD48F /* EngineListingController.m */,
 				3EC97CEF144891DB00B81F47 /* RXMainWindow.m */,
@@ -647,7 +642,6 @@
 			files = (
 				3EC97C9E14488BDB00B81F47 /* main.m in Sources */,
 				3EC97CA514488BDC00B81F47 /* REFx3AppDelegate.m in Sources */,
-				3EC97CAB14488BDC00B81F47 /* REFx3.xcdatamodeld in Sources */,
 				3EC97CD914488EF300B81F47 /* RXRailsController.m in Sources */,
 				3EC97CDC14488F5D00B81F47 /* RXJobPicker.m in Sources */,
 				3E3787C318171AFB000FD48F /* EngineWindowController.m in Sources */,
@@ -705,6 +699,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -739,6 +734,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -767,7 +763,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B62B86BFEA3F480A8D4C81FA /* Pods.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -789,7 +785,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B62B86BFEA3F480A8D4C81FA /* Pods.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -854,19 +850,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		3EC97CA914488BDC00B81F47 /* REFx3.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				3EC97CAA14488BDC00B81F47 /* REFx3.xcdatamodel */,
-			);
-			currentVersion = 3EC97CAA14488BDC00B81F47 /* REFx3.xcdatamodel */;
-			path = REFx3.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 3EC97C8414488BDB00B81F47 /* Project object */;
 }

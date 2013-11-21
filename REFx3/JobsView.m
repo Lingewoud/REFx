@@ -26,12 +26,10 @@
 		// instantiate the following private property
          testBuffer = [NSMutableDictionary dictionaryWithCapacity:11];
          
-         [testBuffer retain];
+  //       [testBuffer retain];
 
          dbPath = [[[NSApp delegate] refxInstance] getDbPath];
-         [dbPath retain];
-         
-
+//         [dbPath retain];
          
          [self populateTableAndBuffer];
 
@@ -139,16 +137,21 @@
         if([[rs stringForColumn:@"body"] isEqualToString:@"MARKER"])
         {
             return;
-            [JobRecordTextFieldPriority setStringValue:@"-"];
-            [JobRecordTextFieldAttempts setStringValue:@"-"];
-            [JobRecordTextFieldStatus setStringValue:@"-"];
-            [JobRecordTextFieldLastUpdate setStringValue:@"-"];
-
         }
         else{
+            
             [JobRecordTextFieldPriority setStringValue:[rs stringForColumn:@"priority"]];
-            [JobRecordTextFieldAttempts setStringValue:[rs stringForColumn:@"attempt"]];
             [JobRecordTextFieldStatus setStringValue:[rs stringForColumn:@"status"]];
+
+            if([rs stringForColumn:@"attempt"])
+            {
+                [JobRecordTextFieldLastUpdate setStringValue:[rs stringForColumn:@"attempt"]];
+            }
+            else
+            {
+                [JobRecordTextFieldLastUpdate setStringValue:@"-"];
+            }
+            
             if([rs stringForColumn:@"updated_at"])
             {
                 [JobRecordTextFieldLastUpdate setStringValue:[rs stringForColumn:@"updated_at"]];
@@ -160,13 +163,15 @@
         }
         
         [[[JobRecordTextViewInputParam textStorage] mutableString] setString: @""];
+        
+
 
         NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
         if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length] > 0)
         {
-
             if([rs stringForColumn:@"body"])
             {
+
                 [[[JobRecordTextViewInputParam textStorage] mutableString] setString: [rs stringForColumn:@"body"]];
                 
                 NSDictionary *yaml = [YAMLSerialization objectWithYAMLString: [rs stringForColumn:@"body"]
@@ -175,12 +180,9 @@
                 
                 if([yaml isKindOfClass:[NSDictionary class]])
                 {
-                    // Dump Objective-C object description.
-                    //printf("%s", [[yaml description] UTF8String]);
+                    NSLog(@"We have a valid yaml body");
                     
                     [JobRecordTextFieldMethod setStringValue:[yaml objectForKey:@"method"]];
-                    //printf("%s", [[[yaml objectForKey:@"init_args"] description] UTF8String]);
-                    //NSLog(@"%@",[[[yaml objectForKey:@"init_args"] objectAtIndex:0] objectForKey:@"value"]);
                     
                     NSString *absoluteOutputBasePath = [[[[yaml objectForKey:@"init_args"] objectAtIndex:0]
                                                         objectForKey:@"value"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -188,12 +190,10 @@
                     NSString *relativeDestinationPath = [[[[yaml objectForKey:@"init_args"] objectAtIndex:2]
                                                           objectForKey:@"value"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                     
-                    //NSString *relativeSourceFilePath = [[[yaml objectForKey:@"init_args"] objectAtIndex:1] objectForKey:@"value"];
                     NSString *jobidPath = [NSString stringWithFormat:@"%@/",[rs stringForColumn:@"id"]];
                     self.absoluteDestinationPath = [NSString stringWithString: [[absoluteOutputBasePath stringByAppendingPathComponent:relativeDestinationPath] stringByAppendingPathComponent:jobidPath]];
                     
                     if([[NSFileManager defaultManager] fileExistsAtPath:_absoluteDestinationPath]){
-                        //NSLog(@"absoluteDestinationPath: %@",_absoluteDestinationPath);
 
                         [OpenDestinationFolder setEnabled:YES];
                     }
@@ -231,16 +231,6 @@
             [[[JobRecordTextViewLogError textStorage] mutableString] setString: txtErrorFileContents];
         }
         else [[[JobRecordTextViewLogError textStorage] mutableString] setString: @""];
-
-        
-        /*
-         NSString * jobStdOutputLogFile = [jobLogFolder stringByAppendingString:@"/output.log"];
-        if([[ NSFileManager defaultManager ] fileExistsAtPath:jobStdOutputLogFile]){
-            NSString *txtOutputFileContents = [NSString stringWithContentsOfFile:jobStdOutputLogFile encoding:NSUTF8StringEncoding error:NULL];
-            [[[JobRecordTextViewLogOutput textStorage] mutableString] setString: txtOutputFileContents];
-        }
-        else [[[JobRecordTextViewLogOutput textStorage] mutableString] setString: @""];
-         */
         
         NSString * jobStdEngineLogFile = [jobLogFolder stringByAppendingString:@"/engine.log"];
         if([[ NSFileManager defaultManager ] fileExistsAtPath:jobStdEngineLogFile]){
@@ -248,7 +238,6 @@
             [[[JobRecordTextViewLogEngine textStorage] mutableString] setString: txtEngineFileContents];
         }
         else [[[JobRecordTextViewLogEngine textStorage] mutableString] setString: @""];
-
     }
    
     [db close];
@@ -309,7 +298,6 @@
 
                     error = nil;
 
-
                     if([[ NSFileManager defaultManager] createDirectoryAtPath: [selectedFile stringByDeletingPathExtension] withIntermediateDirectories: YES attributes: nil error: &error ])
                     {
                         NSLog(@"creating %@ %@error",[selectedFile stringByDeletingPathExtension],error);
@@ -325,7 +313,6 @@
                     NSString *relativeSourceFilePath = [[[yaml objectForKey:@"init_args"] objectAtIndex:1] objectForKey:@"value"];
                     
                     NSString *absoluteSourcePath = [[absoluteOutputBasePath stringByAppendingPathComponent:relativeSourceFilePath] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-           
                     
                     NSString * bodyYamlFileName = [[selectedFile stringByDeletingPathExtension] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.yml",[rs stringForColumn:@"engine"]]];
                     NSError *error = nil;
@@ -416,7 +403,7 @@
         if([yamlFiles count] == 1)
         {
             NSString *engineName= [[yamlFiles objectAtIndex:0] stringByDeletingPathExtension];
-            NSLog(@"engine: %@", engineName);
+            //NSLog(@"engine: %@", engineName);
             
             NSString *body = [NSString stringWithContentsOfFile: [destDir stringByAppendingPathComponent:[yamlFiles objectAtIndex:0]] encoding:NSUTF8StringEncoding error:NULL];
             //NSLog(@"body: %@",body);
@@ -432,23 +419,12 @@
                     NSMutableArray *initArgs = [yaml objectForKey:@"init_args"];
                     if ([[yaml objectForKey:@"method"] isKindOfClass:[NSString class]])
                     {
-                        NSString *method = [yaml objectForKey:@"method"];
-                        
-                        if ([[yaml objectForKey:@"method_args"] isKindOfClass:[NSArray class]])
-                        {
-                            NSArray *methodArgs = [yaml objectForKey:@"method_args"];
-                        }
-                        else
-                        {
-                            NSArray *methodArgs = nil;
-                        }
-                        
                         NSMutableDictionary *newAbsoluteOutputBasePath = [NSMutableDictionary dictionaryWithCapacity:2];
                         [newAbsoluteOutputBasePath setValue:[[NSApp delegate] appSupportPath] forKey:@"value"];
                         [newAbsoluteOutputBasePath setValue:@"string" forKey:@"type"];
                         
                         NSDictionary * newRelativeSourceFilePath = [NSMutableDictionary dictionaryWithCapacity:2];
-                        NSString *relativeSourceFilePath = [[[[initArgs objectAtIndex:1] objectForKey:@"value"] lastPathComponent] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
                         
                         NSString * filepath = [NSString stringWithFormat:@"Import/%@/%@", [[selectedFile stringByDeletingPathExtension] lastPathComponent],[[[[initArgs objectAtIndex:1] objectForKey:@"value"] lastPathComponent] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                         
@@ -459,37 +435,19 @@
                         [newRelativeOutputBasePath setValue:[NSString stringWithFormat:@"Import/%@/", [[selectedFile stringByDeletingPathExtension] lastPathComponent]] forKey:@"value"];
                         [newRelativeOutputBasePath setValue:@"string" forKey:@"type"];
                         
-                        
                         [initArgs replaceObjectAtIndex:0 withObject:newAbsoluteOutputBasePath];
                         [initArgs replaceObjectAtIndex:1 withObject:newRelativeSourceFilePath];
                         [initArgs replaceObjectAtIndex:2 withObject:newRelativeOutputBasePath];
                         
                         [yaml setValue:initArgs forKey:@"init_args"];
                         
-                        //NSLog(@"new yamlob:%@",yaml);
-                        
-                        // Returns autoreleased object.
                         NSString *yamlString = [YAMLSerialization YAMLStringWithObject: yaml options: nil error: nil];
-                        
-                        //NSLog(@"new yamlstr:%@",yamlString);
-                        
-                        long newid = [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engineName body:yamlString];
-                        NSLog(@"new id: %li, %@ %@",newid,engineName,yamlString);
-                        
-                        
-                        
-                        
+                        yamlString = [yamlString stringByReplacingOccurrencesOfString:@"'" withString:@""];
+
+                        [[[[NSApp delegate] refxInstance] jobPicker] insertTestJobwithEngine:engineName body:yamlString];
                     }
-
                 }
-                
-                
-                
             }
-
-            
-            
-            
         }
     }
     else
@@ -497,13 +455,6 @@
         NSLog(@"what to do when no file was given?");
         cancelOperation = YES;
     }
-    
-  
-    
-    //read yaml
-    //filename
-    //change yaml
-    //add to jobs
 }
 
 
@@ -646,7 +597,7 @@
                 [statusList setObject: @"Finished" forKey: @"10"];
                 [statusList setObject: @"Pauzed" forKey: @"11"];
                 [statusList setObject: @"Err. Max attempts" forKey: @"66"];
-                [statusList setObject: @"Err. No Engined" forKey: @"67"];
+                [statusList setObject: @"Err. No Engine" forKey: @"67"];
                 [statusList setObject: @"Err. Engine fatal" forKey: @"68"];
                 [statusList setObject: @"Err. Runner fatal" forKey: @"69"];
                 

@@ -32,14 +32,13 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
-@property (assign) RXREFxIntance* refxInstance;
+@property (retain) RXREFxIntance* refxInstance;
 
--(IBAction)showLogWindow:(id)sender;
-- (IBAction)saveAction:(id)sender;
+- (IBAction)showLogWindow:(id)sender;
 - (IBAction)showPreferences:(id)sender;
 
--(void)flushRailsLogs;
--(void)flushEngineLogs;
+- (void)flushRailsLogs;
+- (void)flushEngineLogs;
 
 - (NSString *)appSupportPath;
 - (NSString *)sqlLitePath;
@@ -49,7 +48,7 @@
 - (NSString *)jobImportedJobsPath;
 - (NSURL *)applicationFilesDirectory;
 - (NSString *) engineLogFilePath;
--(void)reinstallDatabase;
+- (void)reinstallDatabase;
 
 
 

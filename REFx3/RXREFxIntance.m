@@ -37,18 +37,14 @@
        
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"useWorkingCopy"]) {
             
-            NSFileManager *fileManager = [[NSFileManager alloc] init];
-            
             NSString *altDir = [[ NSUserDefaults standardUserDefaults] stringForKey:@"altRailsRootDir"];
-            if([fileManager fileExistsAtPath:altDir]){            
+            if([[NSFileManager defaultManager] fileExistsAtPath:altDir]){
                 railsRootDir = altDir;
             }
             else {
                 NSLog(@"rails path does not exist %@. Check alternative rails path in development preferences",altDir);            
             }
-            
-            [fileManager release];
-        } 
+        }
         else {
             railsRootDir = [[[NSBundle mainBundle] 
                              bundlePath] 
@@ -145,9 +141,6 @@
         [ps setArguments:args];
         [ps waitUntilExit];
         [ps launch];
-        
-        [ps release];
-        
     }
 }
 
@@ -165,21 +158,8 @@
     [args addObject:cmd];
     
     [ps setArguments:args];
-    //[ps waitUntilExit];
     [ps launch];
-    
-    [ps release];
 }
 
-
-
-- (void) dealloc {
-    railsRootDir = nil;
-    dbPath = nil;
-    
-    jobPicker = nil;
-    railsController = nil;
-    [super dealloc];
-}
 
 @end

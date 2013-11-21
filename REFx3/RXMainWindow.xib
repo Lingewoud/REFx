@@ -235,7 +235,7 @@
                                     <color key="backgroundColor" red="0.21960784310000001" green="0.45882352939999999" blue="0.84313725490000002" alpha="0.0" colorSpace="deviceRGB"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn editable="NO" minWidth="100" id="9TV-vJ-O3E">
+                                        <tableColumn editable="NO" width="150" minWidth="150" maxWidth="150" id="9TV-vJ-O3E">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="img+ text">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>

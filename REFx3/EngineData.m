@@ -13,7 +13,13 @@
 @synthesize nsStrText;
 @synthesize nsImageObj;
 
+/*- (id)copyWithZone:(NSZone *)zone {
+    return self;
+}
+ */
+
 - (id) initWithImagePathString:(NSString *)pImagePath text:(NSString *)pText {
+    
 
     if (! (self = [super init])) {
         NSLog(@"*Error* MyData initWithImagePathString");
@@ -21,7 +27,6 @@
     }
 	
 	self.nsStrText = pText;
-	
 	self.nsImageObj	= [[NSImage alloc] initWithContentsOfFile:pImagePath];
 		
     return self;

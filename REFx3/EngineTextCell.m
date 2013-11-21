@@ -10,10 +10,14 @@
 @synthesize nsImageObj;
 
 - (id)copyWithZone:(NSZone *)zone {
+
+    return self;
     EngineTextCell *zCell = (EngineTextCell *)[super copyWithZone:zone];
     zCell.nsImageObj = self.nsImageObj;
     return zCell;
 }
+
+
 
 // over-ride NSCell selectWithFrame : called when frame is selected for editing
 - (void)xxselectWithFrame:(NSRect)aRect
@@ -62,7 +66,6 @@
 	
     [super drawWithFrame:cellFrame inView:controlView];
 }
-
 
 @end
 

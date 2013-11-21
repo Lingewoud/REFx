@@ -14,24 +14,18 @@
 
 
 
-@interface EngineListingController : NSObject {
-	
-	NSMutableArray * nsMutaryOfMyData;
-	EngineTextCell * myImageAndTextCelObj;
-	
-	IBOutlet NSTableView * nsTableViewObj;
-}
-@property (assign) NSMutableArray * nsMutaryOfMyData;
-@property (assign) EngineTextCell * myImageAndTextCelObj;
-@property (assign) IBOutlet NSTableView * nsTableViewObj;
+@interface EngineListingController : NSObject
+
+@property (retain) NSMutableArray * nsMutaryOfMyData;
+@property (retain) EngineTextCell * myImageAndTextCelObj;
+@property (retain) IBOutlet NSTableView * nsTableViewObj;
 @property (retain) EngineWindowController *engineWindow;
 
 
-//- (IBAction)tableViewSelected:(id)sender;
-
-- (IBAction)addAtSelectedRow:(id)pId;
+/*- (IBAction)addAtSelectedRow:(id)pId;
 - (IBAction)addToEndOfTable:(id)pId;
 - (IBAction)removeCellAtSelectedRow:(id)sender;
+*/
 - (IBAction)reloadEngines:(id)sender;
 - (IBAction)runAllDefaultEngineTests:(id)sender;
 

@@ -6,14 +6,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface EngineTextCell : NSTextFieldCell {
-@private
-    NSImage	*nsImageObj;
-}
+@interface EngineTextCell : NSTextFieldCell
+/*@private
+ NSImage	*nsImageObj;
+ */
+
 @property (assign) NSImage	*nsImageObj;
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView;
-
-//- (NSSize)cellSize;
 
 @end

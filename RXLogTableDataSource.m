@@ -38,7 +38,7 @@
 -(void) VDKQueue:(VDKQueue *)queue receivedNotification:(NSString*)noteName forPath:(NSString*)fpath
 {
     
-    NSLog(@"External application has changed the monitored file");
+    //NSLog(@"External application has changed the monitored file");
     [self readFile];
 }
 

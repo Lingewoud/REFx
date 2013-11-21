@@ -11,15 +11,13 @@
 @interface RXRailsController : NSObject{
     NSTask *comServerProcess;
     BOOL comServerRunning;
-    NSString* railsRootDirectory;
-    NSString* runningRailsPort;
 }
 
 - (id)initWithRailsRootDir: (NSString *)dir;
 - (void)startComServer:(NSString*)railsPort :(NSString*)environment;
 - (void)stopComServer;
 
-@property (assign) NSString *railsRootDirectory;
+@property (retain) NSString *railsRootDirectory;
 @property (assign) NSString *runningRailsPort;
 
 @end

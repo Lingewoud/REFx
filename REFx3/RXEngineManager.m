@@ -24,19 +24,13 @@
     return sharedEngineManager;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
-
 - (id)init
 {
     self = [super init];
     if (self) {
-        someProperty = [[NSString alloc] initWithString:@"Default Property Value"];
+        //someProperty = [[NSString alloc] initWithString:@"Default Property Value"];
 
         [self enginesEnabledArray];
-    
-    
     }
     
     return self;
@@ -52,16 +46,11 @@
 
 - (void) initEngineDirectory
 {
-    
-    NSFileManager *fileManager = [[NSFileManager alloc] init];
-    
-    if(![fileManager fileExistsAtPath:[self engineDirectoryPath]]){
+    if(![[NSFileManager defaultManager] fileExistsAtPath:[self engineDirectoryPath]]){
         NSLog(@"Creating %@",[self engineDirectoryPath]);
         
-        [fileManager createDirectoryAtPath:[self engineDirectoryPath] withIntermediateDirectories:YES attributes:nil error:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:[self engineDirectoryPath] withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    
-    [fileManager release];
 }
 
 - (NSMutableArray *) enginesEnabledArray

@@ -195,7 +195,8 @@
 /**
     Creates if necessary and returns the managed object model for the application.
  */
-- (NSManagedObjectModel *)managedObjectModel {
+
+/*- (NSManagedObjectModel *)managedObjectModel {
     if (__managedObjectModel) {
         return __managedObjectModel;
     }
@@ -204,10 +205,12 @@
     __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
     return __managedObjectModel;
 }
+ */
 
 /**
     Returns the persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. (The directory for the store is created, if necessary.)
  */
+/*
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     if (__persistentStoreCoordinator) {
         return __persistentStoreCoordinator;
@@ -253,17 +256,20 @@
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
     if (![__persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
         [[NSApplication sharedApplication] presentError:error];
-        [__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
+        //[__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
         return nil;
     }
 
     return __persistentStoreCoordinator;
 }
+ */
 
 /**
     Returns the managed object context for the application (which is already
     bound to the persistent store coordinator for the application.) 
  */
+
+/*
 - (NSManagedObjectContext *)managedObjectContext {
     if (__managedObjectContext) {
         return __managedObjectContext;
@@ -283,17 +289,21 @@
 
     return __managedObjectContext;
 }
+ */
 
 /**
     Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
  */
+/*
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
     return [[self managedObjectContext] undoManager];
 }
+ */
 
 /**
     Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
  */
+/*
 - (IBAction)saveAction:(id)sender {
     NSError *error = nil;
     
@@ -305,14 +315,15 @@
         [[NSApplication sharedApplication] presentError:error];
     }
 }
-
+*/
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 
     //stop the RAILS Server when application stop
     [refxInstance.railsController stopComServer];
    
     
-    // Save changes in the application's managed object context before the application terminates.
+    /*
+     // Save changes in the application's managed object context before the application terminates.
 
     if (!__managedObjectContext) {
         return NSTerminateNow;
@@ -347,29 +358,15 @@
         [alert addButtonWithTitle:cancelButton];
 
         NSInteger answer = [alert runModal];
-        [alert release];
         alert = nil;
         
         if (answer == NSAlertAlternateReturn) {
             return NSTerminateCancel;
         }
     }
+     */
 
     return NSTerminateNow;
-}
-
-
-
-- (void)dealloc
-{
-    [__managedObjectContext release];
-    [__persistentStoreCoordinator release];
-    [__managedObjectModel release];
-    
-    [preferencesController release];
-    [mainWindowController release];
-
-    [super dealloc];
 }
 
 @end

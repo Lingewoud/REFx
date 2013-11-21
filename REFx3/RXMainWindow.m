@@ -25,15 +25,9 @@
 - (id) initWithWindowNibName:(NSString *)windowNibName
 {
     self = [super initWithWindowNibName:windowNibName];
-    if (self) {
-
-    }
     return self;
 }
 
-- (void) dealloc {
-    [super dealloc];
-}
 
 - (void)windowDidLoad
 {
@@ -46,16 +40,10 @@
     
     [self instanciateLogController];
     
-//    NSString * appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 
-    //[self.Appversion setStringValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
     [self.Appversion setStringValue:[NSString stringWithFormat:@"v%@ (%@)",
                                      [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
                                      [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]]];
-    
-    // TRY TO FIX THE MISSING ENGINES BUG AFTER APPLICATION LOAD
-    //[self.theEngineListingController reloadEngines:self];
-    //NSLog(@"loadEngineProblem 1");
 }
 
 
@@ -80,8 +68,7 @@
 {
     if([startStopButtonScheduler state]==1)
     {
-        [[[[NSApp delegate] refxInstance] jobPicker] startREFxLoop];        
-
+        [[[[NSApp delegate] refxInstance] jobPicker] startREFxLoop];
     }
     else
     {
@@ -145,9 +132,7 @@
 {   
     if([startStopButtonCommunicationServer state]==1) {
         
-        [[[NSApp delegate] refxInstance ] startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
-        
-        //[NSThread sleepForTimeInterval:3];
+        [[[NSApp delegate] refxInstance ] startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];        
     }
     else
     {

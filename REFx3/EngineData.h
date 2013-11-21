@@ -9,13 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface EngineData : NSObject {
-	NSString * nsStrText;
-	NSImage * nsImageObj;
+@interface EngineData : NSObject
 
-}
-@property (assign) NSString * nsStrText;
-@property (assign) NSImage * nsImageObj;
+@property (nonatomic,copy) NSString * nsStrText;
+@property (nonatomic,copy) NSImage * nsImageObj;
 
 
 - (id) initWithImagePathString:(NSString *)pImagePath text:(NSString *)pText;

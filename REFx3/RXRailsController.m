@@ -20,18 +20,12 @@
     self = [super init];
     
     if (self) {
-        railsRootDirectory = [dir copy];
+        self.railsRootDirectory = [dir copy];
         //NSLog(@"init railscontroller with dir %@", railsRootDirectory);
     }
     
     return self;
 }
-
-- (void) dealloc {
-    [self stopComServer];
-    [super dealloc];
-}
-
 
 // startComServer starts a RAILS instance at a specific port
 - (void)startComServer:(NSString*)railsPort :(NSString*)environment
@@ -62,7 +56,6 @@
         
         comServerRunning = YES;
         [comServerProcess launch];
-        [comServerProcess release];
     }
 }
 
@@ -92,8 +85,6 @@
         comServerRunning = NO;
     }
     else NSLog(@"Task failed.");
-    
-    [terminatebProcess release];
 }
 
 

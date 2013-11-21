@@ -81,13 +81,11 @@
            {
                NSLog(@"There are open jobs, we start the loop");
                [self startREFxLoopAction];
-           
            }
            else{
                //NSLog(@"A timer is already running, we stop the loop");
 
                //[self stopREFxLoopAction];
-           
            }
         }
         else
@@ -123,8 +121,12 @@
 
 - (void)startREFxLoopAction
 {
+    [self loopSingleAction];
+    return;
+    
+    
     NSLog(@"start scheduler...");
-    self.refxTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0
+    self.refxTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
                                                  target: self
                                                selector: @selector(loopSingleAction)
                                                userInfo: nil
@@ -140,7 +142,6 @@
         self.refxTimer = nil;
     }
 }
-
 
 - (void)loopSingleAction
 {
@@ -207,7 +208,6 @@
                                  @"--environment",railsEnvironment,
                                  nil];
         
-        
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
             [args addObject:@"-d"];
@@ -246,7 +246,7 @@
              //NSLog(@"proc output:%@",outputString);
             
             NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
-            NSString *errorString = [[[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding] autorelease];
+            NSString *errorString = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
             NSString * jobStdErrorLogFile = [jobLogFolder stringByAppendingString:@"/error.log"];
             
             if([errorString length] > 0)
@@ -413,11 +413,17 @@
 
 - (long) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body
 {
+    
+
+    
     FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
     if (![db open]) {
         NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
         return 0;
     }
+    
+    db.traceExecution = YES;
+    db.logsErrors = YES;
     
     NSLog(@"INSERT TEST INTO jobs: %@", engine);
     NSString *sql = [NSString stringWithFormat:
@@ -431,12 +437,14 @@
 }
 
 
-- (void) dealloc {
+/*
+ - (void) dealloc {
     [self stopREFxLoop];
     railsRootDir = nil;
     refxTimer = nil;
-    [super dealloc];
+    //[super dealloc];
 }
+ */
 
 
 @end

@@ -79,7 +79,7 @@ NSString * VDKQueueAccessRevocationNotification = @"VDKQueueAccessWasRevokedNoti
 
 -(void)	dealloc
 {
-    [super dealloc];
+   // [super dealloc];
 	_path = nil;
     
 	if (_watchedFD >= 0) close(_watchedFD);
@@ -137,7 +137,7 @@ NSString * VDKQueueAccessRevocationNotification = @"VDKQueueAccessWasRevokedNoti
 
 - (void) dealloc
 {
-    [super dealloc];
+    //[super dealloc];
 
     // Shut down the thread that's scanning for kQueue events
     _keepWatcherThreadRunning = NO;
