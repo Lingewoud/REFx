@@ -6,16 +6,11 @@
 #  Created by Pim Snel on 04-10-11.
 #  Copyright 2011 Lingewoud B.V. All rights reserved.
 #
-#require "rubygems"
 
 require 'optparse'
 require 'fileutils'
 require 'base64'
 require 'pathname'
-
-#require "bundler/setup"
-
-#require 'active_record'
 
 class RefxJobWrapper
 
@@ -26,85 +21,88 @@ class RefxJobWrapper
 
 	def runJob(pJob,maxattempts=nil)
 
-        p "start running job"
-    #    pJob.attempt = pJob.attempt.to_i + 1
-        ## SAVE JOB: attempt + 1
-    #    pJob.save
-        
-    #    if !maxattempts.nil? && pJob.attempt > maxattempts.to_i
-    #        p "max attempt reached"
-    #        pJob.status = 66
-    #    else
-        
-            @logdir = File.expand_path('~')+"/Library/Logs/REFx4"
-            Dir.mkdir(@logdir) unless File.exists?(@logdir)
-            @logfile = @logdir + '/Engines.log'
+		p "start running job"
 
-            #logger.info(Time.now.to_s+': start processing job '+ pJob.id.to_s)
-            cmdbody = YAML::load(pJob.body)
+		@logdir = File.expand_path('~')+"/Library/Logs/REFx4"
+		Dir.mkdir(@logdir) unless File.exists?(@logdir)
+		@logfile = @logdir + '/Engines.log'
 
-            #We always add the jobId to the init arguments on the first position
-            initArgString = "'"+pJob.id.to_s+"'"
+		#logger.info(Time.now.to_s+': start processing job '+ pJob.id.to_s)
+		cmdbody = YAML::load(pJob.body)
 
-            #IF THE PLUGIN NEEDS MORE ARGUMENTS
-            begin
-                initArgString2= createArgString(cmdbody['init_args'])
-            rescue Exception => e
-                p "cant find init_args"
-                pJob.status = 69
-                pJob.save
-                return
-            end
+		#We always add the jobId to the init arguments on the first position
+		initArgString = "'"+pJob.id.to_s+"'"
 
-            initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
+		#IF THE PLUGIN NEEDS MORE ARGUMENTS
+		begin
+			initArgString2= createArgString(cmdbody['init_args'])
+		rescue Exception => e
+			p "cant find init_args"
+			pJob.status = 69
+			pJob.save
+			return
+		end
 
-            methodArgString= createArgString(cmdbody['method_args'])
+		initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
 
-            ##### CMDBODY DEBUG
+		methodArgString= createArgString(cmdbody['method_args'])
 
-            #logger.info 'engine: '+pJob.engine
-            #logger.info 'method: '+cmdbody['method']
-            #logger.info 'init_args: '+ initArgString
-            #logger.info 'method_args: '+ methodArgString
+		##### CMDBODY DEBUG
 
-            # CREATE ENGINE OBJECT and make sure the engine object is nil
-            @engineObject=nil
+		#logger.info 'engine: '+pJob.engine
+		#logger.info 'method: '+cmdbody['method']
+		#logger.info 'init_args: '+ initArgString
+		#logger.info 'method_args: '+ methodArgString
 
-            require "./#{pJob.engine}.rb"
+		# CREATE ENGINE OBJECT and make sure the engine object is nil
+		@engineObject=nil
 
-            evalcmd1=pJob.engine+'.new('+initArgString+')'
-            #p evalcmd1
-            @engineObject = eval(evalcmd1)
+		require File.expand_path("./#{pJob.engine}.rb")
 
-            if @engineObject
-                logStartNewJob
-                p 'dag'
-                evalcommand='@returnVal = @engineObject.'+cmdbody['method']+'('+methodArgString+')'
+		evalcmd1=pJob.engine+'.new('+initArgString+')'
+		begin
+			@engineObject = eval(evalcmd1)
+		rescue Exception => e
+			p "cannot eval object "
+			exit 69
+		end
 
-                @startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
-                _startTime = Time.now
-                eval(evalcommand)
-                
-                @endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
-                _endTime = Time.now
-                @duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
+		if @engineObject
+			logStartNewJob
+			evalcommand='@returnVal = @engineObject.'+cmdbody['method']+'('+methodArgString+')'
 
-                #logJobSummery
-                p 'hallo'
+			@startTime = 'JOB STARTED  :  '+ Time.now.strftime("%b-%d-%Y %H:%M")
+			_startTime = Time.now
 
-                pJob.status = 10
-                pJob.returnbody = @returnVal
-            else
-                errorMsg = "engine "+pJob.engine+" does not exist"
-                print "failed object can be made"
-                pJob.returnbody = errorMsg
-                pJob.status = 20
-            end
-    #    end
+			begin
+				eval(evalcommand)
+			rescue Exception => e
+				$stderr.puts "Cannot eval job method part"
+				$stderr.puts e.message  
+				$stderr.puts 
+				$stderr.puts e.backtrace.inspect.join("\n")
+				#exit 70
+			end
+
+
+			@endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
+			_endTime = Time.now
+			@duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
+
+			#logJobSummery
+
+			pJob.status = 10
+			pJob.returnbody = @returnVal
+		else
+			errorMsg = "engine "+pJob.engine+" does not exist"
+			print "failed object can be made"
+			pJob.returnbody = errorMsg
+			pJob.status = 20
+		end
 
 
 		pJob.save
-        exit 0
+		exit 0
 	end
 
 	def logStartNewJob
@@ -157,7 +155,7 @@ class RefxJobWrapper
 
 	def insertTestJob(engineName,testindex,testSourceFilename)
 		p 'INSERTING TEST JOB'
-        sleep(1)
+		sleep(1)
 		testindex = 0 if testindex.nil?
 
 		source_file_base_dir = File.expand_path('~')+'/Library/REFx4'
@@ -262,7 +260,7 @@ optparse = OptionParser.new do|opts|
 	# assumed to have this option.
 	opts.on( '-h', '--help', 'Display this screen' ) do
 		puts opts
-		exit
+		exit 0
 	end
 end
 
@@ -281,7 +279,7 @@ if options[:test]
 	refxjob = RefxJobWrapper.new
 	refxjob.insertTestJob(options[:test],options[:testindex],options[:testSourceFilename])
 elsif options[:jobid] != 0
-    $REFXjobid = options[:jobid]
+	$REFXjobid = options[:jobid]
 	refxjob = RefxJobWrapper.new
 	refxjob.selectJobById(options[:jobid],options[:maxattempts])
 end

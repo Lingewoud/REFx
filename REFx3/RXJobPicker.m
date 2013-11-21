@@ -18,8 +18,11 @@
 
 
 @implementation RXJobPicker
-@synthesize refxTimer;
+
+//@synthesize refxTimer;
 @synthesize refxSafetyTimer;
+@synthesize railsDbPath,railsEnvironment,railsRootDir;
+@synthesize loopIsEnabled,running;
 
 - (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env
 {
@@ -27,19 +30,20 @@
     if (self) {
         NSLog(@"init jobpicker");
 
-        loopIsEnabled = NO;
-        railsDbPath = dbPath;
-        railsRootDir = dir;
-        railsEnvironment = env;
+        self.loopIsEnabled = NO;
+
+    
+        self.railsDbPath = dbPath;
+        //railsRootDir = dir;
+        self.railsEnvironment = env;
         
-        self.refxTimer = [[NSTimer alloc] init];
         self.refxSafetyTimer = [[NSTimer alloc] init];
         
-        [self startLoopIfEnabledAndOpenJobs];
+        [self executeJobIfEnabledAndOpenJobs];
         [self startListeningFileChanges];
         
         NSLog(@"start safety timer ...");
-        self.refxSafetyTimer = [NSTimer scheduledTimerWithTimeInterval: 60.0
+        self.refxSafetyTimer = [NSTimer scheduledTimerWithTimeInterval: 10.0
                                                           target: self
                                                         selector: @selector(safetyTimerRun)
                                                         userInfo: nil
@@ -60,99 +64,48 @@
 
 -(void) VDKQueue:(VDKQueue *)queue receivedNotification:(NSString*)noteName forPath:(NSString*)fpath
 {
-    NSLog(@"Database was update, so we update the table view");
-    [self startLoopIfEnabledAndOpenJobs];
+    //NSLog(@"Database was update, so we update the table view");
+    [self executeJobIfEnabledAndOpenJobs];
 }
 
 -(void) safetyTimerRun
 {
     NSLog(@"Safety Timer: Checking if queue is still working if it should");
-    [self startLoopIfEnabledAndOpenJobs];
+    [self executeJobIfEnabledAndOpenJobs];
 }
 
--(void) startLoopIfEnabledAndOpenJobs
+-(void) executeJobIfEnabledAndOpenJobs
 {
-    //if the scheduler is enabled and the their are open jobs then rjun the loop
-    if(loopIsEnabled){
-        NSLog(@"Loop is enabled");
+    //NSLog(@"loop  %i", self.loopIsEnabled);
+    if(self.loopIsEnabled)
+    {
         if([self numberOpenJobs] > 0)
         {
-            if(![self.refxTimer isValid])
-           {
-               NSLog(@"There are open jobs, we start the loop");
-               [self startREFxLoopAction];
-           }
-           else{
-               //NSLog(@"A timer is already running, we stop the loop");
-
-               //[self stopREFxLoopAction];
-           }
-        }
-        else
-        {
-               NSLog(@"There are no open jobs, we stop the loop");
-            [self stopREFxLoopAction];
+            [self loopSingleAction];
         }
     }
-    else
-    {
-        [self stopREFxLoopAction];
-    }
-    //else we stop the loop
 }
-
 
 - (void)startREFxLoop
 {
     NSLog(@"set scheduler enabled");
 
-    loopIsEnabled = YES;
-    [self startLoopIfEnabledAndOpenJobs];
+    self.loopIsEnabled = YES;
+    [self executeJobIfEnabledAndOpenJobs];
 }
 
 - (void)stopREFxLoop
 {
     NSLog(@"set scheduler disabled");
     
-    loopIsEnabled = NO;
-    [self startLoopIfEnabledAndOpenJobs];
-
-}
-
-- (void)startREFxLoopAction
-{
-    [self loopSingleAction];
-    return;
-    
-    
-    NSLog(@"start scheduler...");
-    self.refxTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
-                                                 target: self
-                                               selector: @selector(loopSingleAction)
-                                               userInfo: nil
-                                                repeats: YES];
-}
-
-- (void)stopREFxLoopAction
-{
-    NSLog(@"stop scheduler... ");
-    if([self.refxTimer isValid])
-    {
-        [self.refxTimer invalidate];
-        self.refxTimer = nil;
-    }
+    self.loopIsEnabled = NO;
 }
 
 - (void)loopSingleAction
 {
-    if([rubyJobProcess isRunning])
-    {
-        return;
-    }
-    
-    //int jobid = [self selectJob];
-    
-    if(jobRunning == NO)
+    //NSLog(@"job running?: %i", [self isRunning]);
+
+    if([self isRunning] == NO)
     {
         [self performSelectorInBackground:@selector(executeRubyRunner) withObject:nil];
     }
@@ -160,20 +113,17 @@
 
 - (void)executeRubyRunner
 {
-    NSLog(@"Find new job");
-    if([rubyJobProcess isRunning])
-    {
-        return;
-    }
-    
+    //NSLog(@"Find new job");
     int jobid = [self selectJob];
     
-    if(jobid != 0 && jobRunning == NO)
+    if(jobid != 0 && [self isRunning] == NO)
     {
-        
         NSLog(@"DISPATCHING JOBID %i",jobid);
         
-        jobRunning = YES;
+        //NSLog(@"job running?: %i", [self isRunning]);
+        self.running = YES;
+        //NSLog(@"job running?: %i", [self isRunning]);
+        
         
         NSString * jobLogFolder = [NSString stringWithFormat:@"%@/%i",[[NSApp delegate ] jobLogFilePath],jobid];
         NSLog(@"Creating JobsLogs: %@",jobLogFolder);
@@ -193,20 +143,21 @@
         
         NSString *engineDir = [sharedEngineManager pathToEngineResources:engine];
         NSString *enginePath = [NSString stringWithFormat:@"%@main.rb", [sharedEngineManager pathToEngineResources:engine]];
+
         NSString *runnerPath = [sharedEngineManager pathToEngineRunner];
+
+        NSTask *rubyJobProcess2 = [[NSTask alloc] init];
+        [rubyJobProcess2 setCurrentDirectoryPath:engineDir];
+        [rubyJobProcess2 setLaunchPath: enginePath];
         
-        rubyJobProcess = [[NSTask alloc] init];
-        
-        [rubyJobProcess setCurrentDirectoryPath:engineDir];
-        [rubyJobProcess setLaunchPath: enginePath];
-        
-        [rubyJobProcess setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
+        [rubyJobProcess2 setEnvironment:[NSDictionary dictionaryWithObjectsAndKeys:NSHomeDirectory(), @"HOME", NSUserName(), @"USER", nil]];
         
         NSMutableArray * args = [NSMutableArray arrayWithObjects:
                                  runnerPath,
                                  @"-j",jobidString,
                                  @"--environment",railsEnvironment,
                                  nil];
+        
         
         if([[NSUserDefaults standardUserDefaults] boolForKey:@"debugMode"])
         {
@@ -218,51 +169,38 @@
             [args addObject:[NSString stringWithFormat:@"%li", [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] ]];
         }
         
-        [rubyJobProcess setArguments:args];
-        
+        [rubyJobProcess2 setArguments:args];
+        //NSLog(@"workdir nstask: %@ ", engineDir);
+        //NSLog(@"arguments nstask: %@ %@",enginePath, [args componentsJoinedByString:@" "] );
+
         
         NSPipe *errorPipe = [NSPipe pipe];
-        //NSPipe *outputPipe = [NSPipe pipe];
         
-        //[rubyJobProcess setStandardInput:[NSPipe pipe]];
-        //[rubyJobProcess setStandardOutput:outputPipe];
-        [rubyJobProcess setStandardError:errorPipe];
-        //[rubyJobProcess waitUntilExit];
+        [rubyJobProcess2 setStandardError:errorPipe];
         
-        @try {
+        [rubyJobProcess2 launch];
+        [rubyJobProcess2 waitUntilExit];
+        //NSLog(@"nstask has stopped");
+        
+        if ([rubyJobProcess2 terminationStatus] != 0)
+         {
             
-            [rubyJobProcess launch];
-            
-        /*
-            NSData *outputData = [[outputPipe fileHandleForReading] readDataToEndOfFile];
-            NSString *outputString = [[[NSString alloc] initWithData:outputData encoding:NSUTF8StringEncoding] autorelease];
-            NSString * jobStdOutputLogFile = [jobLogFolder stringByAppendingString:@"/output.log"];
-            if([outputString length] > 0)
-            {
-                [outputString writeToFile:jobStdOutputLogFile atomically:NO encoding:NSUTF8StringEncoding error:nil];
-            }
-         */
+             //[self setJobId:jobid status:70];
+             NSLog(@"something went wrong:error code %i",[rubyJobProcess2 terminationStatus]);
+         }
+        
 
-             //NSLog(@"proc output:%@",outputString);
-            
-            NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
-            NSString *errorString = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
-            NSString * jobStdErrorLogFile = [jobLogFolder stringByAppendingString:@"/error.log"];
-            
-            if([errorString length] > 0)
-            {
-                [errorString writeToFile:jobStdErrorLogFile atomically:NO encoding:NSUTF8StringEncoding error:nil];
-            }
-            //NSLog(@"proc error:%@",errorString);
         
-        }
-        @catch (NSException *exception) {
-            //increase attempt
-            [self setJobId:jobid status:67];
-            NSLog(@"Problem Running Task: %@", [exception description]);
+        NSData *errorData = [[errorPipe fileHandleForReading] readDataToEndOfFile];
+        NSString *errorString = [[NSString alloc] initWithData:errorData encoding:NSUTF8StringEncoding];
+        NSString * jobStdErrorLogFile = [jobLogFolder stringByAppendingString:@"/error.log"];
+        
+        if([errorString length] > 0)
+        {
+            [errorString writeToFile:jobStdErrorLogFile atomically:NO encoding:NSUTF8StringEncoding error:nil];
         }
         
-        jobRunning = NO;
+        self.running = NO;
     }
 }
 
@@ -292,8 +230,6 @@
         return 0;
     }
     
-    NSLog(@"Counting open jobs");
-
     int count = [db intForQuery:@"SELECT count(id) as numopenjobs FROM jobs WHERE status > 0 AND status < 10"];
     
     [db close];
@@ -312,6 +248,9 @@
     ret = 0;
     int attempt;
     
+    db.traceExecution = YES;
+    db.logsErrors = YES;
+    
     FMResultSet *rs = [db executeQuery:@"SELECT id, attempt FROM jobs WHERE status > 0 AND status < 10 ORDER BY jobs.priority DESC LIMIT 1"];
     while ([rs next]) {
         
@@ -321,20 +260,22 @@
     
     [db close];
     
-    if(ret > 0)
-    {
-        [self increaseAttemts:ret];
-    }
     
     if([[NSUserDefaults standardUserDefaults] integerForKey:@"disableMaxAttempts"]==0)
     {
         if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] > 0 &&
-           [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] < attempt)
+           [[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] <= attempt)
         {
             [self setJobId:ret status:66];
             ret = 0;
         }
     }
+    
+    if(ret > 0)
+    {
+        [self increaseAttemts:ret];
+    }
+
     
     return ret;
 }
@@ -347,13 +288,16 @@
         return;
     }
     
-//    db.traceExecution = YES;
-//    db.logsErrors = YES;
+    db.traceExecution = YES;
+    db.logsErrors = YES;
     
     NSString *sql = [NSString stringWithFormat:@"UPDATE jobs SET attempt = attempt + 1 WHERE id=%li",  (long)jobid];
     NSLog(@"Exec: %@",  sql);
 
-    [db executeUpdate:sql];
+    if([db executeUpdate:sql])
+    {
+        NSLog(@"sql ok:%@",sql);
+    }
     
     [db close];
 }
@@ -367,8 +311,8 @@
         return;
     }
     
-   // db.traceExecution = YES;
-   // db.logsErrors = YES;
+    db.traceExecution = YES;
+    db.logsErrors = YES;
     NSLog(@"Exec: UPDATE jobs SET status = %li WHERE id=%li", (long)status, (long)rowId);
 
     NSString *sql = [NSString stringWithFormat:@"UPDATE jobs SET status = %li WHERE id=%li", (long)status, (long)rowId];
@@ -413,9 +357,6 @@
 
 - (long) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body
 {
-    
-
-    
     FMDatabase *db = [FMDatabase databaseWithPath:railsDbPath];
     if (![db open]) {
         NSLog(@"FMDatabase Could not open db form path %@", railsDbPath);
@@ -435,16 +376,5 @@
     
     return newid;
 }
-
-
-/*
- - (void) dealloc {
-    [self stopREFxLoop];
-    railsRootDir = nil;
-    refxTimer = nil;
-    //[super dealloc];
-}
- */
-
 
 @end

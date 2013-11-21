@@ -600,6 +600,9 @@
                 [statusList setObject: @"Err. No Engine" forKey: @"67"];
                 [statusList setObject: @"Err. Engine fatal" forKey: @"68"];
                 [statusList setObject: @"Err. Runner fatal" forKey: @"69"];
+                [statusList setObject: @"Err. Engine Eval Object" forKey: @"69"];
+                [statusList setObject: @"Err. Engine Eval Method" forKey: @"70"];
+                
                 
                 [loc_status addObject:[statusList objectForKey:[rs stringForColumn:@"status"]]];
             }

@@ -44,7 +44,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="72" id="74">
-                                    <rect key="frame" x="0.0" y="0.0" width="889" height="523"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="959" height="523"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -95,7 +95,7 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         </tableColumn>
-                                        <tableColumn identifier="status" editable="NO" width="57.62109375" minWidth="10" maxWidth="3.4028234663852886e+38" id="79">
+                                        <tableColumn identifier="status" editable="NO" width="128.15234375" minWidth="10" maxWidth="3.4028234663852886e+38" id="79">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="status">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -217,7 +217,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="72">
-                            <rect key="frame" x="0.0" y="0.0" width="889" height="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="959" height="17"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>

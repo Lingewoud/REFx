@@ -12,19 +12,28 @@
 
 @interface RXJobPicker : NSObject <VDKQueueDelegate> {
 
-    BOOL jobRunning;
+/*
+    //    BOOL jobRunning;
     BOOL loopIsEnabled;
     NSString* railsRootDir;
     NSString* railsDbPath;
     NSString* railsEnvironment;
+    //    NSTask *rubyJobProcess;
 
-    NSTask *rubyJobProcess;
-    
+  */
 
 }
-@property (retain) NSTimer *refxTimer;
+
+//@property (retain) NSTimer *refxTimer;
 @property (retain) NSTimer *refxSafetyTimer;
 
+//@property (nonatomic, assign) BOOL jobRunning;
+@property (nonatomic, assign) BOOL loopIsEnabled;
+
+@property (nonatomic, retain) NSString* railsEnvironment;
+@property (nonatomic, retain) NSString* railsRootDir;
+@property (nonatomic, retain) NSString* railsDbPath;
+@property (nonatomic, getter=isRunning) BOOL running;
 
 
 - (id)initWithDbPath: dbPath railsRootDir: dir environment:(NSString*) env;
@@ -35,8 +44,8 @@
 - (void) flushAllJobs;
 - (void) startREFxLoop;
 - (void) stopREFxLoop;
-- (void) startREFxLoopAction;
-- (void) stopREFxLoopAction;
+//- (void) startREFxLoopAction;
+//- (void) stopREFxLoopAction;
 - (void) setJobsLastId:(NSInteger)rowId;
 - (long) insertTestJobwithEngine:(NSString*)engine body:(NSString*)body;
 
