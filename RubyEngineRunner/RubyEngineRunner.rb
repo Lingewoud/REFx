@@ -38,9 +38,10 @@ class RefxJobWrapper
 			initArgString2= createArgString(cmdbody['init_args'])
 		rescue Exception => e
 			p "cant find init_args"
-			pJob.status = 69
-			pJob.save
-			return
+			exit 69
+			#pJob.status = 69
+			#pJob.save
+			#return
 		end
 
 		initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
@@ -81,9 +82,8 @@ class RefxJobWrapper
 				$stderr.puts e.message  
 				$stderr.puts 
 				$stderr.puts e.backtrace.inspect.join("\n")
-				#exit 70
+				exit 70
 			end
-
 
 			@endTime = 'JOB FINISHED : '+ Time.now.strftime("%b-%d-%Y %H:%M")
 			_endTime = Time.now
@@ -97,9 +97,8 @@ class RefxJobWrapper
 			errorMsg = "engine "+pJob.engine+" does not exist"
 			print "failed object can be made"
 			pJob.returnbody = errorMsg
-			pJob.status = 20
+			exit 71
 		end
-
 
 		pJob.save
 		exit 0
