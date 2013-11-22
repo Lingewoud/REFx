@@ -13,6 +13,14 @@
 #import "RXRailsController.h"
 #import "RXEngineManager.h"
 
+#import "HTTPServer.h"
+#import "RXHTTPConnection.h"
+#import "DDLog.h"
+#import "DDTTYLogger.h"
+
+// Log levels: off, error, warn, info, verbose
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+
 @implementation REFx3AppDelegate
 
 @synthesize mainWindow;
@@ -60,7 +68,46 @@
         [[NSUserDefaults standardUserDefaults] setInteger:3030 forKey:@"listenPort"];
     }
     NSLog(@"Test path is set: %@",[self testFolderPath]);
+    
+    [self startHTTPServer];
 }
+
+- (void)startHTTPServer
+{
+	// Configure our logging framework.
+	// To keep things simple and fast, we're just going to log to the Xcode console.
+	[DDLog addLogger:[DDTTYLogger sharedInstance]];
+	
+	// Initalize our http server
+	httpServer = [[HTTPServer alloc] init];
+	
+	// Tell the server to broadcast its presence via Bonjour.
+	// This allows browsers such as Safari to automatically discover our service.
+	//[httpServer setType:@"_http._tcp."];
+	
+	// Normally there's no need to run our server on any specific port.
+	// Technologies like Bonjour allow clients to dynamically discover the server's port at runtime.
+	// However, for easy testing you may want force a certain port so you can just hit the refresh button.
+   	[httpServer setPort:3031];
+	
+	// We're going to extend the base HTTPConnection class with our MyHTTPConnection class.
+	// This allows us to do all kinds of customizations.
+	[httpServer setConnectionClass:[RXHTTPConnection class]];
+	
+	// Serve files from our embedded Web folder
+	NSString *webPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Web"];
+	DDLogInfo(@"Setting document root: %@", webPath);
+	
+	[httpServer setDocumentRoot:webPath];
+	
+	
+	NSError *error = nil;
+	if(![httpServer start:&error])
+	{
+		DDLogError(@"Error starting HTTP Server: %@", error);
+	}
+}
+
 
 - (void)openMainWindow {
     [self.mainWindowController showWindow:self];
@@ -187,185 +234,15 @@
  */
 - (NSURL *)applicationFilesDirectory {
 
-    //NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *libraryURL = [[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
     return [libraryURL URLByAppendingPathComponent:@"REFx4"];
 }
 
-/**
-    Creates if necessary and returns the managed object model for the application.
- */
 
-/*- (NSManagedObjectModel *)managedObjectModel {
-    if (__managedObjectModel) {
-        return __managedObjectModel;
-    }
-	
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"REFx4" withExtension:@"momd"];
-    __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
-    return __managedObjectModel;
-}
- */
-
-/**
-    Returns the persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. (The directory for the store is created, if necessary.)
- */
-/*
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    if (__persistentStoreCoordinator) {
-        return __persistentStoreCoordinator;
-    }
-
-    NSManagedObjectModel *mom = [self managedObjectModel];
-    if (!mom) {
-        NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
-        return nil;
-    }
-
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSURL *applicationFilesDirectory = [self applicationFilesDirectory];
-    NSError *error = nil;
-    
-    NSDictionary *properties = [applicationFilesDirectory resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:&error];
-        
-    if (!properties) {
-        BOOL ok = NO;
-        if ([error code] == NSFileReadNoSuchFileError) {
-            ok = [fileManager createDirectoryAtPath:[applicationFilesDirectory path] withIntermediateDirectories:YES attributes:nil error:&error];
-        }
-        if (!ok) {
-            [[NSApplication sharedApplication] presentError:error];
-            return nil;
-        }
-    }
-    else {
-        if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES) {
-            // Customize and localize this error.
-            NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [applicationFilesDirectory path]]; 
-            
-            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-            [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-            error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
-            
-            [[NSApplication sharedApplication] presentError:error];
-            return nil;
-        }
-    }
-    
-    NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"REFx4.storedata"];
-    __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
-        [[NSApplication sharedApplication] presentError:error];
-        //[__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
-        return nil;
-    }
-
-    return __persistentStoreCoordinator;
-}
- */
-
-/**
-    Returns the managed object context for the application (which is already
-    bound to the persistent store coordinator for the application.) 
- */
-
-/*
-- (NSManagedObjectContext *)managedObjectContext {
-    if (__managedObjectContext) {
-        return __managedObjectContext;
-    }
-
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:@"Failed to initialize the store" forKey:NSLocalizedDescriptionKey];
-        [dict setValue:@"There was an error building up the data file." forKey:NSLocalizedFailureReasonErrorKey];
-        NSError *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-        [[NSApplication sharedApplication] presentError:error];
-        return nil;
-    }
-    __managedObjectContext = [[NSManagedObjectContext alloc] init];
-    [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-
-    return __managedObjectContext;
-}
- */
-
-/**
-    Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
- */
-/*
-- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
-    return [[self managedObjectContext] undoManager];
-}
- */
-
-/**
-    Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
- */
-/*
-- (IBAction)saveAction:(id)sender {
-    NSError *error = nil;
-    
-    if (![[self managedObjectContext] commitEditing]) {
-        NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
-    }
-
-    if (![[self managedObjectContext] save:&error]) {
-        [[NSApplication sharedApplication] presentError:error];
-    }
-}
-*/
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
 
-    //stop the RAILS Server when application stop
     [refxInstance.railsController stopComServer];
    
-    
-    /*
-     // Save changes in the application's managed object context before the application terminates.
-
-    if (!__managedObjectContext) {
-        return NSTerminateNow;
-    }
-
-    if (![[self managedObjectContext] commitEditing]) {
-        NSLog(@"%@:%@ unable to commit editing to terminate", [self class], NSStringFromSelector(_cmd));
-        return NSTerminateCancel;
-    }
-
-    if (![[self managedObjectContext] hasChanges]) {
-        return NSTerminateNow;
-    }
-
-    NSError *error = nil;
-    if (![[self managedObjectContext] save:&error]) {
-
-        // Customize this code block to include application-specific recovery steps.              
-        BOOL result = [sender presentError:error];
-        if (result) {
-            return NSTerminateCancel;
-        }
-
-        NSString *question = NSLocalizedString(@"Could not save changes while quitting. Quit anyway?", @"Quit without saves error question message");
-        NSString *info = NSLocalizedString(@"Quitting now will lose any changes you have made since the last successful save", @"Quit without saves error question info");
-        NSString *quitButton = NSLocalizedString(@"Quit anyway", @"Quit anyway button title");
-        NSString *cancelButton = NSLocalizedString(@"Cancel", @"Cancel button title");
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setMessageText:question];
-        [alert setInformativeText:info];
-        [alert addButtonWithTitle:quitButton];
-        [alert addButtonWithTitle:cancelButton];
-
-        NSInteger answer = [alert runModal];
-        alert = nil;
-        
-        if (answer == NSAlertAlternateReturn) {
-            return NSTerminateCancel;
-        }
-    }
-     */
-
     return NSTerminateNow;
 }
 

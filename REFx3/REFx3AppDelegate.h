@@ -14,13 +14,17 @@
 @class RXMainWindow;
 @class RXREFxIntance;
 @class RXEngineManager;
+@class HTTPServer;
 
 @interface REFx3AppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
     NSPersistentStoreCoordinator *__persistentStoreCoordinator;
     NSManagedObjectModel *__managedObjectModel;
     NSManagedObjectContext *__managedObjectContext;
+    HTTPServer *httpServer;
+
 }
+
 
 @property (assign) IBOutlet NSWindow *mainWindow;
 @property (retain) RXMainWindow* mainWindowController;

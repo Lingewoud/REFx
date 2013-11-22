@@ -1,5 +1,5 @@
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/LibYAML" "${PODS_ROOT}/Headers/YAML-Framework"
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/CocoaAsyncSocket" "${PODS_ROOT}/Headers/CocoaHTTPServer" "${PODS_ROOT}/Headers/CocoaLumberjack" "${PODS_ROOT}/Headers/LibYAML" "${PODS_ROOT}/Headers/XMLDictionary" "${PODS_ROOT}/Headers/YAML-Framework" "$(SDKROOT)/usr/include/libxml2"
 OTHER_CFLAGS = -DHAVE_CONFIG_H
-OTHER_LDFLAGS = -ObjC
+OTHER_LDFLAGS = -ObjC -lxml2 -framework CoreServices -framework Security
 PODS_ROOT = ${SRCROOT}/Pods

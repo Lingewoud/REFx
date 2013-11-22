@@ -29,6 +29,8 @@
 		3E3787BE1816FD6C000FD48F /* engineicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3E3787BD1816FD6C000FD48F /* engineicon.png */; };
 		3E3787C018171A7B000FD48F /* EngineWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3787BF18171A7B000FD48F /* EngineWindow.xib */; };
 		3E3787C318171AFB000FD48F /* EngineWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3787C218171AFB000FD48F /* EngineWindowController.m */; };
+		3E37FF84183ECD7200D6E576 /* RXHTTPConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E37FF83183ECD7200D6E576 /* RXHTTPConnection.m */; };
+		3E37FF86183ECE5F00D6E576 /* Web in Resources */ = {isa = PBXBuildFile; fileRef = 3E37FF85183ECE5F00D6E576 /* Web */; };
 		3E3F694317DFB2070034B653 /* NSFileHandle+readLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3F694017DFB2070034B653 /* NSFileHandle+readLine.m */; };
 		3E3F694417DFB2070034B653 /* VDKQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E3F694217DFB2070034B653 /* VDKQueue.m */; };
 		3E3F694617DFB2770034B653 /* RXLogWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E3F694517DFB2770034B653 /* RXLogWindow.xib */; };
@@ -126,6 +128,9 @@
 		3E3787BF18171A7B000FD48F /* EngineWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EngineWindow.xib; sourceTree = "<group>"; };
 		3E3787C118171AFB000FD48F /* EngineWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineWindowController.h; sourceTree = "<group>"; };
 		3E3787C218171AFB000FD48F /* EngineWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineWindowController.m; sourceTree = "<group>"; };
+		3E37FF82183ECD7200D6E576 /* RXHTTPConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RXHTTPConnection.h; sourceTree = "<group>"; };
+		3E37FF83183ECD7200D6E576 /* RXHTTPConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RXHTTPConnection.m; sourceTree = "<group>"; };
+		3E37FF85183ECE5F00D6E576 /* Web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Web; sourceTree = "<group>"; };
 		3E3F693F17DFB2070034B653 /* NSFileHandle+readLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileHandle+readLine.h"; sourceTree = "<group>"; };
 		3E3F694017DFB2070034B653 /* NSFileHandle+readLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileHandle+readLine.m"; sourceTree = "<group>"; };
 		3E3F694117DFB2070034B653 /* VDKQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VDKQueue.h; sourceTree = "<group>"; };
@@ -398,6 +403,8 @@
 		3EC97C9714488BDB00B81F47 /* REFx4 */ = {
 			isa = PBXGroup;
 			children = (
+				3E37FF82183ECD7200D6E576 /* RXHTTPConnection.h */,
+				3E37FF83183ECD7200D6E576 /* RXHTTPConnection.m */,
 				3E3F693D17DF9B990034B653 /* 3rdparty */,
 				3E786DE1157042C100BB0FA9 /* AppDelegate & REFxInstance */,
 				3EF431F21819BC4E00A2D449 /* MainWindow */,
@@ -415,6 +422,7 @@
 		3EC97C9814488BDB00B81F47 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3E37FF85183ECE5F00D6E576 /* Web */,
 				3E575575181DAFA8006FDAEB /* REFxLogo-refx4.png */,
 				3E5754E3181C7593006FDAEB /* iconsset1 */,
 				3E3787BD1816FD6C000FD48F /* engineicon.png */,
@@ -519,6 +527,7 @@
 				3EBA4A00182074B90019B9B2 /* ToolbarFilterTemplate.png in Resources */,
 				3E473C0C161CA83100942E37 /* FMDatabasePool.h in Resources */,
 				3E575565181D5E7E006FDAEB /* ToolbarResumeSelectedTemplate@2x.png in Resources */,
+				3E37FF86183ECE5F00D6E576 /* Web in Resources */,
 				3E473C0D161CA83100942E37 /* FMDatabasePool.m in Resources */,
 				3EBA49F4182071770019B9B2 /* LogViewTemplate.png in Resources */,
 				3EBA4A06182074B90019B9B2 /* ToolbarResumeSelectedTemplate.png in Resources */,
@@ -659,6 +668,7 @@
 				3E3787B71816FA79000FD48F /* EngineTextCell.m in Sources */,
 				3E3F694317DFB2070034B653 /* NSFileHandle+readLine.m in Sources */,
 				3E3F694417DFB2070034B653 /* VDKQueue.m in Sources */,
+				3E37FF84183ECD7200D6E576 /* RXHTTPConnection.m in Sources */,
 				3E3F694A17DFB3410034B653 /* RXLogWindowController.m in Sources */,
 				3E3F695517DFBBCA0034B653 /* RXLogTableDataSource.m in Sources */,
 				3EFA299B17F227CE00CA4CEC /* RXEngineManager.m in Sources */,
@@ -724,7 +734,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -753,7 +763,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
 			};
