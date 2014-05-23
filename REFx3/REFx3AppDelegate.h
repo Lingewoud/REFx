@@ -22,7 +22,6 @@
     NSManagedObjectModel *__managedObjectModel;
     NSManagedObjectContext *__managedObjectContext;
     HTTPServer *httpServer;
-
 }
 
 
@@ -40,9 +39,6 @@
 
 - (IBAction)showLogWindow:(id)sender;
 - (IBAction)showPreferences:(id)sender;
-
-- (void)flushRailsLogs;
-- (void)flushEngineLogs;
 
 - (NSString *)appSupportPath;
 - (NSString *)sqlLitePath;

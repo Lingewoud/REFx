@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>4AC8CCBD-6F18-478E-93C5-080E4B8EC110</string>
+	<key>IDESourceControlProjectName</key>
+	<string>REFx4</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FC88113C-F9FE-4D10-A4DC-E6D757C484C2</key>
+		<string>https://github.com/PAS3/REFx.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>REFx4.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FC88113C-F9FE-4D10-A4DC-E6D757C484C2</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/PAS3/REFx.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FC88113C-F9FE-4D10-A4DC-E6D757C484C2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FC88113C-F9FE-4D10-A4DC-E6D757C484C2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>REFx</string>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -4,4 +4,6 @@
 
 @interface RXHTTPConnection : HTTPConnection
 
+    @property (retain) NSTimer *stopLoopTimer;
+
 @end

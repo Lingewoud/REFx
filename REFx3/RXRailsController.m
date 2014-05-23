@@ -30,6 +30,13 @@
 // startComServer starts a RAILS instance at a specific port
 - (void)startComServer:(NSString*)railsPort :(NSString*)environment
 {
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"useNewWebserver"]) {
+        NSLog(@"Not starting communication... the new server is running");
+
+        return;
+    }
+    
     NSLog(@"start communication server ...");
    
     if(comServerRunning == NO)
@@ -62,7 +69,13 @@
 
 // stopComServer stops a RAILS instance at a specific port by calling the terminator script
 - (void)stopComServer
-{   
+{
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"useNewWebserver"]) {
+        NSLog(@"Not stopping communication... the new server is running");
+        return;
+    }
+    
     NSString * railsPort =[NSString stringWithFormat:@"%li", [[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]];
     NSString *terminatePath = [NSString stringWithFormat:@"%@/Contents/Resources/",[[NSBundle mainBundle] bundlePath]];
     NSLog(@"term path: %@",terminatePath);

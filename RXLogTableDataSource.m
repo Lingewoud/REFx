@@ -14,6 +14,7 @@
 
 - (id)init
 {
+    NSLog(@"initds");
     self = [super init];
     if (self) {
         logFilePath = [[NSApp delegate] engineLogFilePath];
@@ -28,30 +29,46 @@
 
 - (void)startListeningFileChanges
 {
-    NSLog(@"Starting listening for changes in %@",logFilePath);
+    //NSLog(@"Starting listening for changes in %@",logFilePath);
     
-    VDKQueue *queue = [VDKQueue new];
-    [queue addPath: logFilePath notifyingAbout:VDKQueueNotifyAboutWrite];
-    [queue setDelegate:self];
+    myqueue  = [VDKQueue new];
+    myqueue.alwaysPostNotifications=YES;
+
+    [myqueue addPath: logFilePath notifyingAbout:VDKQueueNotifyAboutWrite];
+
+    [myqueue setDelegate:self];
 }
 
 -(void) VDKQueue:(VDKQueue *)queue receivedNotification:(NSString*)noteName forPath:(NSString*)fpath
 {
-    
     //NSLog(@"External application has changed the monitored file");
+
     [self readFile];
 }
 
+- (IBAction)flushLogFile:(id)sender
+{
+
+    //NSLog(@"Flush log");
+    NSString * empty = [NSString stringWithFormat:@""];
+    [empty writeToFile:logFilePath atomically:NO encoding:NSStringEncodingConversionAllowLossy error:nil];
+    
+    [self readFile];
+}
+
+
 -(void) readFile
 {
+    [myqueue removePath: logFilePath];
+    [myqueue addPath: logFilePath notifyingAbout:VDKQueueNotifyAboutWrite];
+
     linesFound = [[NSMutableArray alloc] init];
     
     NSFileHandle *logFileHandle = [NSFileHandle fileHandleForReadingAtPath:logFilePath];
     
-    //unsigned long previous = [logFileHandle offsetInFile];
     
     unsigned long fileSize = [logFileHandle  seekToEndOfFile];
-   // NSLog(@"myFile Size =%ul" , fileSize) ;
+    //NSLog(@"myFile Size =%ul" , fileSize) ;
     
     unsigned int buffersize = 4000;
     

@@ -29,15 +29,13 @@
 {
     self.nsMutaryOfMyData = [[NSMutableArray alloc] init];
     
-//    NSLog(@"engine array %@",[[[NSApp delegate] sharedEngineManager] enginesEnabledArray]);
-    
     for (NSString *eName in [[[NSApp delegate] sharedEngineManager] enginesEnabledArray]) {
         
-        NSLog(@"engineName %@",eName);
+        //NSLog(@"engineName %@",eName);
         
-//        NSString *engineName = [[NSString alloc] initWithString: eName];
+        //NSString *engineName = [[NSString alloc] initWithString: eName];
         
-//        [self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString: [[NSBundle mainBundle] pathForResource:@"engineicon" ofType:@"png"] text:engineName]];
+        //[self.nsMutaryOfMyData addObject:[[EngineData alloc] initWithImagePathString: [[NSBundle mainBundle] pathForResource:@"engineicon" ofType:@"png"] text:engineName]];
         [self.nsMutaryOfMyData addObject:eName];
     }
     
@@ -149,27 +147,24 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)pTableView
 {
-	NSLog(@"numberOfRowsInTableView ary count = %lu",[nsMutaryOfMyData count]);
+	NSLog(@"numberOfRowsInTableView engine count = %lu",[nsMutaryOfMyData count]);
 	return [nsMutaryOfMyData count];
 	
 }
 
 - (id)tableView:(NSTableView *)pTableView objectValueForTableColumn:(NSTableColumn *)pTableColumn row:(int)pRow {
 
-//    NSLog(@"objectValueForTableColumn");
-
     return [self.nsMutaryOfMyData objectAtIndex:pRow];
     
-    
-	EngineData * zMyDataObj				= [self.nsMutaryOfMyData objectAtIndex:pRow];
-	return zMyDataObj.nsStrText;
+	//EngineData * zMyDataObj				= [self.nsMutaryOfMyData objectAtIndex:pRow];
+	//return zMyDataObj.nsStrText;
 	// Note if the returned string is same as that typed into the cell then no update takes place
 	// e.g. returned string="fred", cell = "hello world",
 	// user selects the word "world" and types "fred": no change takes place.
 }
 
 // this is the delegate method that allows you to put data into your cell
-- (void)xxtableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)pRow {
+/*- (void)xxtableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)pRow {
     
     return;
     
@@ -181,10 +176,10 @@
 	[zMyCell setTitle:zMyDataObj.nsStrText];
 	
 }
-
+*/
 
 // this is the routine that returns cell data (an edited string) back after editing
-
+/*
  - (void)xxxtableView:(NSTableView *)aTableView setObjectValue:anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)pRow {
      return;
      
@@ -192,7 +187,8 @@
 	NSLog(@"setObjectValue string = %@",(NSString *)anObject);
 	zMyDataObj.nsStrText	= (NSString *)anObject;
 }
-
+ */
+/*
 // if this is not here we crash - called whenever mouseOver
 - (NSCell *)xxxtableView:(NSTableView *)pTableView dataCellForTableColumn:(NSTableColumn *)pTableColumn row:(NSInteger)pRow {
     return [self.nsMutaryOfMyData objectAtIndex:pRow];
@@ -201,6 +197,7 @@
     //NSLog(@"dataCellForTableColumn");
 	return self.myImageAndTextCelObj;
 } 
+ */
 /*
 - (void)addToEndOfTable:(id)pId{}
 - (void)addAtSelectedRow:(id)pId{}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1050" identifier="macosx"/>
+        <deployment defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
@@ -15,24 +15,24 @@
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="125" y="689" width="474" height="291"/>
+            <rect key="contentRect" x="125" y="689" width="474" height="317"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
             <view key="contentView" id="2">
-                <rect key="frame" x="0.0" y="0.0" width="474" height="291"/>
+                <rect key="frame" x="0.0" y="0.0" width="474" height="317"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <tabView id="36">
-                        <rect key="frame" x="21" y="10" width="440" height="275"/>
+                        <rect key="frame" x="21" y="10" width="440" height="301"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="General" identifier="1" id="37">
                                 <view key="view" id="40">
-                                    <rect key="frame" x="10" y="33" width="420" height="229"/>
+                                    <rect key="frame" x="10" y="33" width="420" height="255"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="750" id="52">
-                                            <rect key="frame" x="17" y="116" width="55" height="22"/>
+                                            <rect key="frame" x="17" y="142" width="55" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="53">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#" negativeFormat="#" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" minimumFractionDigits="0" maximumFractionDigits="0" decimalSeparator="," groupingSeparator="." currencyDecimalSeparator="," id="60">
@@ -54,7 +54,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="54">
-                                            <rect key="frame" x="87" y="119" width="295" height="17"/>
+                                            <rect key="frame" x="87" y="145" width="295" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Amount of last jobs to display (defaults to 50)" id="55">
                                                 <font key="font" metaFont="system"/>
@@ -63,7 +63,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="cJw-jz-TDZ">
-                                            <rect key="frame" x="87" y="89" width="295" height="17"/>
+                                            <rect key="frame" x="87" y="115" width="295" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Port to list for new jobs" id="U9G-A7-z0l">
                                                 <font key="font" metaFont="system"/>
@@ -72,7 +72,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="Pnd-7q-aTw">
-                                            <rect key="frame" x="17" y="86" width="55" height="22"/>
+                                            <rect key="frame" x="17" y="112" width="55" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Trc-mW-JPS">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#" negativeFormat="#" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" minimumFractionDigits="0" maximumFractionDigits="0" id="lAF-jt-mR4">
@@ -89,8 +89,26 @@
                                                 <binding destination="18" name="value" keyPath="values.listenPort" id="ap2-1Q-75Q"/>
                                             </connections>
                                         </textField>
+                                        <textField verticalHuggingPriority="750" id="UkN-4X-N1S">
+                                            <rect key="frame" x="17" y="17" width="248" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="vMv-Bb-bN4">
+                                                <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#" negativeFormat="#" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" minimumFractionDigits="0" maximumFractionDigits="0" id="GPs-2h-KoH">
+                                                    <real key="roundingIncrement" value="0.0"/>
+                                                    <metadata>
+                                                        <bool key="localizesFormat" value="YES"/>
+                                                    </metadata>
+                                                </numberFormatter>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.rubyExec" id="hr7-qK-gsJ"/>
+                                            </connections>
+                                        </textField>
                                         <button id="GLP-nQ-ec4">
-                                            <rect key="frame" x="15" y="183" width="283" height="18"/>
+                                            <rect key="frame" x="15" y="209" width="283" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title=" Start COM Server when application starts" bezelStyle="regularSquare" imagePosition="left" inset="2" id="E6s-0Z-xwy">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -101,7 +119,7 @@
                                             </connections>
                                         </button>
                                         <button id="2Th-Id-F4f">
-                                            <rect key="frame" x="15" y="157" width="343" height="18"/>
+                                            <rect key="frame" x="15" y="183" width="343" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title=" Start Job Scheduler Service when application starts" bezelStyle="regularSquare" imagePosition="left" inset="2" id="RBi-jR-EjN">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -112,7 +130,7 @@
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" id="AWr-Ky-597">
-                                            <rect key="frame" x="47" y="46" width="25" height="22"/>
+                                            <rect key="frame" x="47" y="72" width="25" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="10" drawsBackground="YES" id="bBa-Ra-hNf">
                                                 <numberFormatter key="formatter" formatterBehavior="default10_4" positiveFormat="#,##0.###" negativeFormat="#,##0.###" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="309" minimumFractionDigits="0" maximumFractionDigits="3" id="MKL-ID-o6w">
@@ -132,9 +150,18 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="YIz-20-d0D">
-                                            <rect key="frame" x="87" y="48" width="295" height="17"/>
+                                            <rect key="frame" x="87" y="74" width="295" height="17"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Max. job processing attempts. max 10" id="jkZ-mv-Ptc">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" id="5h0-uy-8Dg">
+                                            <rect key="frame" x="280" y="20" width="120" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Ruby executable" id="M4G-kR-pk6">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -145,17 +172,17 @@
                             </tabViewItem>
                             <tabViewItem label="Self Test" identifier="" id="wAJ-5v-5wo">
                                 <view key="view" id="vHA-lA-qXG">
-                                    <rect key="frame" x="10" y="33" width="420" height="229"/>
+                                    <rect key="frame" x="10" y="33" width="420" height="255"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 </view>
                             </tabViewItem>
                             <tabViewItem label="Development" identifier="2" id="38">
                                 <view key="view" id="39">
-                                    <rect key="frame" x="10" y="33" width="420" height="229"/>
+                                    <rect key="frame" x="10" y="33" width="420" height="255"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <button id="44">
-                                            <rect key="frame" x="15" y="195" width="242" height="18"/>
+                                            <rect key="frame" x="15" y="221" width="242" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Use alternatie RAILS root directory " bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="45">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -166,7 +193,7 @@
                                             </connections>
                                         </button>
                                         <button id="63">
-                                            <rect key="frame" x="15" y="71" width="102" height="18"/>
+                                            <rect key="frame" x="15" y="97" width="102" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="debug mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="64">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -177,7 +204,7 @@
                                             </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" id="48">
-                                            <rect key="frame" x="17" y="167" width="395" height="22"/>
+                                            <rect key="frame" x="17" y="193" width="395" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="49">
                                                 <font key="font" metaFont="system"/>
@@ -189,7 +216,7 @@
                                             </connections>
                                         </textField>
                                         <textField verticalHuggingPriority="750" id="iNj-Vq-c53">
-                                            <rect key="frame" x="17" y="104" width="395" height="22"/>
+                                            <rect key="frame" x="17" y="130" width="395" height="22"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="JFf-rd-gYL">
                                                 <font key="font" metaFont="system"/>
@@ -201,7 +228,7 @@
                                             </connections>
                                         </textField>
                                         <button id="91L-eF-mLs">
-                                            <rect key="frame" x="15" y="132" width="259" height="18"/>
+                                            <rect key="frame" x="15" y="158" width="259" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Use alternatie rubyEngineRunner Path" bezelStyle="regularSquare" imagePosition="left" inset="2" id="uTl-UI-Mwk">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -212,7 +239,7 @@
                                             </connections>
                                         </button>
                                         <button id="BP2-Rp-xRY">
-                                            <rect key="frame" x="15" y="28" width="255" height="18"/>
+                                            <rect key="frame" x="15" y="65" width="255" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <buttonCell key="cell" type="check" title="Unlimited attempts for job execution" bezelStyle="regularSquare" imagePosition="left" inset="2" id="OKy-js-Rdg">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -220,6 +247,39 @@
                                             </buttonCell>
                                             <connections>
                                                 <binding destination="18" name="value" keyPath="values.disableMaxAttempts" id="2Bg-uM-Kpy"/>
+                                            </connections>
+                                        </button>
+                                        <button id="tdv-3N-0jm">
+                                            <rect key="frame" x="15" y="34" width="141" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="use new webserver" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="AMA-ex-rc2">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.useNewWebserver" id="vMN-Tg-Zxc"/>
+                                            </connections>
+                                        </button>
+                                        <button id="1dp-gx-UH7">
+                                            <rect key="frame" x="185" y="34" width="148" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="don't Start JobsView" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="uip-ry-vtR">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.dontStartJobsView" id="y53-3U-FHt"/>
+                                            </connections>
+                                        </button>
+                                        <button id="34A-0F-PNo">
+                                            <rect key="frame" x="15" y="7" width="185" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="check" title="don't write to stdError log" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="vR7-zk-4Pt">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <binding destination="18" name="value" keyPath="values.dontWriteStdError" id="QCD-q6-VoO"/>
                                             </connections>
                                         </button>
                                     </subviews>

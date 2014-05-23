@@ -218,9 +218,9 @@ NSString * VDKQueueAccessRevocationNotification = @"VDKQueueAccessWasRevokedNoti
     
     NSMutableArray      *notesToPost = [[NSMutableArray alloc] initWithCapacity:5];
     
-#if DEBUG_LOG_THREAD_LIFETIME
+//#if DEBUG_LOG_THREAD_LIFETIME
 	NSLog(@"watcherThread started.");
-#endif
+//#endif
 	
     while(_keepWatcherThreadRunning)
     {
@@ -321,9 +321,9 @@ NSString * VDKQueueAccessRevocationNotification = @"VDKQueueAccessWasRevokedNoti
        NSLog(@"VDKQueue watcherThread: Couldn't close main kqueue (%d)", errno); 
     }
     
-#if DEBUG_LOG_THREAD_LIFETIME
+//#if DEBUG_LOG_THREAD_LIFETIME
 	NSLog(@"watcherThread finished.");
-#endif
+//#endif
 
 }
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <deployment defaultVersion="1070" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="RXLogWindowController">
             <connections>
+                <outlet property="logTableView" destination="548" id="aH2-dl-QWz"/>
                 <outlet property="window" destination="371" id="602"/>
             </connections>
         </customObject>
@@ -55,7 +56,7 @@
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
-                                        <outlet property="dataSource" destination="606" id="608"/>
+                                        <outlet property="dataSource" destination="606" id="oOG-44-Jef"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -79,6 +80,17 @@
                         </buttonCell>
                         <connections>
                             <action selector="openLogInConsoleApp:" target="-2" id="EI8-fs-QjT"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" id="XXS-TK-SnJ">
+                        <rect key="frame" x="168" y="576" width="120" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Flush Logfile" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ad8-DN-LRs">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="flushLogFile:" target="606" id="c4z-jU-Qk5"/>
                         </connections>
                     </button>
                 </subviews>

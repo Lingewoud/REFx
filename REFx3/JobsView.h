@@ -38,7 +38,10 @@
     //IBOutlet NSTextView     *JobRecordTextViewLogOutput;
     IBOutlet NSTextView     *JobRecordTextViewLogError;
     IBOutlet NSButton       *OpenDestinationFolder;
-    //NSString                *absoluteDestinationPath;
+    IBOutlet NSPopUpButton  *displayFilter;
+    IBOutlet NSPopUpButton  *displayAmount;
+
+//NSString                *absoluteDestinationPath;
     
 	// private properties
 	@private
@@ -51,6 +54,8 @@
 @property (nonatomic,retain) NSString *absoluteDestinationPath;
 //@property (nonatomic,retain) NSString *exportFileName;
 @property (nonatomic,retain) NSString *jobViewJobid;
+@property (nonatomic, assign) BOOL updateIsPauzed;
+
 
 // -- accessor methods
 - (NSDictionary *)testBuffer;

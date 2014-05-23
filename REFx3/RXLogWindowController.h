@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "RXLogTableDataSource.h"
 
 @interface RXLogWindowController : NSWindowController<NSWindowDelegate>
 {
 
 }
+@property (retain) IBOutlet NSTableView *logTableView;
 
 - (IBAction)openLogInConsoleApp:(id)sender;
 

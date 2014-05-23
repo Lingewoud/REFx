@@ -16,25 +16,26 @@
 
 @implementation JobsView
 
-@synthesize testBuffer;
+@synthesize testBuffer, updateIsPauzed;
 
 - (id)init
 {
     
      if (self = [super init])
      {
-		// instantiate the following private property
          testBuffer = [NSMutableDictionary dictionaryWithCapacity:11];
          
-  //       [testBuffer retain];
-
          dbPath = [[[NSApp delegate] refxInstance] getDbPath];
-//         [dbPath retain];
          
-         [self populateTableAndBuffer];
-
-         [self startListeningFileChanges];
-
+         if([[NSUserDefaults standardUserDefaults] boolForKey:@"dontStartJobsView"]) {
+             NSLog(@"Warning dev setting: dontStartJobsView");
+         }
+         else
+         {
+             [self populateTableAndBuffer];
+             [self startListeningFileChanges];
+             //[self startAutoUpdateTable];
+         }
     }
      return (self);
 }
@@ -50,11 +51,60 @@
 
 -(void) VDKQueue:(VDKQueue *)queue receivedNotification:(NSString*)noteName forPath:(NSString*)fpath
 {
-    //NSLog(@"Database was update, so we update the table view");
-    [self populateTableAndBuffer];
-    [self updateJobsStats];
+    NSLog(@"Database was update, so we update the table view");
+
+    if(![self updateIsPauzed])
+    {
+        [self setTimerPauzeAutoUpdate];
+        
+        [self updateAllViews];
+    }
 }
 
+- (void)setTimerPauzeAutoUpdate
+{
+    [self pauseAutoUpdate];
+    [NSTimer scheduledTimerWithTimeInterval: 1.0
+                                  target: self
+                                selector: @selector(unPauseAutoUpdate)
+                                userInfo: nil
+                                 repeats: NO];
+}
+
+-(void) pauseAutoUpdate
+{
+    NSLog(@"pausing view update");
+    self.updateIsPauzed = YES;
+
+}
+
+-(void) unPauseAutoUpdate
+{
+    NSLog(@"UNpausing view update");
+    self.updateIsPauzed = NO;
+    [self updateAllViews];
+
+}
+
+
+
+- (void)startAutoUpdateTable
+    {
+        NSLog(@"start autoupdate table view");
+        tableUpdateTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
+                                                            target: self
+                                                          selector: @selector(updateAllViews)
+                                                          userInfo: nil
+                                                           repeats: YES];
+}
+    
+- (void)updateAllViews
+{
+    [self populateTableAndBuffer];
+    [self updateJobsStats];
+
+}
+    
 - (void) awakeFromNib {
     [self.testTable setTarget:self];
     [self.testTable setDoubleAction:@selector(doubleClickInTableView:)];
@@ -70,15 +120,6 @@
     NSLog(@"open record view");
 }
 
-- (void)startAutoUpdateTable
-{
-    NSLog(@"start autoupdate table view");
-    tableUpdateTimer = [NSTimer scheduledTimerWithTimeInterval: 3.0
-                                                 target: self
-                                               selector: @selector(populateTableAndBuffer)
-                                               userInfo: nil
-                                                repeats: YES];
-}
 
 - (void)stopAutoUpdateTable
 {
@@ -88,7 +129,7 @@
 }
 
 - (IBAction)refreshTable:(id)sender{
-        [self populateTableAndBuffer];
+        [self updateAllViews];
 }
 
 - (void) updateJobsStats
@@ -101,7 +142,7 @@
     }
     
     int error = [db intForQuery:@"SELECT count(id) FROM jobs WHERE status >= 60"];
-    int new = [db intForQuery:@"SELECT count(id) FROM jobs WHERE status = 1"];
+    int new = [db intForQuery:@"SELECT count(id) FROM jobs WHERE status = 1 OR status =2"];
     int pauzed = [db intForQuery:@"SELECT count(id) FROM jobs WHERE status = 11"];
     int total = [db intForQuery:@"SELECT count(id) FROM jobs"];
     
@@ -530,7 +571,37 @@
     [self populateTableAndBuffer];
 }
 
-- (void) populateTableAndBuffer{
+- (void) populateTableAndBuffer {
+
+    NSString *filter;
+    NSString *filterText = [[displayFilter selectedItem] title];
+    if([filterText isEqualToString:@"display errors"]) filter = @"status > 20";
+    else if([filterText isEqualToString:@"display new"]) filter = @"status = 1";
+    else if([filterText isEqualToString:@"display pauzed"]) filter = @"status = 11";
+    else if([filterText isEqualToString:@"display finished"]) filter = @"status = 10 ";
+    else filter = @"status >= 0 ";
+    
+    NSInteger jobsAmount;
+    NSString *amountText = [[displayAmount selectedItem] title];
+    if([amountText isEqualToString:@"50"]) jobsAmount = 50;
+    else if([amountText isEqualToString:@"100"]) jobsAmount = 100;
+    else if([amountText isEqualToString:@"500"]) jobsAmount = 500;
+    else if([amountText isEqualToString:@"1000"]) jobsAmount = 1000;
+    else jobsAmount = 50;
+    
+    /*
+    
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"jobsAmount"]>0)
+    {
+        jobsAmount = [[NSUserDefaults standardUserDefaults] integerForKey:@"jobsAmount"];
+    }
+    else
+    {
+        jobsAmount = 50;
+    }
+     */
+
+    
     
 	NSMutableArray *loc_id;
     NSMutableArray *loc_priority;
@@ -563,16 +634,7 @@
         loc_returnbody = [NSMutableArray array];
 		loc_created_at = [NSMutableArray array];
 		loc_updated_at = [NSMutableArray array];
-        NSInteger jobsAmount;
         
-        if([[NSUserDefaults standardUserDefaults] integerForKey:@"jobsAmount"]>0)
-        {
-             jobsAmount = [[NSUserDefaults standardUserDefaults] integerForKey:@"jobsAmount"];
-        }
-        else
-        {
-            jobsAmount = 50;
-        }
         
         FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
         
@@ -581,13 +643,43 @@
             return;
         }
         
-        FMResultSet *rs = [db executeQuery:@"select * from jobs order by id DESC Limit ?", [NSString stringWithFormat:@"%li", jobsAmount]];
+        NSString * sql = [NSString stringWithFormat:@"SELECT * FROM jobs WHERE %@ ORDER BY id DESC Limit %@", filter, [NSString stringWithFormat:@"%li", jobsAmount]];
+        
+        FMResultSet *rs = [db executeQuery:sql];
         
         while ([rs next]) {
-			[loc_id addObject:[NSNumber numberWithInt:[rs intForColumn:@"id"]]];
-			[loc_priority addObject:[NSNumber numberWithInt:[rs intForColumn:@"priority"]]];
-			[loc_engine addObject:[rs stringForColumn:@"engine"]];
-            [loc_attempt addObject:[NSNumber numberWithInt:[rs intForColumn:@"attempt"]]];
+
+			if([rs intForColumn:@"id"])
+            {
+                [loc_id addObject:[NSNumber numberWithInt:[rs intForColumn:@"id"]]];
+            }
+            
+			if([rs intForColumn:@"priority"])
+            {
+                [loc_priority addObject:[NSNumber numberWithInt:[rs intForColumn:@"priority"]]];
+            }
+            else
+            {
+                [loc_priority addObject:[NSNumber numberWithInt:0]];
+            }
+            
+			if([rs stringForColumn:@"engine"])
+            {
+                [loc_engine addObject:[rs stringForColumn:@"engine"]];
+            }
+            else
+            {
+                [loc_engine addObject:@"-"];
+            }
+            
+			if([rs intForColumn:@"attempt"])
+            {
+                [loc_attempt addObject:[NSNumber numberWithInt:[rs intForColumn:@"attempt"]]];
+            }
+            else
+            {
+                [loc_attempt addObject:[NSNumber numberWithInt:0]];
+            }
 
 			if([rs stringForColumn:@"status"])
             {
@@ -602,79 +694,96 @@
                 [statusList setObject: @"Err. Runner fatal" forKey: @"69"];
                 [statusList setObject: @"Err. Engine Eval Object" forKey: @"69"];
                 [statusList setObject: @"Err. Engine Eval Method" forKey: @"70"];
-                
-                
-                [loc_status addObject:[statusList objectForKey:[rs stringForColumn:@"status"]]];
-            }
-            else [loc_status addObject:@"-"];
-            
-            NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
-            long tempInitArgsCount = 0;
-            if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0)
-            {
-                [loc_body addObject:@"HAS DATA"];
-                
-                yaml = [YAMLSerialization objectWithYAMLString: tempBody
-                                                       options: kYAMLReadOptionStringScalars
-                                                         error: nil];
-                
-                if([yaml isKindOfClass:[NSDictionary class]])
-                {
-                    if ([[yaml objectForKey:@"init_args"] isKindOfClass:[NSArray class]]){
-                        
-                        tempInitArgsCount = [[yaml objectForKey:@"init_args"] count];
-                        [loc_initargscount addObject: [NSString stringWithFormat:@"%lu", tempInitArgsCount]];
+                [statusList setObject: @"Err. Result File Missing" forKey: @"71"];
 
-                        
-                    }
-                    else
-                    {
-                        [loc_initargscount addObject:@"-"];
-                    }
-                    
-                    
-                    if ([[yaml objectForKey:@"method_args"] isKindOfClass:[NSArray class]])
-                    {
-                        [loc_methodargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"method_args"] count]]];
-                    }
-                    else
-                    {
-                        [loc_methodargscount addObject:@"-"];
-                    }
-                    
-                    [loc_method addObject:[yaml objectForKey:@"method"]];
+                
+                if ([statusList objectForKey:[rs stringForColumn:@"status"]] == nil) {
+                    [loc_status addObject:[rs stringForColumn:@"status"]];
                 }
                 else
                 {
-                    [loc_method addObject:@"-"];
-                    [loc_methodargscount addObject:@"-"];
-                    [loc_initargscount addObject:@"-"];
+                    [loc_status addObject:[statusList objectForKey:[rs stringForColumn:@"status"]]];
                 }
             }
             else
             {
-                [loc_body addObject:@"-"];
-                [loc_method addObject:@"-"];
-                [loc_methodargscount addObject:@"-"];
-                [loc_initargscount addObject:@"-"];
+                [loc_status addObject:@"-"];
+            }
+            
+            if([rs stringForColumn:@"body"])
+            {
 
+                NSMutableString *tempBody = [NSMutableString stringWithString:[rs stringForColumn:@"body"]] ;
+                long tempInitArgsCount = 0;
+                if([[tempBody stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] > 0)
+                {
+                    [loc_body addObject:@"HAS DATA"];
+                    
+                    yaml = [YAMLSerialization objectWithYAMLString: tempBody
+                                                           options: kYAMLReadOptionStringScalars
+                                                             error: nil];
+                    
+                    if([yaml isKindOfClass:[NSDictionary class]])
+                    {
+                        if ([[yaml objectForKey:@"init_args"] isKindOfClass:[NSArray class]]){
+                            
+                            tempInitArgsCount = [[yaml objectForKey:@"init_args"] count];
+                            [loc_initargscount addObject: [NSString stringWithFormat:@"%lu", tempInitArgsCount]];
+                            
+                            
+                        }
+                        else
+                        {
+                            [loc_initargscount addObject:@"-"];
+                        }
+                        
+                        
+                        if ([[yaml objectForKey:@"method_args"] isKindOfClass:[NSArray class]])
+                        {
+                            [loc_methodargscount addObject: [NSString stringWithFormat:@"%lu", [[yaml objectForKey:@"method_args"] count]]];
+                        }
+                        else
+                        {
+                            [loc_methodargscount addObject:@"-"];
+                        }
+                        
+                        [loc_method addObject:[yaml objectForKey:@"method"]];
+                    }
+                    else
+                    {
+                        [loc_method addObject:@"-"];
+                        [loc_methodargscount addObject:@"-"];
+                        [loc_initargscount addObject:@"-"];
+                    }
+                }
+                else
+                {
+                    [loc_body addObject:@"-"];
+                    [loc_method addObject:@"-"];
+                    [loc_methodargscount addObject:@"-"];
+                    [loc_initargscount addObject:@"-"];
+                    
+                }
+                
+                if(tempInitArgsCount > 0)
+                {
+                    [loc_basepath addObject:[[[yaml objectForKey:@"init_args"] objectAtIndex:0] objectForKey:@"value"]];
+                }
+                else
+                {
+                    [loc_basepath addObject:@"-"];
+                }
             }
-            
-            if(tempInitArgsCount > 0)
-            {
-                [loc_basepath addObject:[[[yaml objectForKey:@"init_args"] objectAtIndex:0] objectForKey:@"value"]];
-            }
-            else
-            {
-                [loc_basepath addObject:@"-"];
-            }
-            
+
 
             if([rs stringForColumn:@"returnbody"])
             {
                 [loc_returnbody addObject:[NSString stringWithFormat:@"%lu chars",[[rs stringForColumn:@"returnbody"] length]]];
             }
-            else [loc_returnbody addObject:@"-"];
+            else
+            {
+                [loc_returnbody addObject:@"-"];
+            }
             
             if([rs dateForColumn:@"created_at"]) [loc_created_at addObject:[rs dateForColumn:@"created_at"]];
             else [loc_created_at addObject:@""];
@@ -698,7 +807,6 @@
 		[testBuffer setObject: loc_created_at forKey:@"created_at"];
 		[testBuffer setObject: loc_updated_at forKey:@"updated_at"];
 		
-		// send a reload request
 		[[self testTable] reloadData];
         [db close];
 	}
@@ -745,28 +853,38 @@
 // -- Return the cell data for the specified row/column
 - (id)tableView:(NSTableView *)aTbl objectValueForTableColumn:(NSTableColumn *)aCol row:(NSInteger)aRow
 {
-	id loc_data, loc_uid;
-	
-	// determine which table column needs to be updated
-	loc_uid = [aCol identifier];
+    id loc_data, loc_uid;
+    
+    // determine which table column needs to be updated
+    loc_uid = [aCol identifier];
     //NSLog(@"colid %@",loc_uid);
     
-	if ([loc_uid isKindOfClass:[NSString class]])
-	{
-		loc_data = [[self testBuffer] objectForKey:loc_uid];
-       // NSLog(@"Table Column 1 %@, array index %@",loc_uid, loc_data);
-		loc_data = [loc_data objectAtIndex:aRow];
-        //NSLog(@"Table Column 2 %@, array index %@",loc_uid, loc_data);
+    @try {
 
-	}
-    else
-    {
-        loc_data = nil;
+        if ([loc_uid isKindOfClass:[NSString class]])
+        {
+            loc_data = [[self testBuffer] objectForKey:loc_uid];
+            //NSLog(@"Table Column 1 %@, array index %@",loc_uid, loc_data);
+            loc_data = [loc_data objectAtIndex:aRow];
+            //NSLog(@"Table Column 2 %@, array index %@",loc_uid, loc_data);
+        }
+        else
+        {
+            loc_data = nil;
+        }
+        
+        // return the row/column data
     }
     
-	// return the row/column data
-
-	return (loc_data);
+    @catch ( NSException *e ) {
+        
+        NSLog(@"log:%@",e );
+        NSLog(@"count buffer:%li",[[self testBuffer] count]);
+        
+        NSLog(@"count loc_data key %@:%li",loc_uid,[loc_data count]);
+    }
+	
+   return (loc_data);
 }
 
 

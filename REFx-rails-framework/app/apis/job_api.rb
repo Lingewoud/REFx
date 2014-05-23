@@ -11,5 +11,6 @@ class JobAPI < ActionWebService::API::Base
 	api_method :flush_jobs, :expects => nil, :returns => [[Job]]
 	api_method :new_job, :expects => [StructNewJobArgs], :returns => [:integer]
 	api_method :job_status, :expects => [:integer], :returns => [:integer]
-	api_method :job_resultdata, :expects => [:integer], :returns => [:text]
+	api_method :job_rerun, :expects => [:integer], :returns => [:integer]
+    api_method :job_resultdata, :expects => [:integer], :returns => [:text]
 end

@@ -7,7 +7,7 @@ class JobService < ActionWebService::Base
 	end
 
 	def new_job(jobArgs)
-		job = Job.create(:engine => jobArgs[:engine], :max_attempt => jobArgs[:max_attempt], :priority => jobArgs[:priority], :body => jobArgs[:body], :status => 1)
+		job = Job.create(:engine => jobArgs[:engine], :attempt => 0, :max_attempt => jobArgs[:max_attempt], :priority => jobArgs[:priority], :body => jobArgs[:body], :status => 1)
 		job.id
 	end
 
@@ -19,6 +19,12 @@ class JobService < ActionWebService::Base
 		res = Job.find(job_id, :select => 'status')
 		res.status
 	end
+
+    def job_rerun(job_id)
+        Job.update(job_id, {:status=>1, :attempt=>0} )
+        job_id
+    end
+
 
 	def job_resultdata(job_id)
 		res = Job.find(job_id, :select => 'returnbody')

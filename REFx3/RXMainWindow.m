@@ -76,6 +76,7 @@
     }
 }
 
+// REMOVE WHEN RAILS IS GONE
 - (IBAction)flushRailsLog:(id)sender
 {
     [[NSApp delegate] flushRailsLogs];

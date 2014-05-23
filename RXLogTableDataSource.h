@@ -10,13 +10,17 @@
 #import "VDKQueue.h"
 #import "NSFileHandle+readLine.h"
 
-@interface RXLogTableDataSource : NSObject <VDKQueueDelegate,NSTableViewDataSource>
+@interface RXLogTableDataSource : NSTableView <VDKQueueDelegate,NSTableViewDataSource>
 {
     
 NSMutableArray *linesFound;
 NSString *logFilePath;
+VDKQueue *myqueue;
+
 }
 
 @property (assign) IBOutlet NSTableView *linesFoundView;
+- (IBAction)flushLogFile:(id)sender;
+-(void) readFile;
 
 @end

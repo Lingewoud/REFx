@@ -49,7 +49,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     {
         [refxInstance startComServer:[[NSUserDefaults standardUserDefaults] stringForKey:@"listenPort"]];
         [[mainWindowController startStopButtonCommunicationServer] setState:1];
-
     }
     
     if([[NSUserDefaults standardUserDefaults] integerForKey:@"maxJobAttempts"] < 1)
@@ -69,7 +68,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     }
     NSLog(@"Test path is set: %@",[self testFolderPath]);
     
-    [self startHTTPServer];
+    if([[NSUserDefaults standardUserDefaults] boolForKey:@"useNewWebserver"]) {
+        [self startHTTPServer];
+    }
 }
 
 - (void)startHTTPServer
@@ -88,7 +89,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 	// Normally there's no need to run our server on any specific port.
 	// Technologies like Bonjour allow clients to dynamically discover the server's port at runtime.
 	// However, for easy testing you may want force a certain port so you can just hit the refresh button.
-   	[httpServer setPort:3031];
+   	[httpServer setPort:[[NSUserDefaults standardUserDefaults] integerForKey:@"listenPort"]];
 	
 	// We're going to extend the base HTTPConnection class with our MyHTTPConnection class.
 	// This allows us to do all kinds of customizations.
@@ -142,19 +143,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     }	
 }
 
--(void)flushRailsLogs
-{
-
-}
-
--(void)flushEngineLogs
-{
-    NSString * empty = [NSString stringWithFormat:@""];
-    [empty writeToFile:[self engineLogFilePath]
-                 atomically:NO
-                   encoding:NSStringEncodingConversionAllowLossy
-                      error:nil];
-}
 
 
 -(void)reinstallDatabase

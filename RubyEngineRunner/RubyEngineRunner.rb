@@ -1,4 +1,3 @@
-######!/usr/bin/env ruby
 #
 #  jobWrapper.rb
 #  refxlooptests
@@ -39,9 +38,6 @@ class RefxJobWrapper
 		rescue Exception => e
 			p "cant find init_args"
 			exit 69
-			#pJob.status = 69
-			#pJob.save
-			#return
 		end
 
 		initArgString = initArgString + ',' + initArgString2 if not initArgString.nil?
@@ -64,7 +60,10 @@ class RefxJobWrapper
 		begin
 			@engineObject = eval(evalcmd1)
 		rescue Exception => e
-			p "cannot eval object "
+			$stderr.puts "Cannot eval job method part"
+			$stderr.puts e.message  
+			#$stderr.puts 
+			$stderr.puts e.backtrace
 			exit 69
 		end
 
@@ -81,7 +80,8 @@ class RefxJobWrapper
 				$stderr.puts "Cannot eval job method part"
 				$stderr.puts e.message  
 				$stderr.puts 
-				$stderr.puts e.backtrace.inspect.join("\n")
+				$stderr.puts e.backtrace
+				#.inspect.join("\n")
 				exit 70
 			end
 
@@ -89,23 +89,28 @@ class RefxJobWrapper
 			_endTime = Time.now
 			@duration = 'JOB DURATION : '+ sprintf( "%0.02f", ((_endTime-_startTime)/60)) + "min."
 
-			#logJobSummery
-
-			pJob.status = 10
-			pJob.returnbody = @returnVal
+			#pJob.status = 10
+			#pJob.returnbody = @returnVal
+			writeValueToFlushedFile(@returnVal,File.expand_path('~')+"/Library/REFx4/EngineRunner.#{pJob.id.to_s}.result")
 		else
 			errorMsg = "engine "+pJob.engine+" does not exist"
 			print "failed object can be made"
-			pJob.returnbody = errorMsg
+			#pJob.returnbody = errorMsg
 			exit 71
 		end
 
-		pJob.save
+		#pJob.save
 		exit 0
 	end
 
-	def logStartNewJob
+	def writeValueToFlushedFile(value,filename)
+		FileUtils.rm(filename) if File.exists?(filename) 
+		open(filename, 'a') { |f|
+			f.write value
+		}
+	end
 
+	def logStartNewJob
 		open(@logfile, 'a') { |f|
 			f.puts "\n"
 			f.puts "------------ STARTING A NEW REFx JOB -------------\n"
@@ -154,7 +159,6 @@ class RefxJobWrapper
 
 	def insertTestJob(engineName,testindex,testSourceFilename)
 		p 'INSERTING TEST JOB'
-		sleep(1)
 		testindex = 0 if testindex.nil?
 
 		source_file_base_dir = File.expand_path('~')+'/Library/REFx4'

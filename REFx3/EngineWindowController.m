@@ -29,8 +29,6 @@
     [self reinitWindow];
 }
 
-
-
 -(void) reinitWindow
 {
     [self.window setTitle:[NSString stringWithFormat:@"Engine: %@", self.EngineName]];
